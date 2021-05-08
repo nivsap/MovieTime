@@ -33,6 +33,7 @@ public class Main extends AbstractServer{
 	
 	//Message serverMsg;  need to create class for msg
 	public Main(int port) {
+
 		super(port);
 	}
 	
@@ -137,6 +138,7 @@ public class Main extends AbstractServer{
         query.from(objectType);
         returnedList = (ArrayList<T>) session.createQuery(query).getResultList();
         } catch (Exception e) {
+        	e.printStackTrace();
         	if (session != null) {
 				session.getTransaction().rollback();
 			}

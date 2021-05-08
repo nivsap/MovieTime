@@ -64,6 +64,10 @@ public class Movie implements  Serializable
 		this.popular = popular;
 		this.genre = genre;
 	}
+	
+	public Movie() {
+		super();
+	}
 	public int getId() {
 		return id;
 	}

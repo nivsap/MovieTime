@@ -15,11 +15,15 @@ public class AppClient extends AbstractClient{
 	public AppClient(String host, int port) {
 		super(host, port);
 	}
+	
 	@Override
 	protected void handleMessageFromServer(Object msg) {
+		System.out.println("msg recieved in appClient!");
+		System.out.println("msg is: " + ((Message)msg));
+		
 		if (((Message) msg).getAction().equals("got movies"))
 		{
-			EventBus.getDefault().post(((Message) msg).getMovies());
+			EventBus.getDefault().post(((Message) msg));
 		}
 		
 	}

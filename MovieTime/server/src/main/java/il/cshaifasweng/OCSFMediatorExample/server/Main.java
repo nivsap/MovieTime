@@ -56,13 +56,19 @@ public class Main extends AbstractServer{
 			
 			//create movite 
 			//ArrayList<String> movieTime = new ArrayList<String>();
-			Movie nivMovie = new Movie("niv", "1:00", 5, "niv");
-			Movie eitanMovie = new Movie("Eitan", "2:00", 5, "Eitan");
-			Movie shirMovie = new Movie("Shir", "3:00", 5, "Shir");
+			Movie AvengersEndgame = new Movie("Avengers: Endgame", "AvengersEndgame.jpg", "1:00", 5, "niv");
+			Movie SherlockHolmes = new Movie("Sherlock Holmes", "SherlockHolmes.jpg", "2:00", 5, "Eitan");
+			Movie BabyDriver = new Movie("Baby Driver", "BabyDriver.jpg", "3:00", 5, "Shir");
+			Movie WonderWoman1984 = new Movie("Wonder Woman 1984", "WonderWoman1984.jpg", "1:00", 5, "niv");
+			Movie IT = new Movie("IT", "IT.jpg", "2:00", 5, "Eitan");
+			Movie ToyStory = new Movie("Toy Story", "ToyStory.jpg", "3:00", 5, "Shir");
 			
-			session.save(nivMovie);
-			session.save(eitanMovie);
-			session.save(shirMovie);
+			session.save(AvengersEndgame);
+			session.save(SherlockHolmes);
+			session.save(BabyDriver);
+			session.save(WonderWoman1984);
+			session.save(IT);
+			session.save(ToyStory);
 			session.flush();
 			session.getTransaction().commit();
 			session.clear();
@@ -82,7 +88,7 @@ public class Main extends AbstractServer{
 		}
 
 	public static void main(String[] args) throws IOException {
-		//addMoviesToDB();
+		addMoviesToDB();
 		Main server = new Main(3000);
 		if (args.length != 1) {
 			System.out.println("Required argument: <port>");
@@ -90,7 +96,7 @@ public class Main extends AbstractServer{
 			server.listen();
 			System.out.println("hello server");
 			}
-		addMoviesToDB();
+
 	}
 	
 	@Override

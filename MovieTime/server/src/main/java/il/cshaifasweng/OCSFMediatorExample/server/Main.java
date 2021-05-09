@@ -2,6 +2,7 @@ package il.cshaifasweng.OCSFMediatorExample.server;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -14,7 +15,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
-
+import java.util.Date;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
@@ -55,14 +56,28 @@ public class Main extends AbstractServer{
 	         session.beginTransaction();
 			
 			//create movite 
-			//ArrayList<String> movieTime = new ArrayList<String>();
-			Movie nivMovie = new Movie("niv", "1:00", 5, "niv");
-			Movie eitanMovie = new Movie("Eitan", "2:00", 5, "Eitan");
-			Movie shirMovie = new Movie("Shir", "3:00", 5, "Shir");
-			
-			session.save(nivMovie);
-			session.save(eitanMovie);
-			session.save(shirMovie);
+			ArrayList<String> movieStartTimes = new ArrayList<String>(Arrays.asList("10:00" , "12:00" , "16:00" , "18:00" , "20:00" , "22:00" , "00:00"));
+			Movie titanic = new Movie("Titanic","197", 5.00, "Drama", null, movieStartTimes, true, false, "Explains the whole story from departure until the death of Titanic", "Leonardo"
+							+ " DiCaprio,Kate Winslet,Billy Zane,Kathy Bates", new java.util.Date(1997 -1900, 10, 16));
+			Movie forrestGump = new Movie("Forrest Gump", "142", 4.5, "Drama", null, movieStartTimes, true, false, "The presidencies of Kennedy and Johnson, the Vietnam War, the Watergate scandal and other "
+					+ "historical events unfold from the perspective of  man "
+					+ "with an IQ of 75, whose only desire is to be childhood sweetheart.", "Tom Hanks, Robin Wright, Gary Sinise", new Date(1994, 1, 3));
+			Movie harryPotter = new Movie("Harry Potter and is friens the Philosopher's Stone", "152", 4.00, "Thriller", null, movieStartTimes, true, false, " Harry makes close friends and a few enemies during his first year at the school, and with the help of his friends,"
+					+ " he faces an attempted comeback by the dark wizard Lord Voldemort.", 
+					"Daniel Radcliffe,Rupert Grint,Emma Watson", new Date(2001, 11, 4));
+			Movie movie1917 = new Movie("1917", "119", 5.00, "Drama", null, movieStartTimes, true, false, "The film takes place after the German retreat to the Hindenburg Line during Operation Alberich, and follows two British soldiers in their mission to deliver an important message to call off a "
+					+ "doomed offensive attack." , "George MacKay, Dean-Charles Chapman, Mark Strong",new Date(2019, 9, 22));
+			Movie twilight = new Movie("The Twilight Saga", "607", 4.4, "Love", null, movieStartTimes, true, false, "Twilight focuses on the development of a personal relationship between teenager and vampire"
+					, "Kristen Stewart,Robert Pattinson,aylor Lautner", new Date(2008, 11,22));
+			Movie miracleMovie = new Movie("Miracle in Cell No. 7", "132", 5.00, "Comedy-Drama", null, movieStartTimes, true, false, "The film is about a mentally challenged man wrongfully imprisoned for murder, who builds "
+					+ "friendships with the hardened criminals in his cell, who in return help him see his daughter again by smuggling her into the prison.","Aras Bulut İynemli"
+							+ "Nisa Aksongur Celile Toyon", new Date(2013, 9, 22));
+			session.save(titanic);
+			session.save(forrestGump);
+			session.save(harryPotter);
+			session.save(movie1917);
+			session.save(twilight);
+			session.save(miracleMovie);
 			session.flush();
 			session.getTransaction().commit();
 			session.clear();

@@ -56,6 +56,7 @@ public class Main extends AbstractServer{
 	         session.beginTransaction();
 			
 			//create movite 
+
 			ArrayList<String> movieStartTimes = new ArrayList<String>(Arrays.asList("10:00" , "12:00" , "16:00" , "18:00" , "20:00" , "22:00" , "00:00"));
 			Movie titanic = new Movie("Titanic","197", 5.00, "Drama", null, movieStartTimes, true, false, "Explains the whole story from departure until the death of Titanic", "Leonardo"
 							+ " DiCaprio,Kate Winslet,Billy Zane,Kathy Bates", new java.util.Date(1997 -1900, 10, 16));
@@ -97,7 +98,7 @@ public class Main extends AbstractServer{
 		}
 
 	public static void main(String[] args) throws IOException {
-		//addMoviesToDB();
+		addMoviesToDB();
 		Main server = new Main(3000);
 		if (args.length != 1) {
 			System.out.println("Required argument: <port>");
@@ -105,7 +106,7 @@ public class Main extends AbstractServer{
 			server.listen();
 			System.out.println("hello server");
 			}
-		addMoviesToDB();
+
 	}
 	
 	@Override

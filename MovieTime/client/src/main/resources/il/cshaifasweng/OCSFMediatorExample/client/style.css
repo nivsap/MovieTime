@@ -1,0 +1,47 @@
+.button {
+	-fx-background-color: transparent;
+	-fx-border-radius: 0;
+	-fx-text-fill: #ffffff;
+}
+
+.button:hover {
+	-fx-background-color: #f5821e;
+}
+
+.button:pressed {
+	-fx-background-color: #c96b1a;
+}
+
+.text-field {
+	-fx-border-width: 0px 0px 1px 0px;
+}
+
+.combo-box {
+	-fx-border-color: #f5821e;
+	-fx-background-color: transparent;
+	-fx-border-width: 0px 0px 1px 0px;
+	-fx-text-fill: #ffffff;
+}
+
+.arrow {
+	-fx-background-color: #f5821e;
+}
+
+.combo-box .cell {
+    -fx-text-fill: #ffffff;    
+}
+
+.combo-box .combo-box-popup .list-view {
+	-fx-background-color: transparent;
+	-fx-text-fill: #ffffff;   
+}
+
+#mainSearchBar {
+	-fx-background-color: transparent; 
+	-fx-text-fill: #ffffff;
+	-fx-border-color: #f5821e;	
+}
+
+#searchBarButton {
+	-fx-background-color: transparent; 
+}

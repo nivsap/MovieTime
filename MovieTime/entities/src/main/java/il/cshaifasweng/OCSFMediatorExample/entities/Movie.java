@@ -24,7 +24,7 @@ public class Movie implements  Serializable
 	//private static final long serialVersionUID = 1L;
 	private String Name;
     private String duration;
-    private Integer popular;
+    private Double popular;
     private String genre;
     private String imageSrc;
     private ArrayList<String> MovieBeginingTime;
@@ -40,7 +40,7 @@ public class Movie implements  Serializable
         return duration;
     }
 
-    public Movie(String name, String duration, Integer popular, String genre, String imageSrc,
+    public Movie(String name, String duration, Double popular, String genre, String imageSrc,
 			ArrayList<String> movie_Begining_Time, boolean streamOnline, boolean soonInCinema, String description,
 			String mainActors, Date launchDate) {
 		super();
@@ -58,6 +58,7 @@ public class Movie implements  Serializable
 	}
     
 	public Movie(String name, String imageSrc, String duration, Integer popular, String genre) {
+
 		super();
 		Name = name;
 		this.duration = duration;
@@ -137,11 +138,11 @@ public class Movie implements  Serializable
         this.duration = duration;
     }
 
-    public Integer getPopular() {
+    public Double getPopular() {
         return popular;
     }
 
-    public void setPopular(Integer popular) {
+    public void setPopular(Double popular) {
         this.popular = popular;
     }
 	public String getGenre() {

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="180.0" style="-fx-background-color: tranparent;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane prefHeight="280.0" prefWidth="180.0" style="-fx-background-color: transparent;">
+         <children>
+            <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" mnemonicParsing="false" prefHeight="280.0" prefWidth="180.0" style="-fx-background-color: #2c2d33; -fx-font-weight: bold;" text="Baby Driver" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="232.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../images/MoviesPosters/BabyDriver.jpg" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>

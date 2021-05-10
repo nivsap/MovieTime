@@ -57,10 +57,12 @@ public class Movie implements  Serializable
 		this.launchDate = launchDate;
 	}
     
-	public Movie(String name, String duration, Double popular, String genre) {
+	public Movie(String name, String imageSrc, String duration, Double popular, String genre) {
+
 		super();
 		Name = name;
 		this.duration = duration;
+		this.imageSrc = imageSrc;
 		this.popular = popular;
 		this.genre = genre;
 	}

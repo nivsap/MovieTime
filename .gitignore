@@ -1,1 +1,6 @@
+<<<<<<< HEAD
 /bin/
+=======
+
+MovieTime/server/src/main/resources/hibernate.properties
+>>>>>>> branch 'main' of https://github.com/nivsap/MovieTime.git

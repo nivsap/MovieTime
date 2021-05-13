@@ -25,7 +25,7 @@ public class App extends Application {
         stage.setTitle("Movie Time");
         stage.setScene(scene);
         stage.show();
-        
+
     }
 
     static void setRoot(String fxml) throws IOException {

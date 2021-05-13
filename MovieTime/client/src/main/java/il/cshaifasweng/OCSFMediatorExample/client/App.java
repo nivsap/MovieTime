@@ -1,19 +1,15 @@
 package il.cshaifasweng.OCSFMediatorExample.client; // should be View package
 
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
-import org.greenrobot.eventbus.EventBus;
 
 
-/**
- * JavaFX App
- */
 public class App extends Application {
 
     private static Scene scene;
@@ -29,6 +25,7 @@ public class App extends Application {
         stage.setTitle("Movie Time");
         stage.setScene(scene);
         stage.show();
+
     }
 
     static void setRoot(String fxml) throws IOException {

@@ -1,32 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="900.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="900.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.UpdateMoviesPageController">
    <left>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #18191d;" BorderPane.alignment="CENTER">
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="25.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="30.0">
                <image>
-                  <Image url="@../../../../../../../images/Final%20Logo.png" />
+                  <Image url="@images/FinalLogo.png" />
                </image>
             </ImageView>
             <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="2.0" layoutY="200.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="195.0" stylesheets="@style.css" text="Main Page" textFill="WHITE">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../../images/CamIconWhite.png" />
+                        <Image url="@images/CamIconWhite.png" />
                      </image>
                   </ImageView>
                </graphic></Button>
@@ -34,7 +33,7 @@
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../../images/ComplaintIconWhite.png" />
+                        <Image url="@images/ComplaintIconWhite.png" />
                      </image>
                   </ImageView>
                </graphic></Button>
@@ -42,13 +41,13 @@
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../../images/SpecialsIconWhite.png" />
+                        <Image url="@images/SpecialsIconWhite.png" />
                      </image>
                   </ImageView>
                </graphic></Button>
             <ImageView fitHeight="205.0" fitWidth="200.0" layoutY="600.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
                <image>
-                  <Image url="@../../../../../../../images/Lights.png" />
+                  <Image url="@images/Lights.png" />
                </image>
             </ImageView>
          </children>
@@ -57,133 +56,48 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #373737;" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane layoutY="94.0" prefHeight="120.0" prefWidth="700.0" style="-fx-background-color: #2c2d33;" AnchorPane.bottomAnchor="580.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane layoutX="62.5" layoutY="94.0" prefHeight="120.0" prefWidth="700.0" style="-fx-background-color: #2c2d33;" AnchorPane.bottomAnchor="580.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <TextField fx:id="mainSearchBar" layoutX="90.0" layoutY="30.0" prefHeight="40.0" prefWidth="520.0" promptText="Search..." styleClass="text-field" AnchorPane.leftAnchor="90.0" AnchorPane.topAnchor="30.0" />
-                  <Label alignment="BASELINE_LEFT" layoutX="105.0" layoutY="83.0" prefHeight="20.0" prefWidth="125.0" text="Filter by..." textFill="WHITE" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="469.4" />
-                  <ComboBox layoutX="200.0" layoutY="80.0" prefWidth="125.0" promptText="Genre" styleClass="combo-box" />
-                  <ComboBox layoutX="335.0" layoutY="80.0" prefWidth="125.0" promptText="Theatre" styleClass="combo-box" />
-                  <ComboBox layoutX="470.0" layoutY="80.0" prefWidth="125.0" promptText="Coming Soon" styleClass="combo-box" />
                   <Button id="searchBarButton" layoutX="580.0" layoutY="45.0" mnemonicParsing="false">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../../../images/SearchIconWhite.png" />
+                              <Image url="@../../../../../images/SearchIconWhite.png" />
                            </image>
                         </ImageView>
                      </graphic>
                   </Button>
+                  <TextField fx:id="mainSearchBar" layoutX="62.0" layoutY="23.0" prefHeight="40.0" prefWidth="520.0" promptText="Search..." styleClass="text-field" />
+                  <Label alignment="BASELINE_LEFT" layoutX="77.0" layoutY="76.0" prefHeight="20.0" prefWidth="125.0" text="Filter by..." textFill="WHITE" />
+                  <ComboBox layoutX="172.0" layoutY="73.0" prefWidth="125.0" promptText="Genre" styleClass="combo-box" />
+                  <ComboBox layoutX="307.0" layoutY="73.0" prefWidth="125.0" promptText="Theatre" styleClass="combo-box" />
+                  <ComboBox layoutX="442.0" layoutY="73.0" prefWidth="125.0" promptText="Coming Soon" styleClass="combo-box" />
                </children>
             </AnchorPane>
-            <AnchorPane layoutY="122.0" prefHeight="580.0" prefWidth="700.0" style="-fx-background-color: #1d1e22;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="120.0">
+            <AnchorPane layoutY="120.0" prefHeight="580.0" prefWidth="700.0" style="-fx-background-color: #1d1e22;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="120.0">
                <children>
-                  <GridPane alignment="TOP_CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="580.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="180.0" style="-fx-background-color: tranparent;">
-                           <children>
-                              <AnchorPane prefHeight="280.0" prefWidth="180.0" style="-fx-background-color: transparent;">
-                                 <children>
-                                    <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" mnemonicParsing="false" prefHeight="280.0" prefWidth="180.0" style="-fx-background-color: #2c2d33; -fx-font-weight: bold;" text="Avengers: Endgame" textFill="WHITE">
-                                       <graphic>
-                                          <ImageView fitHeight="232.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../../../../../../../images/MoviesPosters/AvengersEndgame.jpg" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                    </Button>
-                                 </children>
-                              </AnchorPane>
-                           </children>
+                  <ComboBox fx:id="cb_movie" layoutX="55.0" layoutY="40.0" prefWidth="150.0" promptText="movie" />
+                  <ComboBox fx:id="cb_time" layoutX="265.0" layoutY="40.0" prefWidth="150.0" promptText="begining time" />
+                  <ComboBox fx:id="cb_date" layoutX="475.0" layoutY="40.0" prefWidth="150.0" promptText="date" />
+                  <ComboBox fx:id="cb_cinema" layoutX="55.0" layoutY="130.0" prefWidth="150.0" promptText="cinema" />
+                  <ComboBox fx:id="cb_removal_addition" layoutX="262.0" layoutY="130.0" prefWidth="150.0" promptText="removal/addition" />
+                  <Button layoutX="475.0" layoutY="130.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="150.0" text="Update" />
+                  <ScrollPane layoutX="-1.0" layoutY="225.0" prefHeight="355.0" prefWidth="675.0" style="-fx-background-color: transperent; -fx-background: #2c2d33;">
+                     <content>
+                        <VBox fx:id="screening_time_layout" prefHeight="354.0" prefWidth="660.0" spacing="10.0">
+                           <opaqueInsets>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
                         </VBox>
-                        <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="180.0" style="-fx-background-color: tranparent;" GridPane.rowIndex="1">
-                           <children>
-                              <AnchorPane prefHeight="280.0" prefWidth="180.0" style="-fx-background-color: transparent;">
-                                 <children>
-                                    <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" mnemonicParsing="false" prefHeight="280.0" prefWidth="180.0" style="-fx-background-color: #2c2d33; -fx-font-weight: bold;" text="Wonder Woman 1984" textFill="WHITE">
-                                       <graphic>
-                                          <ImageView fitHeight="232.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../../../../../../../images/MoviesPosters/WonderWoman1984.jpg" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                    </Button>
-                                 </children>
-                              </AnchorPane>
-                           </children>
-                        </VBox>
-                        <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="180.0" style="-fx-background-color: tranparent;" GridPane.columnIndex="1">
-                           <children>
-                              <AnchorPane prefHeight="280.0" prefWidth="180.0" style="-fx-background-color: transparent;">
-                                 <children>
-                                    <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" mnemonicParsing="false" prefHeight="280.0" prefWidth="180.0" style="-fx-background-color: #2c2d33; -fx-font-weight: bold;" text="Sherlock Holmes" textFill="WHITE">
-                                       <graphic>
-                                          <ImageView fitHeight="232.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../../../../../../../images/MoviesPosters/SherlockHolmes.jpg" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                    </Button>
-                                 </children>
-                              </AnchorPane>
-                           </children>
-                        </VBox>
-                        <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="180.0" style="-fx-background-color: tranparent;" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                           <children>
-                              <AnchorPane prefHeight="280.0" prefWidth="180.0" style="-fx-background-color: transparent;">
-                                 <children>
-                                    <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" mnemonicParsing="false" prefHeight="280.0" prefWidth="180.0" style="-fx-background-color: #2c2d33; -fx-font-weight: bold;" text="Toy Story" textFill="WHITE">
-                                       <graphic>
-                                          <ImageView fitHeight="232.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../../../../../../../images/MoviesPosters/ToyStory.jpg" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                    </Button>
-                                 </children>
-                              </AnchorPane>
-                           </children>
-                        </VBox>
-                        <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="180.0" style="-fx-background-color: tranparent;" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                           <children>
-                              <AnchorPane prefHeight="280.0" prefWidth="180.0" style="-fx-background-color: transparent;">
-                                 <children>
-                                    <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" mnemonicParsing="false" prefHeight="280.0" prefWidth="180.0" style="-fx-background-color: #2c2d33; -fx-font-weight: bold;" text="IT" textFill="WHITE">
-                                       <graphic>
-                                          <ImageView fitHeight="232.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../../../../../../../images/MoviesPosters/It.jpg" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                    </Button>
-                                 </children>
-                              </AnchorPane>
-                           </children>
-                        </VBox>
-                        <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" mnemonicParsing="false" prefHeight="280.0" prefWidth="180.0" style="-fx-background-color: #2c2d33; -fx-font-weight: bold;" text="Baby Driver" textFill="WHITE" GridPane.columnIndex="2">
-                           <graphic>
-                              <ImageView fitHeight="232.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../../../../../../images/MoviesPosters/BabyDriver.jpg" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                     </children>
-                  </GridPane>
+                     </content>
+                  </ScrollPane>
+                  <Label layoutX="80.0" layoutY="201.0" text="Label" />
+                  <Label layoutX="228.0" layoutY="201.0" text="Label" />
+                  <Label layoutX="369.0" layoutY="201.0" text="Label" />
+                  <Label layoutX="536.0" layoutY="201.0" text="Label" />
                </children></AnchorPane>
          </children></AnchorPane>
    </center>

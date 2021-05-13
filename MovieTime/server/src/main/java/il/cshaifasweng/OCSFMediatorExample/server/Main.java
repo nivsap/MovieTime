@@ -58,27 +58,24 @@ public class Main extends AbstractServer{
 			//create movite 
 
 			ArrayList<String> movieStartTimes = new ArrayList<String>(Arrays.asList("10:00" , "12:00" , "16:00" , "18:00" , "20:00" , "22:00" , "00:00"));
-			Movie titanic = new Movie("Titanic","197", 5.00, "Drama", null, movieStartTimes, true, false, "Explains the whole story from departure until the death of Titanic", "Leonardo"
-							+ " DiCaprio,Kate Winslet,Billy Zane,Kathy Bates", new java.util.Date(1997 -1900, 10, 16));
-			Movie forrestGump = new Movie("Forrest Gump", "142", 4.5, "Drama", null, movieStartTimes, true, false, "The presidencies of Kennedy and Johnson, the Vietnam War, the Watergate scandal and other "
-					+ "historical events unfold from the perspective of  man "
-					+ "with an IQ of 75, whose only desire is to be childhood sweetheart.", "Tom Hanks, Robin Wright, Gary Sinise", new Date(1994, 1, 3));
-			Movie harryPotter = new Movie("Harry Potter and is friens the Philosopher's Stone", "152", 4.00, "Thriller", null, movieStartTimes, true, false, " Harry makes close friends and a few enemies during his first year at the school, and with the help of his friends,"
-					+ " he faces an attempted comeback by the dark wizard Lord Voldemort.", 
-					"Daniel Radcliffe,Rupert Grint,Emma Watson", new Date(2001, 11, 4));
-			Movie movie1917 = new Movie("1917", "119", 5.00, "Drama", null, movieStartTimes, true, false, "The film takes place after the German retreat to the Hindenburg Line during Operation Alberich, and follows two British soldiers in their mission to deliver an important message to call off a "
-					+ "doomed offensive attack." , "George MacKay, Dean-Charles Chapman, Mark Strong",new Date(2019, 9, 22));
-			Movie twilight = new Movie("The Twilight Saga", "607", 4.4, "Love", null, movieStartTimes, true, false, "Twilight focuses on the development of a personal relationship between teenager and vampire"
-					, "Kristen Stewart,Robert Pattinson,aylor Lautner", new Date(2008, 11,22));
-			Movie miracleMovie = new Movie("Miracle in Cell No. 7", "132", 5.00, "Comedy-Drama", null, movieStartTimes, true, false, "The film is about a mentally challenged man wrongfully imprisoned for murder, who builds "
-					+ "friendships with the hardened criminals in his cell, who in return help him see his daughter again by smuggling her into the prison.","Aras Bulut İynemli"
-							+ "Nisa Aksongur Celile Toyon", new Date(2013, 9, 22));
-			session.save(titanic);
-			session.save(forrestGump);
-			session.save(harryPotter);
-			session.save(movie1917);
-			session.save(twilight);
-			session.save(miracleMovie);
+			Movie avengersEndgame = new Movie("Avengers: Endgame","3h 1min", 5.00, "Action, Adventure, Drama", "AvengersEndgame.jpg", movieStartTimes, true, false, "After the devastating events of Avengers: Infinity War (2018), the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe.",
+									"Robert Downey Jr., Chris Evans, Mark Ruffalo", new java.util.Date(1997 -1900, 10, 16));
+			Movie sherlockHolmes = new Movie("Sherlock Holmes", "2h 8min", 4.5, "Action, Adventure, Mystery", "SherlockHolmes.jpg", movieStartTimes, true, false, "Detective Sherlock Holmes and his stalwart partner Watson engage in a battle of wits and brawn with a nemesis whose plot is a threat to all of England.",
+								   "Robert Downey Jr., Jude Law, Rachel McAdams", new Date(1994, 1, 3));
+			Movie babyDriver = new Movie("Baby Driver", "1h 53min", 4.00, "Action, Crime, Drama ", "BabyDriver.jpg", movieStartTimes, true, false, "After being coerced into working for a crime boss, a young getaway driver finds himself taking part in a heist doomed to fail.",
+							   "Ansel Elgort, Jon Bernthal, Jon Hamm", new Date(2001, 11, 4));
+			Movie wonderWoman1984  = new Movie("Wonder Woman 1984", "2h 31min", 5.00, "Action, Adventure, Fantasy", "WonderWoman1984.jpg", movieStartTimes, true, false, "Diana must contend with a work colleague and businessman, whose desire for extreme wealth sends the world down a path of destruction, after an ancient artifact that grants wishes goes missing.",
+									 "Gal Gadot, Chris Pine, Kristen Wiig",new Date(2019, 9, 22));
+			Movie it  = new Movie("IT", "2h 15min", 5.00, "Horror", "It.jpg", movieStartTimes, true, false, "In the summer of 1989, a group of bullied kids band together to destroy a shape-shifting monster, which disguises itself as a clown and preys on the children of Derry, their small Maine town.",
+					 	"Bill Skarsgard, Jaeden Martell, Finn Wolfhard",new Date(2019, 9, 22));
+			Movie toyStory = new Movie("Toy Story", "1h 40min", 5.00, "Animation, Adventure, Comedy", "ToyStory.jpg", movieStartTimes, true, false, "When a new toy called 'Forky' joins Woody and the gang, a road trip alongside old and new friends reveals how big the world can be for a toy.",
+							 "Tom Hanks, Tim Allen, Annie Potts", new Date(2013, 9, 22));
+			session.save(avengersEndgame);
+			session.save(sherlockHolmes);
+			session.save(babyDriver);
+			session.save(wonderWoman1984);
+			session.save(it);
+			session.save(toyStory);
 			session.flush();
 			session.getTransaction().commit();
 			session.clear();

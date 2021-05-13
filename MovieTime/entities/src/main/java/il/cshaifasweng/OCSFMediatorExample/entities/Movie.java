@@ -27,6 +27,7 @@ public class Movie implements  Serializable
     private Double popular;
     private String genre;
     private String imageSrc;
+    private String largeImageSrc;
     private ArrayList<String> MovieBeginingTime;
     private boolean streamOnline;
     private boolean soonInCinema;
@@ -40,7 +41,7 @@ public class Movie implements  Serializable
         return duration;
     }
 
-    public Movie(String name, String duration, Double popular, String genre, String imageSrc,
+    public Movie(String name, String duration, Double popular, String genre, String imageSrc, String largeImageSrc,
 			ArrayList<String> movie_Begining_Time, boolean streamOnline, boolean soonInCinema, String description,
 			String mainActors, Date launchDate) {
 		super();
@@ -49,6 +50,7 @@ public class Movie implements  Serializable
 		this.popular = popular;
 		this.genre = genre;
 		this.imageSrc = imageSrc;
+		this.largeImageSrc = largeImageSrc;
 		this.MovieBeginingTime = new ArrayList<>();
 		this.streamOnline = streamOnline;
 		this.soonInCinema = soonInCinema;
@@ -57,7 +59,8 @@ public class Movie implements  Serializable
 		this.launchDate = launchDate;
 	}
     
-    
+
+
 	public Movie(String name, String imageSrc, String duration, Double popular, String genre) {
 
 		super();
@@ -161,6 +164,13 @@ public class Movie implements  Serializable
 	public void setImageSrc(String imageSrc) {
 		this.imageSrc = imageSrc;
 	}
+	public String getLargeImageSrc() {
+		return largeImageSrc;
+	}
+
+	public void setLargeImageSrc(String largeImageSrc) {
+		this.largeImageSrc = largeImageSrc;
+	}
 
 	@Override
 	public int hashCode() {
@@ -172,6 +182,7 @@ public class Movie implements  Serializable
 		result = prime * result + ((duration == null) ? 0 : duration.hashCode());
 		result = prime * result + ((genre == null) ? 0 : genre.hashCode());
 		result = prime * result + ((imageSrc == null) ? 0 : imageSrc.hashCode());
+		result = prime * result + ((largeImageSrc == null) ? 0 : largeImageSrc.hashCode());
 		result = prime * result + ((launchDate == null) ? 0 : launchDate.hashCode());
 		result = prime * result + ((mainActors == null) ? 0 : mainActors.hashCode());
 		result = prime * result + ((popular == null) ? 0 : popular.hashCode());
@@ -219,6 +230,11 @@ public class Movie implements  Serializable
 				return false;
 		} else if (!imageSrc.equals(other.imageSrc))
 			return false;
+		if (largeImageSrc == null) {
+			if (other.largeImageSrc != null)
+				return false;
+		} else if (!largeImageSrc.equals(other.largeImageSrc))
+			return false;
 		if (launchDate == null) {
 			if (other.launchDate != null)
 				return false;
@@ -244,12 +260,10 @@ public class Movie implements  Serializable
 	@Override
 	public String toString() {
 		return "Movie [Name=" + Name + ", duration=" + duration + ", popular=" + popular + ", genre=" + genre
-				+ ", imageSrc=" + imageSrc + ", MovieBeginingTime=" + MovieBeginingTime + ", streamOnline="
-				+ streamOnline + ", soonInCinema=" + soonInCinema + ", description=" + description + ", mainActors="
-				+ mainActors + ", launchDate=" + launchDate + "]";
+				+ ", imageSrc=" + imageSrc + ", largeImageSrc=" + largeImageSrc + ", MovieBeginingTime=" 
+				+ MovieBeginingTime + ", streamOnline=" + streamOnline + ", soonInCinema=" + soonInCinema
+				+ ", description=" + description + ", mainActors=" + mainActors + ", launchDate=" + launchDate + "]";
 	}
-	
-	
 	//not needed for now
 
 //to compare our obj

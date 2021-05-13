@@ -3,6 +3,7 @@ package il.cshaifasweng.OCSFMediatorExample.server;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -55,20 +56,19 @@ public class Main extends AbstractServer{
 	         session = sessionFactory.openSession();
 	         session.beginTransaction();
 			
-			//create movite 
-
+			//create movie 
 			ArrayList<String> movieStartTimes = new ArrayList<String>(Arrays.asList("10:00" , "12:00" , "16:00" , "18:00" , "20:00" , "22:00" , "00:00"));
-			Movie avengersEndgame = new Movie("Avengers: Endgame","3h 1min", 5.00, "Action, Adventure, Drama", "AvengersEndgame.jpg", movieStartTimes, true, false, "After the devastating events of Avengers: Infinity War (2018), the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe.",
+			Movie avengersEndgame = new Movie("Avengers: Endgame","3h 1min", 5.00, "Action   •   Adventure   •   Drama", "AvengersEndgame.jpg",  "AvengersEndgame.png", movieStartTimes, true, false, "After the devastating events of Avengers: Infinity War (2018), the \nuniverse is in ruins. With the help of remaining allies, \nthe Avengers assemble once more in order to reverse Thanos' \nactions and restore balance to the universe.",
 									"Robert Downey Jr., Chris Evans, Mark Ruffalo", new java.util.Date(1997 -1900, 10, 16));
-			Movie sherlockHolmes = new Movie("Sherlock Holmes", "2h 8min", 4.5, "Action, Adventure, Mystery", "SherlockHolmes.jpg", movieStartTimes, true, false, "Detective Sherlock Holmes and his stalwart partner Watson engage in a battle of wits and brawn with a nemesis whose plot is a threat to all of England.",
+			Movie sherlockHolmes = new Movie("Sherlock Holmes", "2h 8min", 4.5, "Action   •   Adventure   •   Mystery", "SherlockHolmes.jpg", "SherlockHolmes.png", movieStartTimes, true, false, "Detective Sherlock Holmes and his stalwart partner Watson engage in \na battle of wits and brawn with a nemesis whose plot\n is a threat to all of England.",
 								   "Robert Downey Jr., Jude Law, Rachel McAdams", new Date(1994, 1, 3));
-			Movie babyDriver = new Movie("Baby Driver", "1h 53min", 4.00, "Action, Crime, Drama ", "BabyDriver.jpg", movieStartTimes, true, false, "After being coerced into working for a crime boss, a young getaway driver finds himself taking part in a heist doomed to fail.",
+			Movie babyDriver = new Movie("Baby Driver", "1h 53min", 4.00, "Action   •   Crime   •   Drama ", "BabyDriver.jpg", "BabyDriver.png", movieStartTimes, true, false, "After being coerced into working for a crime boss, a young getaway \ndriver finds himself taking part in a heist doomed to fail.",
 							   "Ansel Elgort, Jon Bernthal, Jon Hamm", new Date(2001, 11, 4));
-			Movie wonderWoman1984  = new Movie("Wonder Woman 1984", "2h 31min", 5.00, "Action, Adventure, Fantasy", "WonderWoman1984.jpg", movieStartTimes, true, false, "Diana must contend with a work colleague and businessman, whose desire for extreme wealth sends the world down a path of destruction, after an ancient artifact that grants wishes goes missing.",
+			Movie wonderWoman1984  = new Movie("Wonder Woman 1984", "2h 31min", 5.00, "Action   •   Adventure   •   Fantasy", "WonderWoman1984.jpg", "WonderWoman1984.png", movieStartTimes, true, false, "Diana must contend with a work colleague and businessman, whose desire \nfor extreme wealth sends the world down a path of destruction, \nafter an ancient artifact that grants wishes goes missing.",
 									 "Gal Gadot, Chris Pine, Kristen Wiig",new Date(2019, 9, 22));
-			Movie it  = new Movie("IT", "2h 15min", 5.00, "Horror", "It.jpg", movieStartTimes, true, false, "In the summer of 1989, a group of bullied kids band together to destroy a shape-shifting monster, which disguises itself as a clown and preys on the children of Derry, their small Maine town.",
+			Movie it  = new Movie("IT", "2h 15min", 5.00, "Horror", "It.jpg", "It.png", movieStartTimes, true, false, "In the summer of 1989, a group of bullied kids band together\n to destroy a shape-shifting monster, which disguises itself \nas a clown and preys on the children of Derry, \ntheir small Maine town.",
 					 	"Bill Skarsgard, Jaeden Martell, Finn Wolfhard",new Date(2019, 9, 22));
-			Movie toyStory = new Movie("Toy Story", "1h 40min", 5.00, "Animation, Adventure, Comedy", "ToyStory.jpg", movieStartTimes, true, false, "When a new toy called 'Forky' joins Woody and the gang, a road trip alongside old and new friends reveals how big the world can be for a toy.",
+			Movie toyStory = new Movie("Toy Story", "1h 40min", 5.00, "Animation   •   Adventure   •   Comedy", "ToyStory.jpg", "ToyStory.png", movieStartTimes, true, false, "When a new toy called 'Forky' joins Woody and the gang, \na road trip alongside old and new friends reveals how \nbig the world can be for a toy.",
 							 "Tom Hanks, Tim Allen, Annie Potts", new Date(2013, 9, 22));
 			session.save(avengersEndgame);
 			session.save(sherlockHolmes);

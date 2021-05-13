@@ -45,3 +45,17 @@
 #searchBarButton {
 	-fx-background-color: transparent; 
 }
+
+#updateBtn {
+	-fx-background-color: #d32a00; 
+}
+
+#updateBtn:hover {
+	-fx-background-color: #ce5435;
+}
+
+#updateBtn:pressed {
+	-fx-background-color: #981f01;
+}
+
+ 

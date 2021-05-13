@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="900.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.MovieInfoPageController">
+   <left>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #18191d;" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="25.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="30.0">
+               <image>
+                  <Image url="@images/FinalLogo.png" />
+               </image>
+            </ImageView>
+            <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="2.0" layoutY="200.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="195.0" stylesheets="@style.css" text="Main Page" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/CamIconWhite.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="2.0" layoutY="340.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="195.0" stylesheets="@style.css" text="File Complaints" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/ComplaintIconWhite.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="2.0" layoutY="270.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="195.0" stylesheets="@style.css" text="Specials" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/SpecialsIconWhite.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <ImageView fitHeight="205.0" fitWidth="200.0" layoutY="600.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+               <image>
+                  <Image url="@images/Lights.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </left>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #1d1e22;" BorderPane.alignment="CENTER">
+         <children>
+            <AnchorPane layoutX="57.0" layoutY="37.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="626.0" prefWidth="600.0" style="-fx-background-color: #2c2d33;" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="57.0" AnchorPane.rightAnchor="57.0" AnchorPane.topAnchor="37.0">
+               <children>
+                  <ImageView fx:id="movieLargeImageSrc" fitHeight="300.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/MoviesPosters/LargeImages/WonderWoman1984.png" />
+                     </image>
+                  </ImageView>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" height="60.0" layoutY="240.0" opacity="0.3" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="600.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" height="280.0" layoutX="75.0" layoutY="322.0" opacity="0.3" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="450.0" />
+                  <Label fx:id="movieName" alignment="BOTTOM_CENTER" layoutX="148.0" layoutY="246.0" prefHeight="30.0" prefWidth="452.0" style="-fx-font-weight: bold;" text="Movie Name" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="movieDescription" alignment="CENTER" contentDisplay="CENTER" layoutX="100.0" layoutY="352.0" prefHeight="75.0" prefWidth="400.0" text="Movie Description" textFill="WHITE" />
+                  <Label fx:id="movieDuration" contentDisplay="CENTER" layoutX="100.0" layoutY="560.0" prefHeight="30.0" prefWidth="140.0" text="Movie Duration" textAlignment="CENTER" textFill="WHITE" />
+                  <Label fx:id="movieGenre" alignment="CENTER" contentDisplay="CENTER" layoutX="148.0" layoutY="276.0" prefHeight="25.0" prefWidth="452.0" style="-fx-font-weight: bold;" text="Movie Genre" textFill="WHITE" />
+                  <ImageView fx:id="movieImageSrc" fitHeight="200.0" fitWidth="133.0" layoutX="15.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label fx:id="movieLaunchDate" alignment="CENTER_RIGHT" layoutX="360.0" layoutY="560.0" prefHeight="30.0" prefWidth="140.0" text="Movie Launch Date" textFill="WHITE" />
+                  <Label fx:id="movieMainActors" alignment="CENTER" layoutX="100.0" layoutY="462.0" prefHeight="30.0" prefWidth="400.0" text="Movie Main Actors" textFill="WHITE" />
+                  <Circle fill="#f5821e" layoutX="148.0" layoutY="298.0" radius="21.0" stroke="#ffffff00" strokeType="INSIDE" />
+                  <Label fx:id="moviePopularity" alignment="CENTER" layoutX="136.0" layoutY="289.0" prefHeight="19.0" prefWidth="23.0" style="-fx-font-weight: bold;" text="5.4" textFill="WHITE" />
+                  <Button fx:id="updateBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="525.0" layoutY="257.0" mnemonicParsing="false" text="Update" />
+               </children>
+            </AnchorPane>
+         </children></AnchorPane>
+   </center>
+</BorderPane>

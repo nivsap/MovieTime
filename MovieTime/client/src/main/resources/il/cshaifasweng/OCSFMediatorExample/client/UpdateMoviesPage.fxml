@@ -21,7 +21,7 @@
                   <Image url="@images/FinalLogo.png" />
                </image>
             </ImageView>
-            <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="2.0" layoutY="200.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="195.0" stylesheets="@style.css" text="Main Page" textFill="WHITE">
+            <Button fx:id="btn_main_page" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="2.0" layoutY="200.0" mnemonicParsing="false" onAction="#MainPageButton" prefHeight="52.0" prefWidth="195.0" stylesheets="@style.css" text="Main Page" textFill="WHITE">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -62,7 +62,7 @@
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../images/SearchIconWhite.png" />
+                              <Image url="@images/SearchIconWhite.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -81,7 +81,7 @@
                   <ComboBox fx:id="cb_date" layoutX="475.0" layoutY="40.0" prefWidth="150.0" promptText="date" />
                   <ComboBox fx:id="cb_cinema" layoutX="55.0" layoutY="130.0" prefWidth="150.0" promptText="cinema" />
                   <ComboBox fx:id="cb_removal_addition" layoutX="262.0" layoutY="130.0" prefWidth="150.0" promptText="removal/addition" />
-                  <Button layoutX="475.0" layoutY="130.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="150.0" text="Update" />
+                  <Button fx:id="btn_update" layoutX="475.0" layoutY="130.0" mnemonicParsing="false" onAction="#UpdateMovieTime" prefHeight="26.0" prefWidth="150.0" text="Update" />
                   <ScrollPane layoutX="-1.0" layoutY="225.0" prefHeight="355.0" prefWidth="675.0" style="-fx-background-color: transperent; -fx-background: #2c2d33;">
                      <content>
                         <VBox fx:id="screening_time_layout" prefHeight="354.0" prefWidth="660.0" spacing="10.0">

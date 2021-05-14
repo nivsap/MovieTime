@@ -52,6 +52,11 @@ public class UpdateMoviesPageController{
     @FXML
     private VBox screening_time_layout;
 	
+    @FXML
+    private Button btn_main_page;
+    
+    @FXML
+    private Button btn_update;
 	
 	@FXML
 	public void initialize() {

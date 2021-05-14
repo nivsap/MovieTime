@@ -60,6 +60,7 @@ public class UpdateMoviesPageController{
 	
 	@FXML
 	public void initialize() {
+		System.out.println("initializing UpdateMoviePage");
 		EventBus.getDefault().register(this);
 		Message msg= new Message();
 		msg.setAction("pull movies");
@@ -165,23 +166,22 @@ private void UpdateMovieTime(ActionEvent event)
 				}
 				if(timeChanged) {
 					msg.setMovie(movie);
+					msg.setAction("update movie time");
+					
+					try {
+						AppClient.getClient().sendToServer(msg);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						System.out.println("faile to send msg to server from UpdateMovieController");
+						e.printStackTrace();
+					}
+					
 				}else {
 					//error prompt, time does not exist, and therefore cannot be removed
 				}
 			}
 		}
 		
-		
-		
-		msg.setAction("update movie time");
-		
-		try {
-			AppClient.getClient().sendToServer(msg);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			System.out.println("faile to send msg to server from UpdateMovieController");
-			e.printStackTrace();
-		}
 		
 	}
 	

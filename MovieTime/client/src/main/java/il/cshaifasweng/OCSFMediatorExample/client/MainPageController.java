@@ -60,6 +60,7 @@ public class MainPageController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		System.out.println("initializing main page");
 		EventBus.getDefault().register(this);
 		Message msg = new Message();
 		msg.setAction("pull movies");

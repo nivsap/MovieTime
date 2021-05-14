@@ -51,23 +51,29 @@ public class Main extends AbstractServer{
 			//create movie 
 			ArrayList<String> movieStartTimes = new ArrayList<String>(Arrays.asList("10:00" , "12:00" , "16:00" , "18:00" , "20:00" , "22:00" , "00:00"));
 			Movie avengersEndgame = new Movie("Avengers: Endgame","3h 1min", 5.00, "Action   •   Adventure   •   Drama", "AvengersEndgame.jpg",  "AvengersEndgame.png", movieStartTimes, true, false, "After the devastating events of Avengers: Infinity War (2018), the \nuniverse is in ruins. With the help of remaining allies, \nthe Avengers assemble once more in order to reverse Thanos' \nactions and restore balance to the universe.",
-									"Robert Downey Jr., Chris Evans, Mark Ruffalo", new java.util.Date(1997 -1900, 10, 16));
-			Movie sherlockHolmes = new Movie("Sherlock Holmes", "2h 8min", 4.5, "Action   •   Adventure   •   Mystery", "SherlockHolmes.jpg", "SherlockHolmes.png", movieStartTimes, true, false, "Detective Sherlock Holmes and his stalwart partner Watson engage in \na battle of wits and brawn with a nemesis whose plot\n is a threat to all of England.",
-								   "Robert Downey Jr., Jude Law, Rachel McAdams", new Date(1994, 1, 3));
+					"Robert Downey Jr., Chris Evans, Mark Ruffalo", new Date(2019, 4, 26));
+			Movie sherlockHolmes = new Movie("Sherlock Holmes", "2h 8min", 4.5, "Action   •   Adventure   •   Mystery", "SherlockHolmes.jpg", "SherlockHolmes.png", movieStartTimes, true, false, "Detective Sherlock Holmes and his stalwart partner Watson engage in \na battle of wits and brawn with a nemesis whose plot \nis a threat to all of England.",
+				   "Robert Downey Jr., Jude Law, Rachel McAdams", new Date(2009, 12, 25));
 			Movie babyDriver = new Movie("Baby Driver", "1h 53min", 4.00, "Action   •   Crime   •   Drama ", "BabyDriver.jpg", "BabyDriver.png", movieStartTimes, true, false, "After being coerced into working for a crime boss, a young getaway \ndriver finds himself taking part in a heist doomed to fail.",
-							   "Ansel Elgort, Jon Bernthal, Jon Hamm", new Date(2001, 11, 4));
+			   "Ansel Elgort, Jon Bernthal, Jon Hamm", new Date(2017, 6, 28));
 			Movie wonderWoman1984  = new Movie("Wonder Woman 1984", "2h 31min", 5.00, "Action   •   Adventure   •   Fantasy", "WonderWoman1984.jpg", "WonderWoman1984.png", movieStartTimes, true, false, "Diana must contend with a work colleague and businessman, whose desire \nfor extreme wealth sends the world down a path of destruction, \nafter an ancient artifact that grants wishes goes missing.",
-									 "Gal Gadot, Chris Pine, Kristen Wiig",new Date(2019, 9, 22));
+					 "Gal Gadot, Chris Pine, Kristen Wiig",new Date(2020, 12, 21));
 			Movie it  = new Movie("IT", "2h 15min", 5.00, "Horror", "It.jpg", "It.png", movieStartTimes, true, false, "In the summer of 1989, a group of bullied kids band together\n to destroy a shape-shifting monster, which disguises itself \nas a clown and preys on the children of Derry, \ntheir small Maine town.",
-					 	"Bill Skarsgard, Jaeden Martell, Finn Wolfhard",new Date(2019, 9, 22));
+					"Bill Skarsgard, Jaeden Martell, Finn Wolfhard",new Date(2017, 9, 8));
 			Movie toyStory = new Movie("Toy Story", "1h 40min", 5.00, "Animation   •   Adventure   •   Comedy", "ToyStory.jpg", "ToyStory.png", movieStartTimes, true, false, "When a new toy called 'Forky' joins Woody and the gang, \na road trip alongside old and new friends reveals how \nbig the world can be for a toy.",
-							 "Tom Hanks, Tim Allen, Annie Potts", new Date(2013, 9, 22));
+			 "Tom Hanks, Tim Allen, Annie Potts", new Date(2017, 6, 21));
+			Movie Minions = new Movie("Minions", "1h 31min", 4.50, "Animation   •   Adventure   •   Comedy", "Minions.jpg", "Minions.png", movieStartTimes, true, false, "Minions Stuart, Kevin, and Bob are recruited by Scarlet Overkill, a supervillain who, \nalongside her inventor husband Herb, hatches a plot to take over the world.",
+					"Sandra Bullock, Jon Hamm, Michael Keaton", new Date(2015, 7, 10));
+			Movie StarWars = new Movie("Star Wars", "2h 21min", 5.00, "Action   •   Adventure   •   Fantasy", "StarWars.jpg", "StarWars.png", movieStartTimes, true, false, "The surviving members of the Resistance face the First Order once again, \nand the legendary conflict between the Jedi and the Sith reaches its peak, \nbringing the Skywalker saga to its end.",
+					"Daisy Ridley, John Boyega, Oscar Isaac", new Date(2019, 12, 20));
 			session.save(avengersEndgame);
 			session.save(sherlockHolmes);
 			session.save(babyDriver);
 			session.save(wonderWoman1984);
 			session.save(it);
 			session.save(toyStory);
+			session.save(Minions);
+			session.save(StarWars);
 			session.flush();
 			session.getTransaction().commit();
 			session.clear();

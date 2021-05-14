@@ -13,14 +13,14 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #1d1e22;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.MainPageController">
-   <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="120.0" prefWidth="700.0" style="-fx-background-color: #2c2d33;">
+   <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="700.0" style="-fx-background-color: #2c2d33;">
       <children>
-         <TextField fx:id="mainSearchBar" layoutX="90.0" layoutY="30.0" prefHeight="40.0" prefWidth="520.0" promptText="Search..." styleClass="text-field" AnchorPane.leftAnchor="90.0" AnchorPane.topAnchor="30.0" />
-         <Label alignment="BASELINE_LEFT" layoutX="105.0" layoutY="83.0" prefHeight="20.0" prefWidth="125.0" text="Filter by..." textFill="WHITE" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="469.4" />
-         <ComboBox layoutX="200.0" layoutY="80.0" prefWidth="125.0" promptText="Genre" styleClass="combo-box" />
-         <ComboBox layoutX="335.0" layoutY="80.0" prefWidth="125.0" promptText="Theatre" styleClass="combo-box" />
-         <ComboBox layoutX="470.0" layoutY="80.0" prefWidth="125.0" promptText="Coming Soon" styleClass="combo-box" />
-         <Button id="searchBarButton" layoutX="580.0" layoutY="45.0" mnemonicParsing="false">
+         <TextField fx:id="mainSearchBar" layoutX="89.0" layoutY="15.0" prefHeight="40.0" prefWidth="520.0" promptText="Search..." styleClass="text-field" AnchorPane.leftAnchor="89.0" AnchorPane.topAnchor="15.0" />
+         <Label alignment="BASELINE_LEFT" layoutX="104.0" layoutY="68.0" prefHeight="20.0" prefWidth="125.0" text="Filter by..." textFill="WHITE" AnchorPane.leftAnchor="104.0" AnchorPane.rightAnchor="470.4" />
+         <ComboBox layoutX="199.0" layoutY="65.0" prefWidth="125.0" promptText="Genre" styleClass="combo-box" />
+         <ComboBox layoutX="334.0" layoutY="65.0" prefWidth="125.0" promptText="Theatre" styleClass="combo-box" />
+         <ComboBox layoutX="469.0" layoutY="65.0" prefWidth="125.0" promptText="Coming Soon" styleClass="combo-box" />
+         <Button id="searchBarButton" layoutX="579.0" layoutY="30.0" mnemonicParsing="false">
             <graphic>
                <ImageView fitHeight="20.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -31,9 +31,9 @@
          </Button>
       </children>
    </AnchorPane>
-   <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="580.0" prefWidth="700.0" style="-fx-background-color: #1d1e22;">
+   <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="560.0" prefWidth="100.0">
       <children>
-         <GridPane fx:id="movie_Container" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="580.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <GridPane fx:id="movieContainer" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="580.0" prefWidth="700.0">
             <columnConstraints>
                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -44,14 +44,27 @@
                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-               <VBox fx:id="card_layout1" prefHeight="200.0" prefWidth="100.0" />
-               <VBox fx:id="card_layout2" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" />
-               <VBox fx:id="card_layout3" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" />
-               <VBox fx:id="card_layout4" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1" />
-               <VBox fx:id="card_layout5" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-               <VBox fx:id="card_layout6" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+               <VBox fx:id="cell1" prefHeight="200.0" prefWidth="100.0" />
+               <VBox fx:id="cell2" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" />
+               <VBox fx:id="cell3" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" />
+               <VBox fx:id="cell4" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1" />
+               <VBox fx:id="cell5" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               <VBox fx:id="cell6" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             </children>
          </GridPane>
       </children>
-   </AnchorPane>
+   </VBox>
+   <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="100.0">
+      <children>
+         <Button fx:id="loadMoreBtn" mnemonicParsing="false" onAction="#loadMoreMovies" prefHeight="40.0" prefWidth="700.0">
+            <graphic>
+               <ImageView fitHeight="25.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@images/LoadMoreWhite.png" />
+                  </image>
+               </ImageView>
+            </graphic>
+         </Button>
+      </children>
+   </VBox>
 </VBox>

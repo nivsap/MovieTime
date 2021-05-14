@@ -13,9 +13,8 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 
 
-
 public class App extends Application {
-    private AppClient client;
+    
     private static Scene scene;
     private static Stage stage;
     @FXML
@@ -24,6 +23,7 @@ public class App extends Application {
     private static VBox menu;
     @FXML
     private static VBox content;
+    private AppClient client;
     
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -45,6 +45,8 @@ public class App extends Application {
     }
     
     static Object setContent(String pageName, String pageTitle) throws IOException {
+    	if(pageName == "MainPage")
+    		pageTitle = "Movie Time";
     	Pair<Parent, Object> pair = loadFXML(pageName);
     	pageLayout.setCenter(null);
     	content = (VBox) pair.getKey();

@@ -2,7 +2,6 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
 import java.net.URL;
-
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,49 +9,50 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 
 public class MainPageController implements Initializable {
-	int NUM_ROWS = 2, NUM_COLS = 3;
-    @FXML
-    private SystemMenuController systemMenuController;
-    
-    @FXML
-    private Pane menu;
+	int NUM_ROWS = 2, NUM_COLS = 3, currentlyDisplayedFrom = 0, moviesNumber = 0;
     
     @FXML
     private TextField mainSearchBar;
 
     @FXML
-    private GridPane movie_Container;
+    private GridPane movieContainer;
 
     @FXML
-    private VBox card_layout1;
+    private VBox cell1;
 
     @FXML
-    private VBox card_layout2;
+    private VBox cell2;
 
     @FXML
-    private VBox card_layout3;
+    private VBox cell3;
 
     @FXML
-    private VBox card_layout4;
+    private VBox cell4;
 
     @FXML
-    private VBox card_layout5;
+    private VBox cell5;
 
     @FXML
-    private VBox card_layout6;
+    private VBox cell6;
+
+    @FXML
+    private Button loadMoreBtn;
+
 	private List<Movie> recentlyAdded;
+	
+	public MainPageController() {
+		currentlyDisplayedFrom = 0;
+		moviesNumber = 0;
+	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -70,18 +70,20 @@ public class MainPageController implements Initializable {
 
 	}
 
-	public void SetMovies() {
+	public void SetMovies(int displayFrom) {
+		int index = displayFrom;
 		try {
-			int last = 0;
             for (int i = 0; i < NUM_ROWS; i++) {
                 for (int j = 0; j < NUM_COLS; j++) {
-				FXMLLoader fxmlLoader = new FXMLLoader();
-				fxmlLoader.setLocation(getClass().getResource("card.fxml"));
-				Button cardBox = fxmlLoader.load();
-				CardController cardController = fxmlLoader.getController();
-				cardController.SetData(recentlyAdded.get(last));
-				movie_Container.add(cardBox, j, i);
-				last++;
+                	if(index > moviesNumber - 1)
+                		index -= moviesNumber;
+					FXMLLoader fxmlLoader = new FXMLLoader();
+					fxmlLoader.setLocation(getClass().getResource("card.fxml"));
+					Button cardBox = fxmlLoader.load();
+					CardController cardController = fxmlLoader.getController();
+					cardController.SetData(recentlyAdded.get(index));
+					movieContainer.add(cardBox, j, i);
+					index++;
                }
             }
 		} catch (IOException e) {
@@ -89,16 +91,28 @@ public class MainPageController implements Initializable {
 			e.printStackTrace();
 		}
 	}
+	
+
+    @FXML
+    void loadMoreMovies() {
+    	int nextIndex = currentlyDisplayedFrom + NUM_ROWS * NUM_COLS;
+    	if(nextIndex > moviesNumber - 1)
+    		currentlyDisplayedFrom = nextIndex - moviesNumber;
+    	else
+    		currentlyDisplayedFrom = nextIndex;
+    	SetMovies(currentlyDisplayedFrom);
+    }
 
 	@Subscribe
 	public void onMessageEvent(Message msg) {
 		System.out.println("reveived message!!");
 		System.out.println(msg.getAction());
     		if(msg.getAction().equals("got movies")) {
-    			
     			Platform.runLater(()-> {
     				recentlyAdded = msg.getMovies();
-    				SetMovies();
+    				moviesNumber = recentlyAdded.size();
+    				currentlyDisplayedFrom = 0;
+    				SetMovies(currentlyDisplayedFrom);
     			});
     		}
 	}

@@ -61,11 +61,21 @@ public class Main extends AbstractServer{
 			Movie it  = new Movie("IT", "2h 15min", 5.00, "Horror", "It.jpg", "It.png", movieStartTimes, true, false, "In the summer of 1989, a group of bullied kids band together\n to destroy a shape-shifting monster, which disguises itself \nas a clown and preys on the children of Derry, \ntheir small Maine town.",
 					"Bill Skarsgard, Jaeden Martell, Finn Wolfhard",new Date(2017, 9, 8));
 			Movie toyStory = new Movie("Toy Story", "1h 40min", 5.00, "Animation   •   Adventure   •   Comedy", "ToyStory.jpg", "ToyStory.png", movieStartTimes, true, false, "When a new toy called 'Forky' joins Woody and the gang, \na road trip alongside old and new friends reveals how \nbig the world can be for a toy.",
+
 			 "Tom Hanks, Tim Allen, Annie Potts", new Date(2017, 6, 21));
 			Movie Minions = new Movie("Minions", "1h 31min", 4.50, "Animation   •   Adventure   •   Comedy", "Minions.jpg", "Minions.png", movieStartTimes, true, false, "Minions Stuart, Kevin, and Bob are recruited by Scarlet Overkill, a supervillain who, \nalongside her inventor husband Herb, hatches a plot to take over the world.",
 					"Sandra Bullock, Jon Hamm, Michael Keaton", new Date(2015, 7, 10));
 			Movie StarWars = new Movie("Star Wars", "2h 21min", 5.00, "Action   •   Adventure   •   Fantasy", "StarWars.jpg", "StarWars.png", movieStartTimes, true, false, "The surviving members of the Resistance face the First Order once again, \nand the legendary conflict between the Jedi and the Sith reaches its peak, \nbringing the Skywalker saga to its end.",
 					"Daisy Ridley, John Boyega, Oscar Isaac", new Date(2019, 12, 20));
+
+							 "Tom Hanks, Tim Allen, Annie Potts", new Date(2013, 9, 22));
+			avengersEndgame.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("10:00" , "12:00")));
+			sherlockHolmes.setMovieBeginingTime(new ArrayList<String>(Arrays.asList( "16:00" , "18:00")));
+			babyDriver.setMovieBeginingTime(new ArrayList<String>(Arrays.asList( "20:00" , "22:00")));
+			wonderWoman1984.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("00:00")));
+			it.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("11:00", "13:00")));
+			toyStory.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("15:00", "17:00")));
+
 			session.save(avengersEndgame);
 			session.save(sherlockHolmes);
 			session.save(babyDriver);
@@ -133,6 +143,24 @@ public class Main extends AbstractServer{
 			}
 		}
 		
+		if(((Message) msg).getAction().equals("update movie time")) {
+			serverMsg.setAction("updated movie time");
+			System.out.println("about to update movie time");
+		try {
+			if(((Message) msg).getMovie() == null) {
+				System.out.println("movie is null in update movie");
+			}else {
+			System.out.println(((Message) msg).getMovie().getName());
+			updateMovie(((Message) msg).getMovie());
+			client.sendToClient(serverMsg);
+			}
+		} catch (IOException e) {
+			System.out.println("cant update movie time");
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+		
 	}
     
 	private static <T> ArrayList<T> getAllOfType(Class<T> objectType) {
@@ -154,6 +182,38 @@ public class Main extends AbstractServer{
 		finally {
 			session.close();
 		}
-		return returnedList;   
+		return returnedList;
     }
+	
+	public static void updateMovie(Movie movie) {
+		try {
+			 SessionFactory sessionFactory = getSessionFactory();
+	         session = sessionFactory.openSession();
+	         session.beginTransaction();
+			
+			//create movie 
+			System.out.println("in updateMovie function");
+			System.out.println(movie.getName());
+			Movie currentMovie = movie;
+			
+		
+			session.update(currentMovie);
+			session.flush();
+			session.getTransaction().commit();
+			session.clear();
+		} catch (Exception exception) {
+			if (session != null) {
+				session.getTransaction().rollback();
+			}
+			System.err.println("An error occured, changes have been rolled back.");
+			exception.printStackTrace();
+		} finally 
+			  {
+		            assert session != null;
+		            session.close();
+		            session.getSessionFactory().close();
+		        }
+            
+		}
+	
 }

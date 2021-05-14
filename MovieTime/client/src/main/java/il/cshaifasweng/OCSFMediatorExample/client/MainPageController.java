@@ -7,14 +7,11 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -26,7 +23,12 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 
 public class MainPageController implements Initializable {
 	int NUM_ROWS = 2, NUM_COLS = 3;
-	
+    @FXML
+    private SystemMenuController systemMenuController;
+    
+    @FXML
+    private Pane menu;
+    
     @FXML
     private TextField mainSearchBar;
 
@@ -99,8 +101,10 @@ public class MainPageController implements Initializable {
     				SetMovies();
     			});
     		}
-
 	}
+	
+
+	
 }
 
 /*

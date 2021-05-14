@@ -3,13 +3,9 @@ package il.cshaifasweng.OCSFMediatorExample.server;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
 import java.util.logging.Level;
-
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -21,10 +17,6 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
-
-
-
-
 
 public class Main extends AbstractServer{
 	
@@ -113,16 +105,12 @@ public class Main extends AbstractServer{
 		System.out.println("Client Disconnected.");
 		super.clientDisconnected(client);
 	}
-	
-	
 
 	@Override
 	protected void clientConnected(ConnectionToClient client) {
 		super.clientConnected(client);
 		System.out.println("Client connected: " + client.getInetAddress());
 	}
-
-
 
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {

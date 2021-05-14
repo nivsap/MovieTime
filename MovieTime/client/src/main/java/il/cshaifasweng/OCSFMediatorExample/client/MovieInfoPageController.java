@@ -2,15 +2,20 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 
 public class MovieInfoPageController {
-
+    private Movie currentlyDisplayed;
+    
+    @FXML
+    private Pane menu;
+    
     @FXML
     private ResourceBundle resources;
 
@@ -45,6 +50,10 @@ public class MovieInfoPageController {
     private Label moviePopularity;
     
     @FXML
+    private Button updateBtn;
+    
+    
+    @FXML
     void initialize() {
         assert movieName != null : "fx:id=\"movieNameLabel\" was not injected: check your FXML file 'MovieInfoPage.fxml'.";
         assert movieDescription != null : "fx:id=\"movieDescriptionLabel\" was not injected: check your FXML file 'MovieInfoPage.fxml'.";
@@ -54,10 +63,10 @@ public class MovieInfoPageController {
         assert movieLaunchDate != null : "fx:id=\"movieLaunchDate\" was not injected: check your FXML file 'MovieInfoPage.fxml'.";
         assert movieMainActors != null : "fx:id=\"movieMainActors\" was not injected: check your FXML file 'MovieInfoPage.fxml'.";
         assert moviePopularity != null : "fx:id=\"moviePopularity\" was not injected: check your FXML file 'MovieInfoPage.fxml'.";
-
     }
     
     void setMovieInfo(Movie movie) {
+    	currentlyDisplayed = movie;
     	movieName.setText(movie.getName());
     	movieDescription.setText(movie.getDescription());
     	movieDuration.setText(movie.getDuration());
@@ -69,5 +78,12 @@ public class MovieInfoPageController {
     	Image largeImage = new  Image(getClass().getResourceAsStream("\\images\\MoviesPosters\\LargeImages\\" + movie.getLargeImageSrc()));
     	movieLargeImageSrc.setImage(largeImage);
     	movieImageSrc.setImage(image);
+    }
+    
+
+    @FXML
+    void updateMovie() {
+    	// Do something with currentlyDisplayed
+    	System.out.println(currentlyDisplayed);
     }
 }

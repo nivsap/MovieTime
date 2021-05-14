@@ -4,15 +4,26 @@ import java.io.IOException;
 import java.util.Arrays;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.stage.Stage;
 import javafx.util.Pair;
 
 
 public class ContentController {	
-	private String[] legalPageTypes = { "MainPage", "MovieInfoPage", "UpdateMoviePage" };
 	
+	private String[] legalPageTypes = { "MainPage", "MovieInfoPage", "UpdateMoviePage" };
     private static ContentController contentController;
-
+    private Stage primaryStage;
+    
+    
     private ContentController() {
+    }
+    
+    public void setStage(Stage stage) {
+    	primaryStage = stage;
+    }
+    
+    public Stage getStage() {
+    	return primaryStage;
     }
 
     public static ContentController getContentController() {
@@ -37,9 +48,9 @@ public class ContentController {
             }
             return null;
         });
-        Parent parent = fxmlLoader.load();
+        Parent root = fxmlLoader.load();
         Object controller = fxmlLoader.getController();
-        return new Pair<>(parent, controller);
+        return new Pair<>(root, controller);
     }
 
 }

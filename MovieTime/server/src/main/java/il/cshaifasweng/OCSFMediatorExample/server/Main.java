@@ -145,6 +145,24 @@ public class Main extends AbstractServer{
 			}
 		}
 		
+		if(((Message) msg).getAction().equals("update movie time")) {
+			serverMsg.setAction("updated movie time");
+			System.out.println("about to update movie time");
+		try {
+			if(((Message) msg).getMovie() == null) {
+				System.out.println("movie is null in update movie");
+			}else {
+			System.out.println(((Message) msg).getMovie().getName());
+			updateMovie(((Message) msg).getMovie());
+			client.sendToClient(serverMsg);
+			}
+		} catch (IOException e) {
+			System.out.println("cant update movie time");
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+		
 	}
     
 	private static <T> ArrayList<T> getAllOfType(Class<T> objectType) {
@@ -166,6 +184,38 @@ public class Main extends AbstractServer{
 		finally {
 			session.close();
 		}
-		return returnedList;   
+		return returnedList;
     }
+	
+	public static void updateMovie(Movie movie) {
+		try {
+			 SessionFactory sessionFactory = getSessionFactory();
+	         session = sessionFactory.openSession();
+	         session.beginTransaction();
+			
+			//create movie 
+			System.out.println("in updateMovie function");
+			System.out.println(movie.getName());
+			Movie currentMovie = movie;
+			
+		
+			session.update(currentMovie);
+			session.flush();
+			session.getTransaction().commit();
+			session.clear();
+		} catch (Exception exception) {
+			if (session != null) {
+				session.getTransaction().rollback();
+			}
+			System.err.println("An error occured, changes have been rolled back.");
+			exception.printStackTrace();
+		} finally 
+			  {
+		            assert session != null;
+		            session.close();
+		            session.getSessionFactory().close();
+		        }
+            
+		}
+	
 }

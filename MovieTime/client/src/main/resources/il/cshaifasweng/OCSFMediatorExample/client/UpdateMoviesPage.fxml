@@ -95,9 +95,9 @@
                      </content>
                   </ScrollPane>
                   <Label layoutX="80.0" layoutY="201.0" text="movie" textFill="WHITE" />
-                  <Label layoutX="243.0" layoutY="201.0" text="cinema" textFill="WHITE" />
-                  <Label layoutX="400.0" layoutY="201.0" text="date" textFill="WHITE" />
-                  <Label layoutX="574.0" layoutY="201.0" text="time" textFill="WHITE" />
+                  <Label layoutX="235.0" layoutY="201.0" text="cinema" textFill="WHITE" />
+                  <Label layoutX="429.0" layoutY="201.0" text="date" textFill="WHITE" />
+                  <Label layoutX="562.0" layoutY="201.0" text="time" textFill="WHITE" />
                </children></AnchorPane>
          </children></AnchorPane>
    </center>

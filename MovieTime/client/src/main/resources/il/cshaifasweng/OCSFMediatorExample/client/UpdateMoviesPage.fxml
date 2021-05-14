@@ -94,10 +94,10 @@
                         </VBox>
                      </content>
                   </ScrollPane>
-                  <Label layoutX="80.0" layoutY="201.0" text="Label" />
-                  <Label layoutX="228.0" layoutY="201.0" text="Label" />
-                  <Label layoutX="369.0" layoutY="201.0" text="Label" />
-                  <Label layoutX="536.0" layoutY="201.0" text="Label" />
+                  <Label layoutX="80.0" layoutY="201.0" text="movie" textFill="WHITE" />
+                  <Label layoutX="243.0" layoutY="201.0" text="cinema" textFill="WHITE" />
+                  <Label layoutX="400.0" layoutY="201.0" text="date" textFill="WHITE" />
+                  <Label layoutX="574.0" layoutY="201.0" text="time" textFill="WHITE" />
                </children></AnchorPane>
          </children></AnchorPane>
    </center>

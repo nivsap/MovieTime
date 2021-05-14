@@ -70,7 +70,6 @@ public class MainPageController implements Initializable {
 			System.out.println("faile to send msg to server from recentlyAdded");
 			e.printStackTrace();
 		}
-		//EventBus.getDefault().post(msg);
 
 	}
 
@@ -120,7 +119,7 @@ private void sendData(ActionEvent event)
 		ex.printStackTrace();
 	}
 	
-	UpdateMoviesPageController updatePage = Loader.getController();
+	EventBus.getDefault().unregister(this);
 	
 	
 	Stage stage = (Stage) btn_update_movie_time.getScene().getWindow();
@@ -128,7 +127,10 @@ private void sendData(ActionEvent event)
 	stage.setScene(new Scene(p));
 	
 	stage.show();
-	//updatePage.InitPage();
+	
+	
+	
+	
 }
 
 }

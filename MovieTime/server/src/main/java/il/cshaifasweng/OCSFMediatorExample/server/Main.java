@@ -70,6 +70,12 @@ public class Main extends AbstractServer{
 					 	"Bill Skarsgard, Jaeden Martell, Finn Wolfhard",new Date(2019, 9, 22));
 			Movie toyStory = new Movie("Toy Story", "1h 40min", 5.00, "Animation   •   Adventure   •   Comedy", "ToyStory.jpg", "ToyStory.png", movieStartTimes, true, false, "When a new toy called 'Forky' joins Woody and the gang, \na road trip alongside old and new friends reveals how \nbig the world can be for a toy.",
 							 "Tom Hanks, Tim Allen, Annie Potts", new Date(2013, 9, 22));
+			avengersEndgame.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("10:00" , "12:00")));
+			sherlockHolmes.setMovieBeginingTime(new ArrayList<String>(Arrays.asList( "16:00" , "18:00")));
+			babyDriver.setMovieBeginingTime(new ArrayList<String>(Arrays.asList( "20:00" , "22:00")));
+			wonderWoman1984.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("00:00")));
+			it.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("11:00", "13:00")));
+			toyStory.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("15:00", "17:00")));
 			session.save(avengersEndgame);
 			session.save(sherlockHolmes);
 			session.save(babyDriver);

@@ -51,6 +51,7 @@
                   <Image url="@images/Lights.png" />
                </image>
             </ImageView>
+            <Button fx:id="btn_update_movie_time" layoutX="40.0" layoutY="501.0" mnemonicParsing="false" onAction="#sendData" text="Update movie time" />
          </children>
       </AnchorPane>
    </left>

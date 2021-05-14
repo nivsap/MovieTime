@@ -4,15 +4,18 @@ import java.io.IOException;
 import java.net.URL;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +30,9 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 public class MainPageController implements Initializable {
 	int NUM_ROWS = 2, NUM_COLS = 3;
 	
+    @FXML
+    private Button btn_update_movie_time;
+    
     @FXML
     private TextField mainSearchBar;
 
@@ -64,7 +70,6 @@ public class MainPageController implements Initializable {
 			System.out.println("faile to send msg to server from recentlyAdded");
 			e.printStackTrace();
 		}
-		//EventBus.getDefault().post(msg);
 
 	}
 
@@ -101,20 +106,38 @@ public class MainPageController implements Initializable {
     		}
 
 	}
+
+
+@FXML
+private void sendData(ActionEvent event)
+{
+	FXMLLoader Loader = new FXMLLoader();
+	Loader.setLocation(getClass().getResource("UpdateMoviesPage.fxml"));
+	try {
+		Loader.load();
+	} catch(IOException ex) {
+		ex.printStackTrace();
+	}
+	
+	EventBus.getDefault().unregister(this);
+	
+	
+	Stage stage = (Stage) btn_update_movie_time.getScene().getWindow();
+	Parent p =Loader.getRoot();
+	stage.setScene(new Scene(p));
+	
+	stage.show();
+	
+	
+	
+	
 }
 
+}
 /*
- * @Subscribe private List<Movie> recentlyAdded(){
- * EventBus.getDefault().register(this); Message msg= new Message();
- * msg.setAction("pull movies"); try { AppClient.getClient().sendToServer(msg);
- * } catch (IOException e) { // TODO Auto-generated catch block
- * System.out.println("faile to send msg to server from recentlyAdded");
- * e.printStackTrace(); } List<Movie> ls = new ArrayList<>();
+ * @FXML void GoToUpdateMovieTime(ActionEvent event) {
+ * //calculatorTF.appendText(((Button)event.getSource()).getText());
  * 
- * Movie movie = new Movie("300","x",1,"an action packed war movie\r\n" +
- * "like no other");
- * 
- * //ls.add(movie); return ls;
- * 
- * } }
+ * }
  */
+

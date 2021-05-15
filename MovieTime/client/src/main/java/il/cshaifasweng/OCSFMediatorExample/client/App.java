@@ -45,6 +45,7 @@ public class App extends Application {
     }
     
     static Object setContent(String pageName, String pageTitle) throws IOException {
+    	// setContent() loads page/FXML into App's content container and returns page's controller.
     	if(pageName == "MainPage")
     		pageTitle = "Movie Time";
     	Pair<Parent, Object> pair = loadFXML(pageName);

@@ -9,6 +9,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.swing.JOptionPane;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -71,7 +73,7 @@ public class UpdateMoviesPageController{
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			System.out.println("faile to send msg to server from recentlyAdded");
+			System.out.println("faile to send msg to server from updateMoviesPage");
 			e.printStackTrace();
 		}
 		
@@ -148,7 +150,7 @@ private void UpdateMovieTime(ActionEvent event)
 			cb_time.getSelectionModel().isEmpty() ||
 			cb_cinema.getSelectionModel().isEmpty() ||
 			cb_removal_addition.getSelectionModel().isEmpty()) {
-		//do error prompt
+		JOptionPane.showMessageDialog(null, "You must fill all the fields");
 	}else {
 		Message msg = new Message();
 		for(Movie movie : allMovies) {
@@ -177,7 +179,7 @@ private void UpdateMovieTime(ActionEvent event)
 					}
 					
 				}else {
-					//error prompt, time does not exist, and therefore cannot be removed
+					JOptionPane.showMessageDialog(null, "Selected time does not exist for this movie");
 				}
 			}
 		}
@@ -189,19 +191,6 @@ private void UpdateMovieTime(ActionEvent event)
 
 
 
-@FXML
-private void MainPageButton(ActionEvent event) throws IOException
-{
-	App.setContent("MainPage", "Movie Time");
-	
-	
-	
-}
-
-	/*
-	 * public void SetMovieInfo(Integer id, String name) { this.movieId = id;
-	 * this.movieName = name; }
-	 */
 	
 }
 

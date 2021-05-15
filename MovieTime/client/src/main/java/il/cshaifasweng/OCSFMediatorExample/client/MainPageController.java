@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import org.greenrobot.eventbus.EventBus;
@@ -138,6 +139,7 @@ public class MainPageController implements Initializable {
 		}
 		
 		EventBus.getDefault().unregister(this);
+
 		
 		
 		Stage stage = (Stage) btn_update_movie_time.getScene().getWindow();

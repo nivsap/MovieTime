@@ -29,6 +29,8 @@
 
 .combo-box .cell {
     -fx-text-fill: #ffffff;    
+    -fx-background-color:  #1d1e22;
+    
 }
 
 .combo-box .combo-box-popup .list-view {

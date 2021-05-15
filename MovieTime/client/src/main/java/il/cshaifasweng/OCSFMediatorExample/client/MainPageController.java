@@ -144,7 +144,7 @@ public class MainPageController implements Initializable {
 			ex.printStackTrace();
 		}
 		
-		EventBus.getDefault().unregister(this);
+	
 		
 		
 		Stage stage = (Stage) btn_update_movie_time.getScene().getWindow();

@@ -36,6 +36,8 @@ public class Main extends AbstractServer{
 	}
 	
 	
+	
+	
     private static SessionFactory getSessionFactory() throws HibernateException {
 
         java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.OFF);
@@ -157,28 +159,27 @@ public class Main extends AbstractServer{
 			System.out.println("about to update movie time");
 			
 			try {
-				if(((Message) msg).getMovie() == null) {
-					System.out.println("movie is null in update movie");
-				}else {
-				System.out.println(((Message) msg).getMovie().getName());
-				updateMovie(((Message) msg).getMovie());
-				client.sendToClient(serverMsg);
+					if(((Message) msg).getMovie() == null) {
+						System.out.println("movie is null in update movie");
+					}else {
+					System.out.println(((Message) msg).getMovie().getName());
+					updateMovie(((Message) msg).getMovie());
+					client.sendToClient(serverMsg);
+					}
+				} catch (IOException e) {
+					System.out.println("cant update movie time");
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-			} catch (IOException e) {
-				System.out.println("cant update movie time");
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
-	}
 		
 	
-	  private static LocalDateTime getTime(int year, int month, int day){ return
-	  LocalDate.of(year, month, day).atStartOfDay(); }
-	 
+	  
 
 		
 	}
     
+	
 	private static <T> ArrayList<T> getAllOfType(Class<T> objectType) {
 		session = sessionFactory.openSession();
 		session.beginTransaction();
@@ -203,24 +204,21 @@ public class Main extends AbstractServer{
 	
 	public static void updateMovie(Movie movie) {
 		try {
-			 //SessionFactory sessionFactory = getSessionFactory();
-	         session = sessionFactory.openSession();
-	         session.beginTransaction();
 			
-			//create movie 
-			System.out.println("in updateMovie function");
-			System.out.println(movie.getName());
-			Movie currentMovie = movie;
-			for(String time : movie.getMovieBeginingTime()) {
-				System.out.println(time);
-			}
-			currentMovie = session.load(Movie.class, movie.getId());
-			session.update(currentMovie);
+	        session = sessionFactory.openSession();
+	        session.beginTransaction();
+			
+			session.update(movie);
+			System.out.println("finished movie update");
 			session.flush();
+			System.out.println("finished movie flush");
 			session.getTransaction().commit();
+			System.out.println("finished movie transaction");
 			session.clear();
+			System.out.println("finished movie clear");
 		} catch (Exception exception) {
 			if (session != null) {
+				System.out.println("trying to rollback from movieUpdate");
 				session.getTransaction().rollback();
 			}
 			System.err.println("An error occured, changes have been rolled back.");
@@ -229,7 +227,7 @@ public class Main extends AbstractServer{
 			  {
 		            assert session != null;
 		            session.close();
-		            session.getSessionFactory().close();
+		           
 		        }
             
 		}

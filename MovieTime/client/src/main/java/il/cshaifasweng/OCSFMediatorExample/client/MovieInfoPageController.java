@@ -1,8 +1,10 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,20 +12,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 
 public class MovieInfoPageController {
     private Movie currentlyDisplayed;
     
-    @FXML
-    private Pane menu;
-    
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
-
     @FXML
     private Label movieName;
 
@@ -52,20 +44,13 @@ public class MovieInfoPageController {
     private Label moviePopularity;
     
     @FXML
-    private Button updateBtn;
-    
+    private Label movieNameSecond;
+
+    @FXML
+    private Label movieGenreSecond;
     
     @FXML
-    void initialize() {
-        assert movieName != null : "fx:id=\"movieNameLabel\" was not injected: check your FXML file 'MovieInfoPage.fxml'.";
-        assert movieDescription != null : "fx:id=\"movieDescriptionLabel\" was not injected: check your FXML file 'MovieInfoPage.fxml'.";
-        assert movieDuration != null : "fx:id=\"movieDurationLabel\" was not injected: check your FXML file 'MovieInfoPage.fxml'.";
-        assert movieGenre != null : "fx:id=\"movieGenreLabel\" was not injected: check your FXML file 'MovieInfoPage.fxml'.";
-        assert movieImageSrc != null : "fx:id=\"movieImageSrc\" was not injected: check your FXML file 'MovieInfoPage.fxml'.";
-        assert movieLaunchDate != null : "fx:id=\"movieLaunchDate\" was not injected: check your FXML file 'MovieInfoPage.fxml'.";
-        assert movieMainActors != null : "fx:id=\"movieMainActors\" was not injected: check your FXML file 'MovieInfoPage.fxml'.";
-        assert moviePopularity != null : "fx:id=\"moviePopularity\" was not injected: check your FXML file 'MovieInfoPage.fxml'.";
-    }
+    private Button updateBtn;
     
     void setMovieInfo(Movie movie) {
     	currentlyDisplayed = movie;
@@ -76,6 +61,8 @@ public class MovieInfoPageController {
     	movieLaunchDate.setText(movie.getLaunchDate().toString());
     	movieMainActors.setText(movie.getMainActors());
     	moviePopularity.setText(movie.getPopular().toString());
+    	movieNameSecond.setText(movie.getName());
+    	movieGenreSecond.setText(movie.getGenre());
     	Image image = new  Image(getClass().getResourceAsStream("\\images\\MoviesPosters\\" + movie.getImageSrc()));
     	Image largeImage = new  Image(getClass().getResourceAsStream("\\images\\MoviesPosters\\LargeImages\\" + movie.getLargeImageSrc()));
     	movieLargeImageSrc.setImage(largeImage);

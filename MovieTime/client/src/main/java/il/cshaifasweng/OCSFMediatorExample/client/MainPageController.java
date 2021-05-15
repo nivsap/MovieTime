@@ -7,20 +7,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-
-
 import javafx.stage.Stage;
-
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.ResourceBundle;
 import org.greenrobot.eventbus.EventBus;
@@ -31,9 +25,9 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 public class MainPageController implements Initializable {
 	int NUM_ROWS = 2, NUM_COLS = 3, currentlyDisplayedFrom = 0, moviesNumber = 0;
     
-    @FXML
-    private Button btn_update_movie_time;
-    
+	@FXML
+	private Button btn_update_movie_time;
+	
     @FXML
     private TextField mainSearchBar;
 
@@ -122,14 +116,14 @@ public class MainPageController implements Initializable {
 	public void onMessageEvent(Message msg) {
 		System.out.println("reveived message!!");
 		System.out.println(msg.getAction());
-    		if(msg.getAction().equals("got movies")) {
-    			Platform.runLater(()-> {
-    				recentlyAdded = msg.getMovies();
-    				moviesNumber = recentlyAdded.size();
-    				currentlyDisplayedFrom = 0;
-    				SetMovies(currentlyDisplayedFrom);
-    			});
-    		}
+    	if(msg.getAction().equals("got movies")) {
+    		Platform.runLater(()-> {
+    			recentlyAdded = msg.getMovies();
+    			moviesNumber = recentlyAdded.size();
+    			currentlyDisplayedFrom = 0;
+    			SetMovies(currentlyDisplayedFrom);
+    		});
+    	}
 	}
 
 
@@ -144,7 +138,8 @@ public class MainPageController implements Initializable {
 			ex.printStackTrace();
 		}
 		
-	
+		EventBus.getDefault().unregister(this);
+
 		
 		
 		Stage stage = (Stage) btn_update_movie_time.getScene().getWindow();
@@ -152,9 +147,7 @@ public class MainPageController implements Initializable {
 		stage.setScene(new Scene(p));
 		
 		stage.show();
-		
-		
-		
+
 	}
 
 	 @FXML

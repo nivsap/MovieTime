@@ -75,6 +75,7 @@ public class MainPageController implements Initializable {
 		Message msg = new Message();
 		msg.setAction("pull movies");
 		try {
+			System.out.println("tryingto sen msg to server");
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -132,30 +133,34 @@ public class MainPageController implements Initializable {
 	}
 
 
-@FXML
-private void sendData(ActionEvent event)
-{
-	FXMLLoader Loader = new FXMLLoader();
-	Loader.setLocation(getClass().getResource("UpdateMoviesPage.fxml"));
-	try {
-		Loader.load();
-	} catch(IOException ex) {
-		ex.printStackTrace();
+	@FXML
+	private void sendData(ActionEvent event)
+	{
+		FXMLLoader Loader = new FXMLLoader();
+		Loader.setLocation(getClass().getResource("UpdateMoviesPage.fxml"));
+		try {
+			Loader.load();
+		} catch(IOException ex) {
+			ex.printStackTrace();
+		}
+		
+		EventBus.getDefault().unregister(this);
+		
+		
+		Stage stage = (Stage) btn_update_movie_time.getScene().getWindow();
+		Parent p =Loader.getRoot();
+		stage.setScene(new Scene(p));
+		
+		stage.show();
+		
+		
+		
 	}
-	
-	EventBus.getDefault().unregister(this);
-	
-	
-	Stage stage = (Stage) btn_update_movie_time.getScene().getWindow();
-	Parent p =Loader.getRoot();
-	stage.setScene(new Scene(p));
-	
-	stage.show();
-	
-	
-	
-}
 
+	 @FXML
+	    void loadUpdatePage(ActionEvent event) throws IOException {
+	    	App.setContent("UpdateMoviesPage", "Update Movie Time");
+	    }
 }
 /*
  * @FXML void GoToUpdateMovieTime(ActionEvent event) {

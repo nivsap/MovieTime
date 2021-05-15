@@ -47,6 +47,8 @@ public class App extends Application {
     static Object setContent(String pageName, String pageTitle) throws IOException {
     	if(pageName == "MainPage")
     		pageTitle = "Movie Time";
+    	if(pageName == "UpdateMoviesPage")
+    		pageTitle = "Update movie time";
     	Pair<Parent, Object> pair = loadFXML(pageName);
     	pageLayout.setCenter(null);
     	content = (VBox) pair.getKey();
@@ -55,6 +57,7 @@ public class App extends Application {
         stage.setScene(scene);
         stage.show();
         return pair.getValue();
+     
     }
     
 

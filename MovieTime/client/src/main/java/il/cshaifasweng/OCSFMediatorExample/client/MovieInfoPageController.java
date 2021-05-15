@@ -1,8 +1,10 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -82,8 +84,7 @@ public class MovieInfoPageController {
     
 
     @FXML
-    void updateMovie() {
-    	// Do something with currentlyDisplayed
-    	System.out.println(currentlyDisplayed);
+    void updateMovie(ActionEvent event) throws IOException {
+    	App.setContent("UpdateMoviesPage", "Update Movie Time");
     }
 }

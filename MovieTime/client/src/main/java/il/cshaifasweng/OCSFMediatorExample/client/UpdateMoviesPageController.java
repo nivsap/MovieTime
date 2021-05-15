@@ -190,25 +190,9 @@ private void UpdateMovieTime(ActionEvent event)
 
 
 @FXML
-private void MainPageButton(ActionEvent event)
+private void MainPageButton(ActionEvent event) throws IOException
 {
-	FXMLLoader Loader = new FXMLLoader();
-	Loader.setLocation(getClass().getResource("MainPage.fxml"));
-	try {
-		Loader.load();
-	} catch(IOException ex) {
-		ex.printStackTrace();
-	}
-	
-	EventBus.getDefault().unregister(this);
-	
-	
-	Stage stage = (Stage) cb_movie.getScene().getWindow();
-	Parent p =Loader.getRoot();
-	stage.setScene(new Scene(p));
-	
-	stage.show();
-	
+	App.setContent("MainPage", "Movie Time");
 	
 	
 	

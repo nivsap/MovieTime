@@ -22,6 +22,9 @@ public class SystemMenuController extends Pane {
 
     @FXML
     private Button loginMenuBtn;
+    
+    @FXML
+    private Button btn;
 
     @FXML
     void loadMainPage(ActionEvent event) throws IOException {
@@ -31,6 +34,13 @@ public class SystemMenuController extends Pane {
     @FXML
     void loadLoginPage(ActionEvent event) throws IOException {
     	App.setContent("LoginPage", "Login");
+    }
+    
+
+    @FXML
+    void showSomething(ActionEvent event) throws IOException {
+    	HallMapController controller = (HallMapController) App.setContent("HallMap", "Hall Map");
+    	controller.setMap(10, 10);
     }
 
 }

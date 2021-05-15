@@ -1,7 +1,7 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 
 import java.io.Serializable;
-
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -33,7 +33,7 @@ public class Movie implements  Serializable
     private boolean soonInCinema;
     private String  description;
     private String mainActors;
-    private Date launchDate;
+    private LocalDateTime launchDate;
     //TODO ending time, duration = ending time - starting time
 
 
@@ -43,7 +43,7 @@ public class Movie implements  Serializable
 
     public Movie(String name, String duration, Double popular, String genre, String imageSrc, String largeImageSrc,
 			ArrayList<String> movie_Begining_Time, boolean streamOnline, boolean soonInCinema, String description,
-			String mainActors, Date launchDate) {
+			String mainActors, LocalDateTime launchDate) {
 		super();
 		Name = name;
 		this.duration = duration;
@@ -130,11 +130,11 @@ public class Movie implements  Serializable
 		this.mainActors = mainActors;
 	}
 
-	public Date getLaunchDate() {
+	public LocalDateTime getLaunchDate() {
 		return launchDate;
 	}
 
-	public void setLaunchDate(Date launchDate) {
+	public void setLaunchDate(LocalDateTime launchDate) {
 		this.launchDate = launchDate;
 	}
 

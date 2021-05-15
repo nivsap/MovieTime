@@ -14,7 +14,7 @@
                   <Image url="@images/FinalLogo.png" />
                </image>
             </ImageView>
-            <Button fx:id="mainPageBtn" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="2.0" layoutY="200.0" mnemonicParsing="false" onAction="#loadMainPage" prefHeight="52.0" prefWidth="195.0" stylesheets="@style.css" text="Main Page" textFill="WHITE">
+            <Button fx:id="mainPageMenuBtn" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="2.0" layoutY="200.0" mnemonicParsing="false" onAction="#loadMainPage" prefHeight="52.0" prefWidth="195.0" stylesheets="@style.css" text="Main Page" textFill="WHITE">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -23,7 +23,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="specialsBtn" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="2.0" layoutY="270.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="195.0" stylesheets="@style.css" text="Specials" textFill="WHITE">
+            <Button fx:id="specialsMenuBtn" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="2.0" layoutY="270.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="195.0" stylesheets="@style.css" text="Specials" textFill="WHITE">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -32,7 +32,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="fileComplaintsBtn" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="2.0" layoutY="340.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="195.0" stylesheets="@style.css" text="File Complaints" textFill="WHITE">
+            <Button fx:id="fileComplaintsMenuBtn" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="2.0" layoutY="340.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="195.0" stylesheets="@style.css" text="File Complaints" textFill="WHITE">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -41,6 +41,15 @@
                   </ImageView>
                </graphic>
             </Button>
+         <Button fx:id="loginMenuBtn" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="2.0" layoutY="410.0" mnemonicParsing="false" onAction="#loadLoginPage" prefHeight="52.0" prefWidth="195.0" stylesheets="@style.css" text="Login" textFill="WHITE">
+            <graphic>
+               <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@images/LoginIconWhite.png" />
+                  </image>
+               </ImageView>
+            </graphic>
+         </Button>
          </children>
       </AnchorPane>
    <ImageView fitHeight="205.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">

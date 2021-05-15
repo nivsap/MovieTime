@@ -60,4 +60,15 @@
 	-fx-background-color: #981f01;
 }
 
+#loginBtn {
+	-fx-background-color: #45bd62; 
+}
+
+#loginBtn:hover {
+	-fx-background-color: #6abd7e; 
+}
+
+#loginBtn:pressed {
+	-fx-background-color: #328e48;
+}
  

@@ -69,4 +69,25 @@
 #loginBtn:pressed {
 	-fx-background-color: #328e48;
 }
+
+.movieInfoPageCombo {
+	-fx-background-color: #1c1d20;
+	-fx-border-width: 2px 2px 2px 2px;
+}
+
+#orderTicketBtn {
+	-fx-background-color: #f5821e;
+}
+
+
+#orderTicketBtn:hover {
+	-fx-background-color: #f4a35d; 
+}
+
+
+#orderTicketBtn:pressed {
+	-fx-background-color: #b46017;
+}
+
+ 
  

@@ -10,25 +10,27 @@ import javafx.scene.layout.Pane;
 public class SystemMenuController extends Pane {
     @FXML
     private AnchorPane menuContainer;
-	
-    @FXML
-    private Button mainPageBtn;
 
     @FXML
-    private Button specialsBtn;
+    private Button mainPageMenuBtn;
 
     @FXML
-    private Button fileComplaintsBtn;
+    private Button specialsMenuBtn;
 
     @FXML
-    void initialize() {
-        assert mainPageBtn != null : "fx:id=\"mainPageBtn\" was not injected: check your FXML file 'SystemMenu.fxml'.";
-        assert specialsBtn != null : "fx:id=\"specialsBtn\" was not injected: check your FXML file 'SystemMenu.fxml'.";
-        assert fileComplaintsBtn != null : "fx:id=\"fileComplaintsBtn\" was not injected: check your FXML file 'SystemMenu.fxml'.";
-    }
+    private Button fileComplaintsMenuBtn;
+
+    @FXML
+    private Button loginMenuBtn;
 
     @FXML
     void loadMainPage(ActionEvent event) throws IOException {
     	App.setContent("MainPage", "Movie Time");
     }
+    
+    @FXML
+    void loadLoginPage(ActionEvent event) throws IOException {
+    	App.setContent("LoginPage", "Login");
+    }
+
 }

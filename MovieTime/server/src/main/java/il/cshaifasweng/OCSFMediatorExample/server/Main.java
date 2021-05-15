@@ -1,7 +1,9 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
 import java.io.IOException;
+
 import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,11 +70,13 @@ public class Main extends AbstractServer{
 			Movie it  = new Movie("IT", "2h 15min", 5.00, "Horror", "It.jpg", "It.png", movieStartTimes, true, false, "In the summer of 1989, a group of bullied kids band together\n to destroy a shape-shifting monster, which disguises itself \nas a clown and preys on the children of Derry, \ntheir small Maine town.",
 					"Bill Skarsgard, Jaeden Martell, Finn Wolfhard", getTime(2017, 9, 8));
 			Movie toyStory = new Movie("Toy Story", "1h 40min", 5.00, "Animation   •   Adventure   •   Comedy", "ToyStory.jpg", "ToyStory.png", movieStartTimes, true, false, "When a new toy called 'Forky' joins Woody and the gang, \na road trip alongside old and new friends reveals how \nbig the world can be for a toy.",
+
 					"Tom Hanks, Tim Allen, Annie Potts", getTime(2017, 6, 21));
 			Movie Minions = new Movie("Minions", "1h 31min", 4.50, "Animation   •   Adventure   •   Comedy", "Minions.jpg", "Minions.png", movieStartTimes, true, false, "Minions Stuart, Kevin, and Bob are recruited by Scarlet Overkill, \na supervillain who, alongside her inventor husband Herb, \nhatches a plot to take over the world.",
 					"Sandra Bullock, Jon Hamm, Michael Keaton", getTime(2015, 7, 10));
 			Movie StarWars = new Movie("Star Wars", "2h 21min", 5.00, "Action   •   Adventure   •   Fantasy", "StarWars.jpg", "StarWars.png", movieStartTimes, true, false, "The surviving members of the Resistance face the First Order once \nagain, and the legendary conflict between the Jedi and the Sith reaches \nits peak, bringing the Skywalker saga to its end.",
 					"Daisy Ridley, John Boyega, Oscar Isaac", getTime(2019, 12, 20));
+
 			avengersEndgame.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("10:00" , "12:00")));
 			sherlockHolmes.setMovieBeginingTime(new ArrayList<String>(Arrays.asList( "16:00" , "18:00")));
 			babyDriver.setMovieBeginingTime(new ArrayList<String>(Arrays.asList( "20:00" , "22:00")));
@@ -150,20 +154,27 @@ public class Main extends AbstractServer{
 		if(((Message) msg).getAction().equals("update movie time")) {
 			serverMsg.setAction("updated movie time");
 			System.out.println("about to update movie time");
-		try {
-			if(((Message) msg).getMovie() == null) {
-				System.out.println("movie is null in update movie");
-			}else {
-			System.out.println(((Message) msg).getMovie().getName());
-			updateMovie(((Message) msg).getMovie());
-			client.sendToClient(serverMsg);
+			
+			try {
+				if(((Message) msg).getMovie() == null) {
+					System.out.println("movie is null in update movie");
+				}else {
+				System.out.println(((Message) msg).getMovie().getName());
+				updateMovie(((Message) msg).getMovie());
+				client.sendToClient(serverMsg);
+				}
+			} catch (IOException e) {
+				System.out.println("cant update movie time");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			System.out.println("cant update movie time");
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
+		
+	
+	  private static LocalDateTime getTime(int year, int month, int day){ return
+	  LocalDate.of(year, month, day).atStartOfDay(); }
+	 
+
 		
 	}
     
@@ -191,7 +202,7 @@ public class Main extends AbstractServer{
 	
 	public static void updateMovie(Movie movie) {
 		try {
-			 SessionFactory sessionFactory = getSessionFactory();
+			 //SessionFactory sessionFactory = getSessionFactory();
 	         session = sessionFactory.openSession();
 	         session.beginTransaction();
 			
@@ -199,8 +210,10 @@ public class Main extends AbstractServer{
 			System.out.println("in updateMovie function");
 			System.out.println(movie.getName());
 			Movie currentMovie = movie;
-			
-		
+			for(String time : movie.getMovieBeginingTime()) {
+				System.out.println(time);
+			}
+			currentMovie = session.load(Movie.class, movie.getId());
 			session.update(currentMovie);
 			session.flush();
 			session.getTransaction().commit();

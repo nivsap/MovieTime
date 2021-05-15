@@ -68,6 +68,7 @@ public class MainPageController implements Initializable {
 		Message msg = new Message();
 		msg.setAction("pull movies");
 		try {
+			System.out.println("tryingto sen msg to server");
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -144,8 +145,13 @@ public class MainPageController implements Initializable {
 		stage.setScene(new Scene(p));
 		
 		stage.show();
+
 	}
 
+	 @FXML
+	    void loadUpdatePage(ActionEvent event) throws IOException {
+	    	App.setContent("UpdateMoviesPage", "Update Movie Time");
+	    }
 }
 /*
  * @FXML void GoToUpdateMovieTime(ActionEvent event) {

@@ -1,4 +1,4 @@
-package il.cshaifasweng.OCSFMediatorExample.client;
+ package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
 import java.util.Arrays;

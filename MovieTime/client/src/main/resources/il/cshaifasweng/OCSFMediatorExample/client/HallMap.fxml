@@ -1,21 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #1d1e22;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.HallMapController">
-   <children>
-      <AnchorPane prefHeight="700.0" prefWidth="700.0">
-         <children>
-            <VBox fx:id="seatingChart" alignment="TOP_CENTER" layoutX="-6.0" layoutY="350.0" prefHeight="300.0" prefWidth="700.0" />
-            <ImageView fitWidth="400.0" layoutX="150.0" layoutY="141.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/Screen.jpg" />
-               </image>
-            </ImageView>
-         </children>
-      </AnchorPane>
-   </children>
-</VBox>
+
+<VBox fx:id="hallMapContainer" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="230.0" prefWidth="400.0" style="-fx-background-color: transparent;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.HallMapController" />

@@ -9,7 +9,7 @@
 <VBox alignment="BOTTOM_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="200.0" style="-fx-background-color: #18191d;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.SystemMenuController">
       <AnchorPane fx:id="menuContainer" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="535.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="25.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="30.0">
+            <ImageView fitHeight="170.0" fitWidth="170.0" layoutX="15.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="14.0">
                <image>
                   <Image url="@images/FinalLogo.png" />
                </image>
@@ -50,7 +50,6 @@
                </ImageView>
             </graphic>
          </Button>
-         <Button fx:id="btn" layoutX="74.0" layoutY="478.0" mnemonicParsing="false" onAction="#showSomething" text="Button" />
          </children>
       </AnchorPane>
    <ImageView fitHeight="205.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">

@@ -22,7 +22,6 @@
                   </image>
                </ImageView>
                <Rectangle arcHeight="5.0" arcWidth="5.0" height="60.0" layoutY="290.0" opacity="0.3" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="700.0" />
-               <Button fx:id="updateBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="623.0" layoutY="307.0" mnemonicParsing="false" onAction="#updateMovie" text="Update" />
                <ImageView fx:id="movieImageSrc" fitWidth="144.0" layoutX="14.0" layoutY="133.0" pickOnBounds="true" preserveRatio="true">
                   <image>
                      <Image url="@images/MoviesPosters/WonderWoman1984.jpg" />
@@ -69,7 +68,7 @@
                      <ComboBox fx:id="dateCombo" layoutX="34.0" layoutY="154.0" prefHeight="30.0" prefWidth="250.0" promptText="Choose a Date" styleClass="movieInfoPageCombo" />
                      <ComboBox fx:id="timeCombo" layoutX="34.0" layoutY="194.0" prefWidth="250.0" promptText="Choose Time" styleClass="movieInfoPageCombo" />
                      <ComboBox fx:id="LanguageCombo" layoutX="34.0" layoutY="114.0" prefHeight="30.0" prefWidth="250.0" promptText="Choose a Language" styleClass="movieInfoPageCombo" />
-                     <Button fx:id="orderTicketBtn" alignment="CENTER" layoutX="34.0" layoutY="255.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" text="Order now" />
+                     <Button fx:id="orderTicketBtn" alignment="CENTER" layoutX="34.0" layoutY="255.0" mnemonicParsing="false" onAction="#orderTickets" prefHeight="30.0" prefWidth="250.0" text="Order now" />
                   </children>
                </AnchorPane>
             </children>

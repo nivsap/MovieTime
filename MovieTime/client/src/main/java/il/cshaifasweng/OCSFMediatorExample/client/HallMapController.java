@@ -12,14 +12,14 @@ import javafx.scene.layout.VBox;
 public class HallMapController {
 
     @FXML
-    private VBox seatingChart;
+    private VBox hallMapContainer;
     
     public HallMapController() {
-    	seatingChart = new VBox();
-    	seatingChart.setAlignment(Pos.TOP_CENTER);
+    	hallMapContainer = new VBox();
+    	hallMapContainer.setAlignment(Pos.TOP_CENTER);
     }
 
-    public void setMap(int rowsNumber, int collsNumber) throws IOException {
+    public VBox setMap(int rowsNumber, int collsNumber) throws IOException {
     	for(int i=0; i<rowsNumber; i++) {
     		HBox newRow = new HBox();
 
@@ -33,7 +33,8 @@ public class HallMapController {
 				newRow.getChildren().add(seat);
     		}
     		newRow.setAlignment(Pos.TOP_CENTER);
-    		seatingChart.getChildren().add(newRow);
+    		hallMapContainer.getChildren().add(newRow);
     	}
+    	return hallMapContainer;
     }
 }

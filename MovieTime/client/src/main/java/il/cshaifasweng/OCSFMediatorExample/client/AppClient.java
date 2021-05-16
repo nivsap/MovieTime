@@ -25,6 +25,10 @@ public class AppClient extends AbstractClient{
 		{
 			EventBus.getDefault().post(((Message) msg));
 		}
+		if (((Message) msg).getAction().equals("updated movie time"))
+		{
+			EventBus.getDefault().post(((Message) msg));
+		}
 		
 	}
 	@Override

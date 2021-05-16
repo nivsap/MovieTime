@@ -5,12 +5,14 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.UpdateMoviesPageController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #1d1e22;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.UpdateMoviesPageController">
    <children>
-      <AnchorPane prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #1d1e22;">
+      <AnchorPane prefHeight="700.0" prefWidth="700.0">
          <children>
             <ComboBox fx:id="cb_movie" layoutX="53.0" layoutY="130.0" prefWidth="150.0" promptText="movie" />
             <ComboBox fx:id="cb_time" layoutX="263.0" layoutY="130.0" prefWidth="150.0" promptText="begining time" />
@@ -18,9 +20,9 @@
             <ComboBox fx:id="cb_cinema" layoutX="53.0" layoutY="220.0" prefWidth="150.0" promptText="cinema" />
             <ComboBox fx:id="cb_removal_addition" layoutX="263.0" layoutY="220.0" prefWidth="150.0" promptText="removal/addition" />
             <Button fx:id="btn_update" layoutX="473.0" layoutY="220.0" mnemonicParsing="false" onAction="#UpdateMovieTime" prefHeight="26.0" prefWidth="150.0" text="Update" />
-            <ScrollPane layoutX="-8.0" layoutY="335.0" prefHeight="367.0" prefWidth="714.0" style="-fx-background-color: transperent; -fx-background: #2c2d33;">
+            <ScrollPane layoutY="341.0" prefHeight="362.0" prefWidth="700.0" style="-fx-background-color: #2c2d33;">
                <content>
-                  <VBox fx:id="screening_time_layout" prefHeight="367.0" prefWidth="698.0" spacing="10.0">
+                  <VBox fx:id="screening_time_layout" prefHeight="362.0" prefWidth="684.0" spacing="10.0" style="-fx-background-color: #2c2d33;">
                      <opaqueInsets>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </opaqueInsets>
@@ -34,6 +36,11 @@
             <Label layoutX="236.0" layoutY="306.0" text="cinema" textFill="WHITE" />
             <Label layoutX="431.0" layoutY="306.0" text="date" textFill="WHITE" />
             <Label layoutX="564.0" layoutY="306.0" text="time" textFill="WHITE" />
+            <ImageView fitHeight="108.0" fitWidth="700.0" pickOnBounds="true">
+               <image>
+                  <Image url="@images/MoviesPosters/theatre_cover-img.jpg" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
    </children>

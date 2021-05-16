@@ -119,14 +119,14 @@ public class UpdateMoviesPageController{
 			
 			cb_cinema.getItems().addAll("Haifa", "Kiryat Ata" , "Kiryat Ono", "Makom Shel Teymanim");
 			cb_removal_addition.getItems().addAll("addition","removal");
-			cb_time.getItems().addAll("00:00","00:30","01:00","01:30","02:00","02:30","03:00");
+			cb_time.getItems().addAll("00:00","00:30","01:00","01:30","02:00","02:30","03:00","10:00");
 			cb_date.getItems().add("14.05.21");
 			InitPage();
 		
 	}
 	
 	@Subscribe
-	public void onMessageEvent(Message msg) {
+	public void onMessageEvent(Message msg) throws IOException {
 		
     		if(msg.getAction().equals("got movies")) {
     			
@@ -135,11 +135,25 @@ public class UpdateMoviesPageController{
     				SetData();
     			});
     		}
+    		if(msg.getAction().equals("updated movie time")) {
+    			
+    			Platform.runLater(()-> {
+    				try {
+						App.setContent("UpdateMoviesPage", "Update Movie Time");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+    			});
+    			
+    		}
+    		
 
 	}
 	
 	
 
+@SuppressWarnings("unlikely-arg-type")
 @FXML
 private void UpdateMovieTime(ActionEvent event)
 {
@@ -159,10 +173,17 @@ private void UpdateMovieTime(ActionEvent event)
 					movie.getMovieBeginingTime().add(cb_time.getValue());
 					timeChanged = true;
 				}else {
+					/*
+					 * Integer index = movie.getMovieBeginingTime().indexOf(cb_time.getValue());
+					 * if(index != -1) { movie.getMovieBeginingTime().remove(index); timeChanged =
+					 * true; }else { JOptionPane.showMessageDialog(null, "Incorrect time chosen"); }
+					 */
+					
 					for(String time : movie.getMovieBeginingTime()) {
 						if(cb_time.getValue().equals(time)) {
 							movie.getMovieBeginingTime().remove(time);
 							timeChanged = true;
+							break;
 						}
 					}
 				}
@@ -186,6 +207,8 @@ private void UpdateMovieTime(ActionEvent event)
 		
 		
 	}
+	
+	
 	
 }
 

@@ -170,12 +170,19 @@ private void UpdateMovieTime(ActionEvent event)
 		for(Movie movie : allMovies) {
 			if(movie.getName() == cb_movie.getValue()) {
 				if(cb_removal_addition.getValue().equals("addition")) {
-					movie.getMovieBeginingTime().add(cb_time.getValue());
-					timeChanged = true;
+					if(movie.getMovieBeginingTime().indexOf(cb_time.getValue()) == -1) {
+						movie.getMovieBeginingTime().add(cb_time.getValue());
+						timeChanged = true;
+					}else {
+						JOptionPane.showMessageDialog(null, "Screening already exists!");
+					}
 				}else {
-					/*
-					 * Integer index = movie.getMovieBeginingTime().indexOf(cb_time.getValue());
-					 * if(index != -1) { movie.getMovieBeginingTime().remove(index); timeChanged =
+					
+					 Integer index = movie.getMovieBeginingTime().indexOf(cb_time.getValue());
+					 if(index == -1) {
+						 JOptionPane.showMessageDialog(null, "Selected time does not exist for this movie");
+					 }
+					 /* if(index != -1) { movie.getMovieBeginingTime().remove(index); timeChanged =
 					 * true; }else { JOptionPane.showMessageDialog(null, "Incorrect time chosen"); }
 					 */
 					
@@ -199,8 +206,6 @@ private void UpdateMovieTime(ActionEvent event)
 						e.printStackTrace();
 					}
 					
-				}else {
-					JOptionPane.showMessageDialog(null, "Selected time does not exist for this movie");
 				}
 			}
 		}

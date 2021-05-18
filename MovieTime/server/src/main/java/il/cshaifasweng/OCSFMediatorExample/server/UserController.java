@@ -20,21 +20,23 @@ public class UserController {
 					System.out.println(msg.getTypeOfWorkerString());
 					msg.setWorker(arr);
 				}
-				if(arr instanceof ContentManager) {
+				else if(arr instanceof ContentManager) {
 					msg.setTypeOfWorkerString("ContentManager");
+					
 					System.out.println(msg.getTypeOfWorkerString());
 					msg.setWorker(arr);
 				}
-				if(arr instanceof CustomerService) {
+				else if(arr instanceof CustomerService) {
 					msg.setTypeOfWorkerString("CustomerService");
 					System.out.println(msg.getTypeOfWorkerString());
 					msg.setWorker(arr);
 				}
-				if(arr instanceof NetworkAdministrator) {
+				else if(arr instanceof NetworkAdministrator) {
 					msg.setTypeOfWorkerString("NetworkAdministrator");
 					System.out.println(msg.getTypeOfWorkerString());
 					msg.setWorker(arr);
 				}
+				else msg.setTypeOfWorkerString("null");
 			}
 		}
 	}

@@ -9,15 +9,28 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class MovieInfoPageController {
     private Movie currentlyDisplayed;
-    
+
+    @FXML
+    private ImageView movieLargeImageSrc;
+
+    @FXML
+    private ImageView movieImageSrc;
+
+    @FXML
+    private Label moviePopularity;
+
     @FXML
     private Label movieName;
+
+    @FXML
+    private Label movieGenre;
 
     @FXML
     private Label movieDescription;
@@ -26,31 +39,31 @@ public class MovieInfoPageController {
     private Label movieDuration;
 
     @FXML
-    private Label movieGenre;
-
-    @FXML
-    private ImageView movieImageSrc;
-    
-    @FXML
-    private ImageView movieLargeImageSrc;
-
-    @FXML
     private Label movieLaunchDate;
 
     @FXML
     private Label movieMainActors;
 
     @FXML
-    private Label moviePopularity;
-    
-    @FXML
     private Label movieNameSecond;
 
     @FXML
     private Label movieGenreSecond;
-    
+
     @FXML
-    private Button updateBtn;
+    private ComboBox<?> cinemaCombo;
+
+    @FXML
+    private ComboBox<?> dateCombo;
+
+    @FXML
+    private ComboBox<?> timeCombo;
+
+    @FXML
+    private ComboBox<?> LanguageCombo;
+
+    @FXML
+    private Button orderTicketBtn;
     
     void setMovieInfo(Movie movie) {
     	currentlyDisplayed = movie;
@@ -69,9 +82,13 @@ public class MovieInfoPageController {
     	movieImageSrc.setImage(image);
     }
     
-
     @FXML
-    void updateMovie(ActionEvent event) throws IOException {
-    	App.setContent("UpdateMoviesPage", "Update Movie Time");
+
+    void orderTickets(ActionEvent event) throws IOException {
+    	OrderTicketsPageController controller = (OrderTicketsPageController) App.setContent("OrderTicketsPage", "Order Tickets");
+    	controller.loadMovieInfo(currentlyDisplayed);
+    	controller.loadHallMap(7, 10);
+
     }
+    
 }

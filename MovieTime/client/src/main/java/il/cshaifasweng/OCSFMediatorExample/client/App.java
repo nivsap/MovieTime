@@ -61,6 +61,17 @@ public class App extends Application {
      
     }
     
+    static Object setMenu(String menuType) throws IOException {
+    	// Available menu types - SystemMenu, CustomerServiceMenu, ContentManagerMenu, CinemaManagerMenu, NetworkManagerMenu
+    	Pair<Parent, Object> pair = loadFXML(menuType);
+    	pageLayout.setLeft(null);
+    	menu = (VBox) pair.getKey();
+    	pageLayout.setLeft(menu);
+        stage.setScene(scene);
+        stage.show();
+        return pair.getValue();
+    }
+    
 
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml).getKey());

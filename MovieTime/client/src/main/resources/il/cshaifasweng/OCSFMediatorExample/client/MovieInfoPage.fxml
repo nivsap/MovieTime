@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -11,37 +12,67 @@
 <?import javafx.scene.text.Font?>
 
 <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #1d1e22;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.MovieInfoPageController">
-	<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="600.0" style="-fx-background-color: #2c2d32;" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="57.0" AnchorPane.rightAnchor="57.0" AnchorPane.topAnchor="37.0">
-		<children>
-                  <ImageView fx:id="movieLargeImageSrc" fitHeight="300.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/MoviesPosters/LargeImages/WonderWoman1984.png" />
-                     </image>
-                  </ImageView>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" height="60.0" layoutY="240.0" opacity="0.3" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="600.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" height="300.0" layoutX="75.0" layoutY="350.0" opacity="0.3" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="450.0" />
-                  <Label fx:id="movieName" alignment="BOTTOM_CENTER" layoutX="148.0" layoutY="246.0" prefHeight="30.0" prefWidth="452.0" style="-fx-font-weight: bold;" text="Movie Name" textFill="WHITE">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="movieDescription" alignment="CENTER" contentDisplay="CENTER" layoutX="100.0" layoutY="452.0" prefHeight="75.0" prefWidth="400.0" text="Movie Description" textFill="WHITE" />
-                  <Label fx:id="movieDuration" contentDisplay="CENTER" layoutX="100.0" layoutY="610.0" prefHeight="30.0" prefWidth="140.0" text="Movie Duration" textAlignment="CENTER" textFill="WHITE" />
-                  <Label fx:id="movieGenre" alignment="CENTER" contentDisplay="CENTER" layoutX="148.0" layoutY="276.0" prefHeight="25.0" prefWidth="452.0" style="-fx-font-weight: bold;" text="Movie Genre" textFill="WHITE" />
-                  <ImageView fx:id="movieImageSrc" fitHeight="200.0" fitWidth="133.0" layoutX="15.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true" />
-                  <Label fx:id="movieLaunchDate" alignment="CENTER_RIGHT" layoutX="360.0" layoutY="610.0" prefHeight="30.0" prefWidth="140.0" text="Movie Launch Date" textFill="WHITE" />
-                  <Label fx:id="movieMainActors" alignment="CENTER" layoutX="100.0" layoutY="570.0" prefHeight="30.0" prefWidth="400.0" text="Movie Main Actors" textFill="WHITE" />
-                  <Circle fill="#f5821e" layoutX="148.0" layoutY="298.0" radius="21.0" stroke="#ffffff00" strokeType="INSIDE" />
-                  <Label fx:id="moviePopularity" alignment="CENTER" layoutX="136.0" layoutY="289.0" prefHeight="19.0" prefWidth="23.0" style="-fx-font-weight: bold;" text="5.4" textFill="WHITE" />
-                  <Button fx:id="updateBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="525.0" layoutY="257.0" mnemonicParsing="false" onAction="#updateMovie" text="Update" />
-         <Label fx:id="movieNameSecond" alignment="BOTTOM_CENTER" layoutX="80.0" layoutY="360.0" prefHeight="30.0" prefWidth="440.0" style="-fx-font-weight: bold;" text="Movie Name" textFill="WHITE">
-            <font>
-               <Font size="18.0" />
-            </font>
-         </Label>
-         <Label fx:id="movieGenreSecond" alignment="CENTER" contentDisplay="CENTER" layoutX="80.0" layoutY="390.0" prefHeight="25.0" prefWidth="440.0" style="-fx-font-weight: bold;" text="Movie Genre" textFill="WHITE" />
-         <Label layoutX="100.0" layoutY="430.0" style="-fx-font-weight: bold;" text="Movie Description" textFill="WHITE" />
-         <Label layoutX="100.0" layoutY="550.0" style="-fx-font-weight: bold;" text="Main Actors" textFill="WHITE" />
-		</children>
-	</AnchorPane>
+   <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="700.0">
+      <children>
+         <AnchorPane maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="700.0">
+            <children>
+               <ImageView fx:id="movieLargeImageSrc" fitHeight="350.0" fitWidth="700.0" nodeOrientation="INHERIT" opacity="0.7" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="0.0">
+                  <image>
+                     <Image url="@images/MoviesPosters/LargeImages/WonderWoman1984.png" />
+                  </image>
+               </ImageView>
+               <Rectangle arcHeight="5.0" arcWidth="5.0" height="60.0" layoutY="290.0" opacity="0.3" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="700.0" />
+               <ImageView fx:id="movieImageSrc" fitWidth="144.0" layoutX="14.0" layoutY="133.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@images/MoviesPosters/WonderWoman1984.jpg" />
+                  </image>
+               </ImageView>
+               <Circle fill="#f5821e" layoutX="158.0" layoutY="320.0" radius="21.0" stroke="#ffffff00" strokeType="OUTSIDE" strokeWidth="0.0" />
+               <Label fx:id="moviePopularity" alignment="CENTER" layoutX="146.0" layoutY="310.0" prefHeight="19.0" prefWidth="23.0" style="-fx-font-weight: bold;" text="5.4" textFill="WHITE" />
+               <Label fx:id="movieName" alignment="CENTER" contentDisplay="CENTER" layoutX="210.0" layoutY="300.0" prefHeight="30.0" prefWidth="400.0" style="-fx-font-weight: bold;" text="Movie Name" textFill="WHITE">
+                  <font>
+                     <Font size="18.0" />
+                  </font>
+               </Label>
+               <Label fx:id="movieGenre" alignment="CENTER" contentDisplay="CENTER" layoutX="210.0" layoutY="330.0" prefHeight="20.0" prefWidth="400.0" style="-fx-font-weight: bold;" text="Movie Genre" textFill="WHITE" />
+            </children>
+         </AnchorPane>
+         <AnchorPane layoutY="350.0" prefHeight="350.0" prefWidth="700.0" style="-fx-background-color: #343537;">
+            <children>
+               <AnchorPane layoutX="20.0" layoutY="25.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="320.0" style="-fx-background-color: #141518;">
+                  <children>
+                     <Rectangle arcHeight="5.0" arcWidth="5.0" height="300.0" opacity="0.3" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="320.0" />
+                     <Label fx:id="movieDescription" alignment="TOP_LEFT" layoutX="10.0" layoutY="105.0" prefHeight="95.0" prefWidth="300.0" text="Movie Description" textFill="WHITE" />
+                     <Label fx:id="movieDuration" contentDisplay="CENTER" layoutX="10.0" layoutY="260.0" prefHeight="30.0" prefWidth="140.0" text="Movie Duration" textAlignment="CENTER" textFill="WHITE" />
+                     <Label fx:id="movieLaunchDate" alignment="CENTER_RIGHT" layoutX="170.0" layoutY="260.0" prefHeight="30.0" prefWidth="140.0" text="Movie Launch Date" textFill="WHITE" />
+                     <Label fx:id="movieMainActors" alignment="TOP_LEFT" layoutX="10.0" layoutY="230.0" prefHeight="30.0" prefWidth="300.0" text="Movie Main Actors" textFill="WHITE" />
+                     <Label fx:id="movieNameSecond" alignment="BOTTOM_CENTER" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="300.0" style="-fx-font-weight: bold;" text="Movie Name" textFill="WHITE">
+                        <font>
+                           <Font size="18.0" />
+                        </font>
+                     </Label>
+                     <Label fx:id="movieGenreSecond" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="40.0" prefHeight="25.0" prefWidth="300.0" style="-fx-font-weight: bold;" text="Movie Genre" textFill="WHITE" />
+                     <Label layoutX="10.0" layoutY="85.0" style="-fx-font-weight: bold;" text="Movie Description" textFill="WHITE" />
+                     <Label layoutX="10.0" layoutY="210.0" style="-fx-font-weight: bold;" text="Main Actors" textFill="WHITE" />
+                  </children>
+               </AnchorPane>
+               <AnchorPane layoutX="360.0" layoutY="25.0" prefHeight="300.0" prefWidth="320.0" style="-fx-background-color: #141518;">
+                  <children>
+                     <Rectangle arcHeight="5.0" arcWidth="5.0" height="300.0" opacity="0.3" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="320.0" />
+                     <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="300.0" style="-fx-font-weight: bold;" text="Order Tickets" textFill="WHITE">
+                        <font>
+                           <Font size="18.0" />
+                        </font>
+                     </Label>
+                     <ComboBox fx:id="cinemaCombo" layoutX="34.0" layoutY="74.0" prefWidth="250.0" promptText="Choose a Cinema" styleClass="orangeComboBox" />
+                     <ComboBox fx:id="dateCombo" layoutX="34.0" layoutY="154.0" prefHeight="30.0" prefWidth="250.0" promptText="Choose a Date" styleClass="orangeComboBox" />
+                     <ComboBox fx:id="timeCombo" layoutX="34.0" layoutY="194.0" prefWidth="250.0" promptText="Choose Time" styleClass="orangeComboBox" />
+                     <ComboBox fx:id="LanguageCombo" layoutX="34.0" layoutY="114.0" prefHeight="30.0" prefWidth="250.0" promptText="Choose a Language" styleClass="orangeComboBox" />
+                     <Button fx:id="orderTicketBtn" alignment="CENTER" layoutX="35.0" layoutY="255.0" mnemonicParsing="false" onAction="#orderTickets" prefHeight="30.0" prefWidth="250.0" styleClass="orangeBtn" text="Order Tickets" />
+                  </children>
+               </AnchorPane>
+            </children>
+         </AnchorPane>
+      </children>
+   </AnchorPane>
 </VBox>

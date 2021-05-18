@@ -34,7 +34,7 @@
 }
 
 .combo-box .combo-box-popup .list-view {
-	-fx-background-color: transparent;
+	-fx-background-color: #f5821e;
 	-fx-text-fill: #ffffff;   
 }
 
@@ -70,5 +70,23 @@
 
 #loginBtn:pressed {
 	-fx-background-color: #328e48;
+}
+
+.orangeComboBox {
+	-fx-background-color: #1c1d20;
+	-fx-border-width: 2px 2px 2px 2px;
+}
+
+.orangeBtn {
+	-fx-background-color: #f5821e;
+}
+
+.orangeBtn:hover {
+	-fx-background-color: #f4a35d; 
+}
+
+
+.orangeBtn:pressed {
+	-fx-background-color: #b46017;
 }
  

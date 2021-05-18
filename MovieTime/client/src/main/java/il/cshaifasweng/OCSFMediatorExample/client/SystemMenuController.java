@@ -22,6 +22,7 @@ public class SystemMenuController extends Pane {
 
     @FXML
     private Button loginMenuBtn;
+    
 
     @FXML
     void loadMainPage(ActionEvent event) throws IOException {
@@ -33,4 +34,9 @@ public class SystemMenuController extends Pane {
     	App.setContent("LoginPage", "Login");
     }
 
+    @FXML
+    void loadFilingComplaintsPage(ActionEvent event) throws IOException {
+    	App.setContent("FilingComplaintsPage", "File a Compaint");
+    }
+    
 }

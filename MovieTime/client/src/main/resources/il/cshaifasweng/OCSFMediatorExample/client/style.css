@@ -12,14 +12,14 @@
 	-fx-background-color: #c96b1a;
 }
 
-.text-field {
-	-fx-border-width: 0px 0px 1px 0px;
+.searchBar {
+	-fx-border-width: 0px 0px 2px 0px;
 }
 
-.combo-box {
+.searchBarComboBox {
 	-fx-border-color: #f5821e;
 	-fx-background-color: transparent;
-	-fx-border-width: 0px 0px 1px 0px;
+	-fx-border-width: 0px 0px 2px 0px;
 	-fx-text-fill: #ffffff;
 }
 
@@ -29,7 +29,7 @@
 
 .combo-box .cell {
     -fx-text-fill: #ffffff;    
-    -fx-background-color:  #1d1e22;
+    -fx-background-color: #2c2d33;
     
 }
 
@@ -84,7 +84,6 @@
 .orangeBtn:hover {
 	-fx-background-color: #f4a35d; 
 }
-
 
 .orangeBtn:pressed {
 	-fx-background-color: #b46017;

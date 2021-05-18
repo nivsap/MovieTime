@@ -107,8 +107,7 @@ public class Main extends AbstractServer{
 		            assert session != null;
 		            session.close();
 		            session.getSessionFactory().close();
-		        }
-            
+		        } 
 		}
 
 

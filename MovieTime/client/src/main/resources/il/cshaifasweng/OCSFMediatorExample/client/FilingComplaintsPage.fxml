@@ -22,25 +22,33 @@
             </Label>
             <Label layoutX="15.0" layoutY="50.0" style="-fx-font-weight: bold;" text="Customer Information" textFill="WHITE" />
             <Line endX="575.0" layoutX="115.0" layoutY="70.0" startX="-100.0" stroke="WHITE" />
-            <Label layoutX="175.0" layoutY="100.0" text="First Name *" textFill="WHITE" />
-            <TextField fx:id="firstNameTextField" layoutX="175.0" layoutY="120.0" prefWidth="150.0" promptText="First name" />
-            <Label layoutX="375.0" layoutY="100.0" text="Last Name *" textFill="WHITE" />
-            <TextField fx:id="lastNameTextField" layoutX="375.0" layoutY="120.0" prefWidth="150.0" promptText="Last name" />
+            <Label layoutX="175.0" layoutY="90.0" text="First Name *" textFill="WHITE" />
+            <TextField fx:id="firstNameTextField" layoutX="175.0" layoutY="110.0" prefHeight="25.0" prefWidth="150.0" promptText="First name" />
+            <Label fx:id="firstNameWarningLabel" layoutX="175.0" layoutY="135.0" text="First name must be filed" textFill="RED" />
+            <Label layoutX="375.0" layoutY="90.0" text="Last Name *" textFill="WHITE" />
+            <TextField fx:id="lastNameTextField" layoutX="375.0" layoutY="110.0" prefHeight="25.0" prefWidth="150.0" promptText="Last name" />
+            <Label fx:id="lastNameWarningLabel" layoutX="375.0" layoutY="135.0" text="Last name must be filed" textFill="RED" />
             <Label layoutX="175.0" layoutY="160.0" text="Email *" textFill="WHITE" />
-            <TextField fx:id="emailTextField" layoutX="175.0" layoutY="180.0" promptText="Email" />
+            <TextField fx:id="emailTextField" layoutX="175.0" layoutY="180.0" prefHeight="25.0" prefWidth="150.0" promptText="Email" />
+            <Label fx:id="emailWarningLabel" layoutX="175.0" layoutY="205.0" text="Email must be filed" textFill="RED" />
             <Label layoutX="375.0" layoutY="160.0" text="Phone Number *" textFill="WHITE" />
-            <TextField fx:id="phoneNumberTextField" layoutX="375.0" layoutY="180.0" promptText="Phone number" />
+            <TextField fx:id="phoneNumberTextField" layoutX="375.0" layoutY="180.0" prefHeight="25.0" prefWidth="150.0" promptText="Phone number" />
+            <Label fx:id="phoneNumberWarningLabel" layoutX="375.0" layoutY="205.0" text="Phone number must be filed" textFill="RED" />
             <Label layoutX="15.0" layoutY="230.0" style="-fx-font-weight: bold;" text="Complaint Information" textFill="WHITE" />
             <Line endX="575.0" layoutX="115.0" layoutY="250.0" startX="-100.0" stroke="WHITE" />
-            <Label layoutX="130.0" layoutY="280.0" text="Complaint Type *" textFill="WHITE" />
-            <ComboBox fx:id="complaintTypeComboBox" layoutX="130.0" layoutY="300.0" prefHeight="30.0" prefWidth="200.0" promptText="Complaint type" styleClass="orangeComboBox" />
-            <Label layoutX="370.0" layoutY="280.0" text="Incident Date *" textFill="WHITE" />
-            <DatePicker fx:id="incidentDatePicket" layoutX="370.0" layoutY="300.0" prefHeight="30.0" prefWidth="200.0" promptText="Incident Date" />
-            <Label alignment="CENTER" layoutY="350.0" prefWidth="700.0" style="-fx-font-weight: bold;" text="Complaint Title *" textFill="WHITE" />
-            <TextField fx:id="complaintTitleTextField" layoutX="100.0" layoutY="370.0" prefWidth="500.0" promptText="Complaint title" />
+            <Label layoutX="130.0" layoutY="270.0" text="Complaint Type *" textFill="WHITE" />
+            <ComboBox fx:id="complaintTypeComboBox" layoutX="130.0" layoutY="290.0" prefHeight="30.0" prefWidth="200.0" promptText="Complaint type" styleClass="orangeComboBox" />
+            <Label fx:id="complaintTypeWarningLabel" layoutX="130.0" layoutY="320.0" text="Complaint type must be filed" textFill="RED" />
+            <Label layoutX="370.0" layoutY="270.0" text="Incident Date *" textFill="WHITE" />
+            <DatePicker fx:id="incidentDatePicker" layoutX="370.0" layoutY="290.0" prefHeight="30.0" prefWidth="200.0" promptText="Incident Date" />
+            <Label fx:id="incidentDateWarningLabel" layoutX="370.0" layoutY="320.0" text="Incident date must be filed" textFill="RED" />
+            <Label alignment="CENTER" layoutY="345.0" prefWidth="700.0" style="-fx-font-weight: bold;" text="Complaint Title *" textFill="WHITE" />
+            <TextField fx:id="complaintTitleTextField" layoutX="100.0" layoutY="365.0" prefWidth="500.0" promptText="Complaint title" />
+            <Label fx:id="complaintTitleWarningLabel" layoutX="100.0" layoutY="390.0" text="Complaint title must be filed" textFill="RED" />
             <Label alignment="CENTER" layoutY="410.0" prefWidth="700.0" style="-fx-font-weight: bold;" text="Complaint Details * " textFill="WHITE" />
             <TextArea fx:id="complaintDetailsTextArea" layoutX="100.0" layoutY="430.0" prefHeight="200.0" prefWidth="500.0" promptText="Please describe your complaint in detail..." />
-            <Button fx:id="fileComplaintBtn" layoutX="275.0" layoutY="650.0" mnemonicParsing="false" onAction="#fileComplain" prefHeight="30.0" prefWidth="150.0" styleClass="orangeBtn" text="File Complaint" />
+            <Label fx:id="complaintDetailsWarningLabel" layoutX="100.0" layoutY="630.0" text="Complaint details must be filed" textFill="RED" />
+            <Button fx:id="fileComplaintBtn" layoutX="275.0" layoutY="655.0" mnemonicParsing="false" onAction="#fileComplain" prefHeight="30.0" prefWidth="150.0" styleClass="orangeBtn" text="File Complaint" />
          </children>
       </AnchorPane>
    </children>

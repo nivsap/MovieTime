@@ -14,7 +14,7 @@
 <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #1d1e22;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.PaymentPageController">
    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #343537;">
       <children>
-         <AnchorPane layoutX="25.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="230.0" prefWidth="650.0" style="-fx-background-color: #141518;">
+         <AnchorPane layoutX="25.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="220.0" prefWidth="650.0" style="-fx-background-color: #141518;">
             <children>
                <Label layoutX="15.0" layoutY="15.0" style="-fx-font-weight: bold;" text="Order Summary" textFill="WHITE">
                   <font>
@@ -24,49 +24,60 @@
                <TextArea layoutX="197.0" layoutY="90.0" prefHeight="50.0" prefWidth="255.0" style="-fx-background-color: transparent;" text="Screening info, number of tickets, seats info&#10;will be diaplayed here later on..." />
             </children>
          </AnchorPane>
-         <AnchorPane layoutY="250.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="700.0" style="-fx-background-color: #141518;">
+         <AnchorPane layoutY="240.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="700.0" style="-fx-background-color: #141518;">
             <children>
-               <Label layoutX="15.0" layoutY="15.0" style="-fx-font-weight: bold;" text="Order Payment Information" textFill="WHITE">
+               <Label layoutX="15.0" layoutY="5.0" style="-fx-font-weight: bold;" text="Order Payment Information" textFill="WHITE">
                   <font>
                      <Font size="18.0" />
                   </font>
                </Label>
-               <Label layoutX="15.0" layoutY="50.0" style="-fx-font-weight: bold;" text="Address Information" textFill="WHITE" />
-               <Line endX="575.0" endY="-7.62939453125E-6" layoutX="115.0" layoutY="70.0" startX="-100.0" stroke="WHITE" />
-               <Label layoutX="70.0" layoutY="85.0" text="First Name *" textFill="WHITE" />
-               <TextField fx:id="firstNameTextField" layoutX="70.0" layoutY="105.0" prefWidth="150.0" promptText="First name" />
-               <Label layoutX="270.0" layoutY="85.0" text="Last Name *" textFill="WHITE" />
-               <TextField fx:id="lastNameTextField" layoutX="270.0" layoutY="105.0" prefWidth="150.0" promptText="Last name" />
-               <Label layoutX="470.0" layoutY="85.0" text="Email *" textFill="WHITE" />
-               <TextField fx:id="emailTextField" layoutX="470.0" layoutY="105.0" prefWidth="150.0" promptText="Email" />
-               <Label layoutX="70.0" layoutY="140.0" text="Address *" textFill="WHITE" />
-               <TextField fx:id="addressTextField" layoutX="70.0" layoutY="160.0" prefWidth="150.0" promptText="Address" />
-               <Label layoutX="270.0" layoutY="140.0" text="City *" textFill="WHITE" />
-               <TextField fx:id="cityTextField" layoutX="270.0" layoutY="160.0" prefWidth="150.0" promptText="City" />
-               <Label layoutX="470.0" layoutY="140.0" text="Phone number *" textFill="WHITE" />
-               <TextField fx:id="phoneNumberTextField" layoutX="470.0" layoutY="160.0" prefWidth="150.0" promptText="Phone number" />
-               <Label layoutX="15.0" layoutY="200.0" style="-fx-font-weight: bold;" text="Payment Information" textFill="WHITE" />
-               <Line endX="575.0" endY="-7.62939453125E-6" layoutX="115.0" layoutY="220.0" startX="-100.0" stroke="WHITE" />
+               <Label layoutX="15.0" layoutY="40.0" style="-fx-font-weight: bold;" text="Address Information" textFill="WHITE" />
+               <Line endX="575.0" endY="-7.62939453125E-6" layoutX="115.0" layoutY="60.0" startX="-100.0" stroke="WHITE" />
+               <Label layoutX="70.0" layoutY="70.0" text="First Name *" textFill="WHITE" />
+               <TextField fx:id="firstNameTextField" layoutX="70.0" layoutY="90.0" prefHeight="25.0" prefWidth="150.0" promptText="First name" />
+               <Label fx:id="firstNameWarningLabel" layoutX="70.0" layoutY="115.0" prefHeight="10.0" text="First name must be filed" textFill="RED" />
+               <Label layoutX="270.0" layoutY="70.0" text="Last Name *" textFill="WHITE" />
+               <TextField fx:id="lastNameTextField" layoutX="270.0" layoutY="90.0" prefHeight="25.0" prefWidth="150.0" promptText="Last name" />
+               <Label fx:id="lastNameWarningLabel" layoutX="270.0" layoutY="115.0" prefHeight="10.0" text="Last name must be filed" textFill="RED" />
+               <Label layoutX="470.0" layoutY="70.0" text="Email *" textFill="WHITE" />
+               <TextField fx:id="emailTextField" layoutX="470.0" layoutY="90.0" prefHeight="25.0" prefWidth="150.0" promptText="Email" />
+               <Label fx:id="emailWarningLabel" layoutX="470.0" layoutY="115.0" prefHeight="10.0" text="Email must be filed" textFill="RED" />
+               <Label layoutX="70.0" layoutY="135.0" text="Address *" textFill="WHITE" />
+               <TextField fx:id="addressTextField" layoutX="70.0" layoutY="155.0" prefHeight="25.0" prefWidth="150.0" promptText="Address" />
+               <Label fx:id="addressWarningLabel" layoutX="70.0" layoutY="180.0" prefHeight="10.0" text="Address must be filed" textFill="RED" />
+               <Label layoutX="270.0" layoutY="135.0" text="City *" textFill="WHITE" />
+               <TextField fx:id="cityTextField" layoutX="270.0" layoutY="155.0" prefHeight="25.0" prefWidth="150.0" promptText="City" />
+               <Label fx:id="cityWarningLabel" layoutX="270.0" layoutY="180.0" prefHeight="10.0" text="City must be filed" textFill="RED" />
+               <Label layoutX="470.0" layoutY="135.0" text="Phone number *" textFill="WHITE" />
+               <TextField fx:id="phoneNumberTextField" layoutX="470.0" layoutY="155.0" prefHeight="25.0" prefWidth="150.0" promptText="Phone number" />
+               <Label fx:id="phoneNumberWarningLabel" layoutX="470.0" layoutY="180.0" prefHeight="10.0" text="Phone number must be filed" textFill="RED" />
+               <Label layoutX="15.0" layoutY="205.0" style="-fx-font-weight: bold;" text="Payment Information" textFill="WHITE" />
+               <Line endX="575.0" endY="-7.62939453125E-6" layoutX="115.0" layoutY="225.0" startX="-100.0" stroke="WHITE" />
                <Label layoutX="70.0" layoutY="235.0" text="Card Holder's Name *" textFill="WHITE" />
-               <TextField fx:id="cardHoldersNameTextField" layoutX="70.0" layoutY="255.0" prefWidth="150.0" promptText="Card holder's name" />
+               <TextField fx:id="cardHoldersNameTextField" layoutX="70.0" layoutY="255.0" prefHeight="25.0" prefWidth="150.0" promptText="Card holder's name" />
+               <Label fx:id="cardHoldersNameWarningLabel" layoutX="70.0" layoutY="280.0" prefHeight="10.0" text="Card holder's name must be filed" textFill="RED" />
                <Label layoutX="270.0" layoutY="235.0" text="Card Holder's ID *" textFill="WHITE" />
-               <TextField fx:id="cardHoldersIDTextField" layoutX="270.0" layoutY="255.0" prefWidth="150.0" promptText="Card holder's ID" />
+               <TextField fx:id="cardHoldersIDTextField" layoutX="270.0" layoutY="255.0" prefHeight="25.0" prefWidth="150.0" promptText="Card holder's ID" />
+               <Label fx:id="cardHoldersIDWarningLabel" layoutX="270.0" layoutY="280.0" prefHeight="10.0" text="Card holder's ID must be filed" textFill="RED" />
                <Label layoutX="470.0" layoutY="235.0" text="Payments Number *" textFill="WHITE" />
-               <ComboBox fx:id="paymentNumberComboBox" layoutX="470.0" layoutY="255.0" prefWidth="150.0" promptText="1" styleClass="orangeComboBox" />
-               <Label layoutX="70.0" layoutY="295.0" text="Card number *" textFill="WHITE" />
-               <TextField fx:id="cardNumberTextField" layoutX="70.0" layoutY="315.0" prefWidth="150.0" promptText="Card number" />
-               <Label layoutX="270.0" layoutY="295.0" text="Card Expiration Date *" textFill="WHITE" />
-               <DatePicker fx:id="cardExpirationDatePicker" layoutX="270.0" layoutY="315.0" prefWidth="150.0" promptText="Card expiration date" />
-               <Label layoutX="470.0" layoutY="295.0" text="Card CVV *" textFill="WHITE" />
-               <TextField fx:id="cardCVVTextField" layoutX="470.0" layoutY="315.0" prefWidth="150.0" promptText="Card CVV" />
-               <Label layoutX="15.0" layoutY="355.0" style="-fx-font-weight: bold;" text="Your Price" textFill="WHITE" />
-               <Line endX="575.0" endY="-7.62939453125E-6" layoutX="112.0" layoutY="375.0" startX="-100.0" stroke="WHITE" />
-               <Label fx:id="paymentLabel" layoutX="325.0" layoutY="380.0" style="-fx-font-weight: bold;" text="15.5 ₪" textFill="WHITE">
+               <ComboBox fx:id="paymentNumberComboBox" layoutX="470.0" layoutY="255.0" prefHeight="25.0" prefWidth="150.0" promptText="1" styleClass="orangeComboBox" />
+               <Label layoutX="70.0" layoutY="300.0" text="Card number *" textFill="WHITE" />
+               <TextField fx:id="cardNumberTextField" layoutX="70.0" layoutY="320.0" prefWidth="150.0" promptText="Card number" />
+               <Label fx:id="cardNumberWarningLabel" layoutX="70.0" layoutY="345.0" prefHeight="10.0" text="Card number must be filed" textFill="RED" />
+               <Label layoutX="270.0" layoutY="300.0" text="Card Expiration Date *" textFill="WHITE" />
+               <DatePicker fx:id="cardExpirationDatePicker" layoutX="270.0" layoutY="320.0" prefWidth="150.0" promptText="Card expiration date" />
+               <Label fx:id="cardExpirationDateWarningLabel" layoutX="270.0" layoutY="345.0" prefHeight="10.0" text="Card expiration date must be filed" textFill="RED" />
+               <Label layoutX="470.0" layoutY="300.0" text="Card CVV *" textFill="WHITE" />
+               <TextField fx:id="cardCVVTextField" layoutX="470.0" layoutY="320.0" prefWidth="150.0" promptText="Card CVV" />
+               <Label fx:id="cardCVVWarningLabel" layoutX="470.0" layoutY="345.0" prefHeight="10.0" text="Card CVV must be filed" textFill="RED" />
+               <Label layoutX="15.0" layoutY="370.0" style="-fx-font-weight: bold;" text="Your Price" textFill="WHITE" />
+               <Line endX="575.0" endY="-7.62939453125E-6" layoutX="115.0" layoutY="390.0" startX="-100.0" stroke="WHITE" />
+               <Label fx:id="paymentLabel" layoutX="325.0" layoutY="395.0" style="-fx-font-weight: bold;" text="15.5 ₪" textFill="WHITE">
                   <font>
                      <Font size="18.0" />
                   </font>
                </Label>
-               <Button fx:id="payNowBtn" alignment="CENTER" layoutX="275.0" layoutY="410.0" mnemonicParsing="false" onAction="#padNow" prefWidth="150.0" styleClass="orangeBtn" text="Pay now" />
+               <Button fx:id="payNowBtn" alignment="CENTER" layoutX="275.0" layoutY="425.0" mnemonicParsing="false" onAction="#padNow" prefWidth="150.0" styleClass="orangeBtn" text="Pay now" />
             </children>
          </AnchorPane>
       </children>

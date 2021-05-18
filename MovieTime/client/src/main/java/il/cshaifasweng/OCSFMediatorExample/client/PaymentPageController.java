@@ -26,7 +26,7 @@ public class PaymentPageController {
     private TextField cityTextField;
 
     @FXML
-    private TextField zipCodeTextField;
+    private TextField phoneNumberTextField;
 
     @FXML
     private TextField cardHoldersNameTextField;
@@ -64,7 +64,7 @@ public class PaymentPageController {
         assert emailTextField != null : "fx:id=\"emailTextField\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         assert addressTextField != null : "fx:id=\"addressTextField\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         assert cityTextField != null : "fx:id=\"cityTextField\" was not injected: check your FXML file 'PaymentPage.fxml'.";
-        assert zipCodeTextField != null : "fx:id=\"zipCodeTextField\" was not injected: check your FXML file 'PaymentPage.fxml'.";
+        assert phoneNumberTextField != null : "fx:id=\"zipCodeTextField\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         assert cardHoldersNameTextField != null : "fx:id=\"cardHoldersNameTextField\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         assert cardHoldersIDTextField != null : "fx:id=\"cardHoldersIDTextField\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         assert paymentNumberComboBox != null : "fx:id=\"paymentNumberComboBox\" was not injected: check your FXML file 'PaymentPage.fxml'.";

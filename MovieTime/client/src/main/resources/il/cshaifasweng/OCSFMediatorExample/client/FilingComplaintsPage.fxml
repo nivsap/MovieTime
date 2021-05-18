@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #1d1e22;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.FilingComplaintsPageController">
+   <children>
+      <AnchorPane prefHeight="700.0" prefWidth="700.0">
+         <children>
+            <Label layoutX="15.0" layoutY="15.0" style="-fx-font-weight: bold;" text="File a Compaint" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="15.0" layoutY="50.0" style="-fx-font-weight: bold;" text="Customer Information" textFill="WHITE" />
+            <Line endX="575.0" layoutX="115.0" layoutY="70.0" startX="-100.0" stroke="WHITE" />
+            <Label layoutX="175.0" layoutY="100.0" text="First Name *" textFill="WHITE" />
+            <TextField fx:id="firstNameTextField" layoutX="175.0" layoutY="120.0" prefWidth="150.0" promptText="First name" />
+            <Label layoutX="375.0" layoutY="100.0" text="Last Name *" textFill="WHITE" />
+            <TextField fx:id="lastNameTextField" layoutX="375.0" layoutY="120.0" prefWidth="150.0" promptText="Last name" />
+            <Label layoutX="175.0" layoutY="160.0" text="Email *" textFill="WHITE" />
+            <TextField fx:id="emailTextField" layoutX="175.0" layoutY="180.0" promptText="Email" />
+            <Label layoutX="375.0" layoutY="160.0" text="Phone Number *" textFill="WHITE" />
+            <TextField fx:id="phoneNumberTextField" layoutX="375.0" layoutY="180.0" promptText="Phone number" />
+            <Label layoutX="15.0" layoutY="230.0" style="-fx-font-weight: bold;" text="Complaint Information" textFill="WHITE" />
+            <Line endX="575.0" layoutX="115.0" layoutY="250.0" startX="-100.0" stroke="WHITE" />
+            <Label layoutX="130.0" layoutY="280.0" text="Complaint Type *" textFill="WHITE" />
+            <ComboBox fx:id="complaintTypeComboBox" layoutX="130.0" layoutY="300.0" prefHeight="30.0" prefWidth="200.0" promptText="Complaint type" styleClass="orangeComboBox" />
+            <Label layoutX="370.0" layoutY="280.0" text="Incident Date *" textFill="WHITE" />
+            <DatePicker fx:id="incidentDatePicket" layoutX="370.0" layoutY="300.0" prefHeight="30.0" prefWidth="200.0" promptText="Incident Date" />
+            <Label alignment="CENTER" layoutY="350.0" prefWidth="700.0" style="-fx-font-weight: bold;" text="Complaint Title *" textFill="WHITE" />
+            <TextField fx:id="complaintTitleTextField" layoutX="100.0" layoutY="370.0" prefWidth="500.0" promptText="Complaint title" />
+            <Label alignment="CENTER" layoutY="410.0" prefWidth="700.0" style="-fx-font-weight: bold;" text="Complaint Details * " textFill="WHITE" />
+            <TextArea fx:id="complaintDetailsTextArea" layoutX="100.0" layoutY="430.0" prefHeight="200.0" prefWidth="500.0" promptText="Please describe your complaint in detail..." />
+            <Button fx:id="fileComplaintBtn" layoutX="275.0" layoutY="650.0" mnemonicParsing="false" onAction="#fileComplain" prefHeight="30.0" prefWidth="150.0" styleClass="orangeBtn" text="File Complaint" />
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>

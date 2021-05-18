@@ -43,8 +43,8 @@
                <TextField fx:id="addressTextField" layoutX="70.0" layoutY="160.0" prefWidth="150.0" promptText="Address" />
                <Label layoutX="270.0" layoutY="140.0" text="City *" textFill="WHITE" />
                <TextField fx:id="cityTextField" layoutX="270.0" layoutY="160.0" prefWidth="150.0" promptText="City" />
-               <Label layoutX="470.0" layoutY="140.0" text="Zip Code" textFill="WHITE" />
-               <TextField fx:id="zipCodeTextField" layoutX="470.0" layoutY="160.0" prefWidth="150.0" promptText="Zip code" />
+               <Label layoutX="470.0" layoutY="140.0" text="Phone number *" textFill="WHITE" />
+               <TextField fx:id="phoneNumberTextField" layoutX="470.0" layoutY="160.0" prefWidth="150.0" promptText="Phone number" />
                <Label layoutX="15.0" layoutY="200.0" style="-fx-font-weight: bold;" text="Payment Information" textFill="WHITE" />
                <Line endX="575.0" endY="-7.62939453125E-6" layoutX="115.0" layoutY="220.0" startX="-100.0" stroke="WHITE" />
                <Label layoutX="70.0" layoutY="235.0" text="Card Holder's Name *" textFill="WHITE" />

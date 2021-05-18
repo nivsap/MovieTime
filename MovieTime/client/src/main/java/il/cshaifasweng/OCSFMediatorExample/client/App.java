@@ -48,6 +48,8 @@ public class App extends Application {
     	// setContent() loads page/FXML into App's content container and returns page's controller.
     	if(pageName == "MainPage")
     		pageTitle = "Movie Time";
+    	if(pageName == "UpdateMoviesPage")
+    		pageTitle = "Update movie time";
     	Pair<Parent, Object> pair = loadFXML(pageName);
     	pageLayout.setCenter(null);
     	content = (VBox) pair.getKey();
@@ -56,6 +58,7 @@ public class App extends Application {
         stage.setScene(scene);
         stage.show();
         return pair.getValue();
+     
     }
     
     static Object setMenu(String menuType) throws IOException {

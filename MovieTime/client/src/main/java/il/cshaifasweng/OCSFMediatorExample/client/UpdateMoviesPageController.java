@@ -9,6 +9,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.swing.JOptionPane;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -71,7 +73,7 @@ public class UpdateMoviesPageController{
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			System.out.println("faile to send msg to server from recentlyAdded");
+			System.out.println("faile to send msg to server from updateMoviesPage");
 			e.printStackTrace();
 		}
 		
@@ -117,14 +119,14 @@ public class UpdateMoviesPageController{
 			
 			cb_cinema.getItems().addAll("Haifa", "Kiryat Ata" , "Kiryat Ono", "Makom Shel Teymanim");
 			cb_removal_addition.getItems().addAll("addition","removal");
-			cb_time.getItems().addAll("00:00","00:30","01:00","01:30","02:00","02:30","03:00");
+			cb_time.getItems().addAll("00:00","00:30","01:00","01:30","02:00","02:30","03:00","10:00");
 			cb_date.getItems().add("14.05.21");
 			InitPage();
 		
 	}
 	
 	@Subscribe
-	public void onMessageEvent(Message msg) {
+	public void onMessageEvent(Message msg) throws IOException {
 		
     		if(msg.getAction().equals("got movies")) {
     			
@@ -133,11 +135,25 @@ public class UpdateMoviesPageController{
     				SetData();
     			});
     		}
+    		if(msg.getAction().equals("updated movie time")) {
+    			
+    			Platform.runLater(()-> {
+    				try {
+						App.setContent("UpdateMoviesPage", "Update Movie Time");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+    			});
+    			
+    		}
+    		
 
 	}
 	
 	
 
+@SuppressWarnings("unlikely-arg-type")
 @FXML
 private void UpdateMovieTime(ActionEvent event)
 {
@@ -148,19 +164,33 @@ private void UpdateMovieTime(ActionEvent event)
 			cb_time.getSelectionModel().isEmpty() ||
 			cb_cinema.getSelectionModel().isEmpty() ||
 			cb_removal_addition.getSelectionModel().isEmpty()) {
-		//do error prompt
+		JOptionPane.showMessageDialog(null, "You must fill all the fields");
 	}else {
 		Message msg = new Message();
 		for(Movie movie : allMovies) {
 			if(movie.getName() == cb_movie.getValue()) {
 				if(cb_removal_addition.getValue().equals("addition")) {
-					movie.getMovieBeginingTime().add(cb_time.getValue());
-					timeChanged = true;
+					if(movie.getMovieBeginingTime().indexOf(cb_time.getValue()) == -1) {
+						movie.getMovieBeginingTime().add(cb_time.getValue());
+						timeChanged = true;
+					}else {
+						JOptionPane.showMessageDialog(null, "Screening already exists!");
+					}
 				}else {
+					
+					 Integer index = movie.getMovieBeginingTime().indexOf(cb_time.getValue());
+					 if(index == -1) {
+						 JOptionPane.showMessageDialog(null, "Selected time does not exist for this movie");
+					 }
+					 /* if(index != -1) { movie.getMovieBeginingTime().remove(index); timeChanged =
+					 * true; }else { JOptionPane.showMessageDialog(null, "Incorrect time chosen"); }
+					 */
+					
 					for(String time : movie.getMovieBeginingTime()) {
 						if(cb_time.getValue().equals(time)) {
 							movie.getMovieBeginingTime().remove(time);
 							timeChanged = true;
+							break;
 						}
 					}
 				}
@@ -176,8 +206,6 @@ private void UpdateMovieTime(ActionEvent event)
 						e.printStackTrace();
 					}
 					
-				}else {
-					//error prompt, time does not exist, and therefore cannot be removed
 				}
 			}
 		}
@@ -185,39 +213,12 @@ private void UpdateMovieTime(ActionEvent event)
 		
 	}
 	
-}
-
-
-
-@FXML
-private void MainPageButton(ActionEvent event)
-{
-	FXMLLoader Loader = new FXMLLoader();
-	Loader.setLocation(getClass().getResource("MainPage.fxml"));
-	try {
-		Loader.load();
-	} catch(IOException ex) {
-		ex.printStackTrace();
-	}
-	
-	EventBus.getDefault().unregister(this);
-	
-	
-	Stage stage = (Stage) cb_movie.getScene().getWindow();
-	Parent p =Loader.getRoot();
-	stage.setScene(new Scene(p));
-	
-	stage.show();
-	
-	
 	
 	
 }
 
-	/*
-	 * public void SetMovieInfo(Integer id, String name) { this.movieId = id;
-	 * this.movieName = name; }
-	 */
+
+
 	
 }
 

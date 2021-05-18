@@ -1,6 +1,9 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import javafx.event.ActionEvent;
@@ -80,10 +83,12 @@ public class MovieInfoPageController {
     }
     
     @FXML
+
     void orderTickets(ActionEvent event) throws IOException {
     	OrderTicketsPageController controller = (OrderTicketsPageController) App.setContent("OrderTicketsPage", "Order Tickets");
     	controller.loadMovieInfo(currentlyDisplayed);
     	controller.loadHallMap(7, 10);
+
     }
     
 }

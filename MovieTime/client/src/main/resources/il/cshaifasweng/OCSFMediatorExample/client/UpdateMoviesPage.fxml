@@ -5,100 +5,43 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="900.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.UpdateMoviesPageController">
-   <left>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #18191d;" BorderPane.alignment="CENTER">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #1d1e22;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.UpdateMoviesPageController">
+   <children>
+      <AnchorPane prefHeight="700.0" prefWidth="700.0">
          <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="25.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="30.0">
+            <ComboBox fx:id="cb_movie" layoutX="53.0" layoutY="130.0" prefWidth="150.0" promptText="movie" />
+            <ComboBox fx:id="cb_time" layoutX="263.0" layoutY="130.0" prefWidth="150.0" promptText="begining time" />
+            <ComboBox fx:id="cb_date" layoutX="473.0" layoutY="130.0" prefWidth="150.0" promptText="date" />
+            <ComboBox fx:id="cb_cinema" layoutX="53.0" layoutY="220.0" prefWidth="150.0" promptText="cinema" />
+            <ComboBox fx:id="cb_removal_addition" layoutX="263.0" layoutY="220.0" prefWidth="150.0" promptText="removal/addition" />
+            <Button fx:id="btn_update" layoutX="473.0" layoutY="220.0" mnemonicParsing="false" onAction="#UpdateMovieTime" prefHeight="26.0" prefWidth="150.0" text="Update" />
+            <ScrollPane layoutY="341.0" prefHeight="362.0" prefWidth="700.0" style="-fx-background-color: #2c2d33;">
+               <content>
+                  <VBox fx:id="screening_time_layout" prefHeight="362.0" prefWidth="684.0" spacing="10.0" style="-fx-background-color: #2c2d33;">
+                     <opaqueInsets>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </VBox>
+               </content>
+            </ScrollPane>
+            <Label layoutX="81.0" layoutY="306.0" text="movie" textFill="WHITE" />
+            <Label layoutX="236.0" layoutY="306.0" text="cinema" textFill="WHITE" />
+            <Label layoutX="431.0" layoutY="306.0" text="date" textFill="WHITE" />
+            <Label layoutX="564.0" layoutY="306.0" text="time" textFill="WHITE" />
+            <ImageView fitHeight="108.0" fitWidth="700.0" pickOnBounds="true">
                <image>
-                  <Image url="@images/FinalLogo.png" />
-               </image>
-            </ImageView>
-            <Button fx:id="btn_main_page" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="2.0" layoutY="200.0" mnemonicParsing="false" onAction="#MainPageButton" prefHeight="52.0" prefWidth="195.0" stylesheets="@style.css" text="Main Page" textFill="WHITE">
-               <graphic>
-                  <ImageView fitHeight="30.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/CamIconWhite.png" />
-                     </image>
-                  </ImageView>
-               </graphic></Button>
-            <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="2.0" layoutY="340.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="195.0" stylesheets="@style.css" text="File Complaints" textFill="WHITE">
-               <graphic>
-                  <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/ComplaintIconWhite.png" />
-                     </image>
-                  </ImageView>
-               </graphic></Button>
-            <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="2.0" layoutY="270.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="195.0" stylesheets="@style.css" text="Specials" textFill="WHITE">
-               <graphic>
-                  <ImageView fitHeight="30.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/SpecialsIconWhite.png" />
-                     </image>
-                  </ImageView>
-               </graphic></Button>
-            <ImageView fitHeight="205.0" fitWidth="200.0" layoutY="600.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
-               <image>
-                  <Image url="@images/Lights.png" />
+                  <Image url="@images/MoviesPosters/theatre_cover-img.jpg" />
                </image>
             </ImageView>
          </children>
       </AnchorPane>
-   </left>
-   <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #373737;" BorderPane.alignment="CENTER">
-         <children>
-            <AnchorPane layoutX="62.5" layoutY="94.0" prefHeight="120.0" prefWidth="700.0" style="-fx-background-color: #2c2d33;" AnchorPane.bottomAnchor="580.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <Button id="searchBarButton" layoutX="580.0" layoutY="45.0" mnemonicParsing="false">
-                     <graphic>
-                        <ImageView fitHeight="20.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/SearchIconWhite.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <TextField fx:id="mainSearchBar" layoutX="62.0" layoutY="23.0" prefHeight="40.0" prefWidth="520.0" promptText="Search..." styleClass="text-field" />
-                  <Label alignment="BASELINE_LEFT" layoutX="77.0" layoutY="76.0" prefHeight="20.0" prefWidth="125.0" text="Filter by..." textFill="WHITE" />
-                  <ComboBox layoutX="172.0" layoutY="73.0" prefWidth="125.0" promptText="Genre" styleClass="combo-box" />
-                  <ComboBox layoutX="307.0" layoutY="73.0" prefWidth="125.0" promptText="Theatre" styleClass="combo-box" />
-                  <ComboBox layoutX="442.0" layoutY="73.0" prefWidth="125.0" promptText="Coming Soon" styleClass="combo-box" />
-               </children>
-            </AnchorPane>
-            <AnchorPane layoutY="120.0" prefHeight="580.0" prefWidth="700.0" style="-fx-background-color: #1d1e22;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="120.0">
-               <children>
-                  <ComboBox fx:id="cb_movie" layoutX="55.0" layoutY="40.0" prefWidth="150.0" promptText="movie" />
-                  <ComboBox fx:id="cb_time" layoutX="265.0" layoutY="40.0" prefWidth="150.0" promptText="begining time" />
-                  <ComboBox fx:id="cb_date" layoutX="475.0" layoutY="40.0" prefWidth="150.0" promptText="date" />
-                  <ComboBox fx:id="cb_cinema" layoutX="55.0" layoutY="130.0" prefWidth="150.0" promptText="cinema" />
-                  <ComboBox fx:id="cb_removal_addition" layoutX="262.0" layoutY="130.0" prefWidth="150.0" promptText="removal/addition" />
-                  <Button fx:id="btn_update" layoutX="475.0" layoutY="130.0" mnemonicParsing="false" onAction="#UpdateMovieTime" prefHeight="26.0" prefWidth="150.0" text="Update" />
-                  <ScrollPane layoutX="-1.0" layoutY="225.0" prefHeight="355.0" prefWidth="675.0" style="-fx-background-color: transperent; -fx-background: #2c2d33;">
-                     <content>
-                        <VBox fx:id="screening_time_layout" prefHeight="354.0" prefWidth="660.0" spacing="10.0">
-                           <opaqueInsets>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </opaqueInsets>
-                           <padding>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </padding>
-                        </VBox>
-                     </content>
-                  </ScrollPane>
-                  <Label layoutX="80.0" layoutY="201.0" text="movie" textFill="WHITE" />
-                  <Label layoutX="235.0" layoutY="201.0" text="cinema" textFill="WHITE" />
-                  <Label layoutX="429.0" layoutY="201.0" text="date" textFill="WHITE" />
-                  <Label layoutX="562.0" layoutY="201.0" text="time" textFill="WHITE" />
-               </children></AnchorPane>
-         </children></AnchorPane>
-   </center>
-</BorderPane>
+   </children>
+</VBox>

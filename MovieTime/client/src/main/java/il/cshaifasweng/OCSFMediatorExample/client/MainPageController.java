@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import org.greenrobot.eventbus.EventBus;
@@ -68,6 +69,7 @@ public class MainPageController implements Initializable {
 		Message msg = new Message();
 		msg.setAction("pull movies");
 		try {
+			System.out.println("tryingto sen msg to server");
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -137,6 +139,7 @@ public class MainPageController implements Initializable {
 		}
 		
 		EventBus.getDefault().unregister(this);
+
 		
 		
 		Stage stage = (Stage) btn_update_movie_time.getScene().getWindow();
@@ -144,8 +147,13 @@ public class MainPageController implements Initializable {
 		stage.setScene(new Scene(p));
 		
 		stage.show();
+
 	}
 
+	 @FXML
+	    void loadUpdatePage(ActionEvent event) throws IOException {
+	    	App.setContent("UpdateMoviesPage", "Update Movie Time");
+	    }
 }
 /*
  * @FXML void GoToUpdateMovieTime(ActionEvent event) {

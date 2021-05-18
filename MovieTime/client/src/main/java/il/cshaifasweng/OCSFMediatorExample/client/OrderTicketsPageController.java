@@ -5,6 +5,7 @@ import java.io.IOException;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,6 +13,7 @@ import javafx.scene.layout.VBox;
 
 public class OrderTicketsPageController {
 	HallMapController hallMapController;
+	
     @FXML
     private ImageView movieLargeImageSrc;
 
@@ -30,8 +32,22 @@ public class OrderTicketsPageController {
     @FXML
     private VBox hallMapContainer;
     
+    @FXML
+    private Button orderTicketsBtn;
+    
     public OrderTicketsPageController() {
     	hallMapContainer = new VBox();
+    }
+    
+    @FXML
+    void initialize() {
+        assert movieLargeImageSrc != null : "fx:id=\"movieLargeImageSrc\" was not injected: check your FXML file 'OrderTicketsPage.fxml'.";
+        assert movieImageSrc != null : "fx:id=\"movieImageSrc\" was not injected: check your FXML file 'OrderTicketsPage.fxml'.";
+        assert moviePopularity != null : "fx:id=\"moviePopularity\" was not injected: check your FXML file 'OrderTicketsPage.fxml'.";
+        assert movieName != null : "fx:id=\"movieName\" was not injected: check your FXML file 'OrderTicketsPage.fxml'.";
+        assert movieGenre != null : "fx:id=\"movieGenre\" was not injected: check your FXML file 'OrderTicketsPage.fxml'.";
+        assert hallMapContainer != null : "fx:id=\"hallMapContainer\" was not injected: check your FXML file 'OrderTicketsPage.fxml'.";
+        assert orderTicketsBtn != null : "fx:id=\"orderTicketsBtn\" was not injected: check your FXML file 'OrderTicketsPage.fxml'.";
     }
     
 
@@ -52,6 +68,11 @@ public class OrderTicketsPageController {
 		hallMapController = fxmlLoader.getController();
 		hallMapController.setMap(rows, cols);
 		hallMapContainer.getChildren().add(hallMap);
+    }
+    
+    @FXML
+    void orderTickets() throws IOException {
+    	PaymentPageController controller = (PaymentPageController) App.setContent("PaymentPage", "Tickets Order");
     }
 
 }

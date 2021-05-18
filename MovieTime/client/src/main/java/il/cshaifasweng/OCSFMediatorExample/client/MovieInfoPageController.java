@@ -48,16 +48,16 @@ public class MovieInfoPageController {
     private Label movieGenreSecond;
 
     @FXML
-    private ComboBox<String> cinemaCombo;
+    private ComboBox<?> cinemaCombo;
 
     @FXML
-    private ComboBox<String> dateCombo;
+    private ComboBox<?> dateCombo;
 
     @FXML
-    private ComboBox<String> timeCombo;
+    private ComboBox<?> timeCombo;
 
     @FXML
-    private ComboBox<String> LanguageCombo;
+    private ComboBox<?> LanguageCombo;
 
     @FXML
     private Button orderTicketBtn;

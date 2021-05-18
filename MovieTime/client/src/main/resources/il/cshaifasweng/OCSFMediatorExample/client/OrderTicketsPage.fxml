@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -37,45 +38,45 @@
          </AnchorPane>
          <AnchorPane layoutY="350.0" prefHeight="350.0" prefWidth="700.0" style="-fx-background-color: #343537;">
             <children>
+               <AnchorPane layoutX="286.0" layoutY="25.0" prefHeight="300.0" prefWidth="400.0" style="-fx-background-color: #141518;">
+                  <children>
+                     <ImageView fitHeight="16.0" fitWidth="367.0" layoutX="84.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                           <Image url="@images/SeatColorMapHorizontal.png" />
+                        </image>
+                     </ImageView>
+                     <Label alignment="CENTER_RIGHT" layoutX="160.0" layoutY="5.0" prefHeight="16.0" prefWidth="42.0" text="Selected" textFill="WHITE">
+                        <font>
+                           <Font size="11.0" />
+                        </font>
+                     </Label>
+                     <Label alignment="CENTER_RIGHT" layoutX="50.0" layoutY="5.0" prefHeight="15.0" prefWidth="30.0" text="Taken" textFill="WHITE">
+                        <font>
+                           <Font size="11.0" />
+                        </font>
+                     </Label>
+                     <Label alignment="TOP_RIGHT" layoutX="280.0" layoutY="5.0" prefHeight="15.0" prefWidth="44.0" text="Available" textFill="WHITE">
+                        <font>
+                           <Font size="11.0" />
+                        </font>
+                     </Label>
+                     <VBox fx:id="hallMapContainer" layoutY="69.0" prefHeight="230.0" prefWidth="400.0" style="-fx-background-color: transparent;" />
+                     <ImageView fitHeight="55.0" fitWidth="279.0" layoutX="65.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                           <Image url="@images/Screen.png" />
+                        </image>
+                     </ImageView>
+                  </children>
+               </AnchorPane>
                <AnchorPane layoutX="14.0" layoutY="25.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="260.0" style="-fx-background-color: #141518;">
                   <children>
-                     <Rectangle arcHeight="5.0" arcWidth="5.0" height="300.0" opacity="0.3" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="260.0" />
                      <Label alignment="CENTER" layoutX="68.0" layoutY="14.0" style="-fx-font-weight: bold;" text="Screening Info" textFill="WHITE">
                         <font>
                            <Font size="18.0" />
                         </font>
                      </Label>
                      <Label alignment="TOP_CENTER" layoutY="134.0" prefHeight="30.0" prefWidth="260.0" text="Screening info will be displayed later on..." textFill="WHITE" />
-                  </children>
-               </AnchorPane>
-               <AnchorPane layoutX="286.0" layoutY="25.0" prefHeight="300.0" prefWidth="400.0" style="-fx-background-color: #141518;">
-                  <children>
-                     <ImageView fitHeight="70.0" fitWidth="320.0" layoutX="80.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                           <Image url="@images/Screen.png" />
-                        </image>
-                     </ImageView>
-                     <Label alignment="TOP_LEFT" layoutX="10.0" layoutY="5.0" prefHeight="10.0" prefWidth="70.0" text="Available" textFill="WHITE">
-                        <font>
-                           <Font size="11.0" />
-                        </font>
-                     </Label>
-                     <ImageView fitHeight="50.0" fitWidth="60.0" layoutX="20.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                           <Image url="@images/SeatColorMap.png" />
-                        </image>
-                     </ImageView>
-                     <Label alignment="TOP_LEFT" layoutX="10.0" layoutY="22.0" prefHeight="10.0" prefWidth="70.0" text="Selected" textFill="WHITE">
-                        <font>
-                           <Font size="11.0" />
-                        </font>
-                     </Label>
-                     <Label alignment="TOP_LEFT" layoutX="10.0" layoutY="38.0" prefHeight="10.0" prefWidth="70.0" text="Taken" textFill="WHITE">
-                        <font>
-                           <Font size="11.0" />
-                        </font>
-                     </Label>
-                     <VBox fx:id="hallMapContainer" layoutY="69.0" prefHeight="230.0" prefWidth="400.0" style="-fx-background-color: transparent;" />
+                     <Button fx:id="orderTicketsBtn" layoutX="55.0" layoutY="260.0" mnemonicParsing="false" onAction="#orderTickets" prefWidth="150.0" styleClass="orangeBtn" text="Order Tickets" />
                   </children>
                </AnchorPane>
             </children>

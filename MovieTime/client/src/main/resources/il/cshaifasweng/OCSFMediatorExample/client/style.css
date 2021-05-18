@@ -70,24 +70,21 @@
 	-fx-background-color: #328e48;
 }
 
-.movieInfoPageCombo {
+.orangeComboBox {
 	-fx-background-color: #1c1d20;
 	-fx-border-width: 2px 2px 2px 2px;
 }
 
-#orderTicketBtn {
+.orangeBtn {
 	-fx-background-color: #f5821e;
 }
 
-
-#orderTicketBtn:hover {
+.orangeBtn:hover {
 	-fx-background-color: #f4a35d; 
 }
 
 
-#orderTicketBtn:pressed {
+.orangeBtn:pressed {
 	-fx-background-color: #b46017;
 }
-
- 
  

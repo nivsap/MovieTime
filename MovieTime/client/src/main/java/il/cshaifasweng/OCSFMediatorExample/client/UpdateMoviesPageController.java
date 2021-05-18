@@ -73,7 +73,7 @@ public class UpdateMoviesPageController{
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			System.out.println("faile to send msg to server from updateMoviesPage");
+			System.out.println("failed to send msg to server from updateMoviesPage");
 			e.printStackTrace();
 		}
 		

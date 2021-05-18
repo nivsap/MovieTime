@@ -6,7 +6,7 @@ import org.greenrobot.eventbus.EventBus;
 import il.cshaifasweng.OCSFMediatorExample.client.ocsf.AbstractClient;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 
-public class AppClient extends AbstractClient{
+public class AppClient extends AbstractClient {
 	
 	private static AppClient client = null;
 	//private Message clientMessage;
@@ -29,7 +29,10 @@ public class AppClient extends AbstractClient{
 		{
 			EventBus.getDefault().post(((Message) msg));
 		}
-		
+		if (((Message) msg).getAction().equals("login done"))
+		{
+			EventBus.getDefault().post(((Message) msg));
+		}
 	}
 	@Override
 	protected void connectionEstablished() {

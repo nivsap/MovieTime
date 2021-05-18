@@ -18,14 +18,14 @@
       <children>
          <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="100.0" prefWidth="700.0">
             <children>
-               <TextField fx:id="mainSearchBar" layoutX="89.0" layoutY="12.0" prefHeight="40.0" prefWidth="520.0" promptText="Search..." styleClass="text-field" AnchorPane.leftAnchor="89.0" AnchorPane.topAnchor="12.0" />
+               <TextField fx:id="mainSearchBar" layoutX="89.0" layoutY="12.0" prefHeight="40.0" prefWidth="520.0" promptText="Search..." styleClass="searchBar" AnchorPane.leftAnchor="89.0" AnchorPane.topAnchor="12.0" />
                <Label alignment="BASELINE_LEFT" layoutX="104.0" layoutY="65.0" prefHeight="20.0" prefWidth="125.0" text="Filter by..." textFill="WHITE" AnchorPane.leftAnchor="104.0" AnchorPane.rightAnchor="470.4" />
-               <ComboBox layoutX="199.0" layoutY="62.0" prefWidth="125.0" promptText="Genre" styleClass="combo-box" />
-               <ComboBox layoutX="334.0" layoutY="62.0" prefWidth="125.0" promptText="Theatre" styleClass="combo-box" />
-               <ComboBox layoutX="469.0" layoutY="62.0" prefWidth="125.0" promptText="Coming Soon" styleClass="combo-box" />
+               <ComboBox layoutX="199.0" layoutY="62.0" prefWidth="125.0" promptText="Genre" styleClass="searchBarComboBox" />
+               <ComboBox layoutX="334.0" layoutY="62.0" prefWidth="125.0" promptText="Theatre" styleClass="searchBarComboBox" />
+               <ComboBox layoutX="469.0" layoutY="62.0" prefWidth="125.0" promptText="Coming Soon" styleClass="searchBarComboBox" />
                <Button id="searchBarButton" layoutX="579.0" layoutY="27.0" mnemonicParsing="false">
                   <graphic>
-                     <ImageView fitHeight="20.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <ImageView fitHeight="20.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                         <image>
                            <Image url="@images/SearchIconWhite.png" />
                         </image>

@@ -20,11 +20,14 @@
             </ImageView>
             <AnchorPane layoutY="310.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="230.0" prefWidth="700.0">
                <children>
-                  <Label layoutX="225.0" layoutY="30.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="20.0" prefWidth="70.0" text="Username:" textFill="WHITE" />
-                  <TextField fx:id="usernameTextField" layoutX="225.0" layoutY="50.0" prefHeight="30.0" prefWidth="250.0" promptText="Username" />
-                  <PasswordField fx:id="passwordTextField" layoutX="225.0" layoutY="115.0" prefHeight="30.0" prefWidth="250.0" promptText="Password" />
-                  <Label layoutX="225.0" layoutY="95.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="20.0" prefWidth="70.0" text="Password:" textFill="WHITE" />
-                  <Button fx:id="loginBtn" layoutX="310.0" layoutY="170.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="80.0" text="Login" />
+                  <Label layoutX="225.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="20.0" prefWidth="70.0" text="Username" textFill="WHITE" />
+                  <TextField fx:id="usernameTextField" layoutX="225.0" layoutY="40.0" prefHeight="30.0" prefWidth="250.0" promptText="Username" />
+                  <Label fx:id="usernameWarningLabel" layoutX="225.0" layoutY="70.0" prefHeight="10.0" text="Username must be filed" textFill="RED" />
+                  <PasswordField fx:id="passwordTextField" layoutX="225.0" layoutY="110.0" prefHeight="30.0" prefWidth="250.0" promptText="Password" />
+                  <Label layoutX="225.0" layoutY="90.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="20.0" prefWidth="70.0" text="Password" textFill="WHITE" />
+                  <Label fx:id="passwordWarningLabel" layoutX="225.0" layoutY="140.0" prefHeight="10.0" text="Password must be filed" textFill="RED" />
+                  <Button fx:id="loginBtn" layoutX="225.0" layoutY="170.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#login" prefHeight="30.0" prefWidth="250.0" text="Login" />
+                  <Label fx:id="loginFailedLabel" layoutX="225.0" layoutY="200.0" prefHeight="10.0" text="Incorrect username or password" textFill="RED" />
                </children>
             </AnchorPane>
          </children>

@@ -14,7 +14,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import org.greenrobot.eventbus.EventBus;
@@ -69,11 +68,11 @@ public class MainPageController implements Initializable {
 		Message msg = new Message();
 		msg.setAction("pull movies");
 		try {
-			System.out.println("tryingto sen msg to server");
+			System.out.println("trying to send msg to server");
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			System.out.println("faile to send msg to server from recentlyAdded");
+			System.out.println("failed to send msg to server from recentlyAdded");
 			e.printStackTrace();
 		}
 
@@ -151,9 +150,9 @@ public class MainPageController implements Initializable {
 	}
 
 	 @FXML
-	    void loadUpdatePage(ActionEvent event) throws IOException {
-	    	App.setContent("UpdateMoviesPage", "Update Movie Time");
-	    }
+	 void loadUpdatePage(ActionEvent event) throws IOException {
+		 App.setContent("UpdateMoviesPage", "Update Movie Time");
+	 }
 }
 /*
  * @FXML void GoToUpdateMovieTime(ActionEvent event) {

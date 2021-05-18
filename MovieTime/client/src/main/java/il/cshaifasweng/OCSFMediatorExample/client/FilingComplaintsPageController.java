@@ -11,7 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-public class FilingComplaintsPageController {
+public class FilingComplaintsPageController  {
 
     @FXML
     private TextField firstNameTextField;
@@ -88,6 +88,8 @@ public class FilingComplaintsPageController {
         assert complaintDetailsTextArea != null : "fx:id=\"complaintDetailsTextArea\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
         assert complaintDetailsWarningLabel != null : "fx:id=\"complaintDetailsWarningLabel\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
         assert fileComplaintBtn != null : "fx:id=\"fileComplaintBtn\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
+        
+        hideWarningLabels();
     }
     
 	void hideWarningLabels() {
@@ -103,7 +105,7 @@ public class FilingComplaintsPageController {
     
     
     @FXML
-    void padNow(ActionEvent event) {
+    void fileComplaint(ActionEvent event) {
     	hideWarningLabels();
     	
     	String firstName = firstNameTextField.getText();

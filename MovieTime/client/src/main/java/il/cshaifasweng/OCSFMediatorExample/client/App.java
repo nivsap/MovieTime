@@ -62,7 +62,6 @@ public class App extends Application {
     }
     
     static Object setMenu(String menuType) throws IOException {
-    	// Available menu types - SystemMenu, CustomerServiceMenu, ContentManagerMenu, CinemaManagerMenu, NetworkManagerMenu
     	Pair<Parent, Object> pair = loadFXML(menuType);
     	pageLayout.setLeft(null);
     	menu = (VBox) pair.getKey();

@@ -30,7 +30,6 @@
 .combo-box .cell {
     -fx-text-fill: #ffffff;    
     -fx-background-color: #2c2d33;
-    
 }
 
 .combo-box .combo-box-popup .list-view {
@@ -74,6 +73,7 @@
 
 .orangeComboBox {
 	-fx-background-color: #1c1d20;
+	-fx-border-color: #f5821e;
 	-fx-border-width: 2px 2px 2px 2px;
 }
 

@@ -13,6 +13,7 @@ public class Message implements Serializable {
 	ArrayList<Movie> movies;
 	ArrayList<String> timeOfMovie; //for shir
 	Worker worker;
+	Complaint complaint;
 	
 	public Message() {
 		super();
@@ -99,6 +100,14 @@ public class Message implements Serializable {
 
 	public void setTimeOfMovie(ArrayList<String> timeOfMovie) {
 		this.timeOfMovie = timeOfMovie;
+	}
+	
+	public Complaint getComplaint() {
+		return complaint;
+	}
+
+	public void setComplaint(Complaint complaint) {
+		this.complaint = complaint;
 	}
 
 	

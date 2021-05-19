@@ -1,16 +1,21 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
+import java.io.IOException;
 import java.util.logging.Logger;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import il.cshaifasweng.OCSFMediatorExample.client.ocsf.AbstractClient;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
+import javafx.application.Platform;
 
 public class AppClient extends AbstractClient{
 	
 	private static AppClient client = null;
 	//private Message clientMessage;
 	private static final Logger LOGGER = Logger.getLogger(AppClient.class.getName());
+	
+	private static boolean isMoviesUpdated;	
 	
 	public AppClient(String host, int port) {
 		super(host, port);
@@ -29,6 +34,14 @@ public class AppClient extends AbstractClient{
 		{
 			EventBus.getDefault().post(((Message) msg));
 		}
+		if (((Message) msg).getAction().equals("set client"))
+		{
+			EventBus.getDefault().post(((Message) msg));
+		}
+		if (((Message) msg).getAction().equals("update movie error"))
+		{
+			EventBus.getDefault().post(((Message) msg));
+		}
 		
 	}
 	@Override
@@ -39,11 +52,33 @@ public class AppClient extends AbstractClient{
 	}
 
 	public static AppClient getClient() {
+		
 		if (client == null) {
 			client = new AppClient("localhost", 3000);
 		}
 		return client;
 	}
+	public static AppClient getClient(String host, int port) {
+		System.out.println("client is: " + client);
+		if (client == null) {
+			client = new AppClient(host, port);
+		}
+		return client;
+	}
+	
+	public static void setClientNull() {
+		client = null;
+	}
+
+	public static boolean isMoviesUpdated() {
+		return isMoviesUpdated;
+	}
+
+	public static void setMoviesUpdated(boolean isMoviesUpdated) {
+		AppClient.isMoviesUpdated = isMoviesUpdated;
+	}
+	
+	
 
 
 }

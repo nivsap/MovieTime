@@ -39,7 +39,7 @@
     <version>1.0.0.Final</version>
 	</dependency>
 		<dependency>
-			<groupId>${groupId}</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>entities</artifactId>
 		</dependency>
 	</dependencies>
@@ -51,7 +51,7 @@
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>1.6.0</version>
 				<configuration>
-					<mainClass>il.cshaifasweng.OCSFMediatorExample.server.App</mainClass>
+					<mainClass>il.cshaifasweng.OCSFMediatorExample.server.Main</mainClass>
 				</configuration>
 			</plugin>
 			<plugin>

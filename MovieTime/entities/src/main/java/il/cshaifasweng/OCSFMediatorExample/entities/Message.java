@@ -9,6 +9,10 @@ public class Message implements Serializable {
 	Movie movie;
 	ArrayList<Movie> movies;
 	ArrayList<String> timeOfMovie; //for shir
+	String time;
+	String movieName;
+	String DbAction;
+	String error;
 	
 	public Message() {
 		super();
@@ -47,6 +51,37 @@ public class Message implements Serializable {
 		this.timeOfMovie = timeOfMovie;
 	}
 
+	public void setTime(String time) {
+		this.time = time;
+	}
 	
+	public String getTime() {
+		return time;
+	}
+	
+	
+	public void setMovieName(String movieName) {
+		this.movieName = movieName;
+	}
+	
+	public String getMovieName() {
+		return movieName;
+	}
+	
+	public void setDbAction(String action) {
+		this.DbAction = action;
+	}
+	
+	public String getDbAction() {
+		return DbAction;
+	}
+	
+	public void setError(String error) {
+		this.error = error;
+	}
+	
+	public String getError() {
+		return error;
+	}
 	
 }

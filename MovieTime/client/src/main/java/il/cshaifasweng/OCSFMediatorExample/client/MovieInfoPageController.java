@@ -66,6 +66,7 @@ public class MovieInfoPageController {
     private Button orderTicketBtn;
     
     void setMovieInfo(Movie movie) {
+    	movieDescription.setWrapText(true);
     	currentlyDisplayed = movie;
     	movieName.setText(movie.getName());
     	movieDescription.setText(movie.getDescription());

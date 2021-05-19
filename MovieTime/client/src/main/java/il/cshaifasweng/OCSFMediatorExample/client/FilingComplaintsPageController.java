@@ -1,8 +1,14 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
-import javafx.event.ActionEvent;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
+import il.cshaifasweng.OCSFMediatorExample.entities.Message;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -38,7 +44,7 @@ public class FilingComplaintsPageController  {
     private Label phoneNumberWarningLabel;
 
     @FXML
-    private ComboBox<?> complaintTypeComboBox;
+    private ComboBox<String> complaintTypeComboBox;
 
     @FXML
     private Label complaintTypeWarningLabel;
@@ -63,14 +69,14 @@ public class FilingComplaintsPageController  {
 
     @FXML
     private Button fileComplaintBtn;
-
-    @FXML
-    void fileComplain(ActionEvent event) {
-
-    }
-
+    
+    private Complaint newComplaint;
+    
     @FXML
     void initialize() {
+    	System.out.println("initializing FilingComplaintsPage");
+		EventBus.getDefault().register(this);
+
         assert firstNameTextField != null : "fx:id=\"firstNameTextField\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
         assert firstNameWarningLabel != null : "fx:id=\"firstNameWarningLabel\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
         assert lastNameTextField != null : "fx:id=\"lastNameTextField\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
@@ -89,6 +95,8 @@ public class FilingComplaintsPageController  {
         assert complaintDetailsWarningLabel != null : "fx:id=\"complaintDetailsWarningLabel\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
         assert fileComplaintBtn != null : "fx:id=\"fileComplaintBtn\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
         
+        complaintTypeComboBox.getItems().addAll(Complaint.getComplaintTypes());
+        
         hideWarningLabels();
     }
     
@@ -105,7 +113,7 @@ public class FilingComplaintsPageController  {
     
     
     @FXML
-    void fileComplaint(ActionEvent event) {
+    void fileComplaint() {
     	hideWarningLabels();
     	
     	String firstName = firstNameTextField.getText();
@@ -155,7 +163,33 @@ public class FilingComplaintsPageController  {
     		complaintDetailsWarningLabel.setVisible(true);
     		return;
     	}
-    	
-    	// Else - save order in database
+    	newComplaint = new Complaint(firstName, lastName, email, phoneNumber, complaintType, incidentDate, complaintTitle, complaintDetails, true);
+    	System.out.println("trying to add a complaint from FilingComplaintsPage");
+    	Message msg = new Message();
+		msg.setComplaint(newComplaint);
+		msg.setAction("add a complaint");
+		try {
+			AppClient.getClient().sendToServer(msg);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println("failed to send msg to server from FilingComplaintsPage");
+			e.printStackTrace();
+		}
+    }
+
+    @Subscribe
+	public void onMessageEvent(Message msg) throws IOException {
+
+    	if(msg.getAction().equals("added a complaint")) {
+        	Platform.runLater(()-> {
+    			try {
+    				ComplaintAddedPageController controller = (ComplaintAddedPageController) App.setContent("ComplaintAddedPage", "Thank you");
+    	    		controller.setData(newComplaint);
+    			} catch (IOException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+    		});
+    	}
     }
 }

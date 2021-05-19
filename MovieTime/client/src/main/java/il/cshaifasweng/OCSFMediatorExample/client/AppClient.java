@@ -33,6 +33,10 @@ public class AppClient extends AbstractClient {
 		{
 			EventBus.getDefault().post(((Message) msg));
 		}
+		if (((Message) msg).getAction().equals("added a complaint"))
+		{
+			EventBus.getDefault().post(((Message) msg));
+		}
 	}
 	@Override
 	protected void connectionEstablished() {

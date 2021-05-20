@@ -15,7 +15,7 @@ public class SystemMenuController extends Pane {
     private Button mainPageMenuBtn;
 
     @FXML
-    private Button specialsMenuBtn;
+    private Button comingSoonMenuBtn;
 
     @FXML
     private Button fileComplaintsMenuBtn;
@@ -30,13 +30,20 @@ public class SystemMenuController extends Pane {
     }
     
     @FXML
-    void loadLoginPage(ActionEvent event) throws IOException {
-    	App.setContent("LoginPage", "Login");
+    void loadComingSoonPage(ActionEvent event) throws IOException {
+    	App.setContent("ComingSoonPage", "Coming Soon");
     }
-
+    
     @FXML
     void loadFilingComplaintsPage(ActionEvent event) throws IOException {
     	App.setContent("FilingComplaintsPage", "File a Compaint");
     }
+    
+    @FXML
+    void loadLoginPage(ActionEvent event) throws IOException {
+    	App.setContent("LoginPage", "Login");
+    }
+
+
     
 }

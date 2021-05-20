@@ -1,14 +1,18 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
 
@@ -27,16 +31,32 @@ public class Worker implements  Serializable{
 	private String lastName;
 	private String userName;
 	private String password;
-	
-	
-	public Worker(String firstName, String lastName, String userName, String password) {
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "worker_id")
+	private Cinema cinema;
+
+	public Worker(String firstName, String lastName, String userName, String password,Cinema cinema) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.userName = userName;
 		this.password = password;
+		this.cinema = cinema;
 	}
 	public Worker() {}
+
+	public Cinema getCinema() {
+		return cinema;
+	}
+	public void setCinema(Cinema cinema) {
+		this.cinema = cinema;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getFirstName() {
 		return firstName;
 	}

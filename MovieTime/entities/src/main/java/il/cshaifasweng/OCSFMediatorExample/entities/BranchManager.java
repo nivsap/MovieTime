@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 @Entity
 @Table(name = "BranchManager")
@@ -18,14 +19,13 @@ public class BranchManager extends Worker implements  Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	//@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	//@JoinColumn(name = "cinema_id")
-	//private Cinema cinema;
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Cinema cinema;
 	 public BranchManager() {
 	    }
-	public BranchManager(String firstName, String lastName, String userName, String password) {
-		super(firstName, lastName, userName, password);
-	//	this.cinema = cinema;
+	public BranchManager(String firstName, String lastName, String userName, String password,Cinema cinema) {
+		super(firstName, lastName, userName, password,cinema);
+		this.cinema = cinema;
 	}
 	public int getId() {
 		return id;

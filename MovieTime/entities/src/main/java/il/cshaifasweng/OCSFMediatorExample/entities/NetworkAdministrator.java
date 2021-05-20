@@ -22,8 +22,8 @@ public class NetworkAdministrator extends Worker implements  Serializable{
 	
 	public NetworkAdministrator() {}
 
-	public NetworkAdministrator(String firstName, String lastName, String userName, String password) {
-		super(firstName, lastName, userName, password);
+	public NetworkAdministrator(String firstName, String lastName, String userName, String password,Cinema cinema) {
+		super(firstName, lastName, userName, password,cinema);
 	}
 	public int getId() {
 		return id;

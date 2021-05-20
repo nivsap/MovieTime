@@ -79,12 +79,19 @@ public class MainPageController implements Initializable {
 	}
 
 	public void SetMovies(int displayFrom) {
-		int index = displayFrom;
+    	int index;
+		if(moviesNumber < NUM_ROWS * NUM_COLS) 
+			index = 0;
+		else
+			index = displayFrom;
 		try {
             for (int i = 0; i < NUM_ROWS; i++) {
                 for (int j = 0; j < NUM_COLS; j++) {
-                	if(index > moviesNumber - 1)
-                		index -= moviesNumber;
+					if(index > moviesNumber - 1) {
+						if(moviesNumber < NUM_ROWS * NUM_COLS) 
+							return;
+						index -= moviesNumber;
+					}
 					FXMLLoader fxmlLoader = new FXMLLoader();
 					fxmlLoader.setLocation(getClass().getResource("card.fxml"));
 					Button cardBox = fxmlLoader.load();
@@ -94,8 +101,8 @@ public class MainPageController implements Initializable {
 					index++;
                }
             }
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -103,6 +110,9 @@ public class MainPageController implements Initializable {
 
     @FXML
     void loadMoreMovies() {
+    	if(moviesNumber < NUM_ROWS * NUM_COLS)
+			return;
+    	
     	int nextIndex = currentlyDisplayedFrom + NUM_ROWS * NUM_COLS;
     	if(nextIndex > moviesNumber - 1)
     		currentlyDisplayedFrom = nextIndex - moviesNumber;

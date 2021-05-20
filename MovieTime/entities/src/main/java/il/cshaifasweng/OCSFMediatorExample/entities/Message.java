@@ -23,6 +23,7 @@ public class Message implements Serializable {
 	Hall hall;
 	boolean status;
 
+
 	public Message() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -213,7 +214,5 @@ public class Message implements Serializable {
 	public void setComplaint(Complaint complaint) {
 		this.complaint = complaint;
 	}
-
-
 	
 }

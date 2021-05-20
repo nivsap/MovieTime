@@ -37,6 +37,29 @@ public class AppClient extends AbstractClient {
 		{
 			EventBus.getDefault().post(((Message) msg));
 		}
+		if (((Message) msg).getAction().equals("cinema contained movies done"))
+		{
+			EventBus.getDefault().post(((Message) msg));
+		}
+		if (((Message) msg).getAction().equals("screening for movie done"))
+		{
+			EventBus.getDefault().post(((Message) msg));
+		}
+		if (((Message) msg).getAction().equals("got soon movies"))
+		{
+			EventBus.getDefault().post(((Message) msg));
+		}
+		if (((Message) msg).getAction().equals("got screening movies"))
+		{
+			EventBus.getDefault().post(((Message) msg));
+		}
+		if (((Message) msg).getAction().equals("picking chair is done"))
+		{
+			EventBus.getDefault().post(((Message) msg));
+		}
+
+
+
 	}
 	@Override
 	protected void connectionEstablished() {

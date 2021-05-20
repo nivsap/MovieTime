@@ -5,11 +5,16 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 @Entity
 @Table(name = "Screening")
@@ -18,21 +23,39 @@ public class Screening implements  Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	//private static final long serialVersionUID = 1L;
-	private Date date_screen;
-	private LocalTime time_screen;
+	private LocalDateTime date_screen;
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "hall_id")
 	private Hall hall;
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Movie movie;
-	public Date getDate_screen() {
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "cinema_id")
+	private Cinema cinema;
+	
+	
+	public Screening(LocalDateTime date_screen, Hall hall, Movie movie, Cinema cinema) {
+		super();
+		this.date_screen = date_screen;
+		this.hall = hall;
+		this.movie = movie;
+		this.cinema = cinema;
+	}
+	public Screening() {}
+	
+	public Cinema getCinema() {
+		return cinema;
+	}
+
+	public void setCinema(Cinema cinema) {
+		this.cinema = cinema;
+	}
+
+	public LocalDateTime getDate_screen() {
 		return date_screen;
 	}
-	public void setDate_screen(Date date_screen) {
+	public void setDate_screen(LocalDateTime date_screen) {
 		this.date_screen = date_screen;
-	}
-	public LocalTime getTime_screen() {
-		return time_screen;
-	}
-	public void setTime_screen(LocalTime time_screen) {
-		this.time_screen = time_screen;
 	}
 	public Hall getHall() {
 		return hall;

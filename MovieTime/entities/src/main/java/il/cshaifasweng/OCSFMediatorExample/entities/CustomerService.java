@@ -17,8 +17,8 @@ public class CustomerService extends Worker implements  Serializable{
 	private int id;
 	boolean purpleLimit;
 	public CustomerService() {}
-	public CustomerService(String firstName, String lastName, String userName, String password, boolean purpleLimit) {
-		super(firstName, lastName, userName, password);
+	public CustomerService(String firstName, String lastName, String userName, String password,Cinema cinema, boolean purpleLimit) {
+		super(firstName, lastName, userName, password,cinema);
 		this.purpleLimit = purpleLimit;
 	}
 	public int getId() {

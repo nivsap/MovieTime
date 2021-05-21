@@ -34,18 +34,29 @@ public class App extends Application {
     	EventBus.getDefault().register(this);
     	stage = primaryStage;
     	
+    	client = AppClient.getClient();
+    	client.openConnection();
     	
-    	// Setting application page components:
+    	
     	pageLayout = new BorderPane();
     	menu = (VBox) loadFXML("SystemMenu").getKey();
-    	content = (VBox) loadFXML("ConnectionLogin").getKey();
+    	content = (VBox) loadFXML("MainPage").getKey();
     	pageLayout.setLeft(menu);
     	pageLayout.setCenter(content);
         scene = new Scene(pageLayout, 900, 700);
         // Setting application stage:
-        stage.setTitle("Establish Connection");
+        stage.setTitle("Main Page");
         stage.setScene(scene);
         stage.show();
+        
+    	// loggin page code
+		/*
+		 * pageLayout = new BorderPane(); menu = (VBox) loadFXML("SystemMenu").getKey();
+		 * content = (VBox) loadFXML("ConnectionLogin").getKey();
+		 * pageLayout.setLeft(menu); pageLayout.setCenter(content); scene = new
+		 * Scene(pageLayout, 900, 700); // Setting application stage:
+		 * stage.setTitle("Establish Connection"); stage.setScene(scene); stage.show();
+		 */
     }
 
     

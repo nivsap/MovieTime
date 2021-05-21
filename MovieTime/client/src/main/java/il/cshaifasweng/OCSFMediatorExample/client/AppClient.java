@@ -15,7 +15,7 @@ public class AppClient extends AbstractClient{
 	//private Message clientMessage;
 	private static final Logger LOGGER = Logger.getLogger(AppClient.class.getName());
 	
-	private static boolean isMoviesUpdated;	
+
 	
 	public AppClient(String host, int port) {
 		super(host, port);
@@ -70,15 +70,7 @@ public class AppClient extends AbstractClient{
 		client = null;
 	}
 
-	public static boolean isMoviesUpdated() {
-		return isMoviesUpdated;
-	}
 
-	public static void setMoviesUpdated(boolean isMoviesUpdated) {
-		AppClient.isMoviesUpdated = isMoviesUpdated;
-	}
-	
-	
 
 
 }

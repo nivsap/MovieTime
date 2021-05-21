@@ -11,6 +11,8 @@ import java.util.logging.Level;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
+import javax.swing.JOptionPane;
+
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -313,6 +315,9 @@ public class Main extends AbstractServer{
 
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
+		System.out.println("message recieved " +  ((Message)msg).getAction());
+		
+		
 		serverMsg = new Message();
 		if(((Message) msg).getAction().equals("pull movies")) {
 			serverMsg.setMovies(getAllOfType(Movie.class));
@@ -325,24 +330,12 @@ public class Main extends AbstractServer{
 				e.printStackTrace();
 			}
 		}
-
+		
 		if(((Message) msg).getAction().equals("update movie time")) {
-			serverMsg.setAction("updated movie time");
 			System.out.println("about to update movie time");
-
-			try {
-				if(((Message) msg).getMovie() == null) {
-					System.out.println("movie is null in update movie");
-				}else {
-					System.out.println(((Message) msg).getMovie().getName());
-					updateMovie(((Message) msg).getMovie());
-					client.sendToClient(serverMsg);
-				}
-			} catch (IOException e) {
-				System.out.println("cant update movie time");
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			updateMovie(((Message) msg).getMovieName(),((Message) msg).getTime(), ((Message) msg).getDbAction(), client);
+			
+		
 		}
 		if(((Message) msg).getAction().equals("login")) {
 			try {
@@ -433,6 +426,7 @@ public class Main extends AbstractServer{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 
+
 			}
 		}
 		if(((Message) msg).getAction().equals("picking chair")) {
@@ -474,23 +468,83 @@ public class Main extends AbstractServer{
 		return returnedList;
 	}
 
-	public static void updateMovie(Movie movie) {
+	
+	
+	public static void updateMovie(String movieName, String time, String action, ConnectionToClient client) {
+		boolean timeChanged = false;
+		boolean error = false;
+		Message msg = new Message();
+		System.out.println("1");
 		try {
+			
+			ArrayList<Movie> movies = getAllOfType(Movie.class);
+			System.out.println("1.5");
+			
+	        session = sessionFactory.openSession();
+	        session.beginTransaction();
+			
+	        System.out.println("1.7");
+			//find movie
+			for(Movie movie : movies) {
+				System.out.println("1.9");
+			
+				if(movie.getName().equals(movieName)) {
+					if(action.equals("addition")) {
+						//if time dosent exist we goochi
+						if(movie.getMovieBeginingTime().indexOf(time) == -1) {
+							movie.getMovieBeginingTime().add(time);
+							timeChanged = true;
+							System.out.println("2");
+						}else {
+							error = true;
+							msg.setError("Screening already exists!");
+							System.out.println("3");
+						}
+					}else {
+						 // if action is removal
+						 Integer index = movie.getMovieBeginingTime().indexOf(time);
+						 if(index == -1) {
+							 // time for removal does not exist
+							 System.out.println("4");
+							 error = true;
+							 msg.setError("Selected time does not exist for this movie");
+						 }else {						
+							 /* if(index != -1) { movie.getMovieBeginingTime().remove(index); timeChanged =
+						 * true; }else { JOptionPane.showMessageDialog(null, "Incorrect time chosen"); }
+						 */
+							 System.out.println("5");
+							for(String mTime : movie.getMovieBeginingTime()) {
+								if(time.equals(mTime)) {
+									movie.getMovieBeginingTime().remove(time);
+									timeChanged = true;
+									break;
+								}
+							}
+						 }
+					}
+					if(timeChanged) {
+						session.update(movie);
+						session.flush();
+						session.getTransaction().commit();
+						session.clear();
+						System.out.println("6");
+						msg.setAction("updated movie time");
+						client.sendToClient(msg);
+						break;
+					}
+					if(error) {
+						System.out.println("7");
+						msg.setAction("update movie error");
+						client.sendToClient(msg);
+						break;
+					}
+					
+				}
+			}
+			
 
-			session = sessionFactory.openSession();
-			session.beginTransaction();
-
-			session.update(movie);
-			System.out.println("finished movie update");
-			session.flush();
-			System.out.println("finished movie flush");
-			session.getTransaction().commit();
-			System.out.println("finished movie transaction");
-			session.clear();
-			System.out.println("finished movie clear");
 		} catch (Exception exception) {
 			if (session != null) {
-				System.out.println("trying to rollback from movieUpdate");
 				session.getTransaction().rollback();
 			}
 			System.err.println("An error occured, changes have been rolled back.");

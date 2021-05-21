@@ -2,6 +2,10 @@ package il.cshaifasweng.OCSFMediatorExample.client; // should be View package
 
 import java.io.IOException;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,11 +31,13 @@ public class App extends Application {
     
     @Override
     public void start(Stage primaryStage) throws IOException {
+    	EventBus.getDefault().register(this);
     	stage = primaryStage;
+    	
     	client = AppClient.getClient();
     	client.openConnection();
     	
-    	// Setting application page components:
+    	
     	pageLayout = new BorderPane();
     	menu = (VBox) loadFXML("SystemMenu").getKey();
     	content = (VBox) loadFXML("MainPage").getKey();
@@ -39,10 +45,20 @@ public class App extends Application {
     	pageLayout.setCenter(content);
         scene = new Scene(pageLayout, 900, 700);
         // Setting application stage:
-        stage.setTitle("Movie Time");
+        stage.setTitle("Main Page");
         stage.setScene(scene);
         stage.show();
+        
+    	// loggin page code
+		/*
+		 * pageLayout = new BorderPane(); menu = (VBox) loadFXML("SystemMenu").getKey();
+		 * content = (VBox) loadFXML("ConnectionLogin").getKey();
+		 * pageLayout.setLeft(menu); pageLayout.setCenter(content); scene = new
+		 * Scene(pageLayout, 900, 700); // Setting application stage:
+		 * stage.setTitle("Establish Connection"); stage.setScene(scene); stage.show();
+		 */
     }
+
     
     static Object setContent(String pageName, String pageTitle) throws IOException {
     	// setContent() loads page/FXML into App's content container and returns page's controller.
@@ -86,5 +102,15 @@ public class App extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+    
+    @Subscribe
+	public void SetClient(Message msg) throws IOException {
+		
+    	if(msg.getAction().equals("set client")) {
+    		client = AppClient.getClient();
+    	}
+    		
+
+	}
 
 }

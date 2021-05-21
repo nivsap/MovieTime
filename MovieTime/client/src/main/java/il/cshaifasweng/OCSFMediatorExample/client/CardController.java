@@ -21,7 +21,7 @@ public class CardController {
 	    Movie cardMovie;
 	    
 	    public void SetData(Movie movie) {
-	    	Image image = new  Image(getClass().getResourceAsStream("\\images\\MoviesPosters\\" + movie.getImageSrc()));
+	    	Image image = new  Image(getClass().getResourceAsStream("images/MoviesPosters/" + movie.getImageSrc()));
 	    	movie_img.setImage(image);
 	    	movie_name.setText(movie.getName());
 	    	cardMovie = movie;

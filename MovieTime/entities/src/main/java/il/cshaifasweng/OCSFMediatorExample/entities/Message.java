@@ -24,6 +24,11 @@ public class Message implements Serializable {
 	boolean status;
 
 
+	String time;
+	String movieName;
+	String DbAction;
+	String error;
+	
 	public Message() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -207,6 +212,7 @@ public class Message implements Serializable {
 		this.timeOfMovie = timeOfMovie;
 	}
 
+
 	public Complaint getComplaint() {
 		return complaint;
 	}
@@ -215,4 +221,38 @@ public class Message implements Serializable {
 		this.complaint = complaint;
 	}
 	
+	public void setTime(String time) {
+		this.time = time;
+	}
+	
+	public String getTime() {
+		return time;
+	}
+	
+	
+	public void setMovieName(String movieName) {
+		this.movieName = movieName;
+	}
+	
+	public String getMovieName() {
+		return movieName;
+	}
+	
+	public void setDbAction(String action) {
+		this.DbAction = action;
+	}
+	
+	public String getDbAction() {
+		return DbAction;
+	}
+	
+	public void setError(String error) {
+		this.error = error;
+	}
+	
+	public String getError() {
+		return error;
+	}
+	
 }
+

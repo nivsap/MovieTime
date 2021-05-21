@@ -30,6 +30,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Hall;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.NetworkAdministrator;
+import il.cshaifasweng.OCSFMediatorExample.entities.Customer;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
@@ -39,7 +40,7 @@ public class Main extends AbstractServer{
 
 
 	private static Session session;
-	static SessionFactory sessionFactory = getSessionFactory();
+	public static SessionFactory sessionFactory = getSessionFactory();
 	Message serverMsg;
 
 	//Message serverMsg;  need to create class for msg
@@ -48,7 +49,7 @@ public class Main extends AbstractServer{
 		super(port);
 	}
 
-	private static SessionFactory getSessionFactory() throws HibernateException {
+	public static SessionFactory getSessionFactory() throws HibernateException {
 
 		java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.OFF);
 		Configuration configuration = new Configuration();
@@ -57,6 +58,7 @@ public class Main extends AbstractServer{
 		configuration.addAnnotatedClass(NetworkAdministrator.class);
 		configuration.addAnnotatedClass(Cinema.class);
 		configuration.addAnnotatedClass(Hall.class);
+		configuration.addAnnotatedClass(Customer.class);
 		configuration.addAnnotatedClass(Screening.class);
 		configuration.addAnnotatedClass(ContentManager.class);
 		configuration.addAnnotatedClass(BranchManager.class);
@@ -113,22 +115,21 @@ public class Main extends AbstractServer{
 			//create movie 
 			ArrayList<String> movieStartTimes = new ArrayList<String>(Arrays.asList("10:00" , "12:00" , "16:00" , "18:00" , "20:00" , "22:00" , "00:00"));
 			Movie avengersEndgame = new Movie("Avengers: Endgame","3h 1min", 5.00, "Action   •   Adventure   •   Drama", "AvengersEndgame.jpg",  "AvengersEndgame.png", movieStartTimes, true, false, "After the devastating events of Avengers: Infinity War (2018), the \nuniverse is in ruins. With the help of remaining allies, \nthe Avengers assemble once more in order to reverse Thanos' \nactions and restore balance to the universe.",
-					"Robert Downey Jr., Chris Evans, Mark Ruffalo", getTime(2019, 4, 26));
+					"Robert Downey Jr., Chris Evans, Mark Ruffalo", getTime(2019, 4, 26), 50 , "Producers");
 			Movie sherlockHolmes = new Movie("Sherlock Holmes", "2h 8min", 4.5, "Action   •   Adventure   •   Mystery", "SherlockHolmes.jpg", "SherlockHolmes.png", movieStartTimes, true, false, "Detective Sherlock Holmes and his stalwart partner Watson engage in \na battle of wits and brawn with a nemesis whose plot \nis a threat to all of England.",
-					"Robert Downey Jr., Jude Law, Rachel McAdams", getTime(2009, 12, 25));
+					"Robert Downey Jr., Jude Law, Rachel McAdams", getTime(2009, 12, 25), 50 , "Producers");
 			Movie babyDriver = new Movie("Baby Driver", "1h 53min", 4.00, "Action   •   Crime   •   Drama ", "BabyDriver.jpg", "BabyDriver.png", movieStartTimes, true, false, "After being coerced into working for a crime boss, a young getaway \ndriver finds himself taking part in a heist doomed to fail.",
-					"Ansel Elgort, Jon Bernthal, Jon Hamm", getTime(2017, 6, 28));
+					"Ansel Elgort, Jon Bernthal, Jon Hamm", getTime(2017, 6, 28), 50 , "Producers");
 			Movie wonderWoman1984  = new Movie("Wonder Woman 1984", "2h 31min", 5.00, "Action   •   Adventure   •   Fantasy", "WonderWoman1984.jpg", "WonderWoman1984.png", movieStartTimes, true, false, "Diana must contend with a work colleague and businessman, whose desire \nfor extreme wealth sends the world down a path of destruction, \nafter an ancient artifact that grants wishes goes missing.",
-					"Gal Gadot, Chris Pine, Kristen Wiig", getTime(2020, 12, 21));
+					"Gal Gadot, Chris Pine, Kristen Wiig", getTime(2020, 12, 21), 50 , "Producers");
 			Movie it  = new Movie("IT", "2h 15min", 5.00, "Horror", "It.jpg", "It.png", movieStartTimes, true, false, "In the summer of 1989, a group of bullied kids band together\n to destroy a shape-shifting monster, which disguises itself \nas a clown and preys on the children of Derry, \ntheir small Maine town.",
-					"Bill Skarsgard, Jaeden Martell, Finn Wolfhard", getTime(2017, 9, 8));
+					"Bill Skarsgard, Jaeden Martell, Finn Wolfhard", getTime(2017, 9, 8), 50 , "Producers");
 			Movie toyStory = new Movie("Toy Story", "1h 40min", 5.00, "Animation   •   Adventure   •   Comedy", "ToyStory.jpg", "ToyStory.png", movieStartTimes, true, false, "When a new toy called 'Forky' joins Woody and the gang, \na road trip alongside old and new friends reveals how \nbig the world can be for a toy.",
-
-					"Tom Hanks, Tim Allen, Annie Potts", getTime(2017, 6, 21));
+					"Tom Hanks, Tim Allen, Annie Potts", getTime(2017, 6, 21), 50 , "Producers");
 			Movie Minions = new Movie("Minions", "1h 31min", 4.50, "Animation   •   Adventure   •   Comedy", "Minions.jpg", "Minions.png", movieStartTimes, true, false, "Minions Stuart, Kevin, and Bob are recruited by Scarlet Overkill, \na supervillain who, alongside her inventor husband Herb, \nhatches a plot to take over the world.",
-					"Sandra Bullock, Jon Hamm, Michael Keaton", getTime(2015, 7, 10));
+					"Sandra Bullock, Jon Hamm, Michael Keaton", getTime(2015, 7, 10), 50 , "Producers");
 			Movie StarWars = new Movie("Star Wars", "2h 21min", 5.00, "Action   •   Adventure   •   Fantasy", "StarWars.jpg", "StarWars.png", movieStartTimes, true, true, "The surviving members of the Resistance face the First Order once \nagain, and the legendary conflict between the Jedi and the Sith reaches \nits peak, bringing the Skywalker saga to its end.",
-					"Daisy Ridley, John Boyega, Oscar Isaac", getTime(2019, 12, 20));
+					"Daisy Ridley, John Boyega, Oscar Isaac", getTime(2019, 12, 20) , 50 , "Producers");
 
 			avengersEndgame.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("10:00" , "12:00")));
 			sherlockHolmes.setMovieBeginingTime(new ArrayList<String>(Arrays.asList( "16:00" , "18:00")));
@@ -440,6 +441,23 @@ public class Main extends AbstractServer{
 				e.printStackTrace();
 			}
 		}
+		if(((Message) msg).getAction().equals("save customer")) { // save ticket // save customer 
+			try {
+				Customer customer = null;
+				serverMsg = (Message) msg;
+				if(serverMsg.isTab() == false)
+					customer = new Customer(serverMsg.getFirstName(), serverMsg.getLastName(),serverMsg.getEmailOrder(), serverMsg.getCityString(), serverMsg.getPhoneString(), null);
+				else customer = new Customer(serverMsg.getFirstName(), serverMsg.getLastName(),serverMsg.getEmailOrder(), serverMsg.getCityString(), serverMsg.getPhoneString(), serverMsg.getCinemaTab());
+				CustomerController.saveCustomerInDB(customer);
+				serverMsg.setAction("save customer done");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant save customer");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 
@@ -612,5 +630,25 @@ public class Main extends AbstractServer{
 
 	}
 	//Movie movie = session.load(Movie.class , movie.getId());
-
+	public static <T> T getExacRow(Class<T> objectType , int id) {
+		T t = null;
+		try {
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+			
+			t = session.load(objectType , id);
+		}catch (Exception e) {
+			e.printStackTrace();
+			if (session != null) {
+				session.getTransaction().rollback();
+			}
+			System.out.println("exan row loader");
+		}
+		finally {
+			session.close();
+		}
+		
+		return t;
+		
+	}
 }

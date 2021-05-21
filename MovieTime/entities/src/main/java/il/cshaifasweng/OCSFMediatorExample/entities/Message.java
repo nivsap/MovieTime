@@ -4,6 +4,8 @@ package il.cshaifasweng.OCSFMediatorExample.entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import javafx.util.Pair;
+
 public class Message implements Serializable {
 	String action;
 	String username; 
@@ -22,7 +24,14 @@ public class Message implements Serializable {
 	int col;
 	Hall hall;
 	boolean status;
-
+	//HANDLE TICKETS **for shir
+	boolean isTab;
+	String firstName;
+	String lastName;
+	String emailOrder;
+	String cityString;
+	String phoneString;
+	Pair<Boolean , Integer> cinemaTab;
 
 	String time;
 	String movieName;
@@ -50,6 +59,90 @@ public class Message implements Serializable {
 
 	public int getRow() {
 		return row;
+	}
+
+
+
+	public boolean isTab() {
+		return isTab;
+	}
+
+
+
+	public void setTab(boolean isTab) {
+		this.isTab = isTab;
+	}
+
+
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+
+
+	public String getLastName() {
+		return lastName;
+	}
+
+
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+
+
+	public String getEmailOrder() {
+		return emailOrder;
+	}
+
+
+
+	public void setEmailOrder(String emailOrder) {
+		this.emailOrder = emailOrder;
+	}
+
+
+
+	public String getCityString() {
+		return cityString;
+	}
+
+
+
+	public void setCityString(String cityString) {
+		this.cityString = cityString;
+	}
+
+
+
+	public String getPhoneString() {
+		return phoneString;
+	}
+
+
+
+	public void setPhoneString(String phoneString) {
+		this.phoneString = phoneString;
+	}
+
+
+
+	public Pair<Boolean, Integer> getCinemaTab() {
+		return cinemaTab;
+	}
+
+
+
+	public void setCinemaTab(Pair<Boolean, Integer> cinemaTab) {
+		this.cinemaTab = cinemaTab;
 	}
 
 

@@ -317,9 +317,9 @@ public class Main extends AbstractServer{
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		System.out.println("message recieved " +  ((Message)msg).getAction());
 		
-		
+		Message currentMsg = ((Message)msg);
 		serverMsg = new Message();
-		if(((Message) msg).getAction().equals("pull movies")) {
+		if(currentMsg.getAction().equals("pull movies")) {
 			serverMsg.setMovies(getAllOfType(Movie.class));
 			serverMsg.setAction("got movies");
 			try {
@@ -331,15 +331,15 @@ public class Main extends AbstractServer{
 			}
 		}
 		
-		if(((Message) msg).getAction().equals("update movie time")) {
+		if(currentMsg.getAction().equals("update movie time")) {
 			System.out.println("about to update movie time");
 			updateMovie(((Message) msg).getMovieName(),((Message) msg).getTime(), ((Message) msg).getDbAction(), client);
 			
 		
 		}
-		if(((Message) msg).getAction().equals("login")) {
+		if(currentMsg.getAction().equals("login")) {
 			try {
-				if(((Message) msg).getUsername().equals(null) || ((Message) msg).getPassword().equals(null)) {
+				if(currentMsg.getUsername().equals(null) || ((Message) msg).getPassword().equals(null)) {
 					System.out.println("user or password is null");
 				}else {
 					UserController.getUser((Message) msg);
@@ -354,12 +354,12 @@ public class Main extends AbstractServer{
 			}
 		}
 
-		if(((Message) msg).getAction().equals("add a complaint")) {
+		if(currentMsg.getAction().equals("add a complaint")) {
 			serverMsg.setAction("added a complaint");
 			System.out.println("about to add a complaint");
 
 			try {
-				if(((Message) msg).getComplaint() == null) {
+				if(currentMsg.getComplaint() == null) {
 					System.out.println("complaint is null in add a complaint");
 				}else {
 					System.out.println(((Message) msg).getComplaint().getComplaintTitle());
@@ -372,10 +372,10 @@ public class Main extends AbstractServer{
 				e.printStackTrace();
 			}
 		}
-		if(((Message) msg).getAction().equals("cinema contained movies")) {
+		if(currentMsg.getAction().equals("cinema contained movies")) {
 			try {
-				serverMsg = (Message) msg;
-				serverMsg.setCinemasArrayList((ArrayList<Cinema>) ScreeningController.getCinemas(((Message) msg).getMovieId()));
+				serverMsg = currentMsg;
+				serverMsg.setCinemasArrayList((ArrayList<Cinema>) ScreeningController.getCinemas(currentMsg.getMovieId()));
 				serverMsg.setAction("cinema contained movies done");
 				client.sendToClient(serverMsg);
 			}
@@ -386,9 +386,9 @@ public class Main extends AbstractServer{
 
 			}
 		}
-		if(((Message) msg).getAction().equals("screening for movie")) {
+		if(currentMsg.getAction().equals("screening for movie")) {
 			try {
-				serverMsg = (Message) msg;
+				serverMsg = currentMsg;
 				serverMsg.setScreeningArrayList((ArrayList<Screening>) ScreeningController.getAllDateOfMovie(serverMsg.getMovieId(), serverMsg.getCinemaId()));
 				serverMsg.setAction("screening for movie done");
 				client.sendToClient(serverMsg);
@@ -400,9 +400,9 @@ public class Main extends AbstractServer{
 
 			}
 		}
-		if(((Message) msg).getAction().equals("pull soon movies")) {
+		if(currentMsg.getAction().equals("pull soon movies")) {
 			try {
-				serverMsg = (Message) msg;
+				serverMsg = currentMsg;
 				serverMsg.setMovies((ArrayList<Movie>) MovieController.getSoonMovies()); 
 				serverMsg.setAction("got soon movies");
 				client.sendToClient(serverMsg);
@@ -414,9 +414,9 @@ public class Main extends AbstractServer{
 
 			}
 		}
-		if(((Message) msg).getAction().equals("pull screening movies")) {
+		if(currentMsg.getAction().equals("pull screening movies")) {
 			try {
-				serverMsg = (Message) msg;
+				serverMsg = currentMsg;
 				serverMsg.setMovies((ArrayList<Movie>) MovieController.getSoonMovies()); 
 				serverMsg.setAction("got screening movies");
 				client.sendToClient(serverMsg);
@@ -429,9 +429,9 @@ public class Main extends AbstractServer{
 
 			}
 		}
-		if(((Message) msg).getAction().equals("picking chair")) {
+		if(currentMsg.getAction().equals("picking chair")) {
 			try {
-				serverMsg = (Message) msg;
+				serverMsg = currentMsg;
 				serverMsg.setStatus(ScreeningController.pickChair(serverMsg.getRow(), serverMsg.getCol(), serverMsg.getHall()));
 				serverMsg.setAction("picking chair is done");
 				client.sendToClient(serverMsg);

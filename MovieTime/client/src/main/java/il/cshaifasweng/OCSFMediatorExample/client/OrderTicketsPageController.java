@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 
 public class OrderTicketsPageController {
 	HallMapController hallMapController;
+	private String orderType;
 	
     @FXML
     private ImageView movieLargeImageSrc;
@@ -55,8 +56,8 @@ public class OrderTicketsPageController {
     	movieName.setText(movie.getName());
     	movieGenre.setText(movie.getGenre());
     	moviePopularity.setText(movie.getPopular().toString());
-    	Image image = new  Image(getClass().getResourceAsStream("\\images\\MoviesPosters\\" + movie.getImageSrc()));
-    	Image largeImage = new  Image(getClass().getResourceAsStream("\\images\\MoviesPosters\\LargeImages\\" + movie.getLargeImageSrc()));
+    	Image image = new  Image(getClass().getResourceAsStream("images/MoviesPosters/" + movie.getImageSrc()));
+    	Image largeImage = new  Image(getClass().getResourceAsStream("images/MoviesPosters/LargeImages/" + movie.getLargeImageSrc()));
     	movieLargeImageSrc.setImage(largeImage);
     	movieImageSrc.setImage(image);
     }

@@ -30,7 +30,7 @@ public class CardController {
 	    @FXML
 	    void loadMovieInfoPage(ActionEvent event) throws IOException {
 	    	MovieInfoPageController controller = (MovieInfoPageController) App.setContent("MovieInfoPage", cardMovie.getName());
-	    	controller.setMovieInfo(cardMovie);
+	    	controller.InitPageInfo(cardMovie);
 	    }
 	    
 

@@ -12,7 +12,7 @@ import javafx.util.Pair;
 
 
 @Entity
-@Table(name = "OrderTicket")
+@Table(name = "Customer")
 public class Customer implements  Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

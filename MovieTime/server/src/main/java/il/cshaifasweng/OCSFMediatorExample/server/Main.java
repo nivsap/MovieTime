@@ -35,6 +35,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
+import javafx.util.Pair;
 
 public class Main extends AbstractServer{
 
@@ -43,7 +44,6 @@ public class Main extends AbstractServer{
 	public static SessionFactory sessionFactory = getSessionFactory();
 	Message serverMsg;
 
-	//Message serverMsg;  need to create class for msg
 	public Main(int port) {
 
 		super(port);
@@ -63,6 +63,7 @@ public class Main extends AbstractServer{
 		configuration.addAnnotatedClass(ContentManager.class);
 		configuration.addAnnotatedClass(BranchManager.class);
 		configuration.addAnnotatedClass(CustomerService.class);
+		configuration.addAnnotatedClass(Customer.class);
 		configuration.addAnnotatedClass(Complaint.class);
 		ServiceRegistry serviceRegistry =
 				new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
@@ -72,29 +73,6 @@ public class Main extends AbstractServer{
 	private static LocalDateTime getTime(int year, int month, int day){
 		return LocalDate.of(year, month, day).atStartOfDay();
 	}
-
-	public static void addComplaintToDB(Complaint complaint) {
-		try {
-			session = sessionFactory.openSession();
-			session.beginTransaction();
-			session.save(complaint);
-			session.flush();
-			session.getTransaction().commit();
-			session.clear();
-		} catch (Exception e) {
-			if (session != null) {
-				session.getTransaction().rollback();
-			}
-			System.err.println("An error occured, changes have been rolled back.");
-			e.printStackTrace();
-		} finally
-		{
-			assert session != null;
-			session.close();
-			System.out.println("Complaint added to database");
-		}
-	}
-
 
 	private static LocalDateTime getExacTime(int year, int month, int day , int hours , int minutes){
 		return LocalDate.of(year, month, month).atTime(hours, minutes);
@@ -234,6 +212,15 @@ public class Main extends AbstractServer{
 
 			session.save(haifaCinema);
 			session.save(telAvivCinema);
+			
+			Complaint someComplaint1 = new Complaint("Shir", "Avneri", "I'm very upset", "I want to finish this project", true);
+			Complaint someComplaint2 = new Complaint("Niv", "Sapir", "I want to complain", "I am very upset", true);
+			Complaint someComplaint3 = new Complaint("Hadar", "Manor", "Some title", "Some details" ,false);
+
+			session.save(someComplaint1);
+			session.save(someComplaint2);
+			session.save(someComplaint3);
+			
 			session.flush();
 
 			//System.out.println(ScreeningController.pickChair(1, 1, hall4));
@@ -262,30 +249,14 @@ public class Main extends AbstractServer{
 			server.listen();
 			System.out.println("hello server");
 		}
-
-		addComplaintsToDB();
-
-		//addUsersToDB();
 		addDataToDB();
-		System.out.println(MovieController.getSoonMovies().get(0).getName());
-		//for(Screening srScreening : ScreeningController.getAllDateOfMovie(2, 1)) {
-		//	System.out.println(srScreening.getMovie().getName());
-		//}
-
-
 
 	}
-	public static void addComplaintsToDB() {
+	public static <T> void saveRowInDB(T objectType) {
 		try {
 			session = sessionFactory.openSession();
 			session.beginTransaction();
-			Complaint someComplaint1 = new Complaint("Shir", "Avneri", "I'm very upset", "I want to finish this project", true);
-			Complaint someComplaint2 = new Complaint("Niv", "Sapir", "I want to complain", "I am very upset", true);
-			Complaint someComplaint3 = new Complaint("Hadar", "Manor", "Some title", "Some details" ,false);
-
-			session.save(someComplaint1);
-			session.save(someComplaint2);
-			session.save(someComplaint3);
+			session.save(objectType);
 			session.flush();
 			session.getTransaction().commit();
 			session.clear();
@@ -295,11 +266,56 @@ public class Main extends AbstractServer{
 			}
 			System.err.println("An error occured, changes have been rolled back.");
 			e.printStackTrace();
-		} finally {
-			assert session != null;
+		} finally
+		{
+			//assert session != null;
 			session.close();
+			System.out.println("saveCustomerInDB");
 		}
 	}
+	public static <T> void updateRowDB(T objectType) {
+		try {
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+			session.update(objectType);
+			session.flush();
+			session.getTransaction().commit();
+			session.clear();
+		} catch (Exception e) {
+			if (session != null) {
+				session.getTransaction().rollback();
+			}
+			System.err.println("An error occured, changes have been rolled back.");
+			e.printStackTrace();
+		} finally
+		{
+			//assert session != null;
+			session.close();
+			System.out.println("Complaint added to database");
+		}
+	}
+	public static <T> ArrayList<T> getAllOfType(Class<T> objectType) {
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		ArrayList<T> returnedList = null;
+		try {
+			CriteriaBuilder builder = session.getCriteriaBuilder();
+			CriteriaQuery<T> query = builder.createQuery(objectType);
+			query.from(objectType);
+			returnedList = (ArrayList<T>) session.createQuery(query).getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (session != null) {
+				session.getTransaction().rollback();
+			}
+			System.out.println("catch in getalloftypes");
+		}
+		finally {
+			session.close();
+		}
+		return returnedList;
+	}
+
 	@Override
 	protected synchronized void clientDisconnected(ConnectionToClient client) {
 		// TODO Auto-generated method stub
@@ -320,18 +336,6 @@ public class Main extends AbstractServer{
 		
 		
 		serverMsg = new Message();
-		if(((Message) msg).getAction().equals("pull movies")) {
-			serverMsg.setMovies(getAllOfType(Movie.class));
-			serverMsg.setAction("got movies");
-			try {
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant create list of movies");
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
 		if(((Message) msg).getAction().equals("update movie time")) {
 			System.out.println("about to update movie time");
 			updateMovie(((Message) msg).getMovieName(),((Message) msg).getTime(), ((Message) msg).getDbAction(), client);
@@ -364,7 +368,7 @@ public class Main extends AbstractServer{
 					System.out.println("complaint is null in add a complaint");
 				}else {
 					System.out.println(((Message) msg).getComplaint().getComplaintTitle());
-					addComplaint(((Message) msg).getComplaint());
+					saveRowInDB(((Message) msg).getComplaint());
 					client.sendToClient(serverMsg);
 				}
 			} catch (IOException e) {
@@ -448,7 +452,7 @@ public class Main extends AbstractServer{
 				if(serverMsg.isTab() == false)
 					customer = new Customer(serverMsg.getFirstName(), serverMsg.getLastName(),serverMsg.getEmailOrder(), serverMsg.getCityString(), serverMsg.getPhoneString(), null);
 				else customer = new Customer(serverMsg.getFirstName(), serverMsg.getLastName(),serverMsg.getEmailOrder(), serverMsg.getCityString(), serverMsg.getPhoneString(), serverMsg.getCinemaTab());
-				CustomerController.saveCustomerInDB(customer);
+				saveRowInDB(customer);
 				serverMsg.setAction("save customer done");
 				client.sendToClient(serverMsg);
 			}
@@ -460,31 +464,6 @@ public class Main extends AbstractServer{
 		}
 	}
 
-
-	public static <T> ArrayList<T> getAllOfType(Class<T> objectType) {
-		session = sessionFactory.openSession();
-		session.beginTransaction();
-		ArrayList<T> returnedList = null;
-		try {
-			CriteriaBuilder builder = session.getCriteriaBuilder();
-			CriteriaQuery<T> query = builder.createQuery(objectType);
-			query.from(objectType);
-			returnedList = (ArrayList<T>) session.createQuery(query).getResultList();
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (session != null) {
-				session.getTransaction().rollback();
-			}
-			System.out.println("catch in getalloftypes");
-		}
-		finally {
-			session.close();
-		}
-		return returnedList;
-	}
-
-	
-	
 	public static void updateMovie(String movieName, String time, String action, ConnectionToClient client) {
 		boolean timeChanged = false;
 		boolean error = false;
@@ -572,83 +551,28 @@ public class Main extends AbstractServer{
 
 	}
 
-	public static void addComplaint(Complaint complaint) {
-		try {
-
-			session = sessionFactory.openSession();
-			session.beginTransaction();
-
-			session.save(complaint);
-			System.out.println("finished adding complaint");
-			session.flush();
-			System.out.println("finished adding complaint flush");
-			session.getTransaction().commit();
-			System.out.println("finished adding complaint transaction");
-			session.clear();
-			System.out.println("finished adding complaint clear");
-		} catch (Exception exception) {
-			if (session != null) {
-				System.out.println("trying to rollback from addComplaint");
-				session.getTransaction().rollback();
-			}
-			System.err.println("An error occured, changes have been rolled back.");
-			exception.printStackTrace();
-		} finally
-		{
-			assert session != null;
-			session.close();
-		}
-
-	}
-	public static void updateChair(Hall hall) {
-		try {
-
-			session = sessionFactory.openSession();
-			session.beginTransaction();
-
-			session.update(hall);
-			System.out.println("finished movie update");
-			session.flush();
-			System.out.println("finished movie flush");
-			session.getTransaction().commit();
-			System.out.println("finished movie transaction");
-			session.clear();
-			System.out.println("finished movie clear");
-		} catch (Exception exception) {
-			if (session != null) {
-				System.out.println("trying to rollback from movieUpdate");
-				session.getTransaction().rollback();
-			}
-			System.err.println("An error occured, changes have been rolled back.");
-			exception.printStackTrace();
-		} finally 
-		{
-			assert session != null;
-			session.close();
-
-		}
-
-	}
 	//Movie movie = session.load(Movie.class , movie.getId());
-	public static <T> T getExacRow(Class<T> objectType , int id) {
-		T t = null;
-		try {
-			session = sessionFactory.openSession();
-			session.beginTransaction();
-			
-			t = session.load(objectType , id);
-		}catch (Exception e) {
-			e.printStackTrace();
-			if (session != null) {
-				session.getTransaction().rollback();
-			}
-			System.out.println("exan row loader");
-		}
-		finally {
-			session.close();
-		}
-		
-		return t;
-		
-	}
+//	public static <T> T getExacRow(Class<T> objectType , int id) {
+//		T t = null;
+//		try {
+//			session = sessionFactory.openSession();
+//			session.beginTransaction();
+//			
+//			//System.out.println(12);
+//			t = session.load(objectType , id);
+//			System.out.println(((Cinema)t).getName());
+//		}catch (Exception e) {
+//			e.printStackTrace();
+//			if (session != null) {
+//				session.getTransaction().rollback();
+//			}
+//			System.out.println("exan row loader");
+//		}
+//		finally {
+//			session.close();
+//		}
+//		
+//		return t;
+//		
+//	}
 }

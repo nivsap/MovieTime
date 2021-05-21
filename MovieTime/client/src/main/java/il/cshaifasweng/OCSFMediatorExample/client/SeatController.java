@@ -22,24 +22,24 @@ public class SeatController {
 	
 	public void setIsTaken() {
 		isTaken = true;
-		Image image = new Image(getClass().getResourceAsStream("\\images\\TakenSeatIcon.png"));
+		Image image = new Image(getClass().getResourceAsStream("images/TakenSeatIcon.png"));
     	seatIcon.setImage(image);
 	}
 
     @FXML
     void switchColor(ActionEvent event) {
-    	if(!isTaken) {
-        	String imageSrc = "";
-        	if(!isChosen) {
-        		isChosen = true;
-        		imageSrc = "SelectedSeatIcon.png";
-        	}
-        	else {
-        		isChosen = false;
-        		imageSrc = "AvailableSeatIcon.png";
-        	}
-        	Image image = new Image(getClass().getResourceAsStream("\\images\\" + imageSrc));
-        	seatIcon.setImage(image);
-    	}
+    	if(isTaken) 
+    		return;
+        String imageSrc = "";
+        if(!isChosen) {
+        	isChosen = true;
+        	imageSrc = "SelectedSeatIcon.png";
+        }
+        else {
+        	isChosen = false;
+        	imageSrc = "AvailableSeatIcon.png";
+        }
+        Image image = new Image(getClass().getResourceAsStream("images/" + imageSrc));
+        seatIcon.setImage(image);
     }
 }

@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -52,6 +53,15 @@ public class MainPageController implements Initializable {
     private VBox cell6;
 
     @FXML
+    private ComboBox<String> cb_genere;
+
+    @FXML
+    private ComboBox<String> cb_theatre;
+
+    @FXML
+    private ComboBox<String> cb_type;
+    
+    @FXML
     private Button loadMoreBtn;
 
 	private List<Movie> recentlyAdded;
@@ -75,10 +85,17 @@ public class MainPageController implements Initializable {
 			System.out.println("failed to send msg to server from recentlyAdded");
 			e.printStackTrace();
 		}
-
+		
+	}
+	
+	public void InitializeCB() {
+		cb_genere.getItems().clear();
+		cb_type.getItems().clear();
+		cb_theatre.getItems().clear();
 	}
 
 	public void SetMovies(int displayFrom) {
+
     	int index;
 		if(moviesNumber < NUM_ROWS * NUM_COLS) 
 			index = 0;
@@ -92,6 +109,7 @@ public class MainPageController implements Initializable {
 							return;
 						index -= moviesNumber;
 					}
+
 					FXMLLoader fxmlLoader = new FXMLLoader();
 					fxmlLoader.setLocation(getClass().getResource("card.fxml"));
 					Button cardBox = fxmlLoader.load();

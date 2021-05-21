@@ -77,8 +77,8 @@ public class MovieInfoPageController {
     	moviePopularity.setText(movie.getPopular().toString());
     	movieNameSecond.setText(movie.getName());
     	movieGenreSecond.setText(movie.getGenre());
-    	Image image = new  Image(getClass().getResourceAsStream("\\images\\MoviesPosters\\" + movie.getImageSrc()));
-    	Image largeImage = new  Image(getClass().getResourceAsStream("\\images\\MoviesPosters\\LargeImages\\" + movie.getLargeImageSrc()));
+    	Image image = new  Image(getClass().getResourceAsStream("images/MoviesPosters/" + movie.getImageSrc()));
+    	Image largeImage = new  Image(getClass().getResourceAsStream("images/MoviesPosters/LargeImages/" + movie.getLargeImageSrc()));
     	movieLargeImageSrc.setImage(largeImage);
     	movieImageSrc.setImage(image);
     }

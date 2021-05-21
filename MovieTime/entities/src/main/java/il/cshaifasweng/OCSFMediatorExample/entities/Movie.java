@@ -44,7 +44,6 @@ public class Movie implements  Serializable
     public Movie(String name, String duration, Double popular, String genre, String imageSrc, String largeImageSrc,
 			ArrayList<String> movie_Begining_Time, boolean streamOnline, boolean soonInCinema, String description,
 			String mainActors, LocalDateTime launchDate) {
-		super();
 		Name = name;
 		this.duration = duration;
 		this.popular = popular;
@@ -70,6 +69,8 @@ public class Movie implements  Serializable
 		this.popular = popular;
 		this.genre = genre;
 	}
+	
+	
 	
 	public Movie() {
 		super();

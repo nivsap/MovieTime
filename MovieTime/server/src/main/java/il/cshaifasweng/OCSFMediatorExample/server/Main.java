@@ -417,16 +417,14 @@ public class Main extends AbstractServer{
 		if(((Message) msg).getAction().equals("pull screening movies")) {
 			try {
 				serverMsg = (Message) msg;
-				serverMsg.setMovies((ArrayList<Movie>) MovieController.getSoonMovies()); 
+				serverMsg.setMovies((ArrayList<Movie>) MovieController.getAllScreeningMovies()); 
 				serverMsg.setAction("got screening movies");
 				client.sendToClient(serverMsg);
 			}
 			catch (IOException e) {
-				System.out.println("cant pull soon movies");
+				System.out.println("cant pull screening movies");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-
-
 			}
 		}
 		if(((Message) msg).getAction().equals("picking chair")) {
@@ -440,7 +438,6 @@ public class Main extends AbstractServer{
 				System.out.println("cant picking chair");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-
 			}
 		}
 	}

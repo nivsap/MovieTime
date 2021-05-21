@@ -29,8 +29,15 @@ public class CardController {
 	    
 	    @FXML
 	    void loadMovieInfoPage(ActionEvent event) throws IOException {
-	    	MovieInfoPageController controller = (MovieInfoPageController) App.setContent("MovieInfoPage", cardMovie.getName());
-	    	controller.setMovieInfo(cardMovie);
+	    	if(!cardMovie.isSoonInCinema()) {
+		    	MovieInfoPageController controller = (MovieInfoPageController) App.setContent("MovieInfoPage", cardMovie.getName());
+		    	controller.setMovieInfo(cardMovie);
+	    	}
+	    	else {
+	    		ComingSoonInfoPageController controller = (ComingSoonInfoPageController) App.setContent("ComingSoonInfoPage", cardMovie.getName());
+		    	controller.setComingSoonInfo(cardMovie);
+	    	}
+
 	    }
 	    
 

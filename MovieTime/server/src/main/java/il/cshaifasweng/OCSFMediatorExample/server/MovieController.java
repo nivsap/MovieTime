@@ -21,10 +21,10 @@ public class MovieController {
 	}
 	
 	public static List<Movie> getAllScreeningMovies() {
-		ArrayList<Movie> soonMoviesArrayList = new ArrayList<>();
+		ArrayList<Movie> screeningMoviesArrayList = new ArrayList<>();
 		ArrayList<Movie> toReturnArrayList = new ArrayList<>();
-		soonMoviesArrayList = Main.getAllOfType(Movie.class);
-		for(Movie movie : soonMoviesArrayList) {
+		screeningMoviesArrayList = Main.getAllOfType(Movie.class);
+		for(Movie movie : screeningMoviesArrayList) {
 			if(movie.isSoonInCinema() == false) {
 				toReturnArrayList.add(movie);
 			}

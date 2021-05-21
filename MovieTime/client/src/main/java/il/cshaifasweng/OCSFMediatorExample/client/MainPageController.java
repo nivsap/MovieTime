@@ -76,7 +76,7 @@ public class MainPageController implements Initializable {
 		System.out.println("initializing main page");
 		EventBus.getDefault().register(this);
 		Message msg = new Message();
-		msg.setAction("pull movies");
+		msg.setAction("pull screening movies");
 		try {
 			System.out.println("trying to send msg to server");
 			AppClient.getClient().sendToServer(msg);
@@ -143,7 +143,7 @@ public class MainPageController implements Initializable {
 	public void onMessageEvent(Message msg) {
 		System.out.println("reveived message!!");
 		System.out.println(msg.getAction());
-    	if(msg.getAction().equals("got movies")) {
+    	if(msg.getAction().equals("got screening movies")) {
     		Platform.runLater(()-> {
     			recentlyAdded = msg.getMovies();
     			moviesNumber = recentlyAdded.size();

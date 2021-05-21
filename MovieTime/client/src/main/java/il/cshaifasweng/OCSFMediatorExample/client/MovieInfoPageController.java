@@ -24,6 +24,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 
 public class MovieInfoPageController {
     private Movie currentlyDisplayed;
@@ -63,6 +64,9 @@ public class MovieInfoPageController {
 
     @FXML
     private Label movieGenreSecond;
+    
+    @FXML
+    private AnchorPane orderTicketsContainer;
 
     @FXML
     private ComboBox<String> cinemaCombo;

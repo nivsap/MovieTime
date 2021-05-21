@@ -31,6 +31,8 @@ public class Movie implements  Serializable
     private boolean soonInCinema;
     private String  description;
     private String mainActors;
+    private int priceMovie;
+    private String producersMovie;
     private LocalDateTime launchDate;
     //TODO ending time, duration = ending time - starting time
 
@@ -41,7 +43,7 @@ public class Movie implements  Serializable
 
     public Movie(String name, String duration, Double popular, String genre, String imageSrc, String largeImageSrc,
 			ArrayList<String> movie_Begining_Time, boolean streamOnline, boolean soonInCinema, String description,
-			String mainActors, LocalDateTime launchDate) {
+			String mainActors, LocalDateTime launchDate ,int priceMovie, String producersMovie) {
 		Name = name;
 		this.duration = duration;
 		this.popular = popular;
@@ -54,6 +56,8 @@ public class Movie implements  Serializable
 		this.description = description;
 		this.mainActors = mainActors;
 		this.launchDate = launchDate;
+		this.priceMovie = priceMovie;
+		this.producersMovie = producersMovie;
 	}
     
     
@@ -73,6 +77,23 @@ public class Movie implements  Serializable
 	public Movie() {
 		super();
 	}
+	
+	public int getPriceMovie() {
+		return priceMovie;
+	}
+
+	public void setPriceMovie(int priceMovie) {
+		this.priceMovie = priceMovie;
+	}
+
+	public String getProducersMovie() {
+		return producersMovie;
+	}
+
+	public void setProducersMovie(String producersMovie) {
+		this.producersMovie = producersMovie;
+	}
+
 	public int getId() {
 		return id;
 	}

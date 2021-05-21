@@ -58,6 +58,22 @@ public class AppClient extends AbstractClient {
 		{
 			EventBus.getDefault().post(((Message) msg));
 		}
+		if (((Message) msg).getAction().equals("sorted movies by genre"))
+		{
+			EventBus.getDefault().post(((Message) msg));
+		}
+		if (((Message) msg).getAction().equals("done to sort by date"))
+		{
+			EventBus.getDefault().post(((Message) msg));
+		}
+		if (((Message) msg).getAction().equals("done to sort by popular"))
+		{
+			EventBus.getDefault().post(((Message) msg));
+		}
+		if (((Message) msg).getAction().equals("got movies from home"))
+		{
+			EventBus.getDefault().post(((Message) msg));
+		}
 		if (((Message) msg).getAction().equals("picking chair is done"))
 		{
 			EventBus.getDefault().post(((Message) msg));

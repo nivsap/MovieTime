@@ -15,10 +15,19 @@ public class SystemMenuController extends Pane {
     private Button mainPageMenuBtn;
 
     @FXML
+    private Button viewingPackagesMenuBtn;
+
+    @FXML
+    private Button subscriptionCardMenuBtn;
+
+    @FXML
     private Button comingSoonMenuBtn;
 
     @FXML
     private Button fileComplaintsMenuBtn;
+
+    @FXML
+    private Button purchaseCancelationMenuBtn;
 
     @FXML
     private Button loginMenuBtn;
@@ -43,7 +52,6 @@ public class SystemMenuController extends Pane {
     void loadLoginPage(ActionEvent event) throws IOException {
     	App.setContent("LoginPage", "Login");
     }
-
 
     
 }

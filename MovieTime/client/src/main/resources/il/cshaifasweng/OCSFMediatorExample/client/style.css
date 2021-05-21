@@ -1,14 +1,15 @@
-.button {
+.menuButton {
+	
 	-fx-background-color: transparent;
 	-fx-border-radius: 0;
 	-fx-text-fill: #ffffff;
 }
 
-.button:hover {
+.menuButton:hover {
 	-fx-background-color: #f5821e;
 }
 
-.button:pressed {
+.menuButton:pressed {
 	-fx-background-color: #c96b1a;
 }
 
@@ -79,6 +80,7 @@
 }
 
 .orangeBtn {
+	-fx-text-fill: #ffffff;
 	-fx-background-color: #f5821e;
 }
 

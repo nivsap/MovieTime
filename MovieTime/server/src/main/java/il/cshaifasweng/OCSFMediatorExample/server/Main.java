@@ -7,6 +7,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -138,7 +141,6 @@ public class Main extends AbstractServer{
 			Hall hall3 = new Hall(planeArray, 3, 3, new ArrayList<>(),telAvivCinema);
 			Hall hall4 = new Hall(planeArray, 3, 3, new ArrayList<>(),telAvivCinema);
 
-
 			Screening screeningOfFilm_1 = new Screening(getExacTime(2021, 5, 25, 16, 00), hall1, avengersEndgame,haifaCinema);
 			Screening screeningOfFilm_2 = new Screening(getExacTime(2021, 5, 25, 20, 00), hall1, sherlockHolmes,haifaCinema);
 			Screening screeningOfFilm_3 = new Screening(getExacTime(2021, 5, 26, 20, 00), hall2, sherlockHolmes,haifaCinema);
@@ -183,8 +185,6 @@ public class Main extends AbstractServer{
 			telAvivCinema.getHallArray().add(hall3);
 			telAvivCinema.getHallArray().add(hall4);
 
-
-
 			session.save(screeningOfFilm_1);
 			session.save(screeningOfFilm_2);
 			session.save(screeningOfFilm_3);
@@ -197,7 +197,6 @@ public class Main extends AbstractServer{
 			session.save(screeningOfFilm_10);
 			session.save(screeningOfFilm_11);
 			session.save(screeningOfFilm_12);
-
 
 			session.save(hall1);
 			session.save(hall2);
@@ -333,8 +332,7 @@ public class Main extends AbstractServer{
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		System.out.println("message recieved " +  ((Message)msg).getAction());
-		
-		
+
 		serverMsg = new Message();
 		if(((Message) msg).getAction().equals("update movie time")) {
 			System.out.println("about to update movie time");
@@ -424,6 +422,58 @@ public class Main extends AbstractServer{
 				serverMsg = (Message) msg;
 				serverMsg.setMovies((ArrayList<Movie>) MovieController.getAllScreeningMovies()); 
 				serverMsg.setAction("got screening movies");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant pull screening movies");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(((Message) msg).getAction().equals("sort movies by genre")) {
+			try {
+				serverMsg = (Message) msg;
+				serverMsg.setMovies((ArrayList<Movie>) MovieController.MoviesByGener(serverMsg.getGenre())); 
+				serverMsg.setAction("sorted movies by genre");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant pull screening movies");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(((Message) msg).getAction().equals("sort movies by date")) {
+			try {
+				serverMsg = (Message) msg;
+				serverMsg.setMovies((ArrayList<Movie>) MovieController.MoviesByDate(serverMsg.getDateMovie())); 
+				serverMsg.setAction("done to sort by date");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant pull screening movies");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(((Message) msg).getAction().equals("sort movies by popular")) {
+			try {
+				serverMsg = (Message) msg;
+				serverMsg.setMovies((ArrayList<Movie>) MovieController.MoviesByPopularty()); 
+				serverMsg.setAction("done to sort by popular");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant pull screening movies");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(((Message) msg).getAction().equals("pull movies from home")) {
+			try {
+				serverMsg = (Message) msg;
+				serverMsg.setMovies((ArrayList<Movie>) MovieController.WatchingFromHome()); 
+				serverMsg.setAction("got movies from home");
 				client.sendToClient(serverMsg);
 			}
 			catch (IOException e) {
@@ -575,4 +625,5 @@ public class Main extends AbstractServer{
 //		return t;
 //		
 //	}
+
 }

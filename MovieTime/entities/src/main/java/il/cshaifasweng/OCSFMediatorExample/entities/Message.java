@@ -2,6 +2,7 @@ package il.cshaifasweng.OCSFMediatorExample.entities;
 
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import javafx.util.Pair;
@@ -16,27 +17,30 @@ public class Message implements Serializable {
 	ArrayList<String> timeOfMovie; //for shir
 	Worker worker;
 	Complaint complaint;
-	int movieId;
-	int cinemaId;
+	int movieId;        //clientSide need to fill/set is field when send msg to server
+	int cinemaId;            //clientSide need to fill/set is field when send msg to server
 	ArrayList<Cinema> cinemasArrayList;
 	ArrayList<Screening> screeningArrayList;
-	int row;
-	int col;
-	Hall hall;
+	int row;         
+	int col;        
+	Hall hall;      //clientSide need to fill/set is field when send msg to server
 	boolean status;
 	//HANDLE TICKETS **for shir
 	boolean isTab;
-	String firstName;
-	String lastName;
-	String emailOrder;
-	String cityString;
-	String phoneString;
-	Pair<Boolean , Integer> cinemaTab;
+	String firstName;     //clientSide need to fill/set is field when send msg to server
+	String lastName;       //clientSide need to fill/set is field when send msg to server
+	String emailOrder;     //clientSide need to fill/set is field when send msg to server
+	String cityString;    //clientSide need to fill/set is field when send msg to server
+	String phoneString;    //clientSide need to fill/set is field when send msg to server
+	Pair<Boolean , Integer> cinemaTab;    //clientSide need to fill/set is field when send msg to server
 
 	String time;
 	String movieName;
 	String DbAction;
 	String error;
+	
+	String genre;     //clientSide need to fill/set is field when send msg to server
+	LocalDateTime dateMovie;    //clientSide need to fill/set is field when send msg to server
 	
 	public Message() {
 		super();
@@ -53,6 +57,30 @@ public class Message implements Serializable {
 
 	public void setStatus(boolean status) {
 		this.status = status;
+	}
+
+
+
+	public String getGenre() {
+		return genre;
+	}
+
+
+
+	public void setGenre(String genre) {
+		this.genre = genre;
+	}
+
+
+
+	public LocalDateTime getDateMovie() {
+		return dateMovie;
+	}
+
+
+
+	public void setDateMovie(LocalDateTime dateMovie) {
+		this.dateMovie = dateMovie;
 	}
 
 

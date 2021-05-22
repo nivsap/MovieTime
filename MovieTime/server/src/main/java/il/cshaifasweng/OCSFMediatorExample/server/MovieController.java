@@ -3,7 +3,6 @@ package il.cshaifasweng.OCSFMediatorExample.server;
 import java.util.ArrayList;
 import java.util.List;
 
-import il.cshaifasweng.OCSFMediatorExample.entities.Cinema;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 
 public class MovieController {

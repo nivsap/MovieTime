@@ -1,13 +1,7 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
-import java.awt.TextField;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 

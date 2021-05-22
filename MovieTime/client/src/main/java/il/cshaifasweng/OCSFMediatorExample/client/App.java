@@ -32,15 +32,16 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
     	EventBus.getDefault().register(this);
+    	MainPageAndComingSoonController controller=new MainPageAndComingSoonController() ;
     	stage = primaryStage;
     	
     	client = AppClient.getClient();
     	client.openConnection();
-    	
-    	
     	pageLayout = new BorderPane();
     	menu = (VBox) loadFXML("SystemMenu").getKey();
-    	content = (VBox) loadFXML("MainPage").getKey();
+    	controller.decide("MainPage");
+    	content=new VBox();
+    	content.getChildren().addAll(controller.getTopBar(),controller.getCardContainer());
     	pageLayout.setLeft(menu);
     	pageLayout.setCenter(content);
         scene = new Scene(pageLayout, 900, 700);

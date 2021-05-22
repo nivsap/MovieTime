@@ -417,8 +417,10 @@ public class Main extends AbstractServer{
 		}
 		if(((Message) msg).getAction().equals("pull screening movies")) {
 			try {
+				System.out.println("in Main pull screeening movies msg");
 				serverMsg = (Message) msg;
 				serverMsg.setMovies((ArrayList<Movie>) MovieController.getAllScreeningMovies()); 
+				System.out.println("in the func handleMessageFromClient");
 				serverMsg.setAction("got screening movies");
 				client.sendToClient(serverMsg);
 			}

@@ -55,12 +55,12 @@ public class CardContainerController {
     	EventBus.getDefault().register(this);
 
     	System.out.println("trying to send pull screening movies from card container  controller");
-		String actionType="pull screening movies";
+		String actionType = null;
     	if(namePage.equals("MainPage")) {
     		actionType="pull screening movies";
     		System.out.println("pull screening movies");
 		}
-		if(namePage.equals("ComingSoon")) {
+		if(namePage.equals("ComingSoonPage")) {
 			actionType="pull soon movies";
 		}
 		try {
@@ -83,7 +83,7 @@ public class CardContainerController {
 	public void onMessageEvent(Message msg) {
 		System.out.println("reveived message!!");
 		System.out.println(msg.getAction());
-    	if(msg.getAction().equals("got screening movies")) {
+    	if(msg.getAction().equals("got screening movies")||msg.getAction().equals("got soon movies")) {
     		Platform.runLater(()-> {
     			recentlyAdded = msg.getMovies();
     			moviesNumber = recentlyAdded.size();

@@ -31,6 +31,7 @@ public class Message implements Serializable {
 	String emailOrder;
 	String cityString;
 	String phoneString;
+	public String genreString;
 	Pair<Boolean , Integer> cinemaTab;
 
 	String time;

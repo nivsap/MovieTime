@@ -5,6 +5,7 @@ import java.util.List;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import javafx.application.Platform;
@@ -12,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
@@ -50,18 +52,31 @@ public class ComingSoonPageController {
     
     private List<Movie> recentlyLoaded;
     
+    @FXML
+    private ComboBox<String> GenreComboBox;
     
     public ComingSoonPageController() {
 		currentlyDisplayedFrom = 0;
 		comingSoonNumber = 0;
 	}
+    
 
-    @FXML
+   @FXML
     void initialize() {
-		System.out.println("initializing coming soon page");
+	   
+	   System.out.println("initializing coming soon page");
 		EventBus.getDefault().register(this);
-		Message msg = new Message();
-		msg.setAction("pull soon movies");
+	   GenreComboBox.getItems().addAll(Complaint.getComplaintTypes());
+
+		
+    }
+    
+ /*   public void SetComingSoon(int displayFrom) {
+  * 
+  * 
+  * 
+  * Message msg = new Message();
+		msg.setAction("pull soon movies genre");
 		try {
 			System.out.println("trying to send msg to server");
 			AppClient.getClient().sendToServer(msg);
@@ -70,9 +85,9 @@ public class ComingSoonPageController {
 			System.out.println("failed to send msg to server from coming soon page");
 			e.printStackTrace();
 		}
-    }
-    
-    public void SetComingSoon(int displayFrom) {
+		
+		
+		
     	int index;
 		if(comingSoonNumber < NUM_ROWS * NUM_COLS) 
 			index = 0;
@@ -128,6 +143,7 @@ public class ComingSoonPageController {
     		currentlyDisplayedFrom = nextIndex;
     	SetComingSoon(currentlyDisplayedFrom);
 
-    }
+    }*/
+    
 
 }

@@ -32,16 +32,14 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
     	EventBus.getDefault().register(this);
-    	MainPageAndComingSoonController controller=new MainPageAndComingSoonController() ;
     	stage = primaryStage;
     	
     	client = AppClient.getClient();
     	client.openConnection();
     	pageLayout = new BorderPane();
     	menu = (VBox) loadFXML("SystemMenu").getKey();
-    	controller.decide("MainPage");
     	content=new VBox();
-    	content.getChildren().addAll(controller.getTopBar(),controller.getCardContainer());
+    	setContentForGrid("MainPage","Movie Time");
     	pageLayout.setLeft(menu);
     	pageLayout.setCenter(content);
         scene = new Scene(pageLayout, 900, 700);
@@ -60,7 +58,14 @@ public class App extends Application {
 		 */
     }
 
-    
+    static void setContentForGrid(String pageName,String pageTitle) throws IOException {
+    	MainPageAndComingSoonController controller=new MainPageAndComingSoonController();
+    	controller.decide(pageName);
+    	content.getChildren().setAll(controller.getTopBar(),controller.getCardContainer());
+    	stage.setTitle(pageTitle);
+
+
+    }
     static Object setContent(String pageName, String pageTitle) throws IOException {
     	// setContent() loads page/FXML into App's content container and returns page's controller.
     	if(pageName == "MainPage")

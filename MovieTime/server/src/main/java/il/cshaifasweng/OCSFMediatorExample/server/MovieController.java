@@ -18,6 +18,18 @@ public class MovieController {
 		}
 		return toReturnArrayList;
 	}
+	public static List<Movie> getGenreTypeMovies(String genre) {
+		ArrayList<Movie> soonMoviesArrayList = new ArrayList<>();
+		ArrayList<Movie> toReturnArrayList = new ArrayList<>();
+		soonMoviesArrayList = Main.getAllOfType(Movie.class);
+		for(int i = 0 ; i < soonMoviesArrayList.size() ; i++) {
+			//System.out.println(movie.getName());
+			if(soonMoviesArrayList.get(i).isSoonInCinema()&&soonMoviesArrayList.get(i).getGenre()==genre) {
+				toReturnArrayList.add(soonMoviesArrayList.get(i));
+			}
+		}
+		return toReturnArrayList;
+	}
 	
 	public static List<Movie> getAllScreeningMovies() {
 		ArrayList<Movie> screeningMoviesArrayList = new ArrayList<>();

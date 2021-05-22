@@ -430,6 +430,21 @@ public class Main extends AbstractServer{
 				e.printStackTrace();
 			}
 		}
+		if(((Message) msg).getAction().equals("pull soon movies genre")) {
+			try {
+				System.out.println("in Main genre pull screeening movies msg");
+				serverMsg = (Message) msg;
+				serverMsg.setMovies((ArrayList<Movie>) MovieController.getGenreTypeMovies(serverMsg.genreString)); 
+				System.out.println("in the func handleMessageFromClient");
+				serverMsg.setAction("got screening movies");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant pull screening movies");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		if(((Message) msg).getAction().equals("picking chair")) {
 			try {
 				serverMsg = (Message) msg;
@@ -443,6 +458,7 @@ public class Main extends AbstractServer{
 				e.printStackTrace();
 			}
 		}
+		
 		if(((Message) msg).getAction().equals("save customer")) { // save ticket // save customer 
 			try {
 				Customer customer = null;

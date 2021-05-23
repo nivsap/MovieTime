@@ -39,7 +39,7 @@ public class App extends Application {
     	pageLayout = new BorderPane();
     	menu = (VBox) loadFXML("SystemMenu").getKey();
     	content=new VBox();
-    	setContentForGrid("MainPage","Movie Time");
+    	setBarAndGrid("MainPage","Movie Time");
     	pageLayout.setLeft(menu);
     	pageLayout.setCenter(content);
         scene = new Scene(pageLayout, 900, 700);
@@ -58,14 +58,14 @@ public class App extends Application {
 		 */
     }
 
-    static void setContentForGrid(String pageName,String pageTitle) throws IOException {
-    	MainPageAndComingSoonController controller=new MainPageAndComingSoonController();
-    	controller.decide(pageName);
+    static void setBarAndGrid(String pageName,String pageTitle) throws IOException {
+    	BarAndGridLayoutController controller = new BarAndGridLayoutController();
+    	controller.setBarAndGrid(pageName);
     	content.getChildren().setAll(controller.getTopBar(),controller.getCardContainer());
     	stage.setTitle(pageTitle);
-
-
     }
+    
+    
     static Object setContent(String pageName, String pageTitle) throws IOException {
     	// setContent() loads page/FXML into App's content container and returns page's controller.
     	if(pageName == "MainPage")

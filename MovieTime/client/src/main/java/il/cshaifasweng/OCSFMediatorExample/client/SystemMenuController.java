@@ -35,7 +35,7 @@ public class SystemMenuController extends Pane {
 
     @FXML
     void loadMainPage(ActionEvent event) throws IOException {
-    	App.setContentForGrid("MainPage", "Movie Time");
+    	App.setBarAndGrid("MainPage", "Movie Time");
     }
     
     @FXML
@@ -46,7 +46,7 @@ public class SystemMenuController extends Pane {
     
     @FXML
     void loadComingSoonPage(ActionEvent event) throws IOException {
-    	App.setContentForGrid("ComingSoonPage", "Coming Soon");
+    	App.setBarAndGrid("ComingSoonPage", "Coming Soon");
     }
     
     @FXML

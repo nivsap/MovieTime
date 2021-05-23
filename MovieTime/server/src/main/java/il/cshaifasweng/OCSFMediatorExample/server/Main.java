@@ -447,11 +447,11 @@ public class Main extends AbstractServer{
 				e.printStackTrace();
 			}
 		}
-		if(((Message) msg).getAction().equals("pull soon movies genre")) {
+		if(currentMsg.getAction().equals("pull soon movies genre")) {
 			try {
 				System.out.println("in Main genre pull screeening movies msg");
 				serverMsg = (Message) msg;
-				serverMsg.setMovies((ArrayList<Movie>) MovieController.getGenreTypeMovies(serverMsg.genreString)); 
+				serverMsg.setMovies((ArrayList<Movie>) MovieController.getGenreTypeMovies(serverMsg.getGenre())); 
 				System.out.println("in the func handleMessageFromClient");
 				serverMsg.setAction("got screening movies");
 				client.sendToClient(serverMsg);
@@ -462,7 +462,7 @@ public class Main extends AbstractServer{
 				e.printStackTrace();
 			}
 		}
-		if(((Message) msg).getAction().equals("sort movies by genre")) {
+		if(currentMsg.getAction().equals("sort movies by genre")) {
 			try {
 				serverMsg = (Message) msg;
 				serverMsg.setMovies((ArrayList<Movie>) MovieController.MoviesByGener(serverMsg.getGenre())); 
@@ -475,7 +475,7 @@ public class Main extends AbstractServer{
 				e.printStackTrace();
 			}
 		}
-		if(((Message) msg).getAction().equals("sort movies by date")) {
+		if(currentMsg.getAction().equals("sort movies by date")) {
 			try {
 				serverMsg = (Message) msg;
 				serverMsg.setMovies((ArrayList<Movie>) MovieController.MoviesByDate(serverMsg.getDateMovie())); 
@@ -488,7 +488,7 @@ public class Main extends AbstractServer{
 				e.printStackTrace();
 			}
 		}
-		if(((Message) msg).getAction().equals("sort movies by popular")) {
+		if(currentMsg.getAction().equals("sort movies by popular")) {
 			try {
 				serverMsg = (Message) msg;
 				serverMsg.setMovies((ArrayList<Movie>) MovieController.MoviesByPopularty()); 
@@ -501,7 +501,7 @@ public class Main extends AbstractServer{
 				e.printStackTrace();
 			}
 		}
-		if(((Message) msg).getAction().equals("pull movies from home")) {
+		if(currentMsg.getAction().equals("pull movies from home")) {
 			try {
 				serverMsg = (Message) msg;
 				serverMsg.setMovies((ArrayList<Movie>) MovieController.WatchingFromHome()); 
@@ -528,7 +528,7 @@ public class Main extends AbstractServer{
 			}
 		}
 		
-		if(((Message) msg).getAction().equals("save customer")) { // save ticket // save customer 
+		if(currentMsg.getAction().equals("save customer")) { // save ticket // save customer 
 			try {
 				Customer customer = null;
 				serverMsg = (Message) msg;

@@ -179,11 +179,11 @@ public class FilingComplaintsPageController  {
 
     @Subscribe
 	public void onMessageEvent(Message msg) throws IOException {
-
     	if(msg.getAction().equals("added a complaint")) {
         	Platform.runLater(()-> {
     			try {
-    				ComplaintAddedPageController controller = (ComplaintAddedPageController) App.setContent("ComplaintAddedPage", "Thank you");
+    				App.setWindowTitle("Thank you");
+    				ComplaintAddedPageController controller = (ComplaintAddedPageController) App.setContent("ComplaintAddedPage");
     	    		controller.setData(newComplaint);
     			} catch (IOException e) {
     				// TODO Auto-generated catch block

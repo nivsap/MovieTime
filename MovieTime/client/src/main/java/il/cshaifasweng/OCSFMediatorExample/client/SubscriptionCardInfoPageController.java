@@ -4,10 +4,7 @@ import java.io.IOException;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class SubscriptionCardInfoPageController {
@@ -16,11 +13,6 @@ public class SubscriptionCardInfoPageController {
     
     public SubscriptionCardInfoPageController() {
     	slideShowContainer = new VBox();
-    }
-
-    @FXML
-    void initialize() {
-        assert slideShowContainer != null : "fx:id=\"slideShowContainer\" was not injected: check your FXML file 'SubscriptionCardInfoPage.fxml'.";
     }
     
     public void setImageSlider() throws IOException {

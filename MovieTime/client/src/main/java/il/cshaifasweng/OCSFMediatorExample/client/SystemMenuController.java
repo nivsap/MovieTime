@@ -39,6 +39,12 @@ public class SystemMenuController extends Pane {
     }
     
     @FXML
+    void loadSubscriptionCardInfoPage(ActionEvent event) throws IOException {
+    	SubscriptionCardInfoPageController controller = (SubscriptionCardInfoPageController) App.setContent("SubscriptionCardInfoPage", "Subscription Cards");
+    	controller.setImageSlider();
+    }
+    
+    @FXML
     void loadComingSoonPage(ActionEvent event) throws IOException {
     	App.setContent("ComingSoonPage", "Coming Soon");
     }

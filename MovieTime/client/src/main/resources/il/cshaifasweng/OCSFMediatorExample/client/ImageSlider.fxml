@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+
+
+<ImageView fx:id="imageSlider" fitHeight="350.0" fitWidth="650.0" pickOnBounds="true" preserveRatio="true" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.ImageSliderController">
+   <image>
+      <Image url="@images/MoviesPosters/LargeImages/AvengersEndgame.png" />
+   </image>
+</ImageView>

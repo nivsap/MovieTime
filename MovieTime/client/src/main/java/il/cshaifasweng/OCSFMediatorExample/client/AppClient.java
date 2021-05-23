@@ -56,6 +56,7 @@ public class AppClient extends AbstractClient {
 		}
 		if (((Message) msg).getAction().equals("got screening movies"))
 		{
+			System.out.println("AppClient got screening movies");
 			EventBus.getDefault().post(((Message) msg));
 		}
 		if (((Message) msg).getAction().equals("sorted movies by genre"))

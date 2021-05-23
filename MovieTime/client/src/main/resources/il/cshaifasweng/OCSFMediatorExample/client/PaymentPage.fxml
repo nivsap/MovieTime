@@ -77,7 +77,7 @@
                      <Font size="18.0" />
                   </font>
                </Label>
-               <Button fx:id="payNowBtn" alignment="CENTER" layoutX="275.0" layoutY="425.0" mnemonicParsing="false" onAction="#padNow" prefWidth="150.0" styleClass="orangeBtn" text="Pay now" />
+               <Button fx:id="payNowBtn" alignment="CENTER" layoutX="275.0" layoutY="425.0" mnemonicParsing="false" onAction="#padNow" prefWidth="150.0" styleClass="orangeButton" text="Pay now" />
             </children>
          </AnchorPane>
       </children>

@@ -8,8 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 
-
-
 public class CardController {
 
 	    @FXML
@@ -29,13 +27,14 @@ public class CardController {
 	    
 	    @FXML
 	    void loadMovieInfoPage(ActionEvent event) throws IOException {
-
+	    	App.setWindowTitle(cardMovie.getName());
+	    	
 	    	if(!cardMovie.isSoonInCinema()) {
-		    	MovieInfoPageController controller = (MovieInfoPageController) App.setContent("MovieInfoPage", cardMovie.getName());
+		    	MovieInfoPageController controller = (MovieInfoPageController) App.setContent("MovieInfoPage");
 		    	controller.InitPageInfo(cardMovie);
 	    	}
 	    	else {
-	    		ComingSoonInfoPageController controller = (ComingSoonInfoPageController) App.setContent("ComingSoonInfoPage", cardMovie.getName());
+	    		ComingSoonInfoPageController controller = (ComingSoonInfoPageController) App.setContent("ComingSoonInfoPage");
 		    	controller.setComingSoonInfo(cardMovie);
 	    	}
 

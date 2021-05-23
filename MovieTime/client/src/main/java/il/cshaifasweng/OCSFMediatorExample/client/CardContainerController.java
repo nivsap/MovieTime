@@ -72,10 +72,7 @@ public class CardContainerController {
 			// TODO Auto-generated catch block
 			System.out.println("failed to send msg to server from recentlyAdded");
 			e.printStackTrace();
-		}
-		
-		
-		
+		}	
     }
     
     

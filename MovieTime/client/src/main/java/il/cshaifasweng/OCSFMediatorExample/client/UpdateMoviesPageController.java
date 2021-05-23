@@ -14,22 +14,14 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 public class UpdateMoviesPageController{
-
-	
 	private List<Movie> allMovies;
 	private String[] time;
-	
 
     @FXML
     private ComboBox<String> cb_movie;
@@ -60,20 +52,11 @@ public class UpdateMoviesPageController{
 		System.out.println("initializing UpdateMoviePage");
 		EventBus.getDefault().register(this);
 		PullMovies();
-		
-		
-		  
-		 
-		
 	}
-	
 	
 	private void PullMovies() {
 		Message msg= new Message();
 		msg.setAction("pull movies");
-		
-
-		
 		try {
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
@@ -96,7 +79,6 @@ public class UpdateMoviesPageController{
 					ctrl.SetData(movie.getName(), "Haifa", "20.05.21", time);
 					screening_time_layout.getChildren().add(cardBox);
 				}
-				 
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -109,7 +91,6 @@ public class UpdateMoviesPageController{
 	}
 	 
 	public void SetData() {
-
 			cb_time.getItems().clear();
 			cb_movie.getItems().clear();
 			cb_cinema.getItems().clear();
@@ -129,67 +110,51 @@ public class UpdateMoviesPageController{
 					"16:00","16:30","17:00","17:30","18:00","18:30","19:00", "19:30",
 					"20:00","20:30","21:00","21:30","22:00","22:30","23:00", "23:30");
 			cb_date.getItems().add("20.05.21");
-			InitPage();
-		
+			InitPage();	
 	}
 	
 	@Subscribe
 	public void onMessageEvent(Message msg) throws IOException {
-		
     		if(msg.getAction().equals("got movies")) {
-    			
     			Platform.runLater(()-> {
     				allMovies = msg.getMovies();
     				SetData();
     			});
     		}
     		if(msg.getAction().equals("updated movie time")) {
-    			
     			Platform.runLater(()-> {
     				try {
-						App.setContent("UpdateMoviesPage", "Update Movie Time");
+    					App.setWindowTitle(PageTitles.UpdateMoviesPage);
+						App.setContent("UpdateMoviesPage");
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-    			});
-    			
+    			});		
     		}
     		if(msg.getAction().equals("update movie error")) {
-    			JOptionPane.showMessageDialog(null, msg.getError());
-    			
+    			JOptionPane.showMessageDialog(null, msg.getError());	
     		}
-    		
-
 	}
-	
-		
-	
+
 	@SuppressWarnings("unlikely-arg-type")
 	@FXML
 	private void UpdateMovieTime(ActionEvent event)
-	{
-		
+	{	
 		boolean timeChanged = false;
-		if(cb_movie.getSelectionModel().isEmpty() || 
-				cb_date.getSelectionModel().isEmpty() ||
-				cb_time.getSelectionModel().isEmpty() ||
-				cb_cinema.getSelectionModel().isEmpty() ||
-				cb_removal_addition.getSelectionModel().isEmpty()) {
+		if(cb_movie.getSelectionModel().isEmpty() || cb_date.getSelectionModel().isEmpty() || cb_time.getSelectionModel().isEmpty() || 
+				cb_cinema.getSelectionModel().isEmpty() || cb_removal_addition.getSelectionModel().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "You must fill all the fields");
-		}else {
-			
+		}
+		else {
 			Message msg = new Message();
 			msg.setAction("update movie time");
 			msg.setTime(cb_time.getValue());
 			msg.setMovieName(cb_movie.getValue());
 			msg.setDbAction(cb_removal_addition.getValue());
-			
-			
-			  System.out.println(cb_time.getValue());
-			  System.out.println(cb_movie.getValue());
-			  System.out.println(cb_removal_addition.getValue());
-			 
+			System.out.println(cb_time.getValue());
+			System.out.println(cb_movie.getValue());
+			System.out.println(cb_removal_addition.getValue()); 
 			try {
 				AppClient.getClient().sendToServer(msg);
 			} catch (IOException e) {
@@ -197,17 +162,7 @@ public class UpdateMoviesPageController{
 				System.out.println("failed to send msg to server from UpdateMovieController");
 				e.printStackTrace();
 			}
-			
-			
-			
 		}
-		
-		
-		
 	}
-	
-	
-
-	
 }
 

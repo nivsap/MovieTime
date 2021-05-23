@@ -167,8 +167,6 @@ public class MainPageController implements Initializable {
 		
 		EventBus.getDefault().unregister(this);
 
-		
-		
 		Stage stage = (Stage) btn_update_movie_time.getScene().getWindow();
 		Parent p =Loader.getRoot();
 		stage.setScene(new Scene(p));
@@ -176,11 +174,6 @@ public class MainPageController implements Initializable {
 		stage.show();
 
 	}
-
-	 @FXML
-	 void loadUpdatePage(ActionEvent event) throws IOException {
-		 App.setContent("UpdateMoviesPage", "Update Movie Time");
-	 }
 }
 /*
  * @FXML void GoToUpdateMovieTime(ActionEvent event) {

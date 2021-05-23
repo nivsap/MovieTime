@@ -1,23 +1,10 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
-import java.net.URL;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import java.util.List;
-import java.util.ResourceBundle;
-import org.greenrobot.eventbus.EventBus;
+
 
 public class BarAndGridLayoutController {
 	CardContainerController gridController;

@@ -73,7 +73,8 @@ public class OrderTicketsPageController {
     
     @FXML
     void orderTickets() throws IOException {
-    	PaymentPageController controller = (PaymentPageController) App.setContent("PaymentPage", "Tickets Order");
+    	App.setWindowTitle(PageTitles.OrderTicketsPage);
+    	PaymentPageController controller = (PaymentPageController) App.setContent("PaymentPage");
     }
 
 }

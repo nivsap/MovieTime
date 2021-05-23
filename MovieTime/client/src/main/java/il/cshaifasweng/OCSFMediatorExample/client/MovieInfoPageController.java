@@ -1,13 +1,8 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
-
 import java.io.IOException;
-import java.net.URL;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
-import org.bouncycastle.asn1.cms.TimeStampAndCRL;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -18,7 +13,6 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -100,8 +94,6 @@ public class MovieInfoPageController {
     	Image largeImage = new  Image(getClass().getResourceAsStream("images/MoviesPosters/LargeImages/" + movie.getLargeImageSrc()));
     	movieLargeImageSrc.setImage(largeImage);
     	movieImageSrc.setImage(image);
-    	
-    	
     	getCinemas(movie.getId());
     	cinemaCombo.getItems().clear();
     	dateCombo.getItems().clear();
@@ -119,8 +111,6 @@ public class MovieInfoPageController {
 			e.printStackTrace();
 		}
     }
-    
-    
     
     @Subscribe 
     public void onMessageEvent(Message msg){
@@ -147,13 +137,8 @@ public class MovieInfoPageController {
 	    			if(!dateCombo.getItems().contains(onlyDate))
 	    				dateCombo.getItems().add(onlyDate);
 	    		}
-    		});
-    		
-    	}
-    	
-    	
-    	
-    	
+    		});	
+    	}	
     }
     
     @FXML
@@ -200,24 +185,14 @@ public class MovieInfoPageController {
     		onlyTime = onlyTime.substring(11,16);
     		timeCombo.getItems().add(onlyTime);
     	}
-    	
     }
-    
-    
-    
-    
-    
     
     @FXML
     void orderTickets(ActionEvent event) throws IOException {
-    	OrderTicketsPageController controller = (OrderTicketsPageController) App.setContent("OrderTicketsPage", "Order Tickets");
-
+    	App.setWindowTitle(PageTitles.OrderTicketsPage);
+    	OrderTicketsPageController controller = (OrderTicketsPageController) App.setContent("OrderTicketsPage");
     	controller.loadMovieInfo(currentlyDisplayed);
     	controller.loadHallMap(7, 10);
-
     }
-
-
-
 
 }

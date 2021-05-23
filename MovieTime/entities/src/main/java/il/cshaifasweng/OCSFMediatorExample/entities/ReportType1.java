@@ -17,7 +17,4 @@ public class ReportType1 extends Report implements  Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	//private static final long serialVersionUID = 1L;
-	
-	
-
 }

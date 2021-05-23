@@ -17,35 +17,6 @@ public class Ticket implements  Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	//private static final long serialVersionUID = 1L;
-	private Screening screen;
-	private Cinema cinema;
-	private Double cost;
-	private int [] sits;
-	public Screening getScreen() {
-		return screen;
-	}
-	public void setScreen(Screening screen) {
-		this.screen = screen;
-	}
-	public Cinema getCinema() {
-		return cinema;
-	}
-	public void setCinema(Cinema cinema) {
-		this.cinema = cinema;
-	}
-	public Double getCost() {
-		return cost;
-	}
-	public void setCost(Double cost) {
-		this.cost = cost;
-	}
-	public int [] getSits() {
-		return sits;
-	}
-	public void setSits(int [] sits) {
-		this.sits = sits;
-	}
-
+	private Customer orderTicket;
 	
-
 }

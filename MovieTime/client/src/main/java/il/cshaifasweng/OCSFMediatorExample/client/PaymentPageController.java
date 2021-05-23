@@ -11,6 +11,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class PaymentPageController {
+	
+
+	  
     @FXML
     private TextField firstNameTextField;
 
@@ -117,6 +120,8 @@ public class PaymentPageController {
         hideWarningLabels();
     }
     
+    
+ 
 	void hideWarningLabels() {
 		firstNameWarningLabel.setVisible(false);
 		lastNameWarningLabel.setVisible(false);
@@ -134,70 +139,75 @@ public class PaymentPageController {
     @FXML
     void padNow(ActionEvent event) {
     	hideWarningLabels();
+    	boolean emptyField = true;
     	
     	String firstName = firstNameTextField.getText();
     	if(firstName == "") {
     		firstNameWarningLabel.setVisible(true);
-    		return;
+    		emptyField = false;
     	}
     	
     	String lastName = lastNameTextField.getText();
     	if(lastName == "") {
     		lastNameWarningLabel.setVisible(true);
-    		return;
+    		emptyField = false;
     	}
     	
     	String email = emailTextField.getText();
     	if(email == "") {
     		emailWarningLabel.setVisible(true);
-    		return;
+    		emptyField = false;
     	}
     		
     	String address = addressTextField.getText();
     	if(address == "") {
     		addressWarningLabel.setVisible(true);
-    		return;
+    		emptyField = false;
     	}
     	
     	String city = cityTextField.getText();
     	if(city == "") {
     		cityWarningLabel.setVisible(true);
-    		return;
+    		emptyField = false;
     	}
     	
     	String phoneNumber = phoneNumberTextField.getText();
     	if(phoneNumber == "") {
     		phoneNumberWarningLabel.setVisible(true);
-    		return;
+    		emptyField = false;
     	}
     	
     	String cardHoldersName = cardHoldersNameTextField.getText();
     	if(cardHoldersName == "") {
     		cardHoldersNameWarningLabel.setVisible(true);
-    		return;
+    		emptyField = false;
     	}
     	
     	String cardHoldersID = cardHoldersIDTextField.getText();
     	if(cardHoldersID == "") {
     		cardHoldersIDWarningLabel.setVisible(true);
-    		return;
+    		emptyField = false;
     	}
     	
     	String cardNumber = cardNumberTextField.getText();
     	if(cardNumber == "") {
     		cardNumberWarningLabel.setVisible(true);
-    		return;
+    		emptyField = false;
     	}
     	
     	LocalDate cardExpirationDate = cardExpirationDatePicker.getValue();
     	if(cardExpirationDate == null) {
     		cardExpirationDateWarningLabel.setVisible(true);
-    		return;
+    		emptyField = false;
     	}
     	
     	String cardCVV = cardCVVTextField.getText();
     	if(cardCVV == "") {
     		cardCVVWarningLabel.setVisible(true);
+    		emptyField = false;
+    	}
+    	
+    	if(emptyField == false) {
     		return;
     	}
     	

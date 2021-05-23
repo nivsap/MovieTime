@@ -2,7 +2,10 @@ package il.cshaifasweng.OCSFMediatorExample.entities;
 
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+
+import javafx.util.Pair;
 
 public class Message implements Serializable {
 	String action;
@@ -14,20 +17,30 @@ public class Message implements Serializable {
 	ArrayList<String> timeOfMovie; //for shir
 	Worker worker;
 	Complaint complaint;
-	int movieId;
-	int cinemaId;
+	int movieId;        //clientSide need to fill/set is field when send msg to server
+	int cinemaId;            //clientSide need to fill/set is field when send msg to server
 	ArrayList<Cinema> cinemasArrayList;
 	ArrayList<Screening> screeningArrayList;
-	int row;
-	int col;
-	Hall hall;
+	int row;         
+	int col;        
+	Hall hall;      //clientSide need to fill/set is field when send msg to server
 	boolean status;
-
+	//HANDLE TICKETS **for shir
+	boolean isTab;
+	String firstName;     //clientSide need to fill/set is field when send msg to server
+	String lastName;       //clientSide need to fill/set is field when send msg to server
+	String emailOrder;     //clientSide need to fill/set is field when send msg to server
+	String cityString;    //clientSide need to fill/set is field when send msg to server
+	String phoneString;    //clientSide need to fill/set is field when send msg to server
+	Pair<Boolean , Integer> cinemaTab;    //clientSide need to fill/set is field when send msg to server
 
 	String time;
 	String movieName;
 	String DbAction;
 	String error;
+	
+	String genre;     //clientSide need to fill/set is field when send msg to server
+	LocalDateTime dateMovie;    //clientSide need to fill/set is field when send msg to server
 	
 	public Message() {
 		super();
@@ -48,8 +61,116 @@ public class Message implements Serializable {
 
 
 
+	public String getGenre() {
+		return genre;
+	}
+
+
+
+	public void setGenre(String genre) {
+		this.genre = genre;
+	}
+
+
+
+	public LocalDateTime getDateMovie() {
+		return dateMovie;
+	}
+
+
+
+	public void setDateMovie(LocalDateTime dateMovie) {
+		this.dateMovie = dateMovie;
+	}
+
+
+
 	public int getRow() {
 		return row;
+	}
+
+
+
+	public boolean isTab() {
+		return isTab;
+	}
+
+
+
+	public void setTab(boolean isTab) {
+		this.isTab = isTab;
+	}
+
+
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+
+
+	public String getLastName() {
+		return lastName;
+	}
+
+
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+
+
+	public String getEmailOrder() {
+		return emailOrder;
+	}
+
+
+
+	public void setEmailOrder(String emailOrder) {
+		this.emailOrder = emailOrder;
+	}
+
+
+
+	public String getCityString() {
+		return cityString;
+	}
+
+
+
+	public void setCityString(String cityString) {
+		this.cityString = cityString;
+	}
+
+
+
+	public String getPhoneString() {
+		return phoneString;
+	}
+
+
+
+	public void setPhoneString(String phoneString) {
+		this.phoneString = phoneString;
+	}
+
+
+
+	public Pair<Boolean, Integer> getCinemaTab() {
+		return cinemaTab;
+	}
+
+
+
+	public void setCinemaTab(Pair<Boolean, Integer> cinemaTab) {
+		this.cinemaTab = cinemaTab;
 	}
 
 

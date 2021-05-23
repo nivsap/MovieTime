@@ -41,7 +41,7 @@ public class ScreeningController {
 		//System.out.println(hall.getChair()[0][0]);
 		if(hall.getChair()[row][col] == false) {
 			hall.getChair()[row][col] = true;
-			Main.updateChair(hall);
+			Main.updateRowDB(hall);
 			System.out.println("ok");
 			return true;
 		}

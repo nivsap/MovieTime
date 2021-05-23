@@ -21,7 +21,7 @@
                      <Font size="18.0" />
                   </font>
                </Label>
-               <TextArea layoutX="197.0" layoutY="90.0" prefHeight="50.0" prefWidth="255.0" style="-fx-background-color: transparent;" text="Screening info, number of tickets, seats info&#10;will be diaplayed here later on..." />
+               <TextArea fx:id="tf_order_summery" layoutX="197.0" layoutY="90.0" prefHeight="50.0" prefWidth="255.0" style="-fx-background-color: transparent;" text="Screening info, number of tickets, seats info&#10;will be diaplayed here later on..." />
             </children>
          </AnchorPane>
          <AnchorPane layoutY="240.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="700.0" style="-fx-background-color: #141518;">

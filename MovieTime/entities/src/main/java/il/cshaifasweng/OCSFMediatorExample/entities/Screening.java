@@ -2,7 +2,6 @@ package il.cshaifasweng.OCSFMediatorExample.entities;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.Date;
 
 import javax.persistence.CascadeType;

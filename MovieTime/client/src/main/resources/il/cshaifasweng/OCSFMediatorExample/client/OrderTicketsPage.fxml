@@ -76,7 +76,7 @@
                         </font>
                      </Label>
                      <Label alignment="TOP_CENTER" layoutY="134.0" prefHeight="30.0" prefWidth="260.0" text="Screening info will be displayed later on..." textFill="WHITE" />
-                     <Button fx:id="orderTicketsBtn" layoutX="55.0" layoutY="260.0" mnemonicParsing="false" onAction="#orderTickets" prefWidth="150.0" styleClass="orangeBtn" text="Order Tickets" />
+                     <Button fx:id="orderTicketsBtn" layoutX="55.0" layoutY="260.0" mnemonicParsing="false" onAction="#orderTickets" prefWidth="150.0" styleClass="orangeButton" text="Order Tickets" />
                   </children>
                </AnchorPane>
             </children>

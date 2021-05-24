@@ -13,6 +13,7 @@ public class Message implements Serializable {
 	String password;
 	String typeOfWorkerString;
 	Movie movie;
+	Screening screening;
 	ArrayList<Movie> movies;
 	ArrayList<String> timeOfMovie; //for shir
 	Worker worker;
@@ -33,7 +34,7 @@ public class Message implements Serializable {
 	String cityString;    //clientSide need to fill/set is field when send msg to server
 	String phoneString;    //clientSide need to fill/set is field when send msg to server
 	Pair<Boolean , Integer> cinemaTab;    //clientSide need to fill/set is field when send msg to server
-
+	Integer[][] seats;
 	String time;
 	String movieName;
 	String DbAction;
@@ -375,5 +376,20 @@ public class Message implements Serializable {
 		return error;
 	}
 	
+	public Integer[][] getSeats(){
+		return seats;
+	}
+	
+	public void setSeats(Integer[][] seats) {
+		this.seats = seats;
+	}
+	
+	public Screening getScreening() {
+		return screening;
+	}
+	
+	public void setScreening(Screening screening) {
+		this.screening = screening;
+	}
 }
 

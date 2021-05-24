@@ -25,15 +25,24 @@ import com.sun.net.httpserver.HttpExchange;
  */
 public class JavaMailUtil {
 
-		
-	public static void sendMessage(String toMail, String sub, String msg) {
-		String message = msg;
-		String subject  = sub;
-		String to = toMail;
-		String from = "TheSirtiya@gmail.com";
-		
+	
+	private static String from = "TheSirtiya@gmail.com";
+	public static void sendMessage(String toMail, String subject, String msg) {
 			
-		sendEmail(message,subject,to,from);
+		sendEmail(msg,subject,toMail,from);
+		
+		
+	}
+	
+	public static void sendSuccesfulTicketPurchaseMessage(String toMail) {
+		
+		String subject = "The Sirtiya purcahse details";
+		String message = "Dear %s, Thank you for your purchase.\n"
+				+ "the details of your order are:\n"
+				//for loop over tickets
+				+"%cinemaName Cinema, hall %hallNumber, Seat %seatNumber\n"
+				+ "Total price: %price";
+		sendEmail(message,subject,toMail,from);
 		
 		
 	}

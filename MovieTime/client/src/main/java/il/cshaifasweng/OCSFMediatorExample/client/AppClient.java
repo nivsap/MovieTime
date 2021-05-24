@@ -87,6 +87,14 @@ public class AppClient extends AbstractClient {
 		{
 			EventBus.getDefault().post(((Message) msg));
 		}
+		if (((Message) msg).getAction().equals("picking seats success"))
+		{
+			EventBus.getDefault().post(((Message) msg));
+		}
+		if (((Message) msg).getAction().equals("picking seats error"))
+		{
+			EventBus.getDefault().post(((Message) msg));
+		}
 		
 	}
 	@Override

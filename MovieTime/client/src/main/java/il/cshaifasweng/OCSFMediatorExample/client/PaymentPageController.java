@@ -1,7 +1,11 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.Hall;
+import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -9,10 +13,14 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.util.Pair;
 
 public class PaymentPageController {
 	
-
+	private String orderType;
+	private Hall hall;
+	private Screening screening;
+	private ArrayList<Pair<Integer,Integer>> seats; 
 	  
     @FXML
     private TextField firstNameTextField;
@@ -120,7 +128,11 @@ public class PaymentPageController {
         hideWarningLabels();
     }
     
-    
+    public void setInfo(String type, Screening screening, List<Pair<Integer, Integer>> seatsChosen) {
+    	this.orderType = type;
+    	this.screening = screening;
+    	//this.seats = seatsChosen;
+    }
  
 	void hideWarningLabels() {
 		firstNameWarningLabel.setVisible(false);

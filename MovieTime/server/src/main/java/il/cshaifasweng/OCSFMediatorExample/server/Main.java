@@ -61,6 +61,7 @@ public class Main extends AbstractServer{
 		configuration.addAnnotatedClass(NetworkAdministrator.class);
 		configuration.addAnnotatedClass(Cinema.class);
 		configuration.addAnnotatedClass(Hall.class);
+		//configuration.addAnnotatedClass(Seat.class);
 		configuration.addAnnotatedClass(Customer.class);
 		configuration.addAnnotatedClass(Screening.class);
 		configuration.addAnnotatedClass(ContentManager.class);
@@ -134,12 +135,12 @@ public class Main extends AbstractServer{
 			shirWorker.setCinema(haifaCinema);
 			nivWorker.setCinema(telAvivCinema);
 
-			boolean[][] planeArray = new boolean[3][3];
+			//Integer[][] planeArray1 = new Integer[3][5];
 
-			Hall hall1 = new Hall(planeArray, 3, 3, new ArrayList<>(),haifaCinema);
-			Hall hall2 = new Hall(planeArray, 3, 3, new ArrayList<>(),haifaCinema);
-			Hall hall3 = new Hall(planeArray, 3, 3, new ArrayList<>(),telAvivCinema);
-			Hall hall4 = new Hall(planeArray, 3, 3, new ArrayList<>(),telAvivCinema);
+			Hall hall1 = new Hall(3, 5, new ArrayList<>(),haifaCinema);
+			Hall hall2 = new Hall(4, 4, new ArrayList<>(),haifaCinema);
+			Hall hall3 = new Hall(7, 5, new ArrayList<>(),telAvivCinema);
+			Hall hall4 = new Hall(2, 5, new ArrayList<>(),telAvivCinema);
 
 			Screening screeningOfFilm_1 = new Screening(getExacTime(2021, 5, 25, 16, 00), hall1, avengersEndgame,haifaCinema);
 			Screening screeningOfFilm_2 = new Screening(getExacTime(2021, 5, 25, 20, 00), hall1, sherlockHolmes,haifaCinema);
@@ -517,8 +518,25 @@ public class Main extends AbstractServer{
 		if(currentMsg.getAction().equals("picking chair")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.setStatus(ScreeningController.pickChair(serverMsg.getRow(), serverMsg.getCol(), serverMsg.getHall()));
-				serverMsg.setAction("picking chair is done");
+				Screening clientScreening = serverMsg.getScreening();
+				Screening serverScreening = ScreeningController.getScreening(clientScreening.getId());
+				if(ScreeningController.pickChair(clientScreening.getSeats(), serverScreening)) {
+					serverMsg.setAction("picking seats success");
+					for(int i = 0 ; i < clientScreening.getHall().getRows() ; i++) {
+						for(int j = 0 ; j < clientScreening.getHall().getCols() ; j++) {
+							if(clientScreening.getSeats()[i][j] == 2) {
+								clientScreening.getSeats()[i][j] = 1;
+							}
+						}
+					}
+					serverMsg.setScreening(clientScreening);
+					updateRowDB(clientScreening);
+				}else {
+					serverMsg.setAction("picking seats error");
+					serverMsg.setError("Seats have already been chosen by another customer, please choose again");
+					serverMsg.setScreening(serverScreening);
+					
+				}
 				client.sendToClient(serverMsg);
 			}
 			catch (IOException e) {

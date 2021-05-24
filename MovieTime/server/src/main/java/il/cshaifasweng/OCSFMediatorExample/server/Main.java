@@ -528,8 +528,6 @@ public class Main extends AbstractServer{
 				e.printStackTrace();
 			}
 		}
-		if(currentMsg.getAction().equals("save customer")) { // save ticket // save customer
-
 		if(((Message) msg).getAction().equals("save customer")) { // save ticket // save customer
 			try {
 				Purchaser customer = null;

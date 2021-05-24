@@ -46,6 +46,7 @@ public class ScreeningController {
 		for(Screening screening : screenings) {
 			if(screening.getId() == id) {
 				return screening;
+
 			}
 		}
 		return null;
@@ -60,6 +61,7 @@ public class ScreeningController {
 		}
 
 		return true;
+
 	}
 	
 	

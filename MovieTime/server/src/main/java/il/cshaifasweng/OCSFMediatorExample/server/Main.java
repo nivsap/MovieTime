@@ -33,7 +33,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Hall;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.NetworkAdministrator;
-import il.cshaifasweng.OCSFMediatorExample.entities.Customer;
+import il.cshaifasweng.OCSFMediatorExample.entities.Purchaser;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
@@ -62,12 +62,13 @@ public class Main extends AbstractServer{
 		configuration.addAnnotatedClass(Cinema.class);
 		configuration.addAnnotatedClass(Hall.class);
 		//configuration.addAnnotatedClass(Seat.class);
-		configuration.addAnnotatedClass(Customer.class);
+		configuration.addAnnotatedClass(Purchaser.class);
+
 		configuration.addAnnotatedClass(Screening.class);
 		configuration.addAnnotatedClass(ContentManager.class);
 		configuration.addAnnotatedClass(BranchManager.class);
 		configuration.addAnnotatedClass(CustomerService.class);
-		configuration.addAnnotatedClass(Customer.class);
+		configuration.addAnnotatedClass(Purchaser.class);
 		configuration.addAnnotatedClass(Complaint.class);
 		ServiceRegistry serviceRegistry =
 				new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
@@ -130,17 +131,18 @@ public class Main extends AbstractServer{
 			session.save(StarWars);
 			session.flush();
 			//creating whole data base to cinema,screening,Hall
-			Cinema haifaCinema = new Cinema("Haifa", "Haifa,Carmel st", (BranchManager)shirWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-			Cinema telAvivCinema = new Cinema("Tel-Aviv", "Tel-Aviv,Wieztman st", (BranchManager)nivWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+			Cinema haifaCinema = new Cinema("Haifa", "Haifa,Carmel st", (BranchManager)shirWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>());
+			Cinema telAvivCinema = new Cinema("Tel-Aviv", "Tel-Aviv,Wieztman st", (BranchManager)nivWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>());
 			shirWorker.setCinema(haifaCinema);
 			nivWorker.setCinema(telAvivCinema);
 
 			//Integer[][] planeArray1 = new Integer[3][5];
 
-			Hall hall1 = new Hall(3, 5, new ArrayList<>(),haifaCinema);
-			Hall hall2 = new Hall(4, 4, new ArrayList<>(),haifaCinema);
-			Hall hall3 = new Hall(7, 5, new ArrayList<>(),telAvivCinema);
-			Hall hall4 = new Hall(2, 5, new ArrayList<>(),telAvivCinema);
+			Hall hall1 = new Hall(3, 5, new ArrayList<>(),haifaCinema, new ArrayList<>());
+			Hall hall2 = new Hall(4, 4, new ArrayList<>(),haifaCinema, new ArrayList<>());
+			Hall hall3 = new Hall(7, 5, new ArrayList<>(),telAvivCinema, new ArrayList<>());
+			Hall hall4 = new Hall(2, 5, new ArrayList<>(),telAvivCinema, new ArrayList<>());
+
 
 			Screening screeningOfFilm_1 = new Screening(getExacTime(2021, 5, 25, 16, 00), hall1, avengersEndgame,haifaCinema);
 			Screening screeningOfFilm_2 = new Screening(getExacTime(2021, 5, 25, 20, 00), hall1, sherlockHolmes,haifaCinema);
@@ -213,10 +215,11 @@ public class Main extends AbstractServer{
 			session.save(haifaCinema);
 			session.save(telAvivCinema);
 			
-			Complaint someComplaint1 = new Complaint("Shir", "Avneri", "I'm very upset", "I want to finish this project", true);
-			Complaint someComplaint2 = new Complaint("Niv", "Sapir", "I want to complain", "I am very upset", true);
-			Complaint someComplaint3 = new Complaint("Hadar", "Manor", "Some title", "Some details" ,false);
-
+			Complaint someComplaint1 = new Complaint("Shir", "Avneri", "I'm very upset", "I want to finish this project", true,null,true);
+			Complaint someComplaint2 = new Complaint("Niv", "Sapir", "I want to complain", "I am very upset", true,null,true);
+			Complaint someComplaint3 = new Complaint("Hadar", "Manor", "Some title", "Some details" ,false,null,true);
+			Purchaser customer = new Purchaser("Hadar", "Manor", "Some title", "Some details" , "12312312",new Pair<Boolean, Integer>(true, 20),false,null,null,null,new ArrayList<>(),10,null);
+			session.save(customer);
 			session.save(someComplaint1);
 			session.save(someComplaint2);
 			session.save(someComplaint3);
@@ -337,17 +340,17 @@ public class Main extends AbstractServer{
 		Message currentMsg = ((Message)msg);
 
 		serverMsg = new Message();
-		if(currentMsg.getAction().equals("pull movies")) {
-			serverMsg.setMovies(getAllOfType(Movie.class));
-			serverMsg.setAction("got movies");
-			try {
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant create list of movies");
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+//		if(currentMsg.getAction().equals("pull movies")) {
+//			serverMsg.setMovies(getAllOfType(Movie.class));
+//			serverMsg.setAction("got movies");
+//			try {
+//				client.sendToClient(serverMsg);
+//			} catch (IOException e) {
+//				System.out.println("cant create list of movies");
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
 		
 		if(currentMsg.getAction().equals("update movie time")) {
 			System.out.println("about to update movie time");
@@ -437,7 +440,7 @@ public class Main extends AbstractServer{
 				serverMsg = currentMsg;
 				System.out.println("in Main pull screeening movies msg");
 
-				serverMsg.setMovies((ArrayList<Movie>) MovieController.getAllScreeningMovies()); 
+				serverMsg.setMovies((ArrayList<Movie>) MovieController.getAllScreeningMovies());
 				System.out.println("in the func handleMessageFromClient");
 				serverMsg.setAction("got screening movies");
 				client.sendToClient(serverMsg);
@@ -452,7 +455,7 @@ public class Main extends AbstractServer{
 			try {
 				System.out.println("in Main genre pull screeening movies msg");
 				serverMsg = (Message) msg;
-				serverMsg.setMovies((ArrayList<Movie>) MovieController.getGenreTypeMovies(serverMsg.getGenre())); 
+				serverMsg.setMovies((ArrayList<Movie>) MovieController.getGenreTypeMovies(serverMsg.getGenre()));
 				System.out.println("in the func handleMessageFromClient");
 				serverMsg.setAction("got screening movies");
 				client.sendToClient(serverMsg);
@@ -463,7 +466,7 @@ public class Main extends AbstractServer{
 				e.printStackTrace();
 			}
 		}
-		if(((Message) msg).getAction().equals("sort movies by genre")) {
+		if(currentMsg.getAction().equals("sort movies by genre")) {     //from here *********
 			try {
 				serverMsg = (Message) msg;
 				serverMsg.setMovies((ArrayList<Movie>) MovieController.MoviesByGener(serverMsg.getGenre())); 
@@ -476,7 +479,7 @@ public class Main extends AbstractServer{
 				e.printStackTrace();
 			}
 		}
-		if(((Message) msg).getAction().equals("sort movies by date")) {
+		if(currentMsg.getAction().equals("sort movies by date")) {
 			try {
 				serverMsg = (Message) msg;
 				serverMsg.setMovies((ArrayList<Movie>) MovieController.MoviesByDate(serverMsg.getDateMovie())); 
@@ -489,7 +492,7 @@ public class Main extends AbstractServer{
 				e.printStackTrace();
 			}
 		}
-		if(((Message) msg).getAction().equals("sort movies by popular")) {
+		if(currentMsg.getAction().equals("sort movies by popular")) {
 			try {
 				serverMsg = (Message) msg;
 				serverMsg.setMovies((ArrayList<Movie>) MovieController.MoviesByPopularty()); 
@@ -502,7 +505,7 @@ public class Main extends AbstractServer{
 				e.printStackTrace();
 			}
 		}
-		if(((Message) msg).getAction().equals("pull movies from home")) {
+		if(currentMsg.getAction().equals("pull movies from home")) {
 			try {
 				serverMsg = (Message) msg;
 				serverMsg.setMovies((ArrayList<Movie>) MovieController.WatchingFromHome()); 
@@ -545,20 +548,73 @@ public class Main extends AbstractServer{
 				e.printStackTrace();
 			}
 		}
-		
-		if(((Message) msg).getAction().equals("save customer")) { // save ticket // save customer 
+		if(currentMsg.getAction().equals("save customer")) { // save ticket // save customer
 			try {
-				Customer customer = null;
-				serverMsg = (Message) msg;
+				Purchaser customer = null;
+				serverMsg = currentMsg;
 				if(serverMsg.isTab() == false)
-					customer = new Customer(serverMsg.getFirstName(), serverMsg.getLastName(),serverMsg.getEmailOrder(), serverMsg.getCityString(), serverMsg.getPhoneString(), null);
-				else customer = new Customer(serverMsg.getFirstName(), serverMsg.getLastName(),serverMsg.getEmailOrder(), serverMsg.getCityString(), serverMsg.getPhoneString(), serverMsg.getCinemaTab());
+					customer = new Purchaser(serverMsg.getFirstName(), serverMsg.getLastName(),serverMsg.getEmailOrder(), serverMsg.getCityString(), serverMsg.getPhoneString(), null,false,null,null,null,null,10,null);
+				else if(serverMsg.isStatus()) customer = new Purchaser(serverMsg.getFirstName(), serverMsg.getLastName(),serverMsg.getEmailOrder(), serverMsg.getCityString(), serverMsg.getPhoneString(), null,true,null,null,null,null,10,null);
+				else customer = new Purchaser(serverMsg.getFirstName(), serverMsg.getLastName(),serverMsg.getEmailOrder(), serverMsg.getCityString(), serverMsg.getPhoneString(),new Pair<Boolean, Integer>(true, 20),false,null,null,null,null,10,null);
+
 				saveRowInDB(customer);
 				serverMsg.setAction("save customer done");
 				client.sendToClient(serverMsg);
 			}
 			catch (IOException e) {
 				System.out.println("cant save customer");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("get purchaser by id")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.setPurchaser(CustomerController.getID(serverMsg.getId()));
+				serverMsg.setAction("got purchaser by id");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant get purchaser by id");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("get report ticket")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.setPurchasersList(ReportController.getTicketReportMonthly(serverMsg.getMonth(), serverMsg.getCinema()));
+				serverMsg.setAction("got report ticket");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant get report ticket");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("get report special ticket")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.setPurchasersList(ReportController.getSpecialTicketReportMonthly(serverMsg.getMonth(), serverMsg.getCinema()));
+				serverMsg.setAction("got report special ticket");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant get report special ticket");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("get status complaints monthly")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.setPurchasersList(ReportController.statusComplaintsMonthly(serverMsg.getMonth(), serverMsg.getCinema()));
+				serverMsg.setAction("got status complaints monthly");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant get status complaints monthly");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

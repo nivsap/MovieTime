@@ -5,7 +5,7 @@ import java.time.LocalDate;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
+import java.time.LocalDateTime;
 import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import javafx.application.Platform;
@@ -163,7 +163,7 @@ public class FilingComplaintsPageController  {
     		complaintDetailsWarningLabel.setVisible(true);
     		return;
     	}
-    	newComplaint = new Complaint(firstName, lastName, email, phoneNumber, complaintType, incidentDate, complaintTitle, complaintDetails, true);
+    	newComplaint = new Complaint(firstName, lastName, email, phoneNumber, complaintType, incidentDate, complaintTitle, complaintDetails, true,null,true);
     	System.out.println("trying to add a complaint from FilingComplaintsPage");
     	Message msg = new Message();
 		msg.setComplaint(newComplaint);

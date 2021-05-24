@@ -31,10 +31,13 @@ public class Cinema implements  Serializable{
 	private List<Hall> hallArray;
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "cinema")
 	private List<Worker> workerArray;
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "cinema")
+	private List<Purchaser> purchasers;
+	
 	public Cinema() {}
 	
 	public Cinema(String name, String address, BranchManager manager, ArrayList<Screening> screeningArray,
-			ArrayList<Hall> hallArray, ArrayList<Worker> workerArray) {
+			ArrayList<Hall> hallArray, ArrayList<Worker> workerArray , ArrayList<Purchaser> purchasers) {
 		super();
 		this.name = name;
 		this.address = address;
@@ -42,6 +45,7 @@ public class Cinema implements  Serializable{
 		this.screeningArray = new ArrayList<>();
 		this.hallArray = new ArrayList<>();
 		this.workerArray = new ArrayList<>();
+		this.purchasers = new ArrayList<>();
 	}
 
 
@@ -59,6 +63,14 @@ public class Cinema implements  Serializable{
 		this.id = id;
 	}
 
+
+	public List<Purchaser> getCustomers() {
+		return purchasers;
+	}
+
+	public void setCustomers(List<Purchaser> customers) {
+		this.purchasers = customers;
+	}
 
 	public BranchManager getManager() {
 		return manager;

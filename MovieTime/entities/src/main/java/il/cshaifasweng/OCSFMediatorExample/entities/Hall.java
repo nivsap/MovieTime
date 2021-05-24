@@ -34,14 +34,17 @@ public class Hall implements  Serializable{
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "cinema_id")
 	private Cinema cinema;
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "hall")
+	private List<Purchaser> purchasers;
 	
-	public Hall(boolean[][] chair, int rows, int cols, ArrayList<Screening> screeningArray , Cinema cinema) {
+	public Hall(boolean[][] chair, int rows, int cols, ArrayList<Screening> screeningArray , Cinema cinema , List<Purchaser> purchasers) {
 		super();
 		this.rows = rows;
 		this.cols = cols;
 		this.screeningArray = new ArrayList<>();
 		this.chair = new boolean[rows][cols];
 		this.cinema = cinema;
+		this.purchasers = new ArrayList<>();
 	}
 	public Hall() {}
 	
@@ -53,6 +56,15 @@ public class Hall implements  Serializable{
 		this.cinema = cinema;
 	}
 
+	public List<Purchaser> getPurchasers() {
+		return purchasers;
+	}
+	public void setPurchasers(List<Purchaser> purchasers) {
+		this.purchasers = purchasers;
+	}
+	public void setScreeningArray(List<Screening> screeningArray) {
+		this.screeningArray = screeningArray;
+	}
 	public int getId() {
 		return id;
 	}

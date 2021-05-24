@@ -6,6 +6,7 @@ import java.util.List;
 import il.cshaifasweng.OCSFMediatorExample.entities.Cinema;
 import il.cshaifasweng.OCSFMediatorExample.entities.Hall;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
+import javafx.util.Pair;
 
 public class ScreeningController {
 	public static List<Cinema> getCinemas(int id) {
@@ -37,14 +38,17 @@ public class ScreeningController {
 		return toReturnArrayList;
 	}
 	
-	public static boolean pickChair (int row , int col , Hall hall) {
+	public static boolean pickChair (List<Pair<Integer, Integer>> sits, Hall hall) {
 		//System.out.println(hall.getChair()[0][0]);
-		if(hall.getChair()[row][col] == false) {
-			hall.getChair()[row][col] = true;
-			Main.updateRowDB(hall);
-			System.out.println("ok");
-			return true;
+		for(Pair<Integer, Integer> sit : sits) {
+			if(hall.getChair()[sit.getKey()][sit.getValue()] == false) {
+				hall.getChair()[sit.getKey()][sit.getValue()] = true;
+				Main.updateRowDB(hall);
+				System.out.println("ok");
+				return true;
+			}
 		}
+
 		return false;
 	}
 	

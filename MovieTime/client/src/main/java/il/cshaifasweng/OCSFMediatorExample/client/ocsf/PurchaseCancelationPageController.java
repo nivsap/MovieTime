@@ -19,12 +19,26 @@ public class PurchaseCancelationPageController {
 	private Label OrderWarningLabel;
 
 	@FXML
-	private Button SearchNowBtn(ActionEvent event)
-	{
+	private Button SearchNowBtn;
+
+
+	@FXML
+	void initialize() {
+		assert OrderTextField != null
+				: "fx:id=\"OrderTextField\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
+		assert OrderWarningLabel != null
+				: "fx:id=\"OrderWarningLabel\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
+		assert SearchNowBtn != null
+				: "fx:id=\"SearchNowBtn\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
 		
-		return null;		
+		hideWarningLabels();
+
 	}
 
+	private void hideWarningLabels() {
+		OrderWarningLabel.setVisible(false);
+	}
+	
 	@FXML
 	void padNow(ActionEvent event) {
     	hideWarningLabels();
@@ -42,23 +56,6 @@ public class PurchaseCancelationPageController {
     	}
     	
     	
-	}
-
-	@FXML
-	void initialize() {
-		assert OrderTextField != null
-				: "fx:id=\"OrderTextField\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
-		assert OrderWarningLabel != null
-				: "fx:id=\"OrderWarningLabel\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
-		assert SearchNowBtn != null
-				: "fx:id=\"SearchNowBtn\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
-		
-		hideWarningLabels();
-
-	}
-
-	private void hideWarningLabels() {
-		OrderWarningLabel.setVisible(false);
 	}
 
 }

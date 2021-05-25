@@ -91,8 +91,9 @@ public class LoginPageController {
     			String menuType = msg.getTypeOfWorkerString();
     			if(menuType != null) {
 	    			try {
+	    				App.setWindowTitle(PageTitles.MainPage);
+						App.setContent("MainPage");
 						App.setMenu(menuType + "Menu");
-						App.setContent("MainPage", menuType);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}

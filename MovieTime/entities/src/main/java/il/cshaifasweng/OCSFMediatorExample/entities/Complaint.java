@@ -2,17 +2,21 @@ package il.cshaifasweng.OCSFMediatorExample.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "Compaints")
+@Table(name = "Complaints")
 public class Complaint implements  Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,22 +32,26 @@ public class Complaint implements  Serializable {
 	Boolean isOpen;
 	private static String[] complaintTypes = { "Movie screening issues", "Viewing package issues", "Payment issues",
 									    	   "Dissatisfaction with customer support", "Other" };
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Purchase purchase;
+	private boolean status;
 	
 	public Complaint() {
 		super();
 	}
-	
-	public Complaint(String firstName, String lastName, String complaintTitle, String complaintDetails, Boolean isOpen) {
+	public Complaint(String firstName, String lastName, String complaintTitle, String complaintDetails, boolean isOpen,Purchase purchase , boolean status) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.complaintTitle = complaintTitle;
 		this.complaintDetails = complaintDetails;
 		this.isOpen = isOpen;
+		this.purchase = purchase;
+		this.status = status;
 	}
 	
 	public Complaint(String firstName, String lastName, String email, String phoneNumber, String complaintType, LocalDate incidentDate, 
-					 String complaintTitle, String complaintDetails, Boolean isOpen) {
+					 String complaintTitle, String complaintDetails, boolean isOpen,Purchase purchase, boolean status) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -54,8 +62,34 @@ public class Complaint implements  Serializable {
 		this.complaintTitle = complaintTitle;
 		this.complaintDetails = complaintDetails;
 		this.isOpen = isOpen;
+		this.purchase = purchase;
+		this.status = status;
 	}
 	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+	public Purchase getPurchase() {
+		return purchase;
+	}
+
+	public void setPurchase(Purchase purchase) {
+		this.purchase = purchase;
+	}
+
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}

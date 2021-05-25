@@ -7,8 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class SeatController {
-	private Boolean isChosen, isTaken;
-	
+	private Integer seat;
     @FXML
     private Button seatBtn;
 
@@ -16,27 +15,33 @@ public class SeatController {
     private ImageView seatIcon;
     
     public SeatController() {
-    	isChosen = false;
-    	isTaken =  false;
+    	
     }
 	
 	public void setIsTaken() {
-		isTaken = true;
+		seat = 1;
 		Image image = new Image(getClass().getResourceAsStream("images/TakenSeatIcon.png"));
     	seatIcon.setImage(image);
+	}
+	
+	public void setSeat(Integer seat) {
+		this.seat = seat;
+	}
+	public int getSeat() {
+		return seat;
 	}
 
     @FXML
     void switchColor(ActionEvent event) {
-    	if(isTaken) 
+    	if(seat == 1) 
     		return;
         String imageSrc = "";
-        if(!isChosen) {
-        	isChosen = true;
+        if(seat == 0) {
+        	seat = 2;
         	imageSrc = "SelectedSeatIcon.png";
         }
         else {
-        	isChosen = false;
+        	seat = 0;
         	imageSrc = "AvailableSeatIcon.png";
         }
         Image image = new Image(getClass().getResourceAsStream("images/" + imageSrc));

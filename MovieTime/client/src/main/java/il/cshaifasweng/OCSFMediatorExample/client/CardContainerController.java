@@ -18,9 +18,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 public class CardContainerController {
-
-	int NUM_ROWS = 2, NUM_COLS = 3, currentlyDisplayedFrom = 0, moviesNumber = 0;
-
+	private int NUM_ROWS = 2, NUM_COLS = 3, currentlyDisplayedFrom = 0, moviesNumber = 0, purchaseType;
+	
     @FXML
     private GridPane movieContainer;
 
@@ -59,9 +58,11 @@ public class CardContainerController {
     	if(namePage.equals("MainPage")) {
     		actionType="pull screening movies";
     		System.out.println("pull screening movies");
+    		setPurchaseType(PurchaseTypes.TICKET);
 		}
 		if(namePage.equals("ComingSoonPage")) {
 			actionType="pull soon movies";
+			setPurchaseType(PurchaseTypes.NOT_AVAILABLE);
 		}
 		try {
 			Message msg = new Message();
@@ -72,10 +73,7 @@ public class CardContainerController {
 			// TODO Auto-generated catch block
 			System.out.println("failed to send msg to server from recentlyAdded");
 			e.printStackTrace();
-		}
-		
-		
-		
+		}	
     }
     
     
@@ -91,6 +89,14 @@ public class CardContainerController {
     			SetMovies(currentlyDisplayedFrom);
     		});
     	}
+    }
+    
+    public void setPurchaseType(int type) {
+    	this.purchaseType = type;
+    }
+    
+    public int getPurchaseType() {
+    	return this.purchaseType;
     }
 
 	public void SetMovies(int displayFrom) {
@@ -114,6 +120,7 @@ public class CardContainerController {
 					Button cardBox = fxmlLoader.load();
 					CardController cardController = fxmlLoader.getController();
 					cardController.SetData(recentlyAdded.get(index));
+					cardController.setPurchaseType(purchaseType);
 					movieContainer.add(cardBox, j, i);
 					index++;
                }

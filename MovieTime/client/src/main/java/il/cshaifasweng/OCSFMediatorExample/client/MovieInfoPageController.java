@@ -1,13 +1,10 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
-
 import java.io.IOException;
-import java.net.URL;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
-import org.bouncycastle.asn1.cms.TimeStampAndCRL;
+import javax.swing.JOptionPane;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -18,7 +15,6 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -27,10 +23,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
 public class MovieInfoPageController {
-    private Movie currentlyDisplayed;
-    
+    private Movie currentlyDisplayed;  
     private ArrayList<Cinema> cinemas;
     private ArrayList<Screening> screenings;
+    private int purchaseType;
 
     @FXML
     private ImageView movieLargeImageSrc;
@@ -100,8 +96,6 @@ public class MovieInfoPageController {
     	Image largeImage = new  Image(getClass().getResourceAsStream("images/MoviesPosters/LargeImages/" + movie.getLargeImageSrc()));
     	movieLargeImageSrc.setImage(largeImage);
     	movieImageSrc.setImage(image);
-    	
-    	
     	getCinemas(movie.getId());
     	cinemaCombo.getItems().clear();
     	dateCombo.getItems().clear();
@@ -120,7 +114,13 @@ public class MovieInfoPageController {
 		}
     }
     
+    public void setPurchaseType(int type) {
+    	this.purchaseType = type;
+    }
     
+    public int getPurchaseType() {
+    	return this.purchaseType;
+    }
     
     @Subscribe 
     public void onMessageEvent(Message msg){
@@ -147,13 +147,8 @@ public class MovieInfoPageController {
 	    			if(!dateCombo.getItems().contains(onlyDate))
 	    				dateCombo.getItems().add(onlyDate);
 	    		}
-    		});
-    		
-    	}
-    	
-    	
-    	
-    	
+    		});	
+    	}	
     }
     
     @FXML
@@ -200,24 +195,40 @@ public class MovieInfoPageController {
     		onlyTime = onlyTime.substring(11,16);
     		timeCombo.getItems().add(onlyTime);
     	}
-    	
     }
-    
-    
-    
-    
-    
     
     @FXML
-    void orderTickets(ActionEvent event) throws IOException {
-    	OrderTicketsPageController controller = (OrderTicketsPageController) App.setContent("OrderTicketsPage", "Order Tickets");
-
-    	controller.loadMovieInfo(currentlyDisplayed);
-    	controller.loadHallMap(7, 10);
-
+    void ChooseSeats(ActionEvent event) throws IOException {
+    	try {
+    		if(cinemaCombo.getValue().isEmpty() || dateCombo.getValue().isEmpty() || timeCombo.getValue().isEmpty()) {
+    		
+    		JOptionPane.showMessageDialog(null, "You must fill all the fields");
+    		}
+    	}catch(Exception e) {
+    		JOptionPane.showMessageDialog(null, "You must fill all the fields");
+    		return;
+    	}
+    
+    	Screening screeningChosen = null;
+    	String LDT;
+    	App.setWindowTitle(PageTitles.OrderTicketsPage);
+    	OrderTicketsPageController controller = (OrderTicketsPageController) App.setContent("OrderTicketsPage");
+    	for (Screening screening : screenings) {
+    		if(screening.getCinema().getName().equals(cinemaCombo.getValue())) {
+    			LDT = screening.getDate_screen().toString();
+    			if(LDT.substring(0, 10).equals(dateCombo.getValue()) && LDT.substring(11, 16).equals(timeCombo.getValue())) {
+    				screeningChosen = screening;
+    				break;
+    			}
+    			
+    		}
+    	}
+    	if(screeningChosen == null) {
+    		System.out.println("Error in movieInfoPage, screeningChosen is null!!");
+    	}
+    	controller.setPurchaseInfo(purchaseType, screeningChosen);
+    	controller.loadMovieInfo();
+    	controller.loadHallMap();
     }
-
-
-
 
 }

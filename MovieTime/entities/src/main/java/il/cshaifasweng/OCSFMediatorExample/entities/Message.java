@@ -4,53 +4,126 @@ package il.cshaifasweng.OCSFMediatorExample.entities;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 import javafx.util.Pair;
-
+//purchas
+@SuppressWarnings("serial")
 public class Message implements Serializable {
 	String action;
 	String username; 
 	String password;
 	String typeOfWorkerString;
 	Movie movie;
+	Screening screening;
 	ArrayList<Movie> movies;
 	ArrayList<String> timeOfMovie; //for shir
 	Worker worker;
 	Complaint complaint;
-	int movieId;        //clientSide need to fill/set is field when send msg to server
-	int cinemaId;            //clientSide need to fill/set is field when send msg to server
+	String emailMessage;
+	String customerEmail;
+	
+
+	int id;
+	int movieId;            				//clientSide need to fill/set is field when send msg to server
+	int cinemaId;           				//clientSide need to fill/set is field when send msg to server
 	ArrayList<Cinema> cinemasArrayList;
 	ArrayList<Screening> screeningArrayList;
-	int row;         
-	int col;        
-	Hall hall;      //clientSide need to fill/set is field when send msg to server
+	List<Pair<Integer,Integer>> chairsHall;
+	Hall hall;              				//clientSide need to fill/set is field when send msg to server
 	boolean status;
 	//HANDLE TICKETS **for shir
 	boolean isTab;
-	String firstName;     //clientSide need to fill/set is field when send msg to server
-	String lastName;       //clientSide need to fill/set is field when send msg to server
-	String emailOrder;     //clientSide need to fill/set is field when send msg to server
-	String cityString;    //clientSide need to fill/set is field when send msg to server
-	String phoneString;    //clientSide need to fill/set is field when send msg to server
-	Pair<Boolean , Integer> cinemaTab;    //clientSide need to fill/set is field when send msg to server
 
+	Integer[][] seats;
+	String firstName;       				//clientSide need to fill/set is field when send msg to server
+	String lastName;        				//clientSide need to fill/set is field when send msg to server
+	String emailOrder;      				//clientSide need to fill/set is field when send msg to server
+	String cityString;      				//clientSide need to fill/set is field when send msg to server
+	String phoneString;     				//clientSide need to fill/set is field when send msg to server
+	Pair<Boolean , Integer> cinemaTab;      //clientSide need to fill/set is field when send msg to server
 	String time;
 	String movieName;
 	String DbAction;
 	String error;
 	
-	String genre;     //clientSide need to fill/set is field when send msg to server
-	LocalDateTime dateMovie;    //clientSide need to fill/set is field when send msg to server
-	
+	String genre;    						//clientSide need to fill/set is field when send msg to server
+	LocalDateTime dateMovie;    			//clientSide need to fill/set is field when send msg to server
+	Purchase purchase;
+	int month;
+	Cinema cinema;
+	List<Purchase> purchasesList;
 	public Message() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
+
+	public Cinema getCinema() {
+		return cinema;
+	}
+
+	public void setCinema(Cinema cinema) {
+		this.cinema = cinema;
+	}
+
+
+	public int getMonth() {
+		return month;
+	}
+
+
+	public List<Purchase> getPurchasesList() {
+		return purchasesList;
+	}
+
+	public void setPurchasesList(List<Purchase> purchasesList) {
+		this.purchasesList = purchasesList;
+	}
+
+	public void setMonth(int month) {
+		this.month = month;
+	}
+
+
+
+	public int getId() {
+		return id;
+	}
+
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+
+	public Purchase getPurchase() {
+		return purchase;
+	}
+
+
+
+	public void setPurchase(Purchase purchase) {
+		this.purchase = purchase;
+	}
+
 
 
 	public boolean isStatus() {
 		return status;
+	}
+
+
+
+	public List<Pair<Integer, Integer>> getChairsHall() {
+		return chairsHall;
+	}
+
+
+
+	public void setChairsHall(List<Pair<Integer, Integer>> chairsHall) {
+		this.chairsHall = chairsHall;
 	}
 
 
@@ -81,12 +154,6 @@ public class Message implements Serializable {
 
 	public void setDateMovie(LocalDateTime dateMovie) {
 		this.dateMovie = dateMovie;
-	}
-
-
-
-	public int getRow() {
-		return row;
 	}
 
 
@@ -172,25 +239,6 @@ public class Message implements Serializable {
 	public void setCinemaTab(Pair<Boolean, Integer> cinemaTab) {
 		this.cinemaTab = cinemaTab;
 	}
-
-
-
-	public void setRow(int row) {
-		this.row = row;
-	}
-
-
-
-	public int getCol() {
-		return col;
-	}
-
-
-
-	public void setCol(int col) {
-		this.col = col;
-	}
-
 
 
 	public Hall getHall() {
@@ -375,5 +423,36 @@ public class Message implements Serializable {
 		return error;
 	}
 	
+	public Integer[][] getSeats(){
+		return seats;
+	}
+	
+	public void setSeats(Integer[][] seats) {
+		this.seats = seats;
+	}
+	
+	public Screening getScreening() {
+		return screening;
+	}
+	
+	public void setScreening(Screening screening) {
+		this.screening = screening;
+	}
+	
+	public String getEmailMessage() {
+		return emailMessage;
+	}
+
+	public void setEmailMessage(String emailMessage) {
+		this.emailMessage = emailMessage;
+	}
+
+	public String getCustomerEmail() {
+		return customerEmail;
+	}
+
+	public void setCustomerEmail(String customerEmail) {
+		this.customerEmail = customerEmail;
+	}
 }
 

@@ -35,22 +35,39 @@ public class SystemMenuController extends Pane {
 
     @FXML
     void loadMainPage(ActionEvent event) throws IOException {
-    	App.setContentForGrid("MainPage", "Movie Time");
+      	App.setWindowTitle(PageTitles.MainPage);
+    	App.setBarAndGridLayout("MainPage");
+    }
+    
+    @FXML
+    void loadSubscriptionCardInfoPage(ActionEvent event) throws IOException {
+    	App.setWindowTitle(PageTitles.SubscriptionCardInfoPage);
+    	SubscriptionCardInfoPageController controller = (SubscriptionCardInfoPageController) App.setContent("SubscriptionCardInfoPage");
+    	controller.setImageSlider();
     }
     
     @FXML
     void loadComingSoonPage(ActionEvent event) throws IOException {
-    	App.setContentForGrid("ComingSoonPage", "Coming Soon");
+    	App.setWindowTitle(PageTitles.ComingSoonPage);
+    	App.setBarAndGridLayout("ComingSoonPage");
     }
     
     @FXML
     void loadFilingComplaintsPage(ActionEvent event) throws IOException {
-    	App.setContent("FilingComplaintsPage", "File a Compaint");
+    	App.setWindowTitle(PageTitles.FilingComplaintsPage);
+    	App.setContent("FilingComplaintsPage");
     }
     
     @FXML
     void loadLoginPage(ActionEvent event) throws IOException {
-    	App.setContent("LoginPage", "Login");
+    	App.setWindowTitle(PageTitles.LoginPage);
+    	App.setContent("LoginPage");
+    }
+    
+    @FXML
+    void loadCancelationPage(ActionEvent event) throws IOException {
+    	App.setWindowTitle(PageTitles.PurchaseCancelation);
+    	App.setContent("PurchaseCancelation");
     }
 
     

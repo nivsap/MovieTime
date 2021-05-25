@@ -14,7 +14,7 @@
                   <Image url="@images/FinalLogo.png" />
                </image>
             </ImageView>
-            <Button fx:id="pricingApprovalsMenuBtn" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="2.0" layoutY="200.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="195.0" stylesheets="@style.css" text="Pricing Approvals" textFill="WHITE">
+            <Button fx:id="pricingApprovalsMenuBtn" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="2.0" layoutY="200.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="195.0" styleClass="menuButton" stylesheets="@style.css" text="Pricing Approvals" textFill="WHITE">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -23,7 +23,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="reportsMenuBtn" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="2.0" layoutY="270.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="195.0" stylesheets="@style.css" text="Reports" textFill="WHITE">
+            <Button fx:id="reportsMenuBtn" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="2.0" layoutY="270.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="195.0" styleClass="menuButton" stylesheets="@style.css" text="Reports" textFill="WHITE">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -32,7 +32,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="logoutMenuBtn" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="2.0" layoutY="340.0" mnemonicParsing="false" onAction="#logout" prefHeight="52.0" prefWidth="195.0" stylesheets="@style.css" text="Logout" textFill="WHITE">
+            <Button fx:id="logoutMenuBtn" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="2.0" layoutY="340.0" mnemonicParsing="false" onAction="#logout" prefHeight="52.0" prefWidth="195.0" styleClass="menuButton" stylesheets="@style.css" text="Logout" textFill="WHITE">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                      <image>

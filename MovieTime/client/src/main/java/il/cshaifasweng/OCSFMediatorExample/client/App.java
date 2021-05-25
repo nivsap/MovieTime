@@ -17,70 +17,71 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 
 
-public class App extends Application {
-    
+public class App extends Application {    
+	private AppClient client;
     private static Scene scene;
     private static Stage stage;
+    
     @FXML
     private static BorderPane pageLayout;
+    
     @FXML
     private static VBox menu;
+    
     @FXML
     private static VBox content;
-    private AppClient client;
     
     @Override
     public void start(Stage primaryStage) throws IOException {
     	EventBus.getDefault().register(this);
     	stage = primaryStage;
-    	
     	client = AppClient.getClient();
     	client.openConnection();
+    	
+    	// Setting Layout's Content:
     	pageLayout = new BorderPane();
     	menu = (VBox) loadFXML("SystemMenu").getKey();
-    	content=new VBox();
-    	setContentForGrid("MainPage","Movie Time");
+    	content = new VBox();
+    	setBarAndGridLayout("MainPage");
     	pageLayout.setLeft(menu);
     	pageLayout.setCenter(content);
+    	
+    	// Setting App's Window:
+    	setWindowTitle(PageTitles.MainPage);
         scene = new Scene(pageLayout, 900, 700);
-        // Setting application stage:
-        stage.setTitle("Main Page");
         stage.setScene(scene);
         stage.show();
-        
-    	// loggin page code
-		/*
-		 * pageLayout = new BorderPane(); menu = (VBox) loadFXML("SystemMenu").getKey();
+
+		 /* For Connection Page:
+		 * pageLayout = new BorderPane(); 
 		 * content = (VBox) loadFXML("ConnectionLogin").getKey();
-		 * pageLayout.setLeft(menu); pageLayout.setCenter(content); scene = new
-		 * Scene(pageLayout, 900, 700); // Setting application stage:
-		 * stage.setTitle("Establish Connection"); stage.setScene(scene); stage.show();
+		 * pageLayout.setCenter(content); 
+		 * scene = new Scene(pageLayout, 900, 700);
+		 * stage.setTitle("Establish Connection"); 
+		 * stage.setScene(scene); 
+		 * stage.show();
 		 */
     }
-
-    static void setContentForGrid(String pageName,String pageTitle) throws IOException {
-    	MainPageAndComingSoonController controller=new MainPageAndComingSoonController();
-    	controller.decide(pageName);
-    	content.getChildren().setAll(controller.getTopBar(),controller.getCardContainer());
-    	stage.setTitle(pageTitle);
-
-
+    
+    static void setWindowTitle(String title) {
+    	stage.setTitle(title);
     }
-    static Object setContent(String pageName, String pageTitle) throws IOException {
+
+    static void setBarAndGridLayout(String pageName) throws IOException {
+    	BarAndGridLayoutController controller = new BarAndGridLayoutController();
+    	controller.setBarAndGrid(pageName);
+    	content.getChildren().setAll(controller.getTopBar(),controller.getCardContainer());
+    }
+      
+    static Object setContent(String pageName) throws IOException {
     	// setContent() loads page/FXML into App's content container and returns page's controller.
-    	if(pageName == "MainPage")
-    		pageTitle = "Movie Time";
-    	if(pageName == "UpdateMoviesPage")
-    		pageTitle = "Update movie time";
     	Pair<Parent, Object> pair = loadFXML(pageName);
     	pageLayout.setCenter(null);
     	content = (VBox) pair.getKey();
     	pageLayout.setCenter(content);
-    	stage.setTitle(pageTitle);
         stage.setScene(scene);
         stage.show();
         return pair.getValue();
-     
     }
     
     static Object setMenu(String menuType) throws IOException {
@@ -110,13 +111,10 @@ public class App extends Application {
     }
     
     @Subscribe
-	public void SetClient(Message msg) throws IOException {
-		
+	public void SetClient(Message msg) throws IOException {	
     	if(msg.getAction().equals("set client")) {
     		client = AppClient.getClient();
     	}
-    		
-
 	}
 
 }

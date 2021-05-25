@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -189,7 +191,27 @@ public class PaymentPageController {
     	
     	
     	if(msg.getAction().equals("save customer done")) {
-    		
+    		String successfulPurchaseString;
+    		successfulPurchaseString = "Dear " + purchase.getFirstName() +" " + purchase.getLastName() + ", Thank you for your purchase.\n"
+    				+ "the details of your order are:\n"
+    				+ purchase.getCinema().getName() + " Cinema, hall " + purchase.getHall().getId() + "with the following seats:\n";
+    			for(Pair<Integer,Integer> seat : seats) {
+    				successfulPurchaseString += "Seat " + seat.getKey() + "," + seat.getValue() + "\n";
+    			}
+    			successfulPurchaseString += "Total price: " + purchase.getPayment();
+    			msg.setAction("send successful purchase mail");
+    			msg.setCustomerEmail(purchase.getEmailOrder());
+    			msg.setEmailMessage(successfulPurchaseString);
+    			try {
+					AppClient.getClient().sendToServer(msg);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    	}
+    	
+    	if(msg.getAction().equals("sent successful purchase mail")) {
+    		JOptionPane.showMessageDialog(null, "Thank you for your purchase, an email has been sent with the details");
     	}
     	
     	

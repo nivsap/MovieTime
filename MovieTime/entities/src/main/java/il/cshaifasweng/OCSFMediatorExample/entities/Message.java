@@ -19,6 +19,10 @@ public class Message implements Serializable {
 	ArrayList<String> timeOfMovie; //for shir
 	Worker worker;
 	Complaint complaint;
+	String emailMessage;
+	String customerEmail;
+	
+
 	int id;
 	int movieId;            				//clientSide need to fill/set is field when send msg to server
 	int cinemaId;           				//clientSide need to fill/set is field when send msg to server
@@ -432,6 +436,22 @@ public class Message implements Serializable {
 	
 	public void setScreening(Screening screening) {
 		this.screening = screening;
+	}
+	
+	public String getEmailMessage() {
+		return emailMessage;
+	}
+
+	public void setEmailMessage(String emailMessage) {
+		this.emailMessage = emailMessage;
+	}
+
+	public String getCustomerEmail() {
+		return customerEmail;
+	}
+
+	public void setCustomerEmail(String customerEmail) {
+		this.customerEmail = customerEmail;
 	}
 }
 

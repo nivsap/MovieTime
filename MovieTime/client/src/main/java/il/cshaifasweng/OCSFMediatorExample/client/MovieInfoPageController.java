@@ -3,6 +3,8 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -25,6 +27,7 @@ public class MovieInfoPageController {
     
     private ArrayList<Cinema> cinemas;
     private ArrayList<Screening> screenings;
+    private String orderType;
 
     @FXML
     private ImageView movieLargeImageSrc;
@@ -112,6 +115,10 @@ public class MovieInfoPageController {
 		}
     }
     
+    public void setOrderType(String type) {
+    	orderType = type;
+    }
+    
     @Subscribe 
     public void onMessageEvent(Message msg){
     	if(msg.getAction().equals("cinema contained movies done")) {
@@ -188,11 +195,37 @@ public class MovieInfoPageController {
     }
     
     @FXML
-    void orderTickets(ActionEvent event) throws IOException {
+    void ChooseSeats(ActionEvent event) throws IOException {
+    	try {
+    		if(cinemaCombo.getValue().isEmpty() || dateCombo.getValue().isEmpty() || timeCombo.getValue().isEmpty()) {
+    		
+    		JOptionPane.showMessageDialog(null, "You must fill all the fields");
+    		}
+    	}catch(Exception e) {
+    		JOptionPane.showMessageDialog(null, "You must fill all the fields");
+    		return;
+    	}
+    
+    	Screening screeningChosen = null;
+    	String LDT;
     	App.setWindowTitle(PageTitles.OrderTicketsPage);
     	OrderTicketsPageController controller = (OrderTicketsPageController) App.setContent("OrderTicketsPage");
-    	controller.loadMovieInfo(currentlyDisplayed);
-    	controller.loadHallMap(7, 10);
+    	for (Screening screening : screenings) {
+    		if(screening.getCinema().getName().equals(cinemaCombo.getValue())) {
+    			LDT = screening.getDate_screen().toString();
+    			if(LDT.substring(0, 10).equals(dateCombo.getValue()) && LDT.substring(11, 16).equals(timeCombo.getValue())) {
+    				screeningChosen = screening;
+    				break;
+    			}
+    			
+    		}
+    	}
+    	if(screeningChosen == null) {
+    		System.out.println("Error in movieInfoPage, screeningChosen is null!!");
+    	}
+    	controller.setPurchaseInfo(orderType, screeningChosen);
+    	controller.loadMovieInfo();
+    	controller.loadHallMap();
     }
 
 }

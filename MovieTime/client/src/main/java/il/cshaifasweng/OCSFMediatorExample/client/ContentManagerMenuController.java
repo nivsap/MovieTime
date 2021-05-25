@@ -22,6 +22,12 @@ public class ContentManagerMenuController {
     private Button logoutMenuBtn;
     
     @FXML
+    void loadUpdateMovies(ActionEvent event) throws IOException {
+    	App.setWindowTitle(PageTitles.UpdateMoviesPage);
+    	App.setContent("UpdateMoviesPage");
+    }
+    
+    @FXML
     void logout(ActionEvent event) throws IOException {
     	App.setWindowTitle(PageTitles.MainPage);
     	App.setBarAndGridLayout("MainPage");

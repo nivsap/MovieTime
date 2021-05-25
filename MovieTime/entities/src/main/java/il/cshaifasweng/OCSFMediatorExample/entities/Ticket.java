@@ -27,7 +27,7 @@ public class Ticket implements  Serializable{
    // @JoinColumn(name = "customer_id")
 	//private Customer orderTicket;
 	private Pair<Boolean , Integer> cinemaTab;
-	public Ticket(Purchaser orderTicket, Pair<Boolean, Integer> cinemaTab) {
+	public Ticket(Purchase orderTicket, Pair<Boolean, Integer> cinemaTab) {
 		super();
 	//	this.orderTicket = orderTicket;
 		this.cinemaTab = cinemaTab;

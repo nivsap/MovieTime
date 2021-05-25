@@ -33,7 +33,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Hall;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.NetworkAdministrator;
-import il.cshaifasweng.OCSFMediatorExample.entities.Purchaser;
+import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
@@ -62,13 +62,11 @@ public class Main extends AbstractServer{
 		configuration.addAnnotatedClass(Cinema.class);
 		configuration.addAnnotatedClass(Hall.class);
 		//configuration.addAnnotatedClass(Seat.class);
-		configuration.addAnnotatedClass(Purchaser.class);
-
 		configuration.addAnnotatedClass(Screening.class);
 		configuration.addAnnotatedClass(ContentManager.class);
 		configuration.addAnnotatedClass(BranchManager.class);
 		configuration.addAnnotatedClass(CustomerService.class);
-		configuration.addAnnotatedClass(Purchaser.class);
+		configuration.addAnnotatedClass(Purchase.class);
 		configuration.addAnnotatedClass(Complaint.class);
 		ServiceRegistry serviceRegistry =
 				new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
@@ -218,7 +216,7 @@ public class Main extends AbstractServer{
 			Complaint someComplaint1 = new Complaint("Shir", "Avneri", "I'm very upset", "I want to finish this project", true,null,true);
 			Complaint someComplaint2 = new Complaint("Niv", "Sapir", "I want to complain", "I am very upset", true,null,true);
 			Complaint someComplaint3 = new Complaint("Hadar", "Manor", "Some title", "Some details" ,false,null,true);
-			Purchaser customer = new Purchaser("Hadar", "Manor", "Some title", "Some details" , "12312312",new Pair<Boolean, Integer>(true, 20),false,null,null,null,new ArrayList<>(),10,null);
+			Purchase customer = new Purchase("Hadar", "Manor", "Some title", "Some details" , "12312312",new Pair<Boolean, Integer>(true, 20),false,null,null,null,new ArrayList<>(),10,null);
 			session.save(customer);
 			session.save(someComplaint1);
 			session.save(someComplaint2);
@@ -550,14 +548,10 @@ public class Main extends AbstractServer{
 		}
 		if(currentMsg.getAction().equals("save customer")) { // save ticket // save customer
 			try {
-				Purchaser customer = null;
+				
 				serverMsg = currentMsg;
-				if(serverMsg.isTab() == false)
-					customer = new Purchaser(serverMsg.getFirstName(), serverMsg.getLastName(),serverMsg.getEmailOrder(), serverMsg.getCityString(), serverMsg.getPhoneString(), null,false,null,null,null,null,10,null);
-				else if(serverMsg.isStatus()) customer = new Purchaser(serverMsg.getFirstName(), serverMsg.getLastName(),serverMsg.getEmailOrder(), serverMsg.getCityString(), serverMsg.getPhoneString(), null,true,null,null,null,null,10,null);
-				else customer = new Purchaser(serverMsg.getFirstName(), serverMsg.getLastName(),serverMsg.getEmailOrder(), serverMsg.getCityString(), serverMsg.getPhoneString(),new Pair<Boolean, Integer>(true, 20),false,null,null,null,null,10,null);
-
-				saveRowInDB(customer);
+			
+				saveRowInDB(serverMsg.getPurchase());
 				serverMsg.setAction("save customer done");
 				client.sendToClient(serverMsg);
 			}
@@ -567,15 +561,15 @@ public class Main extends AbstractServer{
 				e.printStackTrace();
 			}
 		}
-		if(currentMsg.getAction().equals("get purchaser by id")) {
+		if(currentMsg.getAction().equals("get purchase by id")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.setPurchaser(CustomerController.getID(serverMsg.getId()));
-				serverMsg.setAction("got purchaser by id");
+				serverMsg.setPurchase(CustomerController.getID(serverMsg.getId()));
+				serverMsg.setAction("got purchase by id");
 				client.sendToClient(serverMsg);
 			}
 			catch (IOException e) {
-				System.out.println("cant get purchaser by id");
+				System.out.println("cant get purchase by id");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -583,7 +577,7 @@ public class Main extends AbstractServer{
 		if(currentMsg.getAction().equals("get report ticket")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.setPurchasersList(ReportController.getTicketReportMonthly(serverMsg.getMonth(), serverMsg.getCinema()));
+				serverMsg.setPurchasesList(ReportController.getTicketReportMonthly(serverMsg.getMonth(), serverMsg.getCinema()));
 				serverMsg.setAction("got report ticket");
 				client.sendToClient(serverMsg);
 			}
@@ -593,10 +587,11 @@ public class Main extends AbstractServer{
 				e.printStackTrace();
 			}
 		}
+
 		if(currentMsg.getAction().equals("get report special ticket")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.setPurchasersList(ReportController.getSpecialTicketReportMonthly(serverMsg.getMonth(), serverMsg.getCinema()));
+				serverMsg.setPurchasesList(ReportController.getSpecialTicketReportMonthly(serverMsg.getMonth(), serverMsg.getCinema()));
 				serverMsg.setAction("got report special ticket");
 				client.sendToClient(serverMsg);
 			}
@@ -609,7 +604,7 @@ public class Main extends AbstractServer{
 		if(currentMsg.getAction().equals("get status complaints monthly")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.setPurchasersList(ReportController.statusComplaintsMonthly(serverMsg.getMonth(), serverMsg.getCinema()));
+				serverMsg.setPurchasesList(ReportController.statusComplaintsMonthly(serverMsg.getMonth(), serverMsg.getCinema()));
 				serverMsg.setAction("got status complaints monthly");
 				client.sendToClient(serverMsg);
 			}

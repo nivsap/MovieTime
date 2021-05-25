@@ -16,7 +16,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "Compaints")
+@Table(name = "Complaints")
 public class Complaint implements  Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,26 +33,25 @@ public class Complaint implements  Serializable {
 	private static String[] complaintTypes = { "Movie screening issues", "Viewing package issues", "Payment issues",
 									    	   "Dissatisfaction with customer support", "Other" };
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Purchaser purchaser;
+	private Purchase purchase;
 	private boolean status;
 	
 	public Complaint() {
 		super();
 	}
-	
-	public Complaint(String firstName, String lastName, String complaintTitle, String complaintDetails, Boolean isOpen,Purchaser purchaser , boolean status) {
+	public Complaint(String firstName, String lastName, String complaintTitle, String complaintDetails, boolean isOpen,Purchase purchase , boolean status) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.complaintTitle = complaintTitle;
 		this.complaintDetails = complaintDetails;
 		this.isOpen = isOpen;
-		this.purchaser = purchaser;
+		this.purchase = purchase;
 		this.status = status;
 	}
 	
 	public Complaint(String firstName, String lastName, String email, String phoneNumber, String complaintType, LocalDate incidentDate, 
-					 String complaintTitle, String complaintDetails, Boolean isOpen,Purchaser purchaser, boolean status) {
+					 String complaintTitle, String complaintDetails, boolean isOpen,Purchase purchase, boolean status) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -63,7 +62,7 @@ public class Complaint implements  Serializable {
 		this.complaintTitle = complaintTitle;
 		this.complaintDetails = complaintDetails;
 		this.isOpen = isOpen;
-		this.purchaser = purchaser;
+		this.purchase = purchase;
 		this.status = status;
 	}
 	
@@ -83,12 +82,12 @@ public class Complaint implements  Serializable {
 		this.status = status;
 	}
 
-	public Purchaser getPurchaser() {
-		return purchaser;
+	public Purchase getPurchase() {
+		return purchase;
 	}
 
-	public void setPurchaser(Purchaser purchaser) {
-		this.purchaser = purchaser;
+	public void setPurchase(Purchase purchase) {
+		this.purchase = purchase;
 	}
 
 	public void setFirstName(String firstName) {

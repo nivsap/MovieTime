@@ -1,10 +1,15 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
 import il.cshaifasweng.OCSFMediatorExample.entities.Hall;
+import il.cshaifasweng.OCSFMediatorExample.entities.Message;
+import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +26,10 @@ public class PaymentPageController {
 	private Hall hall;
 	private Screening screening;
 	private ArrayList<Pair<Integer,Integer>> seats; 
+	private  Pair<Boolean, Integer> subscriptionCard;
+	private boolean watchFromHome;
+	private Complaint complaint;
+	private Purchase purchase;
 	  
     @FXML
     private TextField firstNameTextField;
@@ -127,11 +136,42 @@ public class PaymentPageController {
         
         hideWarningLabels();
     }
-    
-    public void setInfo(String type, Screening screening, List<Pair<Integer, Integer>> seatsChosen) {
+
+    public void setInfo(String type, Screening screening, ArrayList<Pair<Integer, Integer>> seatsChosen) {
     	this.orderType = type;
     	this.screening = screening;
-    	//this.seats = seatsChosen;
+    	this.seats = seatsChosen;
+    	
+    	if(orderType.equals("card")) {
+    		subscriptionCard = new Pair<Boolean,Integer>(true,20);
+    	}else {
+    		subscriptionCard = new Pair<Boolean,Integer>(false,0);
+    	}
+    	if(orderType.equals("link")) {
+    		watchFromHome = true;
+    	}else {
+    		watchFromHome = false;
+    	}
+    }
+    
+    private void createPurchase() {
+    	//complaint = new Complaint(firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), phoneNumberTextField.getText(),false, null ,false);
+    	
+    	purchase = new Purchase(firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), cityTextField.getText(), phoneNumberTextField.getText(),
+    			subscriptionCard, watchFromHome, LocalDateTime.now(), screening.getCinema(), screening.getHall(), seats, 0 , null);
+    	
+    	//complaint.setPurchase(purchase);
+    	
+    	Message msg = new Message();
+    	msg.setAction("save customer");
+    	msg.setPurchase(purchase);
+    	try {
+			AppClient.getClient().sendToServer(msg);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
     }
  
 	void hideWarningLabels() {
@@ -223,6 +263,6 @@ public class PaymentPageController {
     		return;
     	}
     	
-    	// Else - save order in database
+    	createPurchase();
     }
 }

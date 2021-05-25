@@ -37,15 +37,15 @@ public class Hall implements  Serializable{
     @JoinColumn(name = "cinema_id")
 	private Cinema cinema;
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "hall")
-	private List<Purchaser> purchasers;
+	private List<Purchase> purchases;
 	
-	public Hall (int rows, int cols, ArrayList<Screening> screeningArray , Cinema cinema , List<Purchaser> purchasers) {
+	public Hall (int rows, int cols, ArrayList<Screening> screeningArray , Cinema cinema , List<Purchase> purchases) {
 		super();
 		this.rows = rows;
 		this.cols = cols;
 		this.screeningArray = new ArrayList<>();
 		this.cinema = cinema;
-		this.purchasers = new ArrayList<>();
+		this.purchases = new ArrayList<>();
 	}
 	public Hall() {}
 	
@@ -57,11 +57,11 @@ public class Hall implements  Serializable{
 		this.cinema = cinema;
 	}
 
-	public List<Purchaser> getPurchasers() {
-		return purchasers;
+	public List<Purchase> getPurchases() {
+		return purchases;
 	}
-	public void setPurchasers(List<Purchaser> purchasers) {
-		this.purchasers = purchasers;
+	public void setPurchases(List<Purchase> purchases) {
+		this.purchases = purchases;
 	}
 	public void setScreeningArray(List<Screening> screeningArray) {
 		this.screeningArray = screeningArray;

@@ -19,8 +19,8 @@ import javafx.util.Pair;
 
 
 @Entity
-@Table(name = "Purchaser")
-public class Purchaser implements  Serializable{
+@Table(name = "Purchase")
+public class Purchase implements  Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -43,9 +43,9 @@ public class Purchaser implements  Serializable{
 	private int payment;
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Complaint complaint;
-	
 
-	public Purchaser(String firstName, String lastName, String emailOrder, String cityString, String phoneString,
+
+	public Purchase(String firstName, String lastName, String emailOrder, String cityString, String phoneString,
 			Pair<Boolean, Integer> cinemaTab , boolean watchFromHome , LocalDateTime purchaseDate,Cinema cinema , Hall hall ,List<Pair<Integer , Integer>> sitsList ,int payment,Complaint complaint) {
 		super();
 		this.firstName = firstName;
@@ -62,7 +62,7 @@ public class Purchaser implements  Serializable{
 		this.payment = payment;
 		this.complaint = complaint;
 	}
-	public Purchaser() {}
+	public Purchase() {}
 	
 	public Complaint getComplaint() {
 		return complaint;

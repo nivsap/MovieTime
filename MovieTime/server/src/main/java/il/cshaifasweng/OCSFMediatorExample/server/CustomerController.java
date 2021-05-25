@@ -7,7 +7,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import il.cshaifasweng.OCSFMediatorExample.entities.Purchaser;
+import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
 import javafx.util.Pair;
 
 
@@ -57,10 +57,10 @@ public class CustomerController{
 //			System.out.println("Complaint added to database");
 //		}
 //	}
-	public static Purchaser getID(int id) {
+	public static Purchase getID(int id) {
 		//Customer customer = null;
-		ArrayList<Purchaser> customerList = Main.getAllOfType(Purchaser.class);
-		for(Purchaser customer : customerList) {
+		ArrayList<Purchase> customerList = Main.getAllOfType(Purchase.class);
+		for(Purchase customer : customerList) {
 			if(customer.getId() == id) {
 				return customer;
 			}
@@ -70,8 +70,8 @@ public class CustomerController{
 	}
 	public static void reduceTab(int id) {
 		//Customer customer = null;
-		ArrayList<Purchaser> customerList = Main.getAllOfType(Purchaser.class);
-		for(Purchaser customer : customerList) {
+		ArrayList<Purchase> customerList = Main.getAllOfType(Purchase.class);
+		for(Purchase customer : customerList) {
 			if(customer.getId() == id) {
 				Pair<Boolean, Integer> temp = new Pair<Boolean, Integer>(customer.getCinemaTab().getKey(), customer.getCinemaTab().getValue()-1);
 				customer.setCinemaTab(temp);

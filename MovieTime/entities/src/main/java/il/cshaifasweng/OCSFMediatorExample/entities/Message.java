@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.util.Pair;
-
+//purchas
 public class Message implements Serializable {
 	String action;
 	String username; 
@@ -44,10 +44,10 @@ public class Message implements Serializable {
 	
 	String genre;    						//clientSide need to fill/set is field when send msg to server
 	LocalDateTime dateMovie;    			//clientSide need to fill/set is field when send msg to server
-	Purchaser purchaser;
+	Purchase purchase;
 	int month;
 	Cinema cinema;
-	List<Purchaser> purchasersList;
+	List<Purchase> purchasesList;
 	public Message() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -67,12 +67,12 @@ public class Message implements Serializable {
 	}
 
 
-	public List<Purchaser> getPurchasersList() {
-		return purchasersList;
+	public List<Purchase> getPurchasesList() {
+		return purchasesList;
 	}
 
-	public void setPurchasersList(List<Purchaser> purchasersList) {
-		this.purchasersList = purchasersList;
+	public void setPurchasesList(List<Purchase> purchasesList) {
+		this.purchasesList = purchasesList;
 	}
 
 	public void setMonth(int month) {
@@ -93,14 +93,14 @@ public class Message implements Serializable {
 
 
 
-	public Purchaser getPurchaser() {
-		return purchaser;
+	public Purchase getPurchase() {
+		return purchase;
 	}
 
 
 
-	public void setPurchaser(Purchaser purchaser) {
-		this.purchaser = purchaser;
+	public void setPurchase(Purchase purchase) {
+		this.purchase = purchase;
 	}
 
 

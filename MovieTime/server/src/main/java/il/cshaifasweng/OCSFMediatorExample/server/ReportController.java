@@ -4,33 +4,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Cinema;
-import il.cshaifasweng.OCSFMediatorExample.entities.Purchaser;
-
+import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
 
 public class ReportController {
-	public static List<Purchaser> getTicketReportMonthly(int month , Cinema cinema) {
-		List<Purchaser> toReturn = new ArrayList<>();
-		for(Purchaser purchaser : cinema.getCustomers()) {
-			if(purchaser.getPurchaseDate().getDayOfMonth() == month && purchaser.getCinemaTab().getKey() == false && purchaser.isWatchFromHome() == false) {
-				toReturn.add(purchaser);
+	public static List<Purchase> getTicketReportMonthly(int month , Cinema cinema) {
+		List<Purchase> toReturn = new ArrayList<>();
+		for(Purchase purchase : cinema.getCustomers()) {
+			if(purchase.getPurchaseDate().getDayOfMonth() == month && purchase.getCinemaTab().getKey() == false && purchase.isWatchFromHome() == false) {
+				toReturn.add(purchase);
 			}
 		}
 		return toReturn;	
 	}
-	public static List<Purchaser> getSpecialTicketReportMonthly(int month , Cinema cinema) {
-		List<Purchaser> toReturn = new ArrayList<>();
-		for(Purchaser purchaser : cinema.getCustomers()) {
-			if(purchaser.getPurchaseDate().getDayOfMonth() == month && (purchaser.getCinemaTab().getKey() == true || purchaser.isWatchFromHome() == true)) {
-				toReturn.add(purchaser);
+	public static List<Purchase> getSpecialTicketReportMonthly(int month , Cinema cinema) {
+		List<Purchase> toReturn = new ArrayList<>();
+		for(Purchase purchase : cinema.getCustomers()) {
+			if(purchase.getPurchaseDate().getDayOfMonth() == month && (purchase.getCinemaTab().getKey() == true || purchase.isWatchFromHome() == true)) {
+				toReturn.add(purchase);
 			}
 		}
 		return toReturn;	
 	}
-	public static List<Purchaser> statusComplaintsMonthly(int month , Cinema cinema) {
-		List<Purchaser> toReturn = new ArrayList<>();
-		for(Purchaser purchaser : cinema.getCustomers()) {
-			if(purchaser.getPurchaseDate().getDayOfMonth() == month && purchaser.getComplaint().isStatus() == true) {
-				toReturn.add(purchaser);
+	public static List<Purchase> statusComplaintsMonthly(int month , Cinema cinema) {
+		List<Purchase> toReturn = new ArrayList<>();
+		for(Purchase purchase : cinema.getCustomers()) {
+			if(purchase.getPurchaseDate().getDayOfMonth() == month && purchase.getComplaint().isStatus() == true) {
+				toReturn.add(purchase);
 			}
 		}
 		return toReturn;	

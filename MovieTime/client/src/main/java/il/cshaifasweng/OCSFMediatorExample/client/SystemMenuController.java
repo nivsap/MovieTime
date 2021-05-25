@@ -52,6 +52,10 @@ public class SystemMenuController extends Pane {
     void loadLoginPage(ActionEvent event) throws IOException {
     	App.setContent("LoginPage", "Login");
     }
-
+    @FXML
+    void loadViewingPackages(ActionEvent event) throws IOException {
+    	App.setContentForGrid("ViewingPackagesPage", "Viewing Packages");
+    }
+    
     
 }

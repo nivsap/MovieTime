@@ -60,7 +60,9 @@ public class App extends Application {
 
     static void setContentForGrid(String pageName,String pageTitle) throws IOException {
     	MainPageAndComingSoonController controller=new MainPageAndComingSoonController();
+    	System.out.println("in setContentForGrid");
     	controller.decide(pageName);
+    	System.out.println("in after decide");
     	content.getChildren().setAll(controller.getTopBar(),controller.getCardContainer());
     	stage.setTitle(pageTitle);
 

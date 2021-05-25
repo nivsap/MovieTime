@@ -46,6 +46,10 @@ public class MainPageAndComingSoonController {
 		if(namePage=="ComingSoonPage") {
 			fxmlLoader1.setLocation(getClass().getResource("ComingSoonBar.fxml"));
 		}
+		if(namePage=="ViewingPackagesPage") {
+	    	System.out.println("in ViewingPackagesPage decided");
+			fxmlLoader1.setLocation(getClass().getResource("SearchBar.fxml"));
+		}
 		vbox1 = fxmlLoader1.load();
 		fxmlLoader2.setLocation(getClass().getResource("CardContainer.fxml"));
 		vbox2 = fxmlLoader2.load();

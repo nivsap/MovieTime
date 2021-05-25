@@ -18,7 +18,14 @@ public class MovieController {
 		}
 		return toReturnArrayList;
 	}
-	
+	public static List<Movie> WatchingFromHome (){ 
+		List<Movie> toReturn = new ArrayList<>();
+		for(Movie movie : Main.getAllOfType(Movie.class)) {
+			if(movie.isStreamOnline()==true)
+				toReturn.add(movie);
+		}
+		return toReturn;				//return Movies available viewing from home 
+	}
 	public static List<String> getAllGenreScreeningMovies() {
 		ArrayList<Movie> soonMoviesArrayList = new ArrayList<>();
 		ArrayList<String> toReturnArrayList = new ArrayList<>();

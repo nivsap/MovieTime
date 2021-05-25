@@ -71,6 +71,10 @@ public class AppClient extends AbstractClient {
 		{
 			EventBus.getDefault().post(((Message) msg));
 		}
+		if (((Message) msg).getAction().equals("got genre screening movies"))
+		{
+			EventBus.getDefault().post(((Message) msg));
+		}
 		
 	}
 	@Override

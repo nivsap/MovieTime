@@ -49,8 +49,10 @@ public class MainPageAndComingSoonController {
 		vbox1 = fxmlLoader1.load();
 		fxmlLoader2.setLocation(getClass().getResource("CardContainer.fxml"));
 		vbox2 = fxmlLoader2.load();
-		controller = fxmlLoader2.getController();
-		
+		controller = fxmlLoader2.getController();	
 		controller.sendMsgToServer(namePage);
 	}
 }
+
+
+

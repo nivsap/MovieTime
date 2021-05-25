@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JOptionPane;
 
 import org.greenrobot.eventbus.EventBus;
@@ -23,6 +22,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
 import javafx.util.Pair;
 
 public class PaymentPageController {
@@ -36,6 +36,9 @@ public class PaymentPageController {
 	private Complaint complaint;
 	private Purchase purchase;
 	  
+    @FXML
+    private TextArea orderSummeryTextArea;
+
     @FXML
     private TextField firstNameTextField;
 
@@ -141,13 +144,23 @@ public class PaymentPageController {
         assert payNowBtn != null : "fx:id=\"payNowBtn\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         
         hideWarningLabels();
+        
+        
     }
 
     public void setInfo(int type, Screening screening, ArrayList<Pair<Integer, Integer>> seatsChosen) {
     	this.purchaseType = type;
     	this.screening = screening;
     	this.seats = seatsChosen;
+    	String order = screening.getCinema().getName() + " Cinema, hall " + screening.getHall().getId() + "\n";
+		for(Pair<Integer,Integer> seat : seats) {
+			order += "Seat " + seat.getKey() + "," + seat.getValue() + "\n";
+		}
+		order += "Total price: " + seats.size();
+        orderSummeryTextArea.setText(order);
     	
+        
+        paymentLabel.setText(Float.toString(seats.size()));
     	switch(purchaseType) {
     	case PurchaseTypes.TICKET: {
     		watchFromHome = false;
@@ -163,6 +176,8 @@ public class PaymentPageController {
     	}
     	case PurchaseTypes.NOT_AVAILABLE: return;
     	}
+    	
+    	
     }
     
     private void createPurchase() {

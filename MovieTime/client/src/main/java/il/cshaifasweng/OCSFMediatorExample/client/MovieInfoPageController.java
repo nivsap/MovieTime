@@ -228,6 +228,7 @@ public class MovieInfoPageController {
     	}
     	controller.setPurchaseInfo(purchaseType, screeningChosen);
     	controller.loadMovieInfo();
+    	controller.loadScreeningInfo();
     	controller.loadHallMap();
     }
 

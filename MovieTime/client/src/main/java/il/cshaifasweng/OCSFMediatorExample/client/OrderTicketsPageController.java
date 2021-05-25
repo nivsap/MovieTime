@@ -25,11 +25,13 @@ import javafx.util.Pair;
 
 
 public class OrderTicketsPageController {
+	private Movie movie;
 	private HallMapController hallMapController;
 	private int purchaseType;
 	private Screening screeningChosen;
 	private VBox hallMap;
 	private ArrayList<Pair<Integer,Integer>> seatsChosen = new ArrayList<Pair<Integer, Integer>>();
+	
     @FXML
     private ImageView movieLargeImageSrc;
 
@@ -49,7 +51,24 @@ public class OrderTicketsPageController {
     private VBox hallMapContainer;
     
     @FXML
+    private Label movieNameLabel;
+
+    @FXML
+    private Label cinemaLabel;
+
+    @FXML
+    private Label hallNumberLabel;
+
+    @FXML
+    private Label screeningDateLabel;
+
+    @FXML
+    private Label screeningTimeLabel;
+    
+    @FXML
     private Button orderTicketsBtn;
+    
+   
     
     public OrderTicketsPageController() {
     	hallMapContainer = new VBox();
@@ -74,7 +93,7 @@ public class OrderTicketsPageController {
     }
     
     public void loadMovieInfo() {
-    	Movie movie = screeningChosen.getMovie();
+    	movie = screeningChosen.getMovie();
     	movieName.setText(movie.getName());
     	movieGenre.setText(movie.getGenre());
     	moviePopularity.setText(movie.getPopular().toString());
@@ -82,6 +101,14 @@ public class OrderTicketsPageController {
     	Image largeImage = new  Image(getClass().getResourceAsStream("images/MoviesPosters/LargeImages/" + movie.getLargeImageSrc()));
     	movieLargeImageSrc.setImage(largeImage);
     	movieImageSrc.setImage(image);
+    }
+    
+    public void loadScreeningInfo() {
+    	movieNameLabel.setText(movie.getName());
+        cinemaLabel.setText(screeningChosen.getCinema().getName());
+        hallNumberLabel.setText(String.valueOf(screeningChosen.getHall().getId()));
+        screeningDateLabel.setText(screeningChosen.getDate_screen().toString().substring(0,10));
+        screeningTimeLabel.setText(screeningChosen.getDate_screen().toString().substring(11,16));
     }
     
     public void loadHallMap() throws IOException {

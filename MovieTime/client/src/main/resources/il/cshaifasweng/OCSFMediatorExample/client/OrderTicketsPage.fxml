@@ -70,13 +70,41 @@
                </AnchorPane>
                <AnchorPane layoutX="14.0" layoutY="25.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="260.0" style="-fx-background-color: #141518;">
                   <children>
-                     <Label alignment="CENTER" layoutX="68.0" layoutY="14.0" style="-fx-font-weight: bold;" text="Screening Info" textFill="WHITE">
+                     <Label alignment="CENTER" layoutY="10.0" prefWidth="260.0" style="-fx-font-weight: bold;" text="Screening Info" textFill="WHITE">
                         <font>
                            <Font size="18.0" />
                         </font>
                      </Label>
-                     <Label alignment="TOP_CENTER" layoutY="134.0" prefHeight="30.0" prefWidth="260.0" text="Screening info will be displayed later on..." textFill="WHITE" />
                      <Button fx:id="orderTicketsBtn" layoutX="55.0" layoutY="260.0" mnemonicParsing="false" onAction="#orderTickets" prefWidth="150.0" styleClass="orangeButton" text="Order Tickets" />
+                     <Label layoutX="14.0" layoutY="154.0" text="Sceening's Date:" textFill="WHITE">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                        </font>
+                     </Label>
+                     <Label layoutX="14.0" layoutY="104.0" text="Cinema:" textFill="WHITE">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                        </font>
+                     </Label>
+                     <Label layoutX="14.0" layoutY="129.0" text="Hall number:" textFill="WHITE">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                        </font>
+                     </Label>
+                     <Label fx:id="movieNameLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="40.0" prefWidth="260.0" style="-fx-font-weight: bold;" text="Movie Name" textFill="WHITE">
+                        <font>
+                           <Font size="14.0" />
+                        </font>
+                     </Label>
+                     <Label layoutX="14.0" layoutY="179.0" text="Sceening's Time:" textFill="WHITE">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                        </font>
+                     </Label>
+                     <Label fx:id="cinemaLabel" layoutX="69.0" layoutY="104.0" text="Haifa" textFill="WHITE" />
+                     <Label fx:id="hallNumberLabel" layoutX="94.0" layoutY="129.0" text="1" textFill="WHITE" />
+                     <Label fx:id="screeningDateLabel" layoutX="114.0" layoutY="154.0" text="01/01/01" textFill="WHITE" />
+                     <Label fx:id="screeningTimeLabel" layoutX="114.0" layoutY="179.0" text="17:30" textFill="WHITE" />
                   </children>
                </AnchorPane>
             </children>

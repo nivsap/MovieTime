@@ -6,6 +6,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
 import il.cshaifasweng.OCSFMediatorExample.entities.Hall;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
@@ -108,6 +111,7 @@ public class PaymentPageController {
 
     @FXML
     void initialize() {
+    	EventBus.getDefault().register(this);
         assert firstNameTextField != null : "fx:id=\"firstNameTextField\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         assert firstNameWarningLabel != null : "fx:id=\"firstNameWarningLabel\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         assert lastNameTextField != null : "fx:id=\"lastNameTextField\" was not injected: check your FXML file 'PaymentPage.fxml'.";
@@ -171,6 +175,18 @@ public class PaymentPageController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    	
+    }
+    
+    
+    @Subscribe
+    public void OnMessageEvent(Message msg) {
+    	
+    	
+    	if(msg.getAction().equals("save customer done")) {
+    		
+    	}
+    	
     	
     }
  

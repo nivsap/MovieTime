@@ -9,9 +9,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 
 public class CardController {
+		int purchaseType;
 	
-		private String orderType;
-
 	    @FXML
 	    private ImageView movie_img;
 
@@ -20,12 +19,11 @@ public class CardController {
 
 	    Movie cardMovie;
 	    
-	    public void SetData(Movie movie, String orderType) {
+	    public void SetData(Movie movie) {
 	    	Image image = new  Image(getClass().getResourceAsStream("images/MoviesPosters/" + movie.getImageSrc()));
 	    	movie_img.setImage(image);
 	    	movie_name.setText(movie.getName());
 	    	cardMovie = movie;
-	    	this.orderType = orderType;
 	    }
 	    
 	    @FXML
@@ -35,13 +33,23 @@ public class CardController {
 	    	if(!cardMovie.isSoonInCinema()) {
 		    	MovieInfoPageController controller = (MovieInfoPageController) App.setContent("MovieInfoPage");
 		    	controller.InitPageInfo(cardMovie);
-		    	controller.setOrderType(orderType);
+		    	controller.setPurchaseType(purchaseType);
 	    	}
 	    	else {
 	    		ComingSoonInfoPageController controller = (ComingSoonInfoPageController) App.setContent("ComingSoonInfoPage");
 		    	controller.setComingSoonInfo(cardMovie);
+		    	controller.setPurchaseType(PurchaseTypes.NOT_AVAILABLE);
 	    	}
-
+	    	
+	    	
+	    }
+	    
+	    public void setPurchaseType(int type) {
+	    	this.purchaseType = type;
+	    }
+	    
+	    public int getPurchaseType() {
+	    	return this.purchaseType;
 	    }
 	    
 

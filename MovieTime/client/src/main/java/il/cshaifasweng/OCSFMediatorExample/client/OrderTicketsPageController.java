@@ -26,7 +26,7 @@ import javafx.util.Pair;
 
 public class OrderTicketsPageController {
 	private HallMapController hallMapController;
-	private String orderType;
+	private int purchaseType;
 	private Screening screeningChosen;
 	private VBox hallMap;
 	private ArrayList<Pair<Integer,Integer>> seatsChosen = new ArrayList<Pair<Integer, Integer>>();
@@ -68,8 +68,8 @@ public class OrderTicketsPageController {
         assert orderTicketsBtn != null : "fx:id=\"orderTicketsBtn\" was not injected: check your FXML file 'OrderTicketsPage.fxml'.";
     }
     
-    public void setPurchaseInfo(String type, Screening screening) {
-    	orderType = type;
+    public void setPurchaseInfo(int type, Screening screening) {
+    	purchaseType = type;
     	screeningChosen = screening;
     }
     
@@ -155,7 +155,7 @@ public class OrderTicketsPageController {
     	PaymentPageController controller;
 		try {
 			controller = (PaymentPageController) App.setContent("PaymentPage");
-			controller.setInfo(orderType, screeningChosen,seatsChosen);
+			controller.setInfo(purchaseType, screeningChosen,seatsChosen);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

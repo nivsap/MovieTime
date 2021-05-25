@@ -68,6 +68,8 @@ public class App extends Application {
     }
 
     static void setBarAndGridLayout(String pageName) throws IOException {
+    	if(content != null)
+    		content.getChildren().clear();
     	BarAndGridLayoutController controller = new BarAndGridLayoutController();
     	controller.setBarAndGrid(pageName);
     	content.getChildren().setAll(controller.getTopBar(),controller.getCardContainer());
@@ -75,6 +77,8 @@ public class App extends Application {
       
     static Object setContent(String pageName) throws IOException {
     	// setContent() loads page/FXML into App's content container and returns page's controller.
+    	if(content != null)
+    		content.getChildren().clear();
     	Pair<Parent, Object> pair = loadFXML(pageName);
     	pageLayout.setCenter(null);
     	content = (VBox) pair.getKey();
@@ -85,6 +89,8 @@ public class App extends Application {
     }
     
     static Object setMenu(String menuType) throws IOException {
+    	if(menu != null)
+    		menu.getChildren().clear();
     	Pair<Parent, Object> pair = loadFXML(menuType);
     	pageLayout.setLeft(null);
     	menu = (VBox) pair.getKey();

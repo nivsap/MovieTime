@@ -63,7 +63,7 @@ public class UpdateMoviesPageController{
 	
 	@FXML
 	public void initialize() {
-		System.out.println("initializing UpdateMoviePage");
+		System.out.println("initializing UpdateMoviesPage");
 		EventBus.getDefault().register(this);
 		PullMovies();
 		
@@ -76,7 +76,7 @@ public class UpdateMoviesPageController{
 	
 	private void PullMovies() {
 		Message msg= new Message();
-		msg.setAction("pull movies");
+		msg.setAction("pull screening movies");
 		
 		
 		
@@ -142,7 +142,7 @@ public class UpdateMoviesPageController{
 	@Subscribe
 	public void onMessageEvent(Message msg) throws IOException {
 		
-    		if(msg.getAction().equals("got movies")) {
+    		if(msg.getAction().equals("got screening movies")) {
     			
     			Platform.runLater(()-> {
     				allMovies = msg.getMovies();

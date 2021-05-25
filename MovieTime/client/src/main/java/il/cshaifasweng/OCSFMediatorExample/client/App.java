@@ -1,3 +1,4 @@
+
 package il.cshaifasweng.OCSFMediatorExample.client; // should be View package
 
 import java.io.IOException;
@@ -16,7 +17,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
-
 public class App extends Application {
     
     private static Scene scene;
@@ -29,35 +29,39 @@ public class App extends Application {
     private static VBox content;
     private AppClient client;
     
+    
+    
     @Override
     public void start(Stage primaryStage) throws IOException {
     	EventBus.getDefault().register(this);
     	stage = primaryStage;
-    	
     	client = AppClient.getClient();
     	client.openConnection();
+    	
+    	// Setting Layout's Content:
     	pageLayout = new BorderPane();
     	menu = (VBox) loadFXML("SystemMenu").getKey();
-    	content=new VBox();
-    	setContentForGrid("MainPage","Movie Time");
+    	content = new VBox();
+    	setBarAndGridLayout("MainPage");
     	pageLayout.setLeft(menu);
     	pageLayout.setCenter(content);
+    	
+    	// Setting App's Window:
+    	setWindowTitle(PageTitles.MainPage);
         scene = new Scene(pageLayout, 900, 700);
-        // Setting application stage:
-        stage.setTitle("Main Page");
         stage.setScene(scene);
         stage.show();
-        
-    	// loggin page code
-		/*
-		 * pageLayout = new BorderPane(); menu = (VBox) loadFXML("SystemMenu").getKey();
+
+		 /* For Connection Page:
+		 * pageLayout = new BorderPane(); 
 		 * content = (VBox) loadFXML("ConnectionLogin").getKey();
-		 * pageLayout.setLeft(menu); pageLayout.setCenter(content); scene = new
-		 * Scene(pageLayout, 900, 700); // Setting application stage:
-		 * stage.setTitle("Establish Connection"); stage.setScene(scene); stage.show();
+		 * pageLayout.setCenter(content); 
+		 * scene = new Scene(pageLayout, 900, 700);
+		 * stage.setTitle("Establish Connection"); 
+		 * stage.setScene(scene); 
+		 * stage.show();
 		 */
     }
-
     static void setContentForGrid(String pageName,String pageTitle) throws IOException {
     	MainPageAndComingSoonController controller=new MainPageAndComingSoonController();
     	System.out.println("in setContentForGrid");
@@ -65,8 +69,6 @@ public class App extends Application {
     	System.out.println("in after decide");
     	content.getChildren().setAll(controller.getTopBar(),controller.getCardContainer());
     	stage.setTitle(pageTitle);
-
-
     }
     static Object setContent(String pageName, String pageTitle) throws IOException {
     	// setContent() loads page/FXML into App's content container and returns page's controller.
@@ -95,18 +97,12 @@ public class App extends Application {
         return pair.getValue();
     }
     
-
+    
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml).getKey());
     }
 
-    private static Pair<Parent, Object> loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-        Parent root = fxmlLoader.load();
-        Object controller =  fxmlLoader.getController();
-        return new Pair<>(root, controller);
-    }
-
+  
     public static void main(String[] args) {
         launch(args);
     }
@@ -117,8 +113,41 @@ public class App extends Application {
     	if(msg.getAction().equals("set client")) {
     		client = AppClient.getClient();
     	}
-    		
-
 	}
+   
+    
+    static void setWindowTitle(String title) {
+    	stage.setTitle(title);
+    }
 
+    static void setBarAndGridLayout(String pageName) throws IOException {
+    	BarAndGridLayoutController controller = new BarAndGridLayoutController();
+    	controller.setBarAndGrid(pageName);
+	content.getChildren().setAll(controller.getTopBar(),controller.getCardContainer());
+    }
+      
+    static Object setContent(String pageName) throws IOException {
+    	// setContent() loads page/FXML into App's content container and returns page's controller.
+    	Pair<Parent, Object> pair = loadFXML(pageName);
+    	pageLayout.setCenter(null);
+    	content = (VBox) pair.getKey();
+    	pageLayout.setCenter(content);
+        stage.setScene(scene);
+        stage.show();
+        return pair.getValue();
+    }
+    
+
+    
+
+    private static Pair<Parent, Object> loadFXML(String fxml) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+        Parent root = fxmlLoader.load();
+        Object controller =  fxmlLoader.getController();
+        return new Pair<>(root, controller);
+    }
+  
+   
 }
+
+

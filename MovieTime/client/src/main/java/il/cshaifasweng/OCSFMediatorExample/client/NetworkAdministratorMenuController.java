@@ -23,7 +23,8 @@ public class NetworkAdministratorMenuController {
     
     @FXML
     void logout(ActionEvent event) throws IOException {
-    	App.setContent("MainPage", "Movie Time");
+    	App.setWindowTitle(PageTitles.MainPage);
+    	App.setContent("MainPage");
     	App.setMenu("SystemMenu");
     }
 

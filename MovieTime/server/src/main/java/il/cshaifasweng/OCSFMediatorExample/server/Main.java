@@ -7,6 +7,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -30,11 +33,12 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Hall;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.NetworkAdministrator;
-import il.cshaifasweng.OCSFMediatorExample.entities.Customer;
+import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
+import javafx.util.Pair;
 
 public class Main extends AbstractServer{
 
@@ -43,7 +47,6 @@ public class Main extends AbstractServer{
 	public static SessionFactory sessionFactory = getSessionFactory();
 	Message serverMsg;
 
-	//Message serverMsg;  need to create class for msg
 	public Main(int port) {
 
 		super(port);
@@ -58,11 +61,12 @@ public class Main extends AbstractServer{
 		configuration.addAnnotatedClass(NetworkAdministrator.class);
 		configuration.addAnnotatedClass(Cinema.class);
 		configuration.addAnnotatedClass(Hall.class);
-		configuration.addAnnotatedClass(Customer.class);
+		//configuration.addAnnotatedClass(Seat.class);
 		configuration.addAnnotatedClass(Screening.class);
 		configuration.addAnnotatedClass(ContentManager.class);
 		configuration.addAnnotatedClass(BranchManager.class);
 		configuration.addAnnotatedClass(CustomerService.class);
+		configuration.addAnnotatedClass(Purchase.class);
 		configuration.addAnnotatedClass(Complaint.class);
 		ServiceRegistry serviceRegistry =
 				new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
@@ -72,29 +76,6 @@ public class Main extends AbstractServer{
 	private static LocalDateTime getTime(int year, int month, int day){
 		return LocalDate.of(year, month, day).atStartOfDay();
 	}
-
-	public static void addComplaintToDB(Complaint complaint) {
-		try {
-			session = sessionFactory.openSession();
-			session.beginTransaction();
-			session.save(complaint);
-			session.flush();
-			session.getTransaction().commit();
-			session.clear();
-		} catch (Exception e) {
-			if (session != null) {
-				session.getTransaction().rollback();
-			}
-			System.err.println("An error occured, changes have been rolled back.");
-			e.printStackTrace();
-		} finally
-		{
-			assert session != null;
-			session.close();
-			System.out.println("Complaint added to database");
-		}
-	}
-
 
 	private static LocalDateTime getExacTime(int year, int month, int day , int hours , int minutes){
 		return LocalDate.of(year, month, month).atTime(hours, minutes);
@@ -148,17 +129,17 @@ public class Main extends AbstractServer{
 			session.save(StarWars);
 			session.flush();
 			//creating whole data base to cinema,screening,Hall
-			Cinema haifaCinema = new Cinema("Haifa", "Haifa,Carmel st", (BranchManager)shirWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-			Cinema telAvivCinema = new Cinema("Tel-Aviv", "Tel-Aviv,Wieztman st", (BranchManager)nivWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+			Cinema haifaCinema = new Cinema("Haifa", "Haifa,Carmel st", (BranchManager)shirWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>());
+			Cinema telAvivCinema = new Cinema("Tel-Aviv", "Tel-Aviv,Wieztman st", (BranchManager)nivWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>());
 			shirWorker.setCinema(haifaCinema);
 			nivWorker.setCinema(telAvivCinema);
 
-			boolean[][] planeArray = new boolean[3][3];
+			//Integer[][] planeArray1 = new Integer[3][5];
 
-			Hall hall1 = new Hall(planeArray, 3, 3, new ArrayList<>(),haifaCinema);
-			Hall hall2 = new Hall(planeArray, 3, 3, new ArrayList<>(),haifaCinema);
-			Hall hall3 = new Hall(planeArray, 3, 3, new ArrayList<>(),telAvivCinema);
-			Hall hall4 = new Hall(planeArray, 3, 3, new ArrayList<>(),telAvivCinema);
+			Hall hall1 = new Hall(3, 5, new ArrayList<>(),haifaCinema, new ArrayList<>());
+			Hall hall2 = new Hall(4, 4, new ArrayList<>(),haifaCinema, new ArrayList<>());
+			Hall hall3 = new Hall(7, 5, new ArrayList<>(),telAvivCinema, new ArrayList<>());
+			Hall hall4 = new Hall(2, 5, new ArrayList<>(),telAvivCinema, new ArrayList<>());
 
 
 			Screening screeningOfFilm_1 = new Screening(getExacTime(2021, 5, 25, 16, 00), hall1, avengersEndgame,haifaCinema);
@@ -205,8 +186,6 @@ public class Main extends AbstractServer{
 			telAvivCinema.getHallArray().add(hall3);
 			telAvivCinema.getHallArray().add(hall4);
 
-
-
 			session.save(screeningOfFilm_1);
 			session.save(screeningOfFilm_2);
 			session.save(screeningOfFilm_3);
@@ -219,7 +198,6 @@ public class Main extends AbstractServer{
 			session.save(screeningOfFilm_10);
 			session.save(screeningOfFilm_11);
 			session.save(screeningOfFilm_12);
-
 
 			session.save(hall1);
 			session.save(hall2);
@@ -234,6 +212,16 @@ public class Main extends AbstractServer{
 
 			session.save(haifaCinema);
 			session.save(telAvivCinema);
+			
+			Complaint someComplaint1 = new Complaint("Shir", "Avneri", "I'm very upset", "I want to finish this project", true,null,true);
+			Complaint someComplaint2 = new Complaint("Niv", "Sapir", "I want to complain", "I am very upset", true,null,true);
+			Complaint someComplaint3 = new Complaint("Hadar", "Manor", "Some title", "Some details" ,false,null,true);
+			Purchase customer = new Purchase("Hadar", "Manor", "Some title", "Some details" , "12312312",new Pair<Boolean, Integer>(true, 20),false,null,null,null,new ArrayList<>(),10,null);
+			session.save(customer);
+			session.save(someComplaint1);
+			session.save(someComplaint2);
+			session.save(someComplaint3);
+			
 			session.flush();
 
 			//System.out.println(ScreeningController.pickChair(1, 1, hall4));
@@ -262,30 +250,14 @@ public class Main extends AbstractServer{
 			server.listen();
 			System.out.println("hello server");
 		}
-
-		addComplaintsToDB();
-
-		//addUsersToDB();
 		addDataToDB();
-		System.out.println(MovieController.getSoonMovies().get(0).getName());
-		//for(Screening srScreening : ScreeningController.getAllDateOfMovie(2, 1)) {
-		//	System.out.println(srScreening.getMovie().getName());
-		//}
-
-
 
 	}
-	public static void addComplaintsToDB() {
+	public static <T> void saveRowInDB(T objectType) {
 		try {
 			session = sessionFactory.openSession();
 			session.beginTransaction();
-			Complaint someComplaint1 = new Complaint("Shir", "Avneri", "I'm very upset", "I want to finish this project", true);
-			Complaint someComplaint2 = new Complaint("Niv", "Sapir", "I want to complain", "I am very upset", true);
-			Complaint someComplaint3 = new Complaint("Hadar", "Manor", "Some title", "Some details" ,false);
-
-			session.save(someComplaint1);
-			session.save(someComplaint2);
-			session.save(someComplaint3);
+			session.save(objectType);
 			session.flush();
 			session.getTransaction().commit();
 			session.clear();
@@ -295,204 +267,34 @@ public class Main extends AbstractServer{
 			}
 			System.err.println("An error occured, changes have been rolled back.");
 			e.printStackTrace();
-		} finally {
-			assert session != null;
+		} finally
+		{
+			//assert session != null;
 			session.close();
+			System.out.println("saveCustomerInDB");
 		}
 	}
-	@Override
-	protected synchronized void clientDisconnected(ConnectionToClient client) {
-		// TODO Auto-generated method stub
-
-		System.out.println("Client Disconnected.");
-		super.clientDisconnected(client);
-	}
-
-	@Override
-	protected void clientConnected(ConnectionToClient client) {
-		super.clientConnected(client);
-		System.out.println("Client connected: " + client.getInetAddress());
-	}
-
-	@Override
-	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
-		System.out.println("message recieved " +  ((Message)msg).getAction());
-		
-		
-		serverMsg = new Message();
-		if(((Message) msg).getAction().equals("pull movies")) {
-			serverMsg.setMovies(getAllOfType(Movie.class));
-			serverMsg.setAction("got movies");
-			try {
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant create list of movies");
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+	public static <T> void updateRowDB(T objectType) {
+		try {
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+			session.update(objectType);
+			session.flush();
+			session.getTransaction().commit();
+			session.clear();
+		} catch (Exception e) {
+			if (session != null) {
+				session.getTransaction().rollback();
 			}
-		}
-		
-		if(((Message) msg).getAction().equals("update movie time")) {
-			System.out.println("about to update movie time");
-			updateMovie(((Message) msg).getMovieName(),((Message) msg).getTime(), ((Message) msg).getDbAction(), client);
-			
-		
-		}
-		if(((Message) msg).getAction().equals("login")) {
-			try {
-				if(((Message) msg).getUsername().equals(null) || ((Message) msg).getPassword().equals(null)) {
-					System.out.println("user or password is null");
-				}else {
-					UserController.getUser((Message) msg);
-					serverMsg = (Message) msg;
-					serverMsg.setAction("login done");
-					client.sendToClient(serverMsg);
-				}
-			} catch (IOException e) {
-				System.out.println("cant login");
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-
-		if(((Message) msg).getAction().equals("add a complaint")) {
-			serverMsg.setAction("added a complaint");
-			System.out.println("about to add a complaint");
-
-			try {
-				if(((Message) msg).getComplaint() == null) {
-					System.out.println("complaint is null in add a complaint");
-				}else {
-					System.out.println(((Message) msg).getComplaint().getComplaintTitle());
-					addComplaint(((Message) msg).getComplaint());
-					client.sendToClient(serverMsg);
-				}
-			} catch (IOException e) {
-				System.out.println("cant add a complaint");
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		if(((Message) msg).getAction().equals("cinema contained movies")) {
-			try {
-				serverMsg = (Message) msg;
-				serverMsg.setCinemasArrayList((ArrayList<Cinema>) ScreeningController.getCinemas(((Message) msg).getMovieId()));
-				serverMsg.setAction("cinema contained movies done");
-				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
-				System.out.println("cant cinema contained movies");
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-
-			}
-		}
-		if(((Message) msg).getAction().equals("screening for movie")) {
-			try {
-				serverMsg = (Message) msg;
-				serverMsg.setScreeningArrayList((ArrayList<Screening>) ScreeningController.getAllDateOfMovie(serverMsg.getMovieId(), serverMsg.getCinemaId()));
-				serverMsg.setAction("screening for movie done");
-				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
-				System.out.println("cant screening for movie");
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-
-			}
-		}
-		
-		if(((Message) msg).getAction().equals("pull soon movies")) {
-			try {
-				serverMsg = (Message) msg;
-				serverMsg.setMovies((ArrayList<Movie>) MovieController.getSoonMovies()); 
-				serverMsg.setAction("got soon movies");
-				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
-				System.out.println("cant pull soon movies");
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-
-			}
-		}
-		if(((Message) msg).getAction().equals("pull movies from home")) {
-			try {
-				serverMsg = (Message) msg;
-				serverMsg.setMovies((ArrayList<Movie>) MovieController.WatchingFromHome());
-				System.out.println(serverMsg.getMovies().toString());
-				serverMsg.setAction("got movies from home");
-				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
-				System.out.println("cant pull screening movies");
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		if(((Message) msg).getAction().equals("pull screening movies")) {
-			try {
-				System.out.println("in Main pull screeening movies msg");
-				serverMsg = (Message) msg;
-				serverMsg.setMovies((ArrayList<Movie>) MovieController.getAllScreeningMovies()); 
-				System.out.println("in the func handleMessageFromClient");
-				serverMsg.setAction("got screening movies");
-				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
-				System.out.println("cant pull screening movies");
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		if(((Message) msg).getAction().equals("pull genre screening movies")) {
-			try {
-				System.out.println("in Main pull screeening movies msg");
-				serverMsg = (Message) msg;
-				serverMsg.genreArray=MovieController.getAllGenreScreeningMovies().toArray(new String[0]); 
-				System.out.println("in the func handleMessageFromClient");
-				serverMsg.setAction("got genre screening movies");
-				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
-				System.out.println("cant pull screening movies");
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		if(((Message) msg).getAction().equals("picking chair")) {
-			try {
-				serverMsg = (Message) msg;
-				serverMsg.setStatus(ScreeningController.pickChair(serverMsg.getRow(), serverMsg.getCol(), serverMsg.getHall()));
-				serverMsg.setAction("picking chair is done");
-				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
-				System.out.println("cant picking chair");
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		if(((Message) msg).getAction().equals("save customer")) { // save ticket // save customer 
-			try {
-				Customer customer = null;
-				serverMsg = (Message) msg;
-				if(serverMsg.isTab() == false)
-					customer = new Customer(serverMsg.getFirstName(), serverMsg.getLastName(),serverMsg.getEmailOrder(), serverMsg.getCityString(), serverMsg.getPhoneString(), null);
-				else customer = new Customer(serverMsg.getFirstName(), serverMsg.getLastName(),serverMsg.getEmailOrder(), serverMsg.getCityString(), serverMsg.getPhoneString(), serverMsg.getCinemaTab());
-				CustomerController.saveCustomerInDB(customer);
-				serverMsg.setAction("save customer done");
-				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
-				System.out.println("cant save customer");
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			System.err.println("An error occured, changes have been rolled back.");
+			e.printStackTrace();
+		} finally
+		{
+			//assert session != null;
+			session.close();
+			System.out.println("Complaint added to database");
 		}
 	}
-
-
 	public static <T> ArrayList<T> getAllOfType(Class<T> objectType) {
 		session = sessionFactory.openSession();
 		session.beginTransaction();
@@ -515,8 +317,320 @@ public class Main extends AbstractServer{
 		return returnedList;
 	}
 
-	
-	
+	@Override
+	protected synchronized void clientDisconnected(ConnectionToClient client) {
+		// TODO Auto-generated method stub
+
+		System.out.println("Client Disconnected.");
+		super.clientDisconnected(client);
+	}
+
+	@Override
+	protected void clientConnected(ConnectionToClient client) {
+		super.clientConnected(client);
+		System.out.println("Client connected: " + client.getInetAddress());
+	}
+
+	@Override
+	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
+		System.out.println("message recieved " +  ((Message)msg).getAction());
+		
+		Message currentMsg = ((Message)msg);
+
+		serverMsg = new Message();
+//		if(currentMsg.getAction().equals("pull movies")) {
+//			serverMsg.setMovies(getAllOfType(Movie.class));
+//			serverMsg.setAction("got movies");
+//			try {
+//				client.sendToClient(serverMsg);
+//			} catch (IOException e) {
+//				System.out.println("cant create list of movies");
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+		
+		if(currentMsg.getAction().equals("update movie time")) {
+			System.out.println("about to update movie time");
+			updateMovie(((Message) msg).getMovieName(),((Message) msg).getTime(), ((Message) msg).getDbAction(), client);
+			
+		
+		}
+		if(currentMsg.getAction().equals("login")) {
+			try {
+				if(currentMsg.getUsername().equals(null) || ((Message) msg).getPassword().equals(null)) {
+					System.out.println("user or password is null");
+				}else {
+					UserController.getUser((Message) msg);
+					serverMsg = (Message) msg;
+					serverMsg.setAction("login done");
+					client.sendToClient(serverMsg);
+				}
+			} catch (IOException e) {
+				System.out.println("cant login");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		if(currentMsg.getAction().equals("add a complaint")) {
+			serverMsg.setAction("added a complaint");
+			System.out.println("about to add a complaint");
+
+			try {
+				if(currentMsg.getComplaint() == null) {
+					System.out.println("complaint is null in add a complaint");
+				}else {
+					System.out.println(((Message) msg).getComplaint().getComplaintTitle());
+					saveRowInDB(((Message) msg).getComplaint());
+					client.sendToClient(serverMsg);
+				}
+			} catch (IOException e) {
+				System.out.println("cant add a complaint");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("cinema contained movies")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.setCinemasArrayList((ArrayList<Cinema>) ScreeningController.getCinemas(currentMsg.getMovieId()));
+				serverMsg.setAction("cinema contained movies done");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant cinema contained movies");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+
+			}
+		}
+		if(currentMsg.getAction().equals("screening for movie")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.setScreeningArrayList((ArrayList<Screening>) ScreeningController.getAllDateOfMovie(serverMsg.getMovieId(), serverMsg.getCinemaId()));
+				serverMsg.setAction("screening for movie done");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant screening for movie");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+
+			}
+		}
+		if(currentMsg.getAction().equals("pull soon movies")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.setMovies((ArrayList<Movie>) MovieController.getSoonMovies()); 
+				serverMsg.setAction("got soon movies");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant pull soon movies");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+
+			}
+		}
+		if(currentMsg.getAction().equals("pull screening movies")) {
+			try {
+				serverMsg = currentMsg;
+				System.out.println("in Main pull screeening movies msg");
+
+				serverMsg.setMovies((ArrayList<Movie>) MovieController.getAllScreeningMovies());
+				System.out.println("in the func handleMessageFromClient");
+				serverMsg.setAction("got screening movies");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant pull screening movies");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(((Message) msg).getAction().equals("pull soon movies genre")) {
+			try {
+				System.out.println("in Main genre pull screeening movies msg");
+				serverMsg = (Message) msg;
+				serverMsg.setMovies((ArrayList<Movie>) MovieController.getGenreTypeMovies(serverMsg.getGenre()));
+				System.out.println("in the func handleMessageFromClient");
+				serverMsg.setAction("got screening movies");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant pull screening movies");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("sort movies by genre")) {     //from here *********
+			try {
+				serverMsg = (Message) msg;
+				serverMsg.setMovies((ArrayList<Movie>) MovieController.MoviesByGener(serverMsg.getGenre())); 
+				serverMsg.setAction("sorted movies by genre");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant pull screening movies");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("sort movies by date")) {
+			try {
+				serverMsg = (Message) msg;
+				serverMsg.setMovies((ArrayList<Movie>) MovieController.MoviesByDate(serverMsg.getDateMovie())); 
+				serverMsg.setAction("done to sort by date");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant pull screening movies");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("sort movies by popular")) {
+			try {
+				serverMsg = (Message) msg;
+				serverMsg.setMovies((ArrayList<Movie>) MovieController.MoviesByPopularty()); 
+				serverMsg.setAction("done to sort by popular");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant pull screening movies");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("pull movies from home")) {
+			try {
+				serverMsg = (Message) msg;
+				serverMsg.setMovies((ArrayList<Movie>) MovieController.WatchingFromHome()); 
+				serverMsg.setAction("got movies from home");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant pull screening movies");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("picking chair")) {
+			try {
+				serverMsg = currentMsg;
+				Screening clientScreening = serverMsg.getScreening();
+				Screening serverScreening = ScreeningController.getScreening(clientScreening.getId());
+				if(ScreeningController.pickChair(clientScreening.getSeats(), serverScreening)) {
+					serverMsg.setAction("picking seats success");
+					for(int i = 0 ; i < clientScreening.getHall().getRows() ; i++) {
+						for(int j = 0 ; j < clientScreening.getHall().getCols() ; j++) {
+							if(clientScreening.getSeats()[i][j] == 2) {
+								clientScreening.getSeats()[i][j] = 1;
+							}
+						}
+					}
+					serverMsg.setScreening(clientScreening);
+					updateRowDB(clientScreening);
+				}else {
+					serverMsg.setAction("picking seats error");
+					serverMsg.setError("Seats have already been chosen by another customer, please choose again");
+					serverMsg.setScreening(serverScreening);
+					
+				}
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant picking chair");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("save customer")) { // save ticket // save customer
+			try {
+				
+				serverMsg = currentMsg;
+			
+				saveRowInDB(serverMsg.getPurchase());
+				serverMsg.setAction("save customer done");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant save customer");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("get purchase by id")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.setPurchase(CustomerController.getID(serverMsg.getId()));
+				serverMsg.setAction("got purchase by id");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant get purchase by id");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("get report ticket")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.setPurchasesList(ReportController.getTicketReportMonthly(serverMsg.getMonth(), serverMsg.getCinema()));
+				serverMsg.setAction("got report ticket");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant get report ticket");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		if(currentMsg.getAction().equals("get report special ticket")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.setPurchasesList(ReportController.getSpecialTicketReportMonthly(serverMsg.getMonth(), serverMsg.getCinema()));
+				serverMsg.setAction("got report special ticket");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant get report special ticket");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("get status complaints monthly")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.setPurchasesList(ReportController.statusComplaintsMonthly(serverMsg.getMonth(), serverMsg.getCinema()));
+				serverMsg.setAction("got status complaints monthly");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant get status complaints monthly");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(((Message) msg).getAction().equals("pull genre screening movies")) {
+			try {
+				System.out.println("in Main pull screeening movies msg");
+				serverMsg = (Message) msg;
+				serverMsg.genreArray=MovieController.getAllGenreScreeningMovies().toArray(new String[0]); 
+				System.out.println("in the func handleMessageFromClient");
+				serverMsg.setAction("got genre screening movies");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant pull screening movies");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
 	public static void updateMovie(String movieName, String time, String action, ConnectionToClient client) {
 		boolean timeChanged = false;
 		boolean error = false;
@@ -604,83 +718,30 @@ public class Main extends AbstractServer{
 
 	}
 
-	public static void addComplaint(Complaint complaint) {
-		try {
 
-			session = sessionFactory.openSession();
-			session.beginTransaction();
-
-			session.save(complaint);
-			System.out.println("finished adding complaint");
-			session.flush();
-			System.out.println("finished adding complaint flush");
-			session.getTransaction().commit();
-			System.out.println("finished adding complaint transaction");
-			session.clear();
-			System.out.println("finished adding complaint clear");
-		} catch (Exception exception) {
-			if (session != null) {
-				System.out.println("trying to rollback from addComplaint");
-				session.getTransaction().rollback();
-			}
-			System.err.println("An error occured, changes have been rolled back.");
-			exception.printStackTrace();
-		} finally
-		{
-			assert session != null;
-			session.close();
-		}
-
-	}
-	public static void updateChair(Hall hall) {
-		try {
-
-			session = sessionFactory.openSession();
-			session.beginTransaction();
-
-			session.update(hall);
-			System.out.println("finished movie update");
-			session.flush();
-			System.out.println("finished movie flush");
-			session.getTransaction().commit();
-			System.out.println("finished movie transaction");
-			session.clear();
-			System.out.println("finished movie clear");
-		} catch (Exception exception) {
-			if (session != null) {
-				System.out.println("trying to rollback from movieUpdate");
-				session.getTransaction().rollback();
-			}
-			System.err.println("An error occured, changes have been rolled back.");
-			exception.printStackTrace();
-		} finally 
-		{
-			assert session != null;
-			session.close();
-
-		}
-
-	}
 	//Movie movie = session.load(Movie.class , movie.getId());
-	public static <T> T getExacRow(Class<T> objectType , int id) {
-		T t = null;
-		try {
-			session = sessionFactory.openSession();
-			session.beginTransaction();
-			
-			t = session.load(objectType , id);
-		}catch (Exception e) {
-			e.printStackTrace();
-			if (session != null) {
-				session.getTransaction().rollback();
-			}
-			System.out.println("exan row loader");
-		}
-		finally {
-			session.close();
-		}
-		
-		return t;
-		
-	}
+//	public static <T> T getExacRow(Class<T> objectType , int id) {
+//		T t = null;
+//		try {
+//			session = sessionFactory.openSession();
+//			session.beginTransaction();
+//			
+//			//System.out.println(12);
+//			t = session.load(objectType , id);
+//			System.out.println(((Cinema)t).getName());
+//		}catch (Exception e) {
+//			e.printStackTrace();
+//			if (session != null) {
+//				session.getTransaction().rollback();
+//			}
+//			System.out.println("exan row loader");
+//		}
+//		finally {
+//			session.close();
+//		}
+//		
+//		return t;
+//		
+//	}
+
 }

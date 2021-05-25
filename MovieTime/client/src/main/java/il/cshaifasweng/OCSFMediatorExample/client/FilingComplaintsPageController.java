@@ -5,7 +5,7 @@ import java.time.LocalDate;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
+import java.time.LocalDate;
 import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import javafx.application.Platform;
@@ -163,7 +163,7 @@ public class FilingComplaintsPageController  {
     		complaintDetailsWarningLabel.setVisible(true);
     		return;
     	}
-    	newComplaint = new Complaint(firstName, lastName, email, phoneNumber, complaintType, incidentDate, complaintTitle, complaintDetails, true);
+    	newComplaint = new Complaint(firstName, lastName, email, phoneNumber, complaintType, incidentDate, complaintTitle, complaintDetails, true,null,true);
     	System.out.println("trying to add a complaint from FilingComplaintsPage");
     	Message msg = new Message();
 		msg.setComplaint(newComplaint);
@@ -179,11 +179,11 @@ public class FilingComplaintsPageController  {
 
     @Subscribe
 	public void onMessageEvent(Message msg) throws IOException {
-
     	if(msg.getAction().equals("added a complaint")) {
         	Platform.runLater(()-> {
     			try {
-    				ComplaintAddedPageController controller = (ComplaintAddedPageController) App.setContent("ComplaintAddedPage", "Thank you");
+    				App.setWindowTitle("Thank you");
+    				ComplaintAddedPageController controller = (ComplaintAddedPageController) App.setContent("ComplaintAddedPage");
     	    		controller.setData(newComplaint);
     			} catch (IOException e) {
     				// TODO Auto-generated catch block

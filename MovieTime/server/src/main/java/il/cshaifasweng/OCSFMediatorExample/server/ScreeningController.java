@@ -6,6 +6,7 @@ import java.util.List;
 import il.cshaifasweng.OCSFMediatorExample.entities.Cinema;
 import il.cshaifasweng.OCSFMediatorExample.entities.Hall;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
+import javafx.util.Pair;
 
 public class ScreeningController {
 	public static List<Cinema> getCinemas(int id) {
@@ -22,6 +23,9 @@ public class ScreeningController {
 		}
 		return toReturnArrayList;
 	}
+	
+	
+	
 	public static List<Screening> getAllDateOfMovie(int idMovie , int idCinema) {
 		ArrayList<Cinema> list = Main.getAllOfType(Cinema.class);
 		ArrayList<Screening> toReturnArrayList = new ArrayList<>();
@@ -37,15 +41,27 @@ public class ScreeningController {
 		return toReturnArrayList;
 	}
 	
-	public static boolean pickChair (int row , int col , Hall hall) {
-		//System.out.println(hall.getChair()[0][0]);
-		if(hall.getChair()[row][col] == false) {
-			hall.getChair()[row][col] = true;
-			Main.updateChair(hall);
-			System.out.println("ok");
-			return true;
+	public static Screening getScreening(int id) {
+		ArrayList<Screening> screenings = Main.getAllOfType(Screening.class);
+		for(Screening screening : screenings) {
+			if(screening.getId() == id) {
+				return screening;
+
+			}
 		}
-		return false;
+		return null;
+	}
+	public static boolean pickChair (int[][] ks, Screening screening) {
+		for(int i = 0 ; i < screening.getHall().getRows() ; i++) {
+			for(int j = 0 ; j < screening.getHall().getCols() ; j++) {
+				if(ks[i][j] == 2 && screening.getSeats()[i][j] == 1) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+
 	}
 	
 	

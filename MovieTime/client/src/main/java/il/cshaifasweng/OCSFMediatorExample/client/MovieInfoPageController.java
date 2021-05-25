@@ -1,11 +1,18 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
-
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import il.cshaifasweng.OCSFMediatorExample.entities.Cinema;
+import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
+import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -17,6 +24,10 @@ import javafx.scene.layout.AnchorPane;
 
 public class MovieInfoPageController {
     private Movie currentlyDisplayed;
+    
+    private ArrayList<Cinema> cinemas;
+    private ArrayList<Screening> screenings;
+    private String orderType;
 
     @FXML
     private ImageView movieLargeImageSrc;
@@ -55,21 +66,22 @@ public class MovieInfoPageController {
     private AnchorPane orderTicketsContainer;
 
     @FXML
-    private ComboBox<?> cinemaCombo;
+    private ComboBox<String> cinemaCombo;
 
     @FXML
-    private ComboBox<?> dateCombo;
+    private ComboBox<String> dateCombo;
 
     @FXML
-    private ComboBox<?> timeCombo;
+    private ComboBox<String> timeCombo;
 
     @FXML
-    private ComboBox<?> LanguageCombo;
+    private ComboBox<String> LanguageCombo;
 
     @FXML
     private Button orderTicketBtn;
     
-    void setMovieInfo(Movie movie) {
+    void InitPageInfo(Movie movie) {
+    	EventBus.getDefault().register(this);
     	movieDescription.setWrapText(true);
     	currentlyDisplayed = movie;
     	movieName.setText(movie.getName());
@@ -85,14 +97,135 @@ public class MovieInfoPageController {
     	Image largeImage = new  Image(getClass().getResourceAsStream("images/MoviesPosters/LargeImages/" + movie.getLargeImageSrc()));
     	movieLargeImageSrc.setImage(largeImage);
     	movieImageSrc.setImage(image);
+    	getCinemas(movie.getId());
+    	cinemaCombo.getItems().clear();
+    	dateCombo.getItems().clear();
+    	timeCombo.getItems().clear();
+    }
+    
+    private void getCinemas(int id) {
+    	Message msg = new Message();
+    	msg.setAction("cinema contained movies");
+    	msg.setMovieId(id);
+    	try {
+			AppClient.getClient().sendToServer(msg);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    public void setOrderType(String type) {
+    	orderType = type;
+    }
+    
+    @Subscribe 
+    public void onMessageEvent(Message msg){
+    	if(msg.getAction().equals("cinema contained movies done")) {
+    		Platform.runLater(()-> {
+	    		cinemaCombo.getItems().clear();
+	    		cinemas = msg.getCinemasArrayList();
+	    		for(Cinema cinema : msg.getCinemasArrayList()) {	
+	    			if(!cinemaCombo.getItems().contains(cinema.getName()));
+	    				cinemaCombo.getItems().add(cinema.getName());
+	    		}
+    		});
+    		
+    	}    	
+    	
+    	if(msg.getAction().equals("screening for movie done")) {
+    		Platform.runLater(()-> {
+    	    	String onlyDate;
+	    		screenings = msg.getScreeningArrayList();
+	    		dateCombo.getItems().clear();
+	    		for(Screening screening : screenings) {
+	    			onlyDate = screening.getDate_screen().toString();
+	    			onlyDate = onlyDate.substring(0,10); 
+	    			if(!dateCombo.getItems().contains(onlyDate))
+	    				dateCombo.getItems().add(onlyDate);
+	    		}
+    		});	
+    	}	
     }
     
     @FXML
-    void orderTickets(ActionEvent event) throws IOException {
-    	OrderTicketsPageController controller = (OrderTicketsPageController) App.setContent("OrderTicketsPage", "Order Tickets");
-    	controller.loadMovieInfo(currentlyDisplayed);
-    	controller.loadHallMap(7, 10);
-
+    private void cinemaChosen() {
+    	int cinemaId = -1;
+    	if(cinemaCombo.getValue() == null) {
+    		return;
+    	}
+    	if(cinemaCombo.getValue().isEmpty()) {
+    		return;
+    	}
+    		
+    	for(Cinema cinema : cinemas) {
+    		if(cinema.getName().equals(cinemaCombo.getValue())) {
+    			cinemaId = cinema.getId();
+    			break;
+    		}
+    	}
+    	
+    	Message msg = new Message();
+    	msg.setAction("screening for movie");
+    	msg.setCinemaId(cinemaId);
+    	msg.setMovieId(currentlyDisplayed.getId());
+    	try {
+			AppClient.getClient().sendToServer(msg);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
     }
     
+    @FXML
+    void dateChosen() {
+    	String onlyTime;
+    	if(dateCombo.getValue() == null) {
+    		return;
+    	}
+    	if(dateCombo.getValue().isEmpty()) {
+    		return;
+    	}
+    	for(Screening screening : screenings) {
+    		onlyTime = screening.getDate_screen().toString();
+    		onlyTime = onlyTime.substring(11,16);
+    		timeCombo.getItems().add(onlyTime);
+    	}
+    }
+    
+    @FXML
+    void ChooseSeats(ActionEvent event) throws IOException {
+    	try {
+    		if(cinemaCombo.getValue().isEmpty() || dateCombo.getValue().isEmpty() || timeCombo.getValue().isEmpty()) {
+    		
+    		JOptionPane.showMessageDialog(null, "You must fill all the fields");
+    		}
+    	}catch(Exception e) {
+    		JOptionPane.showMessageDialog(null, "You must fill all the fields");
+    		return;
+    	}
+    
+    	Screening screeningChosen = null;
+    	String LDT;
+    	App.setWindowTitle(PageTitles.OrderTicketsPage);
+    	OrderTicketsPageController controller = (OrderTicketsPageController) App.setContent("OrderTicketsPage");
+    	for (Screening screening : screenings) {
+    		if(screening.getCinema().getName().equals(cinemaCombo.getValue())) {
+    			LDT = screening.getDate_screen().toString();
+    			if(LDT.substring(0, 10).equals(dateCombo.getValue()) && LDT.substring(11, 16).equals(timeCombo.getValue())) {
+    				screeningChosen = screening;
+    				break;
+    			}
+    			
+    		}
+    	}
+    	if(screeningChosen == null) {
+    		System.out.println("Error in movieInfoPage, screeningChosen is null!!");
+    	}
+    	controller.setPurchaseInfo(orderType, screeningChosen);
+    	controller.loadMovieInfo();
+    	controller.loadHallMap();
+    }
+
 }

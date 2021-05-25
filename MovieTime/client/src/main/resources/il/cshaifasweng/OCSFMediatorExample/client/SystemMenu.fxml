@@ -37,7 +37,7 @@
                </ImageView>
             </graphic>
          </Button>
-         <Button fx:id="subscriptionCardMenuBtn" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutY="340.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="200.0" styleClass="menuButton" stylesheets="@style.css" text="Subscription Cards" textFill="WHITE">
+         <Button fx:id="subscriptionCardMenuBtn" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutY="340.0" mnemonicParsing="false" onAction="#loadSubscriptionCardInfoPage" prefHeight="52.0" prefWidth="200.0" styleClass="menuButton" stylesheets="@style.css" text="Subscription Cards" textFill="WHITE">
             <graphic>
                <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                   <image>

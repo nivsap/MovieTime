@@ -16,6 +16,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 @Entity
 @Table(name = "Hall")
@@ -24,24 +25,27 @@ public class Hall implements  Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	//private static final long serialVersionUID = 1L;
-	private boolean chair[][];
+	//@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "hall")
+	//private Seat seats[][];
 	@Column (name = "hall_rows")
 	private int rows;
 	@Column (name = "hall_cols")
 	private int cols;
-	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "hall")
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "hall")
 	private List<Screening> screeningArray;
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "cinema_id")
 	private Cinema cinema;
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "hall")
+	private List<Purchase> purchases;
 	
-	public Hall(boolean[][] chair, int rows, int cols, ArrayList<Screening> screeningArray , Cinema cinema) {
+	public Hall (int rows, int cols, ArrayList<Screening> screeningArray , Cinema cinema , List<Purchase> purchases) {
 		super();
 		this.rows = rows;
 		this.cols = cols;
 		this.screeningArray = new ArrayList<>();
-		this.chair = new boolean[rows][cols];
 		this.cinema = cinema;
+		this.purchases = new ArrayList<>();
 	}
 	public Hall() {}
 	
@@ -53,18 +57,26 @@ public class Hall implements  Serializable{
 		this.cinema = cinema;
 	}
 
+	public List<Purchase> getPurchases() {
+		return purchases;
+	}
+	public void setPurchases(List<Purchase> purchases) {
+		this.purchases = purchases;
+	}
+	public void setScreeningArray(List<Screening> screeningArray) {
+		this.screeningArray = screeningArray;
+	}
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public boolean[][] getChair() {
-		return chair;
-	}
-	public void setChair(boolean[][] chair) {
-		this.chair = chair;
-	}
+
+	/*
+	 * public Seat[][] getSeats() { return seats; } public void setSeats(Seat[][]
+	 * seats) { this.seats = seats; }
+	 */
 	public int getRows() {
 		return rows;
 	}
@@ -82,6 +94,9 @@ public class Hall implements  Serializable{
 	}
 	public void setScreeningArray(ArrayList<Screening> screeningArray) {
 		this.screeningArray = screeningArray;
+	}
+	public void addScreening(Screening screening) {
+		screeningArray.add(screening);
 	}
 	
 	

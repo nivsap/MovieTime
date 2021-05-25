@@ -1,18 +1,3 @@
-.menuButton {
-	
-	-fx-background-color: transparent;
-	-fx-border-radius: 0;
-	-fx-text-fill: #ffffff;
-}
-
-.menuButton:hover {
-	-fx-background-color: #f5821e;
-}
-
-.menuButton:pressed {
-	-fx-background-color: #c96b1a;
-}
-
 .searchBar {
 	-fx-border-width: 0px 0px 2px 0px;
 }
@@ -22,7 +7,6 @@
 	-fx-background-color: transparent;
 	-fx-border-width: 0px 0px 2px 0px;
 	-fx-text-fill: #ffffff;
-
 }
 
 .arrow {
@@ -49,46 +33,61 @@
 	-fx-background-color: transparent; 
 }
 
-#updateBtn {
-	-fx-background-color: #d32a00; 
-}
-
-#updateBtn:hover {
-	-fx-background-color: #ce5435;
-}
-
-#updateBtn:pressed {
-	-fx-background-color: #981f01;
-}
-
-#loginBtn {
-	-fx-background-color: #45bd62; 
-}
-
-#loginBtn:hover {
-	-fx-background-color: #6abd7e; 
-}
-
-#loginBtn:pressed {
-	-fx-background-color: #328e48;
-}
-
 .orangeComboBox {
 	-fx-background-color: #1c1d20;
 	-fx-border-color: #f5821e;
 	-fx-border-width: 2px 2px 2px 2px;
 }
 
-.orangeBtn {
+.menuButton {
+	-fx-background-color: transparent;
+	-fx-border-radius: 0;
+	-fx-text-fill: #ffffff;
+}
+
+.menuButton:hover {
+	-fx-background-color: #f5821e;
+}
+
+.menuButton:pressed {
+	-fx-background-color: #c96b1a;
+}
+
+.orangeButton {
 	-fx-text-fill: #ffffff;
 	-fx-background-color: #f5821e;
 }
 
-.orangeBtn:hover {
+.orangeButton:hover {
 	-fx-background-color: #f4a35d; 
 }
 
-.orangeBtn:pressed {
+.orangeButton:pressed {
 	-fx-background-color: #b46017;
 }
- 
+
+.redButton {
+	-fx-text-fill: #ffffff;
+	-fx-background-color: #d32a00; 
+}
+
+.redButton:hover {
+	-fx-background-color: #ce5435;
+}
+
+.redButton:pressed {
+	-fx-background-color: #981f01;
+}
+
+.greenButton {
+	-fx-text-fill: #ffffff;
+	-fx-background-color: #45bd62; 
+}
+
+.greenButton:hover {
+	-fx-background-color: #6abd7e; 
+}
+
+.greenButton:pressed {
+	-fx-background-color: #328e48;
+}

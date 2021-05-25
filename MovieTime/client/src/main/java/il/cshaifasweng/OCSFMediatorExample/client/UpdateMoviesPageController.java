@@ -1,7 +1,13 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+import java.awt.TextField;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 
@@ -72,7 +78,7 @@ public class UpdateMoviesPageController{
 		Message msg= new Message();
 		msg.setAction("pull movies");
 		
-
+		
 		
 		try {
 			AppClient.getClient().sendToServer(msg);
@@ -147,7 +153,8 @@ public class UpdateMoviesPageController{
     			
     			Platform.runLater(()-> {
     				try {
-						App.setContent("UpdateMoviesPage", "Update Movie Time");
+						App.setContent("UpdateMoviesPage");
+						App.setWindowTitle( "Update Movie Time");
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -165,6 +172,17 @@ public class UpdateMoviesPageController{
 	
 		
 	
+	
+	/*
+	 * @FXML private void OnComboBoxEvent() { ArratList<Movie> currentMovie =
+	 * allMovies;
+	 * 
+	 * 
+	 * 
+	 * 
+	 * }
+	 */
+	
 	@SuppressWarnings("unlikely-arg-type")
 	@FXML
 	private void UpdateMovieTime(ActionEvent event)
@@ -178,7 +196,6 @@ public class UpdateMoviesPageController{
 				cb_removal_addition.getSelectionModel().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "You must fill all the fields");
 		}else {
-			
 			Message msg = new Message();
 			msg.setAction("update movie time");
 			msg.setTime(cb_time.getValue());

@@ -25,7 +25,7 @@ import javafx.util.Pair;
 
 public class PaymentPageController {
 	
-	private String orderType;
+	private int purchaseType;
 	private Hall hall;
 	private Screening screening;
 	private ArrayList<Pair<Integer,Integer>> seats; 
@@ -141,20 +141,25 @@ public class PaymentPageController {
         hideWarningLabels();
     }
 
-    public void setInfo(String type, Screening screening, ArrayList<Pair<Integer, Integer>> seatsChosen) {
-    	this.orderType = type;
+    public void setInfo(int type, Screening screening, ArrayList<Pair<Integer, Integer>> seatsChosen) {
+    	this.purchaseType = type;
     	this.screening = screening;
     	this.seats = seatsChosen;
     	
-    	if(orderType.equals("card")) {
-    		subscriptionCard = new Pair<Boolean,Integer>(true,20);
-    	}else {
+    	switch(purchaseType) {
+    	case PurchaseTypes.TICKET: {
+    		watchFromHome = false;
     		subscriptionCard = new Pair<Boolean,Integer>(false,0);
     	}
-    	if(orderType.equals("link")) {
+    	case PurchaseTypes.VIEWING_PACKAGE: {
     		watchFromHome = true;
-    	}else {
+    		subscriptionCard = new Pair<Boolean,Integer>(false,0);
+    	}
+    	case PurchaseTypes.SUBSCRIPTION_CARD: {
     		watchFromHome = false;
+    		subscriptionCard = new Pair<Boolean,Integer>(true,20);
+    	}
+    	case PurchaseTypes.NOT_AVAILABLE: return;
     	}
     }
     

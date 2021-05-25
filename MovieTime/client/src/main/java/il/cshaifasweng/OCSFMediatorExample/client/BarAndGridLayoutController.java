@@ -33,6 +33,7 @@ public class BarAndGridLayoutController {
 		gridFXMLLoader.setLocation(getClass().getResource("CardContainer.fxml"));
 		gridContainer = gridFXMLLoader.load();
 		gridController = gridFXMLLoader.getController();
+		gridController.setPurchaseType(PurchaseTypes.getType(namePage));
 		gridController.sendMsgToServer(namePage);
 	}
 	

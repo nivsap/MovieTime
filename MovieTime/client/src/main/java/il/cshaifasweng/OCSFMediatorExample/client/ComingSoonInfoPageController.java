@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class ComingSoonInfoPageController {
+	private int purchaseType;
 
     @FXML
     private ImageView movieLargeImageSrc;
@@ -52,6 +53,14 @@ public class ComingSoonInfoPageController {
     	Image largeImage = new  Image(getClass().getResourceAsStream("images/MoviesPosters/LargeImages/" + movie.getLargeImageSrc()));
     	movieLargeImageSrc.setImage(largeImage);
     	movieImageSrc.setImage(image);
+    }
+    
+    public void setPurchaseType(int type) {
+    	this.purchaseType = type;
+    }
+    
+    public int getPurchaseType() {
+    	return this.purchaseType;
     }
 
 }

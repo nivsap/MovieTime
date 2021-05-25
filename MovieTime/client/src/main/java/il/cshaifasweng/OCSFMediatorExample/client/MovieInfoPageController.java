@@ -23,11 +23,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
 public class MovieInfoPageController {
-    private Movie currentlyDisplayed;
-    
+    private Movie currentlyDisplayed;  
     private ArrayList<Cinema> cinemas;
     private ArrayList<Screening> screenings;
-    private String orderType;
+    private int purchaseType;
 
     @FXML
     private ImageView movieLargeImageSrc;
@@ -115,8 +114,12 @@ public class MovieInfoPageController {
 		}
     }
     
-    public void setOrderType(String type) {
-    	orderType = type;
+    public void setPurchaseType(int type) {
+    	this.purchaseType = type;
+    }
+    
+    public int getPurchaseType() {
+    	return this.purchaseType;
     }
     
     @Subscribe 
@@ -223,7 +226,7 @@ public class MovieInfoPageController {
     	if(screeningChosen == null) {
     		System.out.println("Error in movieInfoPage, screeningChosen is null!!");
     	}
-    	controller.setPurchaseInfo(orderType, screeningChosen);
+    	controller.setPurchaseInfo(purchaseType, screeningChosen);
     	controller.loadMovieInfo();
     	controller.loadHallMap();
     }

@@ -614,6 +614,20 @@ public class Main extends AbstractServer{
 				e.printStackTrace();
 			}
 		}
+		
+		if(currentMsg.getAction().equals("send successful purchase mail")) {
+			try {
+				serverMsg = currentMsg;
+				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Thank you for your purchase at The Sirtiya!", serverMsg.getEmailMessage());
+				serverMsg.setAction("sent successful purchase mail");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant get status complaints monthly");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public static void updateMovie(String movieName, String time, String action, ConnectionToClient client) {

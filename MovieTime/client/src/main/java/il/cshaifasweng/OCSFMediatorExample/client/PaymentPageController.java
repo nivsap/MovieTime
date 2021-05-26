@@ -5,6 +5,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
 import il.cshaifasweng.OCSFMediatorExample.entities.Hall;
@@ -18,11 +22,12 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
 import javafx.util.Pair;
 
 public class PaymentPageController {
 	
-	private String orderType;
+	private int purchaseType;
 	private Hall hall;
 	private Screening screening;
 	private ArrayList<Pair<Integer,Integer>> seats; 
@@ -31,6 +36,9 @@ public class PaymentPageController {
 	private Complaint complaint;
 	private Purchase purchase;
 	  
+    @FXML
+    private TextArea orderSummeryTextArea;
+
     @FXML
     private TextField firstNameTextField;
 
@@ -108,6 +116,7 @@ public class PaymentPageController {
 
     @FXML
     void initialize() {
+    	EventBus.getDefault().register(this);
         assert firstNameTextField != null : "fx:id=\"firstNameTextField\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         assert firstNameWarningLabel != null : "fx:id=\"firstNameWarningLabel\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         assert lastNameTextField != null : "fx:id=\"lastNameTextField\" was not injected: check your FXML file 'PaymentPage.fxml'.";
@@ -135,23 +144,40 @@ public class PaymentPageController {
         assert payNowBtn != null : "fx:id=\"payNowBtn\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         
         hideWarningLabels();
+        
+        
     }
 
-    public void setInfo(String type, Screening screening, ArrayList<Pair<Integer, Integer>> seatsChosen) {
-    	this.orderType = type;
+    public void setInfo(int type, Screening screening, ArrayList<Pair<Integer, Integer>> seatsChosen) {
+    	this.purchaseType = type;
     	this.screening = screening;
     	this.seats = seatsChosen;
+    	String order = screening.getCinema().getName() + " Cinema, hall " + screening.getHall().getId() + "\n";
+		for(Pair<Integer,Integer> seat : seats) {
+			order += "Seat " + seat.getKey() + "," + seat.getValue() + "\n";
+		}
+		order += "Total price: " + seats.size();
+        orderSummeryTextArea.setText(order);
     	
-    	if(orderType.equals("card")) {
-    		subscriptionCard = new Pair<Boolean,Integer>(true,20);
-    	}else {
+        
+        paymentLabel.setText(Float.toString(seats.size()));
+    	switch(purchaseType) {
+    	case PurchaseTypes.TICKET: {
+    		watchFromHome = false;
     		subscriptionCard = new Pair<Boolean,Integer>(false,0);
     	}
-    	if(orderType.equals("link")) {
+    	case PurchaseTypes.VIEWING_PACKAGE: {
     		watchFromHome = true;
-    	}else {
-    		watchFromHome = false;
+    		subscriptionCard = new Pair<Boolean,Integer>(false,0);
     	}
+    	case PurchaseTypes.SUBSCRIPTION_CARD: {
+    		watchFromHome = false;
+    		subscriptionCard = new Pair<Boolean,Integer>(true,20);
+    	}
+    	case PurchaseTypes.NOT_AVAILABLE: return;
+    	}
+    	
+    	
     }
     
     private void createPurchase() {
@@ -171,6 +197,38 @@ public class PaymentPageController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    	
+    }
+    
+    
+    @Subscribe
+    public void OnMessageEvent(Message msg) {
+    	
+    	
+    	if(msg.getAction().equals("save customer done")) {
+    		String successfulPurchaseString;
+    		successfulPurchaseString = "Dear " + purchase.getFirstName() +" " + purchase.getLastName() + ", Thank you for your purchase.\n"
+    				+ "the details of your order are:\n"
+    				+ purchase.getCinema().getName() + " Cinema, hall " + purchase.getHall().getId() + "with the following seats:\n";
+    			for(Pair<Integer,Integer> seat : seats) {
+    				successfulPurchaseString += "Seat " + seat.getKey() + "," + seat.getValue() + "\n";
+    			}
+    			successfulPurchaseString += "Total price: " + purchase.getPayment();
+    			msg.setAction("send successful purchase mail");
+    			msg.setCustomerEmail(purchase.getEmailOrder());
+    			msg.setEmailMessage(successfulPurchaseString);
+    			try {
+					AppClient.getClient().sendToServer(msg);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    	}
+    	
+    	if(msg.getAction().equals("sent successful purchase mail")) {
+    		JOptionPane.showMessageDialog(null, "Thank you for your purchase, an email has been sent with the details");
+    	}
+    	
     	
     }
  

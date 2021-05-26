@@ -2,12 +2,15 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 import java.io.IOException;
 import java.util.logging.Logger;
 
+import javax.swing.JOptionPane;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import il.cshaifasweng.OCSFMediatorExample.client.ocsf.AbstractClient;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import javafx.application.Platform;
+import javafx.util.Pair;
 
 public class AppClient extends AbstractClient {
 	
@@ -25,82 +28,91 @@ public class AppClient extends AbstractClient {
 	protected void handleMessageFromServer(Object msg) {
 		System.out.println("msg recieved in appClient!");
 		System.out.println("msg is: " + ((Message)msg));
-		
-		if (((Message) msg).getAction().equals("got movies"))
+		Message currentMsg = (Message) msg;
+		if (currentMsg.getAction().equals("got movies"))
 		{
 			EventBus.getDefault().post(((Message) msg));
 		}
-		if (((Message) msg).getAction().equals("updated movie time"))
+		if (currentMsg.getAction().equals("updated movie time"))
 		{
 			EventBus.getDefault().post(((Message) msg));
 		}
-		if (((Message) msg).getAction().equals("login done"))
+		if (currentMsg.getAction().equals("login done"))
 		{
 			EventBus.getDefault().post(((Message) msg));
 		}
-		if (((Message) msg).getAction().equals("added a complaint"))
+		if (currentMsg.getAction().equals("added a complaint"))
 		{
 			EventBus.getDefault().post(((Message) msg));
 		}
-		if (((Message) msg).getAction().equals("cinema contained movies done"))
+		if (currentMsg.getAction().equals("cinema contained movies done"))
 		{
 			EventBus.getDefault().post(((Message) msg));
 		}
-		if (((Message) msg).getAction().equals("screening for movie done"))
+		if (currentMsg.getAction().equals("screening for movie done"))
 		{
 			EventBus.getDefault().post(((Message) msg));
 		}
-		if (((Message) msg).getAction().equals("got soon movies"))
+		if (currentMsg.getAction().equals("got soon movies"))
 		{
 			EventBus.getDefault().post(((Message) msg));
 		}
-		if (((Message) msg).getAction().equals("got screening movies"))
+		if (currentMsg.getAction().equals("got screening movies"))
 		{
 			System.out.println("AppClient got screening movies");
 			EventBus.getDefault().post(((Message) msg));
 		}
-		if (((Message) msg).getAction().equals("sorted movies by genre"))
+		if (currentMsg.getAction().equals("sorted movies by genre"))
 		{
 			EventBus.getDefault().post(((Message) msg));
 		}
-		if (((Message) msg).getAction().equals("done to sort by date"))
+		if (currentMsg.getAction().equals("done to sort by date"))
 		{
 			EventBus.getDefault().post(((Message) msg));
 		}
-		if (((Message) msg).getAction().equals("done to sort by popular"))
+		if (currentMsg.getAction().equals("done to sort by popular"))
 		{
 			EventBus.getDefault().post(((Message) msg));
 		}
-		if (((Message) msg).getAction().equals("got movies from home"))
+		if (currentMsg.getAction().equals("got movies from home"))
 		{
 			EventBus.getDefault().post(((Message) msg));
 		}
-		if (((Message) msg).getAction().equals("picking chair is done"))
+		if (currentMsg.getAction().equals("picking chair is done"))
 		{
 			EventBus.getDefault().post(((Message) msg));
 		}
-		if (((Message) msg).getAction().equals("set client"))
+		if (currentMsg.getAction().equals("set client"))
 		{
 			EventBus.getDefault().post(((Message) msg));
 		}
-		if (((Message) msg).getAction().equals("update movie error"))
+		if (currentMsg.getAction().equals("update movie error"))
 		{
 			EventBus.getDefault().post(((Message) msg));
 		}
-		if (((Message) msg).getAction().equals("got genre screening movies"))
-		{
-			EventBus.getDefault().post(((Message) msg));
-		}
-		if (((Message) msg).getAction().equals("got movies from home"))
 
-		if (((Message) msg).getAction().equals("picking seats success"))
+		if (currentMsg.getAction().equals("got genre screening movies"))
 		{
 			EventBus.getDefault().post(((Message) msg));
 		}
-		if (((Message) msg).getAction().equals("picking seats error"))
+		if (currentMsg.getAction().equals("got movies from home"))
+    {
+			EventBus.getDefault().post(((Message) msg));
+		}
+		if (currentMsg.getAction().equals("picking seats success"))
 		{
 			EventBus.getDefault().post(((Message) msg));
 		}
+		if (currentMsg.getAction().equals("picking seats error"))
+		{
+			EventBus.getDefault().post(((Message) msg));
+		}
+		if(currentMsg.getAction().equals("save customer done")) {
+			EventBus.getDefault().post(((Message) msg));
+    }
+    if(currentMsg.getAction().equals("sent successful purchase mail")) {
+    		EventBus.getDefault().post(((Message) msg));
+    }
 		
 	}
 	@Override

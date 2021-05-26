@@ -61,33 +61,31 @@ public class App extends Application {
 		 * stage.setScene(scene); 
 		 * stage.show();
 		 */
-    }
-    static void setContentForGrid(String pageName,String pageTitle) throws IOException {
-    	MainPageAndComingSoonController controller=new MainPageAndComingSoonController();
-    	System.out.println("in setContentForGrid");
-    	controller.decide(pageName);
-    	System.out.println("in after decide");
+      
+    static void setBarAndGridLayout(String pageName) throws IOException {
+    	if(content != null)
+    		content.getChildren().clear();
+    	BarAndGridLayoutController controller = new BarAndGridLayoutController();
+    	controller.setBarAndGrid(pageName);
     	content.getChildren().setAll(controller.getTopBar(),controller.getCardContainer());
-    	stage.setTitle(pageTitle);
     }
+  
     static Object setContent(String pageName, String pageTitle) throws IOException {
     	// setContent() loads page/FXML into App's content container and returns page's controller.
-    	if(pageName == "MainPage")
-    		pageTitle = "Movie Time";
-    	if(pageName == "UpdateMoviesPage")
-    		pageTitle = "Update movie time";
+    	if(content != null)
+    		content.getChildren().clear();
     	Pair<Parent, Object> pair = loadFXML(pageName);
     	pageLayout.setCenter(null);
     	content = (VBox) pair.getKey();
     	pageLayout.setCenter(content);
-    	stage.setTitle(pageTitle);
         stage.setScene(scene);
         stage.show();
         return pair.getValue();
-     
     }
     
     static Object setMenu(String menuType) throws IOException {
+    	if(menu != null)
+    		menu.getChildren().clear();
     	Pair<Parent, Object> pair = loadFXML(menuType);
     	pageLayout.setLeft(null);
     	menu = (VBox) pair.getKey();
@@ -96,7 +94,7 @@ public class App extends Application {
         stage.show();
         return pair.getValue();
     }
-    
+
     
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml).getKey());
@@ -121,6 +119,8 @@ public class App extends Application {
     }
 
     static void setBarAndGridLayout(String pageName) throws IOException {
+    	if(content != null)
+    		content.getChildren().clear();
     	BarAndGridLayoutController controller = new BarAndGridLayoutController();
     	controller.setBarAndGrid(pageName);
 	content.getChildren().setAll(controller.getTopBar(),controller.getCardContainer());
@@ -128,6 +128,8 @@ public class App extends Application {
       
     static Object setContent(String pageName) throws IOException {
     	// setContent() loads page/FXML into App's content container and returns page's controller.
+    	if(content != null)
+    		content.getChildren().clear();
     	Pair<Parent, Object> pair = loadFXML(pageName);
     	pageLayout.setCenter(null);
     	content = (VBox) pair.getKey();
@@ -137,8 +139,17 @@ public class App extends Application {
         return pair.getValue();
     }
     
-
-    
+    static Object setMenu(String menuType) throws IOException {
+    	if(menu != null)
+    		menu.getChildren().clear();
+    	Pair<Parent, Object> pair = loadFXML(menuType);
+    	pageLayout.setLeft(null);
+    	menu = (VBox) pair.getKey();
+    	pageLayout.setLeft(menu);
+        stage.setScene(scene);
+        stage.show();
+        return pair.getValue();
+    }
 
     private static Pair<Parent, Object> loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));

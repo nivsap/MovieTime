@@ -29,6 +29,8 @@ public class Cinema implements  Serializable{
 	//@Column(name ="moviePrice")
 	@Column(name="movie_price")
 	private double moviePrice;
+	private double linkPrice;
+	private double subscriptionPrice;
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private BranchManager manager;
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "cinema" )
@@ -44,7 +46,7 @@ public class Cinema implements  Serializable{
 	public Cinema() {}
 	
 	public Cinema(String name, String address, BranchManager manager, ArrayList<Screening> screeningArray,
-			ArrayList<Hall> hallArray, ArrayList<Worker> workerArray , ArrayList<Purchase> purchases, double moviePrice) {
+			ArrayList<Hall> hallArray, ArrayList<Worker> workerArray , ArrayList<Purchase> purchases, double moviePrice,double linkPrice, double rate) {
 		super();
 		//nextHallId = 1;
 		this.name = name;
@@ -56,6 +58,8 @@ public class Cinema implements  Serializable{
 		this.purchases = new ArrayList<>();
 		this.moviePrice = moviePrice;
 		nextHallId = 1;
+		this.setLinkPrice(linkPrice);
+		this.setSubscriptionPrice(20 * moviePrice * rate);
 		
 	}
 
@@ -170,6 +174,22 @@ public class Cinema implements  Serializable{
 
 	public void setMoviePrice(double moviePrice) {
 		this.moviePrice = moviePrice;
+	}
+
+	public double getLinkPrice() {
+		return linkPrice;
+	}
+
+	public void setLinkPrice(double linkPrice) {
+		this.linkPrice = linkPrice;
+	}
+
+	public double getSubscriptionPrice() {
+		return subscriptionPrice;
+	}
+
+	public void setSubscriptionPrice(double subscriptionPrice) {
+		this.subscriptionPrice = subscriptionPrice;
 	}
 
 	

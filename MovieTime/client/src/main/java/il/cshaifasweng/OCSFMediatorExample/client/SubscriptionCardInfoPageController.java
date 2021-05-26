@@ -65,7 +65,7 @@ public class SubscriptionCardInfoPageController {
     @FXML
     void buySubscriptionCard(ActionEvent event) throws IOException {
     	PaymentPageController controller = (PaymentPageController) App.setContent("PaymentPage");
-    	controller.setInfo(PurchaseTypes.SUBSCRIPTION_CARD, null, null);
+    	controller.setInfoSubscription(PurchaseTypes.SUBSCRIPTION_CARD, 20 * 0.8 * 40 );
     }
 
     @FXML

@@ -117,31 +117,31 @@ public class FilingComplaintsPageController  {
     	hideWarningLabels();
     	
     	String firstName = firstNameTextField.getText();
-    	if(firstName == "") {
+    	if(firstName.equals("")) {
     		firstNameWarningLabel.setVisible(true);
     		return;
     	}
     	
     	String lastName = lastNameTextField.getText();
-    	if(lastName == "") {
+    	if(lastName.equals("")) {
     		lastNameWarningLabel.setVisible(true);
     		return;
     	}
     	
     	String email = emailTextField.getText();
-    	if(email == "") {
+    	if(email.equals("")) {
     		emailWarningLabel.setVisible(true);
     		return;
     	}
     	
     	String phoneNumber = phoneNumberTextField.getText();
-    	if(phoneNumber == "") {
+    	if(phoneNumber.equals("")) {
     		phoneNumberWarningLabel.setVisible(true);
     		return;
     	}
     	
     	String complaintType = (String) complaintTypeComboBox.getValue();
-    	if(complaintType == "") {
+    	if(complaintType.equals("")) {
     		complaintTypeWarningLabel.setVisible(true);
     		return;
     	}
@@ -153,13 +153,13 @@ public class FilingComplaintsPageController  {
     	}
     	
     	String complaintTitle = complaintTitleTextField.getText();
-    	if(complaintTitle == "") {
+    	if(complaintTitle.equals("")) {
     		complaintTitleWarningLabel.setVisible(true);
     		return;
     	}
     	
     	String complaintDetails = complaintDetailsTextArea.getText();
-    	if(complaintDetails == "") {
+    	if(complaintDetails.equals("")) {
     		complaintDetailsWarningLabel.setVisible(true);
     		return;
     	}

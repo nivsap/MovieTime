@@ -96,11 +96,11 @@ public class App extends Application {
     }
 
     static void setBarAndGridLayout(String pageName) throws IOException {
-    if(content != null)
-    	content.getChildren().clear();
-    BarAndGridLayoutController controller = new BarAndGridLayoutController();
-    controller.setBarAndGrid(pageName);
-    content.getChildren().setAll(controller.getTopBar(),controller.getCardContainer());
+	    if(content != null)
+	    	content.getChildren().clear();
+	    BarAndGridLayoutController controller = new BarAndGridLayoutController();
+	    controller.setBarAndGrid(pageName);
+	    content.getChildren().setAll(controller.getTopBar(),controller.getCardContainer());
     }
       
     static Object setContent(String pageName) throws IOException {

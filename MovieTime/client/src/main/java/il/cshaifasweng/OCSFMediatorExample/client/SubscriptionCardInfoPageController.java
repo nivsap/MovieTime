@@ -72,7 +72,7 @@ public class SubscriptionCardInfoPageController {
     void checkRemaining(ActionEvent event) {
     	subscriptionCardNumberWarningLabel.setVisible(false);
     	String remaining = subscriptionCardNumberTextField.getText();
-    	if(remaining == "") {
+    	if(remaining.equals("")) {
     		subscriptionCardNumberWarningLabel.setVisible(true);
     	}
     	else {

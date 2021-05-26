@@ -545,6 +545,24 @@ public class Main extends AbstractServer{
 				e.printStackTrace();
 			}
 		}
+		if(currentMsg.getAction().equals("pull current complaint")) {
+			try {
+				serverMsg = currentMsg;
+				System.out.println("in pull current complaint");
+				serverMsg.setComplaints((ArrayList<Complaint>) CustomerController.getAllCurrentComplaints());
+				System.out.println("in the func handleMessageFromClient");
+				serverMsg.setAction("got complaints");
+				for (Complaint model : serverMsg.getComplaints()) {
+		            System.out.println(model.getFirstName());
+		        }
+				client.sendToClient(serverMsg);
+			}
+		catch (IOException e) {
+			System.out.println("cant pull complaints");
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 		if(currentMsg.getAction().equals("save customer")) { // save ticket // save customer
 			try {
 				

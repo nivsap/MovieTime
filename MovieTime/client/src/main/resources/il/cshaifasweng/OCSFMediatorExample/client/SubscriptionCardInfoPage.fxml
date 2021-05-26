@@ -1,9 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #1d1e22;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.SubscriptionCardInfoPageController">
    <children>
-      <VBox fx:id="slideShowContainer" prefHeight="200.0" prefWidth="100.0" />
+      <VBox fx:id="slideShowContainer" alignment="CENTER" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="700.0" />
+      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="700.0" style="-fx-background-color: #343537;">
+         <children>
+            <AnchorPane layoutX="20.0" layoutY="25.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="320.0" style="-fx-background-color: #141518;">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutY="10.0" prefWidth="320.0" text="Do you LOVE watching movies in the Sirtiya?&#10;Do you wish to save some money in the process?&#10;We have just the solution for you!" textAlignment="CENTER" textFill="WHITE" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutY="75.0" prefWidth="320.0" text="Our Sirtiya provides Subscription Cards,  for our most dedicated customers." textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="TOP_LEFT" layoutY="140.0" prefWidth="320.0" text="With a subscription card, you can freely attend 20 screenings of your choice, in a cinema of your choice, sit in whatever available seat you want and enjoy your favorite movies, for a much better and suitable price!&#10;&#10;What are you waiting for?" textAlignment="CENTER" textFill="WHITE" wrapText="true" />
+                  <Button fx:id="buySubscriptionCardsBtn" alignment="CENTER" layoutX="35.0" layoutY="255.0" mnemonicParsing="false" onAction="#buySubscriptionCard" prefHeight="30.0" prefWidth="250.0" styleClass="orangeButton" text="BUY NOW" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="checkRemainingContainer" layoutX="360.0" layoutY="25.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="320.0" style="-fx-background-color: #141518;">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutY="10.0" prefWidth="320.0" style="-fx-font-weight: bold;" text="Check a Subscription Card's remaining" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="10.0" layoutY="90.0" prefWidth="300.0" text="Please enter a subscription card number" textAlignment="CENTER" textFill="WHITE" wrapText="true" />
+                  <TextField fx:id="subscriptionCardNumberTextField" layoutX="10.0" layoutY="110.0" prefHeight="25.0" prefWidth="280.0" promptText="Subscription Card Number" />
+                  <Label fx:id="subscriptionCardNumberWarningLabel" alignment="TOP_LEFT" layoutX="10.0" layoutY="135.0" prefWidth="300.0" text="Subscription card number must be filled" textAlignment="CENTER" textFill="RED" wrapText="true" />
+                  <Button fx:id="checkRemainingBtn" alignment="CENTER" layoutX="35.0" layoutY="170.0" mnemonicParsing="false" onAction="#checkRemaining" prefHeight="30.0" prefWidth="250.0" styleClass="orangeButton" text="Check Remaining" />
+                  <Label alignment="CENTER" layoutY="230.0" prefWidth="320.0" text="Your Remaining" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="remainingLabel" alignment="CENTER" layoutY="260.0" prefWidth="320.0" text="Not Entered Yet" textFill="WHITE" />
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
    </children>
 </VBox>

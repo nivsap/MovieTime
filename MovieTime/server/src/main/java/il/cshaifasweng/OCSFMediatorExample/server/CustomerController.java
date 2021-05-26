@@ -7,6 +7,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
 import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
 import javafx.util.Pair;
 
@@ -57,6 +58,21 @@ public class CustomerController{
 //			System.out.println("Complaint added to database");
 //		}
 //	}
+	
+	public static ArrayList<Complaint> getAllCurrentComplaints() {
+		ArrayList<Complaint> screeningComplaintArrayList = new ArrayList<>();
+		ArrayList<Complaint> toReturnArrayList = new ArrayList<>();
+		screeningComplaintArrayList = Main.getAllOfType(Complaint.class);
+        System.out.println("in getAllCurrentComplaints");
+		for(Complaint complaint : screeningComplaintArrayList) {
+	         System.out.println(complaint.getFirstName());
+			if(complaint.getIsOpen() == true) {
+				toReturnArrayList.add(complaint);
+			}
+		}
+		return toReturnArrayList;
+	}
+	
 	public static Purchase getID(int id) {
 		//Customer customer = null;
 		ArrayList<Purchase> customerList = Main.getAllOfType(Purchase.class);

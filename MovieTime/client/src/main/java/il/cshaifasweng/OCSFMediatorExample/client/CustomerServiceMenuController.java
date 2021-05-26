@@ -27,5 +27,12 @@ public class CustomerServiceMenuController {
     	App.setBarAndGridLayout("MainPage");
     	App.setMenu("SystemMenu");
     }
+    @FXML
+    void loadComplaint(ActionEvent event) throws IOException {
+    	App.setWindowTitle(PageTitles.FilingComplaintsPage);
+    	System.out.println("I am before OpenComplaints set content");
+    	App.setContent("OpenComplaints");
+    	System.out.println("I am afterrr OpenComplaints set content");
 
+    }
 }

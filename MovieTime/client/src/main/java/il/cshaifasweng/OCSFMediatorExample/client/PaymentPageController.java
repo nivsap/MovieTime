@@ -152,15 +152,15 @@ public class PaymentPageController {
     	this.purchaseType = type;
     	this.screening = screening;
     	this.seats = seatsChosen;
-    	String order = screening.getCinema().getName() + " Cinema, hall " + screening.getHall().getId() + "\n";
+    	String order = screening.getCinema().getName() + " Cinema, hall " + screening.getHall().getHallId() + "\n";
 		for(Pair<Integer,Integer> seat : seats) {
 			order += "Seat " + seat.getKey() + "," + seat.getValue() + "\n";
 		}
-		order += "Total price: " + seats.size();
+		order += "Total price: " + seats.size() * screening.getCinema().getMoviePrice();
         orderSummeryTextArea.setText(order);
     	
         
-        paymentLabel.setText(Float.toString(seats.size()));
+        paymentLabel.setText(Double.toString(seats.size() * screening.getCinema().getMoviePrice()));
     	switch(purchaseType) {
     	case PurchaseTypes.TICKET: {
     		watchFromHome = false;
@@ -182,6 +182,10 @@ public class PaymentPageController {
     
     private void createPurchase() {
     	//complaint = new Complaint(firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), phoneNumberTextField.getText(),false, null ,false);
+    	for(Pair<Integer,Integer> seat : seats) {
+    		screening.getSeats()[seat.getKey()][seat.getValue()] = 1;
+    	}
+    	
     	
     	purchase = new Purchase(firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), cityTextField.getText(), phoneNumberTextField.getText(),
     			subscriptionCard, watchFromHome, LocalDateTime.now(), screening.getCinema(), screening.getHall(), seats, 0 , null);
@@ -209,7 +213,7 @@ public class PaymentPageController {
     		String successfulPurchaseString;
     		successfulPurchaseString = "Dear " + purchase.getFirstName() +" " + purchase.getLastName() + ", Thank you for your purchase.\n"
     				+ "the details of your order are:\n"
-    				+ purchase.getCinema().getName() + " Cinema, hall " + purchase.getHall().getId() + "with the following seats:\n";
+    				+ purchase.getCinema().getName() + " Cinema, hall " + purchase.getHall().getHallId() + "with the following seats:\n";
     			for(Pair<Integer,Integer> seat : seats) {
     				successfulPurchaseString += "Seat " + seat.getKey() + "," + seat.getValue() + "\n";
     			}
@@ -252,55 +256,55 @@ public class PaymentPageController {
     	boolean emptyField = true;
     	
     	String firstName = firstNameTextField.getText();
-    	if(firstName == "") {
+    	if(firstName.equals("")) {
     		firstNameWarningLabel.setVisible(true);
     		emptyField = false;
     	}
     	
     	String lastName = lastNameTextField.getText();
-    	if(lastName == "") {
+    	if(lastName.equals("")) {
     		lastNameWarningLabel.setVisible(true);
     		emptyField = false;
     	}
     	
     	String email = emailTextField.getText();
-    	if(email == "") {
+    	if(email.equals("")) {
     		emailWarningLabel.setVisible(true);
     		emptyField = false;
     	}
     		
     	String address = addressTextField.getText();
-    	if(address == "") {
+    	if(address.equals("")) {
     		addressWarningLabel.setVisible(true);
     		emptyField = false;
     	}
     	
     	String city = cityTextField.getText();
-    	if(city == "") {
+    	if(city.equals("")) {
     		cityWarningLabel.setVisible(true);
     		emptyField = false;
     	}
     	
     	String phoneNumber = phoneNumberTextField.getText();
-    	if(phoneNumber == "") {
+    	if(phoneNumber.equals("")) {
     		phoneNumberWarningLabel.setVisible(true);
     		emptyField = false;
     	}
     	
     	String cardHoldersName = cardHoldersNameTextField.getText();
-    	if(cardHoldersName == "") {
+    	if(cardHoldersName.equals("")) {
     		cardHoldersNameWarningLabel.setVisible(true);
     		emptyField = false;
     	}
     	
     	String cardHoldersID = cardHoldersIDTextField.getText();
-    	if(cardHoldersID == "") {
+    	if(cardHoldersID.equals("")) {
     		cardHoldersIDWarningLabel.setVisible(true);
     		emptyField = false;
     	}
     	
     	String cardNumber = cardNumberTextField.getText();
-    	if(cardNumber == "") {
+    	if(cardNumber.equals("")) {
     		cardNumberWarningLabel.setVisible(true);
     		emptyField = false;
     	}
@@ -312,7 +316,7 @@ public class PaymentPageController {
     	}
     	
     	String cardCVV = cardCVVTextField.getText();
-    	if(cardCVV == "") {
+    	if(cardCVV.equals("")) {
     		cardCVVWarningLabel.setVisible(true);
     		emptyField = false;
     	}

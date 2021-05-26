@@ -60,13 +60,13 @@ public class LoginPageController {
 		hideWarningLabels();
 		
 		String username = usernameTextField.getText();
-    	if(username == "") {
+    	if(username.equals("")) {
     		usernameWarningLabel.setVisible(true);
     		return;
     	}
     	
     	String password = passwordTextField.getText();
-    	if(password == "") {
+    	if(password.equals("")) {
     		passwordWarningLabel.setVisible(true);
     		return;
     	}

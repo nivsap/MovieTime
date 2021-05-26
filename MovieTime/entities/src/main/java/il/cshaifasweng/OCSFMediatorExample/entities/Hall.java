@@ -24,6 +24,7 @@ public class Hall implements  Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	private int hallId;
 	//private static final long serialVersionUID = 1L;
 	//@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "hall")
 	//private Seat seats[][];
@@ -97,6 +98,12 @@ public class Hall implements  Serializable{
 	}
 	public void addScreening(Screening screening) {
 		screeningArray.add(screening);
+	}
+	public int getHallId() {
+		return hallId;
+	}
+	public void setHallId(int hallId) {
+		this.hallId = hallId;
 	}
 	
 	

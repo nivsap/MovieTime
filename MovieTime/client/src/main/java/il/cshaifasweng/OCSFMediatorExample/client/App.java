@@ -29,8 +29,6 @@ public class App extends Application {
     private static VBox content;
     private AppClient client;
     
-    
-    
     @Override
     public void start(Stage primaryStage) throws IOException {
     	EventBus.getDefault().register(this);
@@ -60,16 +58,9 @@ public class App extends Application {
 		 * stage.setTitle("Establish Connection"); 
 		 * stage.setScene(scene); 
 		 * stage.show();
-		 */
-      
-    static void setBarAndGridLayout(String pageName) throws IOException {
-    	if(content != null)
-    		content.getChildren().clear();
-    	BarAndGridLayoutController controller = new BarAndGridLayoutController();
-    	controller.setBarAndGrid(pageName);
-    	content.getChildren().setAll(controller.getTopBar(),controller.getCardContainer());
+		 */ 
     }
-  
+    
     static Object setContent(String pageName, String pageTitle) throws IOException {
     	// setContent() loads page/FXML into App's content container and returns page's controller.
     	if(content != null)
@@ -83,19 +74,7 @@ public class App extends Application {
         return pair.getValue();
     }
     
-    static Object setMenu(String menuType) throws IOException {
-    	if(menu != null)
-    		menu.getChildren().clear();
-    	Pair<Parent, Object> pair = loadFXML(menuType);
-    	pageLayout.setLeft(null);
-    	menu = (VBox) pair.getKey();
-    	pageLayout.setLeft(menu);
-        stage.setScene(scene);
-        stage.show();
-        return pair.getValue();
-    }
 
-    
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml).getKey());
     }
@@ -106,24 +85,22 @@ public class App extends Application {
     }
     
     @Subscribe
-	public void SetClient(Message msg) throws IOException {
-		
+	public void SetClient(Message msg) throws IOException {	
     	if(msg.getAction().equals("set client")) {
     		client = AppClient.getClient();
     	}
 	}
    
-    
     static void setWindowTitle(String title) {
     	stage.setTitle(title);
     }
 
     static void setBarAndGridLayout(String pageName) throws IOException {
-    	if(content != null)
-    		content.getChildren().clear();
-    	BarAndGridLayoutController controller = new BarAndGridLayoutController();
-    	controller.setBarAndGrid(pageName);
-	content.getChildren().setAll(controller.getTopBar(),controller.getCardContainer());
+	    if(content != null)
+	    	content.getChildren().clear();
+	    BarAndGridLayoutController controller = new BarAndGridLayoutController();
+	    controller.setBarAndGrid(pageName);
+	    content.getChildren().setAll(controller.getTopBar(),controller.getCardContainer());
     }
       
     static Object setContent(String pageName) throws IOException {

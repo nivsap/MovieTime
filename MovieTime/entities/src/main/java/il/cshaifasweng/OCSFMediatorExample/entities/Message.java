@@ -33,6 +33,22 @@ public class Message implements Serializable {
 	boolean status;
 	//HANDLE TICKETS **for shir
 	boolean isTab;
+	/*
+	String firstName;
+	String lastName;
+	String emailOrder;
+	String cityString;
+	String phoneString;
+	public String genreString;
+	public String[] genreArray;
+
+	
+	
+	Pair<Boolean , Integer> cinemaTab;
+	*/
+	public String genreString;
+
+	public String[] genreArray;
 
 	Integer[][] seats;
 	String firstName;       				//clientSide need to fill/set is field when send msg to server

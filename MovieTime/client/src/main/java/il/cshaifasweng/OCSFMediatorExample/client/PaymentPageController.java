@@ -156,11 +156,11 @@ public class PaymentPageController {
 		for(Pair<Integer,Integer> seat : seats) {
 			order += "Seat " + seat.getKey() + "," + seat.getValue() + "\n";
 		}
-		order += "Total price: " + seats.size();
+		order += "Total price: " + seats.size() * screening.getCinema().getMoviePrice();
         orderSummeryTextArea.setText(order);
     	
         
-        paymentLabel.setText(Float.toString(seats.size()));
+        paymentLabel.setText(Double.toString(seats.size() * screening.getCinema().getMoviePrice()));
     	switch(purchaseType) {
     	case PurchaseTypes.TICKET: {
     		watchFromHome = false;
@@ -182,6 +182,10 @@ public class PaymentPageController {
     
     private void createPurchase() {
     	//complaint = new Complaint(firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), phoneNumberTextField.getText(),false, null ,false);
+    	for(Pair<Integer,Integer> seat : seats) {
+    		screening.getSeats()[seat.getKey()][seat.getValue()] = 1;
+    	}
+    	
     	
     	purchase = new Purchase(firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), cityTextField.getText(), phoneNumberTextField.getText(),
     			subscriptionCard, watchFromHome, LocalDateTime.now(), screening.getCinema(), screening.getHall(), seats, 0 , null);

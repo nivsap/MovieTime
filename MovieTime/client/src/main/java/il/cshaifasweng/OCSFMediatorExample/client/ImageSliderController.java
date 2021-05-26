@@ -39,7 +39,8 @@ public class ImageSliderController {
     		imageSlider.setImage(images.get(currentlyDisplayed));
 	        currentlyDisplayed++;
 	        if(currentlyDisplayed > images.size() - 1)
-	        	currentlyDisplayed = 0; });
+	        	currentlyDisplayed = 0; 
+	    });
     	timeline.getKeyFrames().add(key);   
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();

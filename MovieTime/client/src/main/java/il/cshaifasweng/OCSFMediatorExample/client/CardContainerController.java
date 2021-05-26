@@ -53,7 +53,7 @@ public class CardContainerController {
     public void sendMsgToServer(String namePage) {
     	EventBus.getDefault().register(this);
 
-    	System.out.println("trying to send pull screening movies from card container  controller");
+    	System.out.println("trying to send pull screening movies from card container controller");
 		String actionType = null;
     	if(namePage.equals("MainPage")) {
     		actionType="pull screening movies";
@@ -63,6 +63,9 @@ public class CardContainerController {
 		if(namePage.equals("ComingSoonPage")) {
 			actionType="pull soon movies";
 			setPurchaseType(PurchaseTypes.NOT_AVAILABLE);
+		}
+		if(namePage.equals("ViewingPackagesPage")) {
+			actionType="pull movies from home";
 		}
 		try {
 			Message msg = new Message();
@@ -79,9 +82,11 @@ public class CardContainerController {
     
     @Subscribe
 	public void onMessageEvent(Message msg) {
-		System.out.println("reveived message!!");
+		System.out.println("reveived message!! in card container");
 		System.out.println(msg.getAction());
-    	if(msg.getAction().equals("got screening movies")||msg.getAction().equals("got soon movies")) {
+    	if(msg.getAction().equals("got movies from home") || 
+    		msg.getAction().equals("got screening movies") || 
+    		msg.getAction().equals("got soon movies")) {
     		Platform.runLater(()-> {
     			recentlyAdded = msg.getMovies();
     			moviesNumber = recentlyAdded.size();

@@ -256,55 +256,55 @@ public class PaymentPageController {
     	boolean emptyField = true;
     	
     	String firstName = firstNameTextField.getText();
-    	if(firstName == "") {
+    	if(firstName.equals("")) {
     		firstNameWarningLabel.setVisible(true);
     		emptyField = false;
     	}
     	
     	String lastName = lastNameTextField.getText();
-    	if(lastName == "") {
+    	if(lastName.equals("")) {
     		lastNameWarningLabel.setVisible(true);
     		emptyField = false;
     	}
     	
     	String email = emailTextField.getText();
-    	if(email == "") {
+    	if(email.equals("")) {
     		emailWarningLabel.setVisible(true);
     		emptyField = false;
     	}
     		
     	String address = addressTextField.getText();
-    	if(address == "") {
+    	if(address.equals("")) {
     		addressWarningLabel.setVisible(true);
     		emptyField = false;
     	}
     	
     	String city = cityTextField.getText();
-    	if(city == "") {
+    	if(city.equals("")) {
     		cityWarningLabel.setVisible(true);
     		emptyField = false;
     	}
     	
     	String phoneNumber = phoneNumberTextField.getText();
-    	if(phoneNumber == "") {
+    	if(phoneNumber.equals("")) {
     		phoneNumberWarningLabel.setVisible(true);
     		emptyField = false;
     	}
     	
     	String cardHoldersName = cardHoldersNameTextField.getText();
-    	if(cardHoldersName == "") {
+    	if(cardHoldersName.equals("")) {
     		cardHoldersNameWarningLabel.setVisible(true);
     		emptyField = false;
     	}
     	
     	String cardHoldersID = cardHoldersIDTextField.getText();
-    	if(cardHoldersID == "") {
+    	if(cardHoldersID.equals("")) {
     		cardHoldersIDWarningLabel.setVisible(true);
     		emptyField = false;
     	}
     	
     	String cardNumber = cardNumberTextField.getText();
-    	if(cardNumber == "") {
+    	if(cardNumber.equals("")) {
     		cardNumberWarningLabel.setVisible(true);
     		emptyField = false;
     	}
@@ -316,7 +316,7 @@ public class PaymentPageController {
     	}
     	
     	String cardCVV = cardCVVTextField.getText();
-    	if(cardCVV == "") {
+    	if(cardCVV.equals("")) {
     		cardCVVWarningLabel.setVisible(true);
     		emptyField = false;
     	}

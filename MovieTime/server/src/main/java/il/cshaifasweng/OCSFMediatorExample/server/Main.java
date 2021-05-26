@@ -129,8 +129,8 @@ public class Main extends AbstractServer{
 			session.save(StarWars);
 			session.flush();
 			//creating whole data base to cinema,screening,Hall
-			Cinema haifaCinema = new Cinema("Haifa", "Haifa,Carmel st", (BranchManager)shirWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>());
-			Cinema telAvivCinema = new Cinema("Tel-Aviv", "Tel-Aviv,Wieztman st", (BranchManager)nivWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>());
+			Cinema haifaCinema = new Cinema("Haifa", "Haifa,Carmel st", (BranchManager)shirWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>(),40);
+			Cinema telAvivCinema = new Cinema("Tel-Aviv", "Tel-Aviv,Wieztman st", (BranchManager)nivWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>(),45);
 			shirWorker.setCinema(haifaCinema);
 			nivWorker.setCinema(telAvivCinema);
 

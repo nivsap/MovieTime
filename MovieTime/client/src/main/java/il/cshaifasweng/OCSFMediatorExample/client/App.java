@@ -61,48 +61,10 @@ public class App extends Application {
 		 */ 
     }
     
-    static Object setContent(String pageName, String pageTitle) throws IOException {
-    	// setContent() loads page/FXML into App's content container and returns page's controller.
-    	if(content != null)
-    		content.getChildren().clear();
-    	Pair<Parent, Object> pair = loadFXML(pageName);
-    	pageLayout.setCenter(null);
-    	content = (VBox) pair.getKey();
-    	pageLayout.setCenter(content);
-        stage.setScene(scene);
-        stage.show();
-        return pair.getValue();
-    }
-    
-
-    static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml).getKey());
-    }
-
-  
-    public static void main(String[] args) {
-        launch(args);
-    }
-    
-    @Subscribe
-	public void SetClient(Message msg) throws IOException {	
-    	if(msg.getAction().equals("set client")) {
-    		client = AppClient.getClient();
-    	}
-	}
-   
     static void setWindowTitle(String title) {
     	stage.setTitle(title);
     }
-
-    static void setBarAndGridLayout(String pageName) throws IOException {
-	    if(content != null)
-	    	content.getChildren().clear();
-	    BarAndGridLayoutController controller = new BarAndGridLayoutController();
-	    controller.setBarAndGrid(pageName);
-	    content.getChildren().setAll(controller.getTopBar(),controller.getCardContainer());
-    }
-      
+    
     static Object setContent(String pageName) throws IOException {
     	// setContent() loads page/FXML into App's content container and returns page's controller.
     	if(content != null)
@@ -127,6 +89,29 @@ public class App extends Application {
         stage.show();
         return pair.getValue();
     }
+    
+    static void setBarAndGridLayout(String pageName) throws IOException {
+	    if(content != null)
+	    	content.getChildren().clear();
+	    BarAndGridLayoutController controller = new BarAndGridLayoutController();
+	    controller.setBarAndGrid(pageName);
+	    content.getChildren().setAll(controller.getTopBar(),controller.getCardContainer());
+    }
+
+    static void setRoot(String fxml) throws IOException {
+        scene.setRoot(loadFXML(fxml).getKey());
+    }
+  
+    public static void main(String[] args) {
+        launch(args);
+    }
+    
+    @Subscribe
+	public void SetClient(Message msg) throws IOException {	
+    	if(msg.getAction().equals("set client")) {
+    		client = AppClient.getClient();
+    	}
+	}
 
     private static Pair<Parent, Object> loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
@@ -134,8 +119,6 @@ public class App extends Application {
         Object controller =  fxmlLoader.getController();
         return new Pair<>(root, controller);
     }
-  
-   
 }
 
 

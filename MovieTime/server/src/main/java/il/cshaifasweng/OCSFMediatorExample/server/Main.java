@@ -93,6 +93,7 @@ public class Main extends AbstractServer{
 			Worker asafWorker = new CustomerService("asaf", "asaf", "asaf", "asaf",null,false);
 			Worker hadarWorker = new NetworkAdministrator("hadar", "hadar", "hadar", "hadar",null);
 
+
 			//create movie 
 			ArrayList<String> movieStartTimes = new ArrayList<String>(Arrays.asList("10:00" , "12:00" , "16:00" , "18:00" , "20:00" , "22:00" , "00:00"));
 			Movie avengersEndgame = new Movie("Avengers: Endgame","3h 1min", 5.00, "Action   •   Adventure   •   Drama", "AvengersEndgame.jpg",  "AvengersEndgame.png", movieStartTimes, true, false, "After the devastating events of Avengers: Infinity War (2018), the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe.",
@@ -107,9 +108,9 @@ public class Main extends AbstractServer{
 					"Bill Skarsgard, Jaeden Martell, Finn Wolfhard", getTime(2017, 9, 8), 50 , "Producers");
 			Movie toyStory = new Movie("Toy Story", "1h 40min", 5.00, "Animation   •   Adventure   •   Comedy", "ToyStory.jpg", "ToyStory.png", movieStartTimes, true, false, "When a new toy called 'Forky' joins Woody and the gang, a road trip alongside old and new friends reveals how big the world can be for a toy.",
 					"Tom Hanks, Tim Allen, Annie Potts", getTime(2017, 6, 21), 50 , "Producers");
-			Movie Minions = new Movie("Minions", "1h 31min", 4.50, "Animation   •   Adventure   •   Comedy", "Minions.jpg", "Minions.png", movieStartTimes, true, false, "Minions Stuart, Kevin, and Bob are recruited by Scarlet Overkill, a supervillain who, alongside her inventor husband Herb, hatches a plot to take over the world.",
+			Movie Minions = new Movie("Minions", "1h 31min", 4.50, "Animation   •   Adventure   •   Comedy", "Minions.jpg", "Minions.png", movieStartTimes, false, false, "Minions Stuart, Kevin, and Bob are recruited by Scarlet Overkill, a supervillain who, alongside her inventor husband Herb, hatches a plot to take over the world.",
 					"Sandra Bullock, Jon Hamm, Michael Keaton", getTime(2015, 7, 10), 50 , "Producers");
-			Movie StarWars = new Movie("Star Wars", "2h 21min", 5.00, "Action   •   Adventure   •   Fantasy", "StarWars.jpg", "StarWars.png", movieStartTimes, true, true, "The surviving members of the Resistance face the First Order once again, and the legendary conflict between the Jedi and the Sith reaches its peak, bringing the Skywalker saga to its end.",
+			Movie StarWars = new Movie("Star Wars", "2h 21min", 5.00, "Action   •   Adventure   •   Fantasy", "StarWars.jpg", "StarWars.png", movieStartTimes, false, true, "The surviving members of the Resistance face the First Order once again, and the legendary conflict between the Jedi and the Sith reaches its peak, bringing the Skywalker saga to its end.",
 					"Daisy Ridley, John Boyega, Oscar Isaac", getTime(2019, 12, 20) , 50 , "Producers");
 
 			avengersEndgame.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("10:00" , "12:00")));
@@ -614,6 +615,21 @@ public class Main extends AbstractServer{
 				e.printStackTrace();
 			}
 		}
+		if(((Message) msg).getAction().equals("pull genre screening movies")) {
+			try {
+				System.out.println("in Main pull screeening movies msg");
+				serverMsg = (Message) msg;
+				serverMsg.genreArray=MovieController.getAllGenreScreeningMovies().toArray(new String[0]); 
+				System.out.println("in the func handleMessageFromClient");
+				serverMsg.setAction("got genre screening movies");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant pull screening movies");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 		if(currentMsg.getAction().equals("send successful purchase mail")) {
 			try {
@@ -716,6 +732,7 @@ public class Main extends AbstractServer{
 		}
 
 	}
+
 
 	//Movie movie = session.load(Movie.class , movie.getId());
 //	public static <T> T getExacRow(Class<T> objectType , int id) {

@@ -90,6 +90,15 @@ public class AppClient extends AbstractClient {
 		{
 			EventBus.getDefault().post(((Message) msg));
 		}
+
+		if (currentMsg.getAction().equals("got genre screening movies"))
+		{
+			EventBus.getDefault().post(((Message) msg));
+		}
+		if (currentMsg.getAction().equals("got movies from home"))
+    {
+			EventBus.getDefault().post(((Message) msg));
+		}
 		if (currentMsg.getAction().equals("picking seats success"))
 		{
 			EventBus.getDefault().post(((Message) msg));
@@ -100,11 +109,10 @@ public class AppClient extends AbstractClient {
 		}
 		if(currentMsg.getAction().equals("save customer done")) {
 			EventBus.getDefault().post(((Message) msg));
-    	}
-    	
-    	if(currentMsg.getAction().equals("sent successful purchase mail")) {
+    }
+    if(currentMsg.getAction().equals("sent successful purchase mail")) {
     		EventBus.getDefault().post(((Message) msg));
-    	}
+    }
 		
 	}
 	@Override

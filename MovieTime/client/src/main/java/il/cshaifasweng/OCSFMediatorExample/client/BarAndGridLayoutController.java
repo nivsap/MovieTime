@@ -23,11 +23,14 @@ public class BarAndGridLayoutController {
 		FXMLLoader barFXMLLoader = new FXMLLoader();
 		FXMLLoader gridFXMLLoader = new FXMLLoader();
 
-		if(namePage=="MainPage") {
+		if(namePage.equals("MainPage")) {
 			barFXMLLoader.setLocation(getClass().getResource("SearchBar.fxml"));
 		}
-		if(namePage=="ComingSoonPage") {
+		if(namePage.equals("ComingSoonPage")) {
 			barFXMLLoader.setLocation(getClass().getResource("ComingSoonBar.fxml"));
+		}
+		if(namePage.equals("ViewingPackagesPage")) {
+	    	barFXMLLoader.setLocation(getClass().getResource("SearchBar.fxml"));
 		}
 		barContainer = barFXMLLoader.load();
 		gridFXMLLoader.setLocation(getClass().getResource("CardContainer.fxml"));

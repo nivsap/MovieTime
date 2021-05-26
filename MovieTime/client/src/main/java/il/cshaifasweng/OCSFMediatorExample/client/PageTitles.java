@@ -10,4 +10,5 @@ public final class PageTitles {
 	static final String LoginPage = "Login";
 	static final String UpdateMoviesPage = "Update Screening Info";
 	static final String ViewingPackages = "Viewing Packages";
+	static final String OpenComplaintsPage = "Open Complaints";
 }

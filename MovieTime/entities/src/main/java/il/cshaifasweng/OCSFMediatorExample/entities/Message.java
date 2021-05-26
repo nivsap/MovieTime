@@ -19,6 +19,7 @@ public class Message implements Serializable {
 	ArrayList<String> timeOfMovie; //for shir
 	Worker worker;
 	Complaint complaint;
+	ArrayList<Complaint> complaints;
 	String emailMessage;
 	String customerEmail;
 	
@@ -81,7 +82,12 @@ public class Message implements Serializable {
 		this.cinema = cinema;
 	}
 
-
+	public ArrayList<Complaint> getComplaints() {
+		return complaints;
+	}
+	public void setComplaints(ArrayList<Complaint> complaints) {
+		this.complaints = complaints;
+	}
 	public int getMonth() {
 		return month;
 	}

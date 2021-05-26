@@ -9,8 +9,8 @@
 
 <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #1d1e22;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.SubscriptionCardInfoPageController">
    <children>
-      <VBox fx:id="slideShowContainer" alignment="CENTER" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="700.0" />
-      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="700.0" style="-fx-background-color: #343537;">
+      <VBox fx:id="slideShowContainer" alignment="CENTER" prefHeight="350.0" prefWidth="700.0" />
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="350.0" prefWidth="700.0" style="-fx-background-color: #343537;">
          <children>
             <AnchorPane layoutX="20.0" layoutY="25.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="320.0" style="-fx-background-color: #141518;">
                <children>
@@ -24,7 +24,7 @@
                   <Button fx:id="buySubscriptionCardsBtn" alignment="CENTER" layoutX="35.0" layoutY="255.0" mnemonicParsing="false" onAction="#buySubscriptionCard" prefHeight="30.0" prefWidth="250.0" styleClass="orangeButton" text="BUY NOW" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="checkRemainingContainer" layoutX="360.0" layoutY="25.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="320.0" style="-fx-background-color: #141518;">
+            <AnchorPane fx:id="checkRemainingContainer" layoutX="360.0" layoutY="25.0" prefHeight="300.0" prefWidth="320.0" style="-fx-background-color: #141518;">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" layoutY="10.0" prefWidth="320.0" style="-fx-font-weight: bold;" text="Check a Subscription Card's remaining" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                      <font>

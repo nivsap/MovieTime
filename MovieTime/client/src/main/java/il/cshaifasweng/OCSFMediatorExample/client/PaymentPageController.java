@@ -152,7 +152,7 @@ public class PaymentPageController {
     	this.purchaseType = type;
     	this.screening = screening;
     	this.seats = seatsChosen;
-    	String order = screening.getCinema().getName() + " Cinema, hall " + screening.getHall().getId() + "\n";
+    	String order = screening.getCinema().getName() + " Cinema, hall " + screening.getHall().getHallId() + "\n";
 		for(Pair<Integer,Integer> seat : seats) {
 			order += "Seat " + seat.getKey() + "," + seat.getValue() + "\n";
 		}
@@ -213,7 +213,7 @@ public class PaymentPageController {
     		String successfulPurchaseString;
     		successfulPurchaseString = "Dear " + purchase.getFirstName() +" " + purchase.getLastName() + ", Thank you for your purchase.\n"
     				+ "the details of your order are:\n"
-    				+ purchase.getCinema().getName() + " Cinema, hall " + purchase.getHall().getId() + "with the following seats:\n";
+    				+ purchase.getCinema().getName() + " Cinema, hall " + purchase.getHall().getHallId() + "with the following seats:\n";
     			for(Pair<Integer,Integer> seat : seats) {
     				successfulPurchaseString += "Seat " + seat.getKey() + "," + seat.getValue() + "\n";
     			}

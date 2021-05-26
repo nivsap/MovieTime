@@ -57,12 +57,17 @@ public class CustomerController{
 //			System.out.println("Complaint added to database");
 //		}
 //	}
-	public static Purchase getID(int id) {
+	public static Purchase getID(String name) {
 		//Customer customer = null;
 		ArrayList<Purchase> customerList = Main.getAllOfType(Purchase.class);
+		System.out.println(customerList.size());
 		for(Purchase customer : customerList) {
-			if(customer.getId() == id) {
+			if(customer.getFirstName().equals(name)) {
 				return customer;
+			}
+			else
+			{
+				System.out.println(customer.getFirstName());
 			}
 		}
 		return null;

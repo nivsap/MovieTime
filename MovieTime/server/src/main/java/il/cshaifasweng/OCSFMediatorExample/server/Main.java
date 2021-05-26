@@ -597,6 +597,7 @@ public class Main extends AbstractServer {
 		if(currentMsg.getAction().equals("get purchase by id")) {
 			try {
 				serverMsg = currentMsg;
+				System.out.println("server msg is " + serverMsg.getId());
 				serverMsg.setPurchase(CustomerController.getID(serverMsg.getId()));
 				serverMsg.setAction("got purchase by id");
 				client.sendToClient(serverMsg);

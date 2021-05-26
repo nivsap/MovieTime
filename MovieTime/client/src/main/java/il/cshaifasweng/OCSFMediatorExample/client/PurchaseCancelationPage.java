@@ -3,7 +3,14 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
+import javax.swing.JOptionPane;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
+import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,6 +19,8 @@ import javafx.scene.control.TextField;
 
 public class PurchaseCancelationPage {
 	private String Order;
+	
+	private Purchase cust;
 
 	@FXML
 	private ResourceBundle resources;
@@ -45,27 +54,33 @@ public class PurchaseCancelationPage {
 
 	@FXML
 	void CancelBtn(ActionEvent event) {
-
+		
 	}
 
-	@SuppressWarnings({ "unlikely-arg-type", "null" })
 	@FXML
 	void padNow(ActionEvent event) throws IOException {
 		Order = OrderTextField.getText();
-		Message msg = null;
-		if(Order == "" || Order == " ")
-		{
-			OrderWarningLabel.setVisible(true);
-		}
+		Message msg = new Message();
+		System.out.println("got here " + Order);
+		msg.setAction("get purchase by id");
+		msg.setId(Order);
+		AppClient.getClient().sendToServer(msg);
 		
-		if(msg.getPurchasesList().toString().contains(Order))
-			{
-				foundPurchase();
-			}
 	}
-
+	
+    @Subscribe
+    public void onMessageEvene(Message msg){
+    	if(msg.getAction().equals("got purchase by id")) {
+    		Platform.runLater(() ->{
+    		cust = msg.getPurchase();
+    		gotCustomer();
+    		});
+    	} 	
+    }
+    
 	@FXML
 	void initialize() {
+		EventBus.getDefault().register(this);
 		assert OrderTextField != null
 				: "fx:id=\"OrderTextField\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
 		assert OrderWarningLabel != null
@@ -106,6 +121,16 @@ public class PurchaseCancelationPage {
 		EmailTextField.setVisible(true);
 		CancelNowBtn1.setVisible(true);
 		RefundAmntTextField.setVisible(true);
+	}
+	
+	private void gotCustomer()
+	{
+
+		FirstNameTextField.setText(cust.getFirstName());
+		SecondNameTextField.setText(cust.getLastName());
+		EmailTextField.setText(cust.getEmailOrder());
+		RefundAmntTextField.setText(Integer.toString(cust.getPayment()));
+		foundPurchase();
 	}
 
 }

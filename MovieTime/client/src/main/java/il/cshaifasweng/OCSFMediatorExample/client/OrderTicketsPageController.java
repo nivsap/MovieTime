@@ -106,7 +106,7 @@ public class OrderTicketsPageController {
     public void loadScreeningInfo() {
     	movieNameLabel.setText(movie.getName());
         cinemaLabel.setText(screeningChosen.getCinema().getName());
-        hallNumberLabel.setText(String.valueOf(screeningChosen.getHall().getId()));
+        hallNumberLabel.setText(String.valueOf(screeningChosen.getHall().getHallId()));
         screeningDateLabel.setText(screeningChosen.getDate_screen().toString().substring(0,10));
         screeningTimeLabel.setText(screeningChosen.getDate_screen().toString().substring(11,16));
     }

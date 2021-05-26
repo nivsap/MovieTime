@@ -175,8 +175,7 @@ public class Main extends AbstractServer{
 			haifaCinema.getScreeningArray().add(screeningOfFilm_4);
 			haifaCinema.getScreeningArray().add(screeningOfFilm_9);
 			haifaCinema.getScreeningArray().add(screeningOfFilm_10);
-			haifaCinema.getHallArray().add(hall1);
-			haifaCinema.getHallArray().add(hall2);
+			haifaCinema.setHallArray(new ArrayList<Hall>(Arrays.asList(hall1,hall2)));
 
 			telAvivCinema.getScreeningArray().add(screeningOfFilm_5);
 			telAvivCinema.getScreeningArray().add(screeningOfFilm_6);
@@ -184,8 +183,7 @@ public class Main extends AbstractServer{
 			telAvivCinema.getScreeningArray().add(screeningOfFilm_8);
 			telAvivCinema.getScreeningArray().add(screeningOfFilm_11);
 			telAvivCinema.getScreeningArray().add(screeningOfFilm_12);
-			telAvivCinema.getHallArray().add(hall3);
-			telAvivCinema.getHallArray().add(hall4);
+			telAvivCinema.setHallArray(new ArrayList<Hall>(Arrays.asList(hall3,hall4)));
 
 			session.save(screeningOfFilm_1);
 			session.save(screeningOfFilm_2);

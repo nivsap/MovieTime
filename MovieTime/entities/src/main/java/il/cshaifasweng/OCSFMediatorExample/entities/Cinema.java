@@ -25,6 +25,7 @@ public class Cinema implements  Serializable{
 	
 	private String name;
 	private String address;
+	private int nextHallId;
 	//@Column(name ="moviePrice")
 	@Column(name="movie_price")
 	private double moviePrice;
@@ -54,6 +55,7 @@ public class Cinema implements  Serializable{
 		this.workerArray = new ArrayList<>();
 		this.purchases = new ArrayList<>();
 		this.moviePrice = moviePrice;
+		nextHallId = 1;
 		
 	}
 
@@ -153,10 +155,13 @@ public class Cinema implements  Serializable{
 
 	public void setHallArray(ArrayList<Hall> hallArray) {
 		this.hallArray = hallArray;
-		/*
-		 * for(Hall hall : hallArray) { hall.setHallCinemaId(nextHallId); nextHallId++;
-		 * }
-		 */
+		
+		  for(Hall hall : hallArray)
+		  {
+			  hall.setHallId(nextHallId); 
+			  nextHallId++;
+		  }
+		 
 	}
 
 	public double getMoviePrice() {

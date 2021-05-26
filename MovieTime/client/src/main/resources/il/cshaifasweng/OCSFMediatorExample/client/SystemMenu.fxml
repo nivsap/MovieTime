@@ -28,7 +28,7 @@
                   </ImageView>
                </graphic>
             </Button>
-         <Button fx:id="viewingPackagesMenuBtn" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutY="270.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="200.0" styleClass="menuButton" text="Viewing Packages">
+         <Button fx:id="viewingPackagesMenuBtn" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutY="270.0" mnemonicParsing="false" onAction="#loadViewingPackages" prefHeight="52.0" prefWidth="200.0" styleClass="menuButton" text="Viewing Packages">
             <graphic>
                <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                   <image>

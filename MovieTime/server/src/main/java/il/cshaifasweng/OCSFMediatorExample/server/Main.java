@@ -93,6 +93,7 @@ public class Main extends AbstractServer{
 			Worker asafWorker = new CustomerService("asaf", "asaf", "asaf", "asaf",null,false);
 			Worker hadarWorker = new NetworkAdministrator("hadar", "hadar", "hadar", "hadar",null);
 
+
 			//create movie 
 			ArrayList<String> movieStartTimes = new ArrayList<String>(Arrays.asList("10:00" , "12:00" , "16:00" , "18:00" , "20:00" , "22:00" , "00:00"));
 			Movie avengersEndgame = new Movie("Avengers: Endgame","3h 1min", 5.00, "Action   •   Adventure   •   Drama", "AvengersEndgame.jpg",  "AvengersEndgame.png", movieStartTimes, true, false, "After the devastating events of Avengers: Infinity War (2018), the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe.",
@@ -614,6 +615,21 @@ public class Main extends AbstractServer{
 				e.printStackTrace();
 			}
 		}
+		if(((Message) msg).getAction().equals("pull genre screening movies")) {
+			try {
+				System.out.println("in Main pull screeening movies msg");
+				serverMsg = (Message) msg;
+				serverMsg.genreArray=MovieController.getAllGenreScreeningMovies().toArray(new String[0]); 
+				System.out.println("in the func handleMessageFromClient");
+				serverMsg.setAction("got genre screening movies");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant pull screening movies");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 		if(currentMsg.getAction().equals("send successful purchase mail")) {
 			try {
@@ -716,6 +732,7 @@ public class Main extends AbstractServer{
 		}
 
 	}
+
 
 	//Movie movie = session.load(Movie.class , movie.getId());
 //	public static <T> T getExacRow(Class<T> objectType , int id) {

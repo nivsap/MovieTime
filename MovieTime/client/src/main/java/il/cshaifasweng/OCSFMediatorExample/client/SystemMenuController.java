@@ -1,3 +1,4 @@
+
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
@@ -63,6 +64,11 @@ public class SystemMenuController extends Pane {
     	App.setWindowTitle(PageTitles.LoginPage);
     	App.setContent("LoginPage");
     }
-
+    
+    @FXML
+    void loadViewingPackages(ActionEvent event) throws IOException {
+    	App.setWindowTitle(PageTitles.ViewingPackages);
+    	App.setBarAndGridLayout("ViewingPackagesPage");
+    }
     
 }

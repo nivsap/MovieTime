@@ -29,6 +29,10 @@ public class BarAndGridLayoutController {
 		if(namePage=="ComingSoonPage") {
 			barFXMLLoader.setLocation(getClass().getResource("ComingSoonBar.fxml"));
 		}
+		if(namePage=="ViewingPackagesPage") {
+	    	System.out.println("in ViewingPackagesPage decided");
+	    	barFXMLLoader.setLocation(getClass().getResource("SearchBar.fxml"));
+		}
 		barContainer = barFXMLLoader.load();
 		gridFXMLLoader.setLocation(getClass().getResource("CardContainer.fxml"));
 		gridContainer = gridFXMLLoader.load();

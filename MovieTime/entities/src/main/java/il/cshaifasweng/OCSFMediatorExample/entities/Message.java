@@ -8,6 +8,7 @@ import java.util.List;
 
 import javafx.util.Pair;
 //purchas
+@SuppressWarnings("serial")
 public class Message implements Serializable {
 	String action;
 	String username; 
@@ -24,7 +25,7 @@ public class Message implements Serializable {
 	String customerEmail;
 	
 
-	int id;
+	String id;
 	int movieId;            				//clientSide need to fill/set is field when send msg to server
 	int cinemaId;           				//clientSide need to fill/set is field when send msg to server
 	ArrayList<Cinema> cinemasArrayList;
@@ -107,13 +108,13 @@ public class Message implements Serializable {
 
 
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
 
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

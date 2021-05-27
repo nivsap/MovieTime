@@ -16,7 +16,6 @@ import javax.persistence.criteria.CriteriaQuery;
 
 import javax.swing.JOptionPane;
 
-
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -40,8 +39,7 @@ import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
 import javafx.util.Pair;
 
-public class Main extends AbstractServer{
-
+public class Main extends AbstractServer {
 
 	private static Session session;
 	public static SessionFactory sessionFactory = getSessionFactory();
@@ -61,61 +59,107 @@ public class Main extends AbstractServer{
 		configuration.addAnnotatedClass(NetworkAdministrator.class);
 		configuration.addAnnotatedClass(Cinema.class);
 		configuration.addAnnotatedClass(Hall.class);
-		//configuration.addAnnotatedClass(Seat.class);
+		// configuration.addAnnotatedClass(Seat.class);
 		configuration.addAnnotatedClass(Screening.class);
 		configuration.addAnnotatedClass(ContentManager.class);
 		configuration.addAnnotatedClass(BranchManager.class);
 		configuration.addAnnotatedClass(CustomerService.class);
 		configuration.addAnnotatedClass(Purchase.class);
 		configuration.addAnnotatedClass(Complaint.class);
-		ServiceRegistry serviceRegistry =
-				new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
+		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+				.applySettings(configuration.getProperties()).build();
 		return configuration.buildSessionFactory(serviceRegistry);
 	}
 
-	private static LocalDateTime getTime(int year, int month, int day){
+	private static LocalDateTime getTime(int year, int month, int day) {
 		return LocalDate.of(year, month, day).atStartOfDay();
 	}
 
-	private static LocalDateTime getExacTime(int year, int month, int day , int hours , int minutes){
+	private static LocalDateTime getExacTime(int year, int month, int day, int hours, int minutes) {
 		return LocalDate.of(year, month, month).atTime(hours, minutes);
 	}
-
 
 	public static void addDataToDB() {
 		try {
 			session = sessionFactory.openSession();
 			session.beginTransaction();
 
-			Worker shirWorker = new BranchManager("shir", "shir", "shir", "shir",null);
-			Worker nivWorker = new BranchManager("niv", "niv", "niv", "niv",null);
-			Worker lielWorker = new ContentManager("liel", "liel", "liel", "liel",null);
-			Worker asafWorker = new CustomerService("asaf", "asaf", "asaf", "asaf",null,false);
-			Worker hadarWorker = new NetworkAdministrator("hadar", "hadar", "hadar", "hadar",null);
+			Worker shirWorker = new BranchManager("shir", "shir", "shir", "shir", null);
+			Worker nivWorker = new BranchManager("niv", "niv", "niv", "niv", null);
+			Worker lielWorker = new ContentManager("liel", "liel", "liel", "liel", null);
+			Worker asafWorker = new CustomerService("asaf", "asaf", "asaf", "asaf", null, false);
+			Worker hadarWorker = new NetworkAdministrator("hadar", "hadar", "hadar", "hadar", null);
+
+			// create movie
+			ArrayList<String> movieStartTimes = new ArrayList<String>(
+					Arrays.asList("10:00", "12:00", "16:00", "18:00", "20:00", "22:00", "00:00"));
+			Movie avengersEndgame = new Movie("Avengers: Endgame", "3h 1min", 5.00,
+					"Action   •   Adventure   •   Drama", "AvengersEndgame.jpg", "AvengersEndgame.png", movieStartTimes,
+					true, false,
+					"After the devastating events of Avengers: Infinity War (2018), the \nuniverse is in ruins. With the help of remaining allies, \nthe Avengers assemble once more in order to reverse Thanos' \nactions and restore balance to the universe.",
+					"Robert Downey Jr., Chris Evans, Mark Ruffalo", getTime(2019, 4, 26), 50, "Producers");
+			Movie sherlockHolmes = new Movie("Sherlock Holmes", "2h 8min", 4.5, "Action   •   Adventure   •   Mystery",
+					"SherlockHolmes.jpg", "SherlockHolmes.png", movieStartTimes, true, false,
+					"Detective Sherlock Holmes and his stalwart partner Watson engage in \na battle of wits and brawn with a nemesis whose plot \nis a threat to all of England.",
+					"Robert Downey Jr., Jude Law, Rachel McAdams", getTime(2009, 12, 25), 50, "Producers");
+			Movie babyDriver = new Movie("Baby Driver", "1h 53min", 4.00, "Action   •   Crime   •   Drama ",
+					"BabyDriver.jpg", "BabyDriver.png", movieStartTimes, true, false,
+					"After being coerced into working for a crime boss, a young getaway \ndriver finds himself taking part in a heist doomed to fail.",
+					"Ansel Elgort, Jon Bernthal, Jon Hamm", getTime(2017, 6, 28), 50, "Producers");
+			Movie wonderWoman1984 = new Movie("Wonder Woman 1984", "2h 31min", 5.00,
+					"Action   •   Adventure   •   Fantasy", "WonderWoman1984.jpg", "WonderWoman1984.png",
+					movieStartTimes, true, false,
+					"Diana must contend with a work colleague and businessman, whose desire \nfor extreme wealth sends the world down a path of destruction, \nafter an ancient artifact that grants wishes goes missing.",
+					"Gal Gadot, Chris Pine, Kristen Wiig", getTime(2020, 12, 21), 50, "Producers");
+			Movie it = new Movie("IT", "2h 15min", 5.00, "Horror", "It.jpg", "It.png", movieStartTimes, true, false,
+					"In the summer of 1989, a group of bullied kids band together\n to destroy a shape-shifting monster, which disguises itself \nas a clown and preys on the children of Derry, \ntheir small Maine town.",
+					"Bill Skarsgard, Jaeden Martell, Finn Wolfhard", getTime(2017, 9, 8), 50, "Producers");
+			Movie toyStory = new Movie("Toy Story", "1h 40min", 5.00, "Animation   •   Adventure   •   Comedy",
+					"ToyStory.jpg", "ToyStory.png", movieStartTimes, true, false,
+					"When a new toy called 'Forky' joins Woody and the gang, \na road trip alongside old and new friends reveals how \nbig the world can be for a toy.",
+					"Tom Hanks, Tim Allen, Annie Potts", getTime(2017, 6, 21), 50, "Producers");
+			Movie Minions = new Movie("Minions", "1h 31min", 4.50, "Animation   •   Adventure   •   Comedy",
+					"Minions.jpg", "Minions.png", movieStartTimes, true, false,
+					"Minions Stuart, Kevin, and Bob are recruited by Scarlet Overkill, \na supervillain who, alongside her inventor husband Herb, \nhatches a plot to take over the world.",
+					"Sandra Bullock, Jon Hamm, Michael Keaton", getTime(2015, 7, 10), 50, "Producers");
+			Movie StarWars = new Movie("Star Wars", "2h 21min", 5.00, "Action   •   Adventure   •   Fantasy",
+					"StarWars.jpg", "StarWars.png", movieStartTimes, true, true,
+					"The surviving members of the Resistance face the First Order once \nagain, and the legendary conflict between the Jedi and the Sith reaches \nits peak, bringing the Skywalker saga to its end.",
+					"Daisy Ridley, John Boyega, Oscar Isaac", getTime(2019, 12, 20), 50, "Producers");
+
+			avengersEndgame.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("10:00", "12:00")));
+			sherlockHolmes.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("16:00", "18:00")));
+			babyDriver.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("20:00", "22:00")));
+
+			// Worker shirWorker = new BranchManager("shir", "shir", "shir", "shir",null);
+			// Worker nivWorker = new BranchManager("niv", "niv", "niv", "niv",null);
+			// Worker lielWorker = new ContentManager("liel", "liel", "liel", "liel",null);
+			// Worker asafWorker = new CustomerService("asaf", "asaf", "asaf", "asaf",null,false);
+			// Worker hadarWorker = new NetworkAdministrator("hadar", "hadar", "hadar", "hadar",null);
 
 
-			//create movie 
-			ArrayList<String> movieStartTimes = new ArrayList<String>(Arrays.asList("10:00" , "12:00" , "16:00" , "18:00" , "20:00" , "22:00" , "00:00"));
-			Movie avengersEndgame = new Movie("Avengers: Endgame","3h 1min", 5.00, "Action   •   Adventure   •   Drama", "AvengersEndgame.jpg",  "AvengersEndgame.png", movieStartTimes, true, false, "After the devastating events of Avengers: Infinity War (2018), the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe.",
-					"Robert Downey Jr., Chris Evans, Mark Ruffalo", getTime(2019, 4, 26), 50 , "Producers");
-			Movie sherlockHolmes = new Movie("Sherlock Holmes", "2h 8min", 4.5, "Action   •   Adventure   •   Mystery", "SherlockHolmes.jpg", "SherlockHolmes.png", movieStartTimes, true, false, "Detective Sherlock Holmes and his stalwart partner Watson engage in a battle of wits and brawn with a nemesis whose plot is a threat to all of England.",
-					"Robert Downey Jr., Jude Law, Rachel McAdams", getTime(2009, 12, 25), 50 , "Producers");
-			Movie babyDriver = new Movie("Baby Driver", "1h 53min", 4.00, "Action   •   Crime   •   Drama ", "BabyDriver.jpg", "BabyDriver.png", movieStartTimes, true, false, "After being coerced into working for a crime boss, a young getaway driver finds himself taking part in a heist doomed to fail.",
-					"Ansel Elgort, Jon Bernthal, Jon Hamm", getTime(2017, 6, 28), 50 , "Producers");
-			Movie wonderWoman1984  = new Movie("Wonder Woman 1984", "2h 31min", 5.00, "Action   •   Adventure   •   Fantasy", "WonderWoman1984.jpg", "WonderWoman1984.png", movieStartTimes, true, false, "Diana must contend with a work colleague and businessman, whose desire for extreme wealth sends the world down a path of destruction, after an ancient artifact that grants wishes goes missing.",
-					"Gal Gadot, Chris Pine, Kristen Wiig", getTime(2020, 12, 21), 50 , "Producers");
-			Movie it  = new Movie("IT", "2h 15min", 5.00, "Horror", "It.jpg", "It.png", movieStartTimes, true, false, "In the summer of 1989, a group of bullied kids band together to destroy a shape-shifting monster, which disguises itself as a clown and preys on the children of Derry, their small Maine town.",
-					"Bill Skarsgard, Jaeden Martell, Finn Wolfhard", getTime(2017, 9, 8), 50 , "Producers");
-			Movie toyStory = new Movie("Toy Story", "1h 40min", 5.00, "Animation   •   Adventure   •   Comedy", "ToyStory.jpg", "ToyStory.png", movieStartTimes, true, false, "When a new toy called 'Forky' joins Woody and the gang, a road trip alongside old and new friends reveals how big the world can be for a toy.",
-					"Tom Hanks, Tim Allen, Annie Potts", getTime(2017, 6, 21), 50 , "Producers");
-			Movie Minions = new Movie("Minions", "1h 31min", 4.50, "Animation   •   Adventure   •   Comedy", "Minions.jpg", "Minions.png", movieStartTimes, false, false, "Minions Stuart, Kevin, and Bob are recruited by Scarlet Overkill, a supervillain who, alongside her inventor husband Herb, hatches a plot to take over the world.",
-					"Sandra Bullock, Jon Hamm, Michael Keaton", getTime(2015, 7, 10), 50 , "Producers");
-			Movie StarWars = new Movie("Star Wars", "2h 21min", 5.00, "Action   •   Adventure   •   Fantasy", "StarWars.jpg", "StarWars.png", movieStartTimes, false, true, "The surviving members of the Resistance face the First Order once again, and the legendary conflict between the Jedi and the Sith reaches its peak, bringing the Skywalker saga to its end.",
-					"Daisy Ridley, John Boyega, Oscar Isaac", getTime(2019, 12, 20) , 50 , "Producers");
+			// //create movie 
+			// ArrayList<String> movieStartTimes = new ArrayList<String>(Arrays.asList("10:00" , "12:00" , "16:00" , "18:00" , "20:00" , "22:00" , "00:00"));
+			// Movie avengersEndgame = new Movie("Avengers: Endgame","3h 1min", 5.00, "Action   •   Adventure   •   Drama", "AvengersEndgame.jpg",  "AvengersEndgame.png", movieStartTimes, true, false, "After the devastating events of Avengers: Infinity War (2018), the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe.",
+			// 		"Robert Downey Jr., Chris Evans, Mark Ruffalo", getTime(2019, 4, 26), 50 , "Producers");
+			// Movie sherlockHolmes = new Movie("Sherlock Holmes", "2h 8min", 4.5, "Action   •   Adventure   •   Mystery", "SherlockHolmes.jpg", "SherlockHolmes.png", movieStartTimes, true, false, "Detective Sherlock Holmes and his stalwart partner Watson engage in a battle of wits and brawn with a nemesis whose plot is a threat to all of England.",
+			// 		"Robert Downey Jr., Jude Law, Rachel McAdams", getTime(2009, 12, 25), 50 , "Producers");
+			// Movie babyDriver = new Movie("Baby Driver", "1h 53min", 4.00, "Action   •   Crime   •   Drama ", "BabyDriver.jpg", "BabyDriver.png", movieStartTimes, true, false, "After being coerced into working for a crime boss, a young getaway driver finds himself taking part in a heist doomed to fail.",
+			// 		"Ansel Elgort, Jon Bernthal, Jon Hamm", getTime(2017, 6, 28), 50 , "Producers");
+			// Movie wonderWoman1984  = new Movie("Wonder Woman 1984", "2h 31min", 5.00, "Action   •   Adventure   •   Fantasy", "WonderWoman1984.jpg", "WonderWoman1984.png", movieStartTimes, true, false, "Diana must contend with a work colleague and businessman, whose desire for extreme wealth sends the world down a path of destruction, after an ancient artifact that grants wishes goes missing.",
+			// 		"Gal Gadot, Chris Pine, Kristen Wiig", getTime(2020, 12, 21), 50 , "Producers");
+			// Movie it  = new Movie("IT", "2h 15min", 5.00, "Horror", "It.jpg", "It.png", movieStartTimes, true, false, "In the summer of 1989, a group of bullied kids band together to destroy a shape-shifting monster, which disguises itself as a clown and preys on the children of Derry, their small Maine town.",
+			// 		"Bill Skarsgard, Jaeden Martell, Finn Wolfhard", getTime(2017, 9, 8), 50 , "Producers");
+			// Movie toyStory = new Movie("Toy Story", "1h 40min", 5.00, "Animation   •   Adventure   •   Comedy", "ToyStory.jpg", "ToyStory.png", movieStartTimes, true, false, "When a new toy called 'Forky' joins Woody and the gang, a road trip alongside old and new friends reveals how big the world can be for a toy.",
+			// 		"Tom Hanks, Tim Allen, Annie Potts", getTime(2017, 6, 21), 50 , "Producers");
+			// Movie Minions = new Movie("Minions", "1h 31min", 4.50, "Animation   •   Adventure   •   Comedy", "Minions.jpg", "Minions.png", movieStartTimes, false, false, "Minions Stuart, Kevin, and Bob are recruited by Scarlet Overkill, a supervillain who, alongside her inventor husband Herb, hatches a plot to take over the world.",
+			// 		"Sandra Bullock, Jon Hamm, Michael Keaton", getTime(2015, 7, 10), 50 , "Producers");
+			// Movie StarWars = new Movie("Star Wars", "2h 21min", 5.00, "Action   •   Adventure   •   Fantasy", "StarWars.jpg", "StarWars.png", movieStartTimes, false, true, "The surviving members of the Resistance face the First Order once again, and the legendary conflict between the Jedi and the Sith reaches its peak, bringing the Skywalker saga to its end.",
+			// 		"Daisy Ridley, John Boyega, Oscar Isaac", getTime(2019, 12, 20) , 50 , "Producers");
 
-			avengersEndgame.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("10:00" , "12:00")));
-			sherlockHolmes.setMovieBeginingTime(new ArrayList<String>(Arrays.asList( "16:00" , "18:00")));
-			babyDriver.setMovieBeginingTime(new ArrayList<String>(Arrays.asList( "20:00" , "22:00")));
+			// avengersEndgame.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("10:00" , "12:00")));
+			// sherlockHolmes.setMovieBeginingTime(new ArrayList<String>(Arrays.asList( "16:00" , "18:00")));
+			// babyDriver.setMovieBeginingTime(new ArrayList<String>(Arrays.asList( "20:00" , "22:00")));
 			wonderWoman1984.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("00:00")));
 			it.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("11:00", "13:00")));
 			toyStory.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("15:00", "17:00")));
@@ -129,32 +173,42 @@ public class Main extends AbstractServer{
 			session.save(Minions);
 			session.save(StarWars);
 			session.flush();
+
 			//creating whole data base to cinema,screening,Hall
 			Cinema haifaCinema = new Cinema("Haifa", "Haifa,Carmel st", (BranchManager)shirWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>(),40,20,0.8);
 			Cinema telAvivCinema = new Cinema("Tel-Aviv", "Tel-Aviv,Wieztman st", (BranchManager)nivWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>(),45,20,0.9);
 			shirWorker.setCinema(haifaCinema);
 			nivWorker.setCinema(telAvivCinema);
 
-			//Integer[][] planeArray1 = new Integer[3][5];
+			// Integer[][] planeArray1 = new Integer[3][5];
 
-			Hall hall1 = new Hall(3, 5, new ArrayList<>(),haifaCinema, new ArrayList<>());
-			Hall hall2 = new Hall(4, 4, new ArrayList<>(),haifaCinema, new ArrayList<>());
-			Hall hall3 = new Hall(7, 5, new ArrayList<>(),telAvivCinema, new ArrayList<>());
-			Hall hall4 = new Hall(2, 5, new ArrayList<>(),telAvivCinema, new ArrayList<>());
+			Hall hall1 = new Hall(3, 5, new ArrayList<>(), haifaCinema, new ArrayList<>());
+			Hall hall2 = new Hall(4, 4, new ArrayList<>(), haifaCinema, new ArrayList<>());
+			Hall hall3 = new Hall(7, 5, new ArrayList<>(), telAvivCinema, new ArrayList<>());
+			Hall hall4 = new Hall(2, 5, new ArrayList<>(), telAvivCinema, new ArrayList<>());
 
-
-			Screening screeningOfFilm_1 = new Screening(getExacTime(2021, 5, 25, 16, 00), hall1, avengersEndgame,haifaCinema);
-			Screening screeningOfFilm_2 = new Screening(getExacTime(2021, 5, 25, 20, 00), hall1, sherlockHolmes,haifaCinema);
-			Screening screeningOfFilm_3 = new Screening(getExacTime(2021, 5, 26, 20, 00), hall2, sherlockHolmes,haifaCinema);
-			Screening screeningOfFilm_4 = new Screening(getExacTime(2021, 5, 27, 20, 00), hall2, babyDriver,haifaCinema);
-			Screening screeningOfFilm_9 = new Screening(getExacTime(2021, 5, 27, 20, 30), hall2, sherlockHolmes,haifaCinema);
-			Screening screeningOfFilm_10 = new Screening(getExacTime(2021, 5, 27, 20, 30), hall1, wonderWoman1984,haifaCinema);
-			Screening screeningOfFilm_5 = new Screening(getExacTime(2021, 5, 26, 20, 00), hall3, wonderWoman1984,telAvivCinema);
-			Screening screeningOfFilm_6 = new Screening(getExacTime(2021, 5, 27, 20, 00), hall3, it,telAvivCinema);
-			Screening screeningOfFilm_7 = new Screening(getExacTime(2021, 5, 28, 13, 30), hall4, toyStory,telAvivCinema);
-			Screening screeningOfFilm_8 = new Screening(getExacTime(2021, 5, 28, 20, 00), hall4, Minions,telAvivCinema);
-			Screening screeningOfFilm_11 = new Screening(getExacTime(2021, 5, 28, 10, 15), hall4, Minions,telAvivCinema);
-			Screening screeningOfFilm_12 = new Screening(getExacTime(2021, 5, 28, 10, 15), hall3, it,telAvivCinema);
+			Screening screeningOfFilm_1 = new Screening(getExacTime(2021, 5, 25, 16, 00), hall1, avengersEndgame,
+					haifaCinema);
+			Screening screeningOfFilm_2 = new Screening(getExacTime(2021, 5, 25, 20, 00), hall1, sherlockHolmes,
+					haifaCinema);
+			Screening screeningOfFilm_3 = new Screening(getExacTime(2021, 5, 26, 20, 00), hall2, sherlockHolmes,
+					haifaCinema);
+			Screening screeningOfFilm_4 = new Screening(getExacTime(2021, 5, 27, 20, 00), hall2, babyDriver,
+					haifaCinema);
+			Screening screeningOfFilm_9 = new Screening(getExacTime(2021, 5, 27, 20, 30), hall2, sherlockHolmes,
+					haifaCinema);
+			Screening screeningOfFilm_10 = new Screening(getExacTime(2021, 5, 27, 20, 30), hall1, wonderWoman1984,
+					haifaCinema);
+			Screening screeningOfFilm_5 = new Screening(getExacTime(2021, 5, 26, 20, 00), hall3, wonderWoman1984,
+					telAvivCinema);
+			Screening screeningOfFilm_6 = new Screening(getExacTime(2021, 5, 27, 20, 00), hall3, it, telAvivCinema);
+			Screening screeningOfFilm_7 = new Screening(getExacTime(2021, 5, 28, 13, 30), hall4, toyStory,
+					telAvivCinema);
+			Screening screeningOfFilm_8 = new Screening(getExacTime(2021, 5, 28, 20, 00), hall4, Minions,
+					telAvivCinema);
+			Screening screeningOfFilm_11 = new Screening(getExacTime(2021, 5, 28, 10, 15), hall4, Minions,
+					telAvivCinema);
+			Screening screeningOfFilm_12 = new Screening(getExacTime(2021, 5, 28, 10, 15), hall3, it, telAvivCinema);
 
 			hall1.getScreeningArray().add(screeningOfFilm_1);
 			hall1.getScreeningArray().add(screeningOfFilm_2);
@@ -211,19 +265,26 @@ public class Main extends AbstractServer{
 
 			session.save(haifaCinema);
 			session.save(telAvivCinema);
+
+			Complaint someComplaint1 = new Complaint("Shir", "Avneri", "I'm very upset",
+					"I want to finish this project", true, null, true);
+			Complaint someComplaint2 = new Complaint("Niv", "Sapir", "I want to complain", "I am very upset", true,
+					null, true);
+			Complaint someComplaint3 = new Complaint("Hadar", "Manor", "Some title", "Some details", false, null, true);
+			Purchase customer = new Purchase("Hadar", "Manor", "Some title", "Some details", "12312312",
+					new Pair<Boolean, Integer>(true, 20), false, null, null, null, new ArrayList<>(), 10, null);
 			
-			Complaint someComplaint1 = new Complaint("Shir", "Avneri", "I'm very upset", "I want to finish this project", true,null,true);
-			Complaint someComplaint2 = new Complaint("Niv", "Sapir", "I want to complain", "I am very upset", true,null,true);
-			Complaint someComplaint3 = new Complaint("Hadar", "Manor", "Some title", "Some details" ,false,null,true);
-			Purchase customer = new Purchase("Hadar", "Manor", "Some title", "Some details" , "12312312",new Pair<Boolean, Integer>(true, 20),false,null,null,null,new ArrayList<>(),10,null);
+			Purchase customer2 = new Purchase("Alon", "Latman", "Some title", "Some details", "123456789",
+					new Pair<Boolean, Integer>(true, 20), false, null, null, null, new ArrayList<>(), 10, null);
 			session.save(customer);
+			session.save(customer2);
 			session.save(someComplaint1);
 			session.save(someComplaint2);
 			session.save(someComplaint3);
-			
+
 			session.flush();
 
-			//System.out.println(ScreeningController.pickChair(1, 1, hall4));
+			// System.out.println(ScreeningController.pickChair(1, 1, hall4));
 
 			session.getTransaction().commit();
 			session.clear();
@@ -233,8 +294,7 @@ public class Main extends AbstractServer{
 			}
 			System.err.println("An error occured, changes have been rolled back.");
 			exception.printStackTrace();
-		} finally 
-		{
+		} finally {
 			assert session != null;
 			session.close();
 		}
@@ -252,6 +312,7 @@ public class Main extends AbstractServer{
 		addDataToDB();
 
 	}
+
 	public static <T> void saveRowInDB(T objectType) {
 		try {
 			session = sessionFactory.openSession();
@@ -266,13 +327,13 @@ public class Main extends AbstractServer{
 			}
 			System.err.println("An error occured, changes have been rolled back.");
 			e.printStackTrace();
-		} finally
-		{
-			//assert session != null;
+		} finally {
+			// assert session != null;
 			session.close();
 			System.out.println("saveCustomerInDB");
 		}
 	}
+
 	public static <T> void updateRowDB(T objectType) {
 		try {
 			session = sessionFactory.openSession();
@@ -287,13 +348,13 @@ public class Main extends AbstractServer{
 			}
 			System.err.println("An error occured, changes have been rolled back.");
 			e.printStackTrace();
-		} finally
-		{
-			//assert session != null;
+		} finally {
+			// assert session != null;
 			session.close();
 			System.out.println("Complaint added to database");
 		}
 	}
+
 	public static <T> ArrayList<T> getAllOfType(Class<T> objectType) {
 		session = sessionFactory.openSession();
 		session.beginTransaction();
@@ -309,8 +370,7 @@ public class Main extends AbstractServer{
 				session.getTransaction().rollback();
 			}
 			System.out.println("catch in getalloftypes");
-		}
-		finally {
+		} finally {
 			session.close();
 		}
 		return returnedList;
@@ -451,7 +511,7 @@ public class Main extends AbstractServer{
 				e.printStackTrace();
 			}
 		}
-		if(((Message) msg).getAction().equals("pull soon movies genre")) {
+		if(currentMsg.getAction().equals("pull soon movies genre")) {
 			try {
 				System.out.println("in Main genre pull screeening movies msg");
 				serverMsg = (Message) msg;
@@ -466,6 +526,7 @@ public class Main extends AbstractServer{
 				e.printStackTrace();
 			}
 		}
+
 		if(currentMsg.getAction().equals("sort movies by genre")) {     //from here *********
 			try {
 				serverMsg = (Message) msg;
@@ -584,6 +645,7 @@ public class Main extends AbstractServer{
 		if(currentMsg.getAction().equals("get purchase by id")) {
 			try {
 				serverMsg = currentMsg;
+				System.out.println("server msg is " + serverMsg.getId());
 				serverMsg.setPurchase(CustomerController.getID(serverMsg.getId()));
 				serverMsg.setAction("got purchase by id");
 				client.sendToClient(serverMsg);
@@ -697,53 +759,54 @@ public class Main extends AbstractServer{
 		Message msg = new Message();
 		System.out.println("1");
 		try {
-			
+
 			ArrayList<Movie> movies = getAllOfType(Movie.class);
 			System.out.println("1.5");
-			
-	        session = sessionFactory.openSession();
-	        session.beginTransaction();
-			
-	        System.out.println("1.7");
-			//find movie
-			for(Movie movie : movies) {
+
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+
+			System.out.println("1.7");
+			// find movie
+			for (Movie movie : movies) {
 				System.out.println("1.9");
-			
-				if(movie.getName().equals(movieName)) {
-					if(action.equals("addition")) {
-						//if time dosent exist we goochi
-						if(movie.getMovieBeginingTime().indexOf(time) == -1) {
+
+				if (movie.getName().equals(movieName)) {
+					if (action.equals("addition")) {
+						// if time dosent exist we goochi
+						if (movie.getMovieBeginingTime().indexOf(time) == -1) {
 							movie.getMovieBeginingTime().add(time);
 							timeChanged = true;
 							System.out.println("2");
-						}else {
+						} else {
 							error = true;
 							msg.setError("Screening already exists!");
 							System.out.println("3");
 						}
-					}else {
-						 // if action is removal
-						 Integer index = movie.getMovieBeginingTime().indexOf(time);
-						 if(index == -1) {
-							 // time for removal does not exist
-							 System.out.println("4");
-							 error = true;
-							 msg.setError("Selected time does not exist for this movie");
-						 }else {						
-							 /* if(index != -1) { movie.getMovieBeginingTime().remove(index); timeChanged =
-						 * true; }else { JOptionPane.showMessageDialog(null, "Incorrect time chosen"); }
-						 */
-							 System.out.println("5");
-							for(String mTime : movie.getMovieBeginingTime()) {
-								if(time.equals(mTime)) {
+					} else {
+						// if action is removal
+						Integer index = movie.getMovieBeginingTime().indexOf(time);
+						if (index == -1) {
+							// time for removal does not exist
+							System.out.println("4");
+							error = true;
+							msg.setError("Selected time does not exist for this movie");
+						} else {
+							/*
+							 * if(index != -1) { movie.getMovieBeginingTime().remove(index); timeChanged =
+							 * true; }else { JOptionPane.showMessageDialog(null, "Incorrect time chosen"); }
+							 */
+							System.out.println("5");
+							for (String mTime : movie.getMovieBeginingTime()) {
+								if (time.equals(mTime)) {
 									movie.getMovieBeginingTime().remove(time);
 									timeChanged = true;
 									break;
 								}
 							}
-						 }
+						}
 					}
-					if(timeChanged) {
+					if (timeChanged) {
 						session.update(movie);
 						session.flush();
 						session.getTransaction().commit();
@@ -753,16 +816,15 @@ public class Main extends AbstractServer{
 						client.sendToClient(msg);
 						break;
 					}
-					if(error) {
+					if (error) {
 						System.out.println("7");
 						msg.setAction("update movie error");
 						client.sendToClient(msg);
 						break;
 					}
-					
+
 				}
 			}
-			
 
 		} catch (Exception exception) {
 			if (session != null) {
@@ -770,8 +832,7 @@ public class Main extends AbstractServer{
 			}
 			System.err.println("An error occured, changes have been rolled back.");
 			exception.printStackTrace();
-		} finally 
-		{
+		} finally {
 			assert session != null;
 			session.close();
 		}
@@ -779,7 +840,6 @@ public class Main extends AbstractServer{
 	}
 
 
-	//Movie movie = session.load(Movie.class , movie.getId());
 //	public static <T> T getExacRow(Class<T> objectType , int id) {
 //		T t = null;
 //		try {

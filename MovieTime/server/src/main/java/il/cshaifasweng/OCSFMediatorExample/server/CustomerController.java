@@ -8,28 +8,20 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
 import javafx.util.Pair;
 
 
-public class CustomerController{	
+public class CustomerController{
 
-	public static ArrayList<Complaint> getAllCurrentComplaints() {
-		ArrayList<Complaint> screeningComplaintArrayList = new ArrayList<>();
-		ArrayList<Complaint> toReturnArrayList = new ArrayList<>();
-		screeningComplaintArrayList = Main.getAllOfType(Complaint.class);
-        System.out.println("in getAllCurrentComplaints");
-		for(Complaint complaint : screeningComplaintArrayList) {
-	         System.out.println(complaint.getFirstName());
-			if(complaint.getIsOpen() == true) {
-				toReturnArrayList.add(complaint);
-			}
-		}
-		return toReturnArrayList;
-	}
+		public static Purchase getID(String name) {
 	
-	public static Purchase getID(int id) {
 		//Customer customer = null;
 		ArrayList<Purchase> customerList = Main.getAllOfType(Purchase.class);
+		System.out.println(customerList.size());
 		for(Purchase customer : customerList) {
-			if(customer.getId() == id) {
+			if(customer.getFirstName().equals(name)) {
 				return customer;
+			}
+			else
+			{
+				System.out.println(customer.getFirstName());
 			}
 		}
 		return null;

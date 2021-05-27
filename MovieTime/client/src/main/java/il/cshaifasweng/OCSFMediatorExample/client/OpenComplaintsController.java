@@ -78,7 +78,7 @@ public class OpenComplaintsController {
 						HBox cardBox = fxmlLoader.load();				
 						ScreeningCardController ctrl = fxmlLoader.getController();
 						string=complaint.getIncidentDate().toString();
-						ctrl.SetData(string, complaint.getFirstName(), complaint.getComplaintType(), complaint.getComplaintTitle());
+						ctrl.SetData(string, complaint.getFirstName(), complaint.getComplaintType(), complaint.getComplaintTitle(),0);
 						screening_time_layout.getChildren().add(cardBox);
 					
 					 

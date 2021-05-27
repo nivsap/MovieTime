@@ -3,9 +3,11 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 import java.awt.TextField;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -36,9 +38,13 @@ public class UpdateMoviesPageController{
 	
 	private List<Movie> allMovies;
 	private List<Screening> screenings;
+	List<Screening> filteredScreenings;
 	private String[] time;
 	
 
+    @FXML
+    private ComboBox<String> cb_hall;
+    
     @FXML
     private ComboBox<String> cb_movie;
 
@@ -70,11 +76,78 @@ public class UpdateMoviesPageController{
 		PullScreenings();
 		
 		
-		  
-		 
-		
 	}
 	
+	@FXML
+	void onChoiceCB() {
+		screening_time_layout.getChildren().clear();
+		filteredScreenings = new ArrayList<Screening>(screenings);
+		if(cb_cinema.getValue() != null && !cb_cinema.getValue().isBlank()) {
+			
+			Iterator<Screening> iter = filteredScreenings.iterator();
+			while (iter.hasNext()) {
+			  Screening s = iter.next();
+			  if (!s.getCinema().getName().equals(cb_cinema.getValue()))
+				  iter.remove();
+			}
+		}
+		
+		if(cb_hall.getValue() != null && !cb_hall.getValue().isBlank()) {
+			
+			Iterator<Screening> iter = filteredScreenings.iterator();
+			while (iter.hasNext()) {
+			  Screening s = iter.next();
+			  if (!(s.getHall().getHallId() == Integer.parseInt(cb_hall.getValue())))
+				  iter.remove();
+			}
+		}
+		
+		if(cb_movie.getValue() != null && !cb_movie.getValue().isBlank()) {
+			Iterator<Screening> iter = filteredScreenings.iterator();
+			while (iter.hasNext()) {
+			  Screening s = iter.next();
+			  if (!s.getMovie().getName().equals(cb_movie.getValue()))
+				  iter.remove();
+			}
+		}
+		
+		if(cb_date.getValue() != null && !cb_date.getValue().isBlank()) {
+			Iterator<Screening> iter = filteredScreenings.iterator();
+			while (iter.hasNext()) {
+			  Screening s = iter.next();
+			  if (!s.getDate_screen().toString().substring(2,10).equals(cb_date.getValue()))
+				  iter.remove();
+			}
+		}
+			
+		if(cb_time.getValue() != null && !cb_time.getValue().isBlank()) {
+			Iterator<Screening> iter = filteredScreenings.iterator();
+			while (iter.hasNext()) {
+			  Screening s = iter.next();
+			  if (!s.getDate_screen().toString().substring(11,16).equals(cb_time.getValue()))
+				  iter.remove();
+			}
+		}
+			
+		String temp;
+		try {
+			for(Screening screening : filteredScreenings) {
+				FXMLLoader fxmlLoader = new FXMLLoader();
+				fxmlLoader.setLocation(getClass().getResource("ScreeningCard.fxml"));
+				HBox cardBox = fxmlLoader.load();				
+				ScreeningCardController ctrl = fxmlLoader.getController();
+				temp = screening.getDate_screen().toString();
+				ctrl.SetData(screening.getMovie().getName(), screening.getCinema().getName(),temp.substring(0,10), temp.substring(11,16), screening.getHall().getHallId());
+				screening_time_layout.getChildren().add(cardBox);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+	}
 	
 	private void PullScreenings() {
 		Message msg= new Message();
@@ -117,7 +190,13 @@ public class UpdateMoviesPageController{
 			cb_movie.getItems().clear();
 			cb_cinema.getItems().clear();
 			cb_date.getItems().clear();
-			cb_removal_addition.getItems().clear();			
+			
+			cb_removal_addition.getItems().clear();
+			cb_hall.getItems().clear();
+			
+			
+			
+			
 			String onlyDate;
 			for(Screening screening : screenings) {
 				if(!cb_movie.getItems().contains((screening.getMovie().getName()))){
@@ -128,6 +207,9 @@ public class UpdateMoviesPageController{
 				}
 				if(!cb_cinema.getItems().contains((screening.getCinema().getName()))){
 					cb_cinema.getItems().add(screening.getCinema().getName());
+				}
+				if(!cb_hall.getItems().contains((Integer.toString(screening.getHall().getHallId())))){
+					cb_hall.getItems().add((Integer.toString(screening.getHall().getHallId())));
 				}
 				onlyDate = screening.getDate_screen().toString();
     			onlyDate = onlyDate.substring(0,10); 
@@ -162,22 +244,15 @@ public class UpdateMoviesPageController{
     		if(msg.getAction().equals("updated movie time")) {
     			
     			Platform.runLater(()-> {
-    				try {
-						App.setContent("UpdateMoviesPage");
-						App.setWindowTitle( "Update Movie Time");
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+    				screenings = msg.getScreeningArrayList();
+					onChoiceCB();
+
     			});
-    			
     		}
     		if(msg.getAction().equals("update movie error")) {
     			JOptionPane.showMessageDialog(null, msg.getError());
     			
     		}
-    		
-
 	}
 	
 		
@@ -199,23 +274,31 @@ public class UpdateMoviesPageController{
 	{
 		
 		boolean timeChanged = false;
-		if(cb_movie.getSelectionModel().isEmpty() || 
+		if(cb_movie.getSelectionModel().isEmpty() ||  
 				cb_date.getSelectionModel().isEmpty() ||
 				cb_time.getSelectionModel().isEmpty() ||
 				cb_cinema.getSelectionModel().isEmpty() ||
 				cb_removal_addition.getSelectionModel().isEmpty()) {
+			
 			JOptionPane.showMessageDialog(null, "You must fill all the fields");
 		}else {
 			Message msg = new Message();
 			msg.setAction("update movie time");
-			msg.setTime(cb_time.getValue());
 			msg.setMovieName(cb_movie.getValue());
 			msg.setDbAction(cb_removal_addition.getValue());
+			String onlyDate = cb_date.getValue().toString();
+			String onlyTime = cb_time.getValue().toString();
+			int year = Integer.parseInt(onlyDate.substring(0,4));
+			int month = Integer.parseInt(onlyDate.substring(5,7));
+			int day = Integer.parseInt(onlyDate.substring(8,10));
+			int hour = Integer.parseInt(onlyTime.substring(11,14));
+			int minutes = Integer.parseInt(onlyTime.substring(15,17));
+			msg.setDateMovie(LocalDate.of(year,month,day).atTime(hour,minutes));
 			
 			
-			  System.out.println(cb_time.getValue());
-			  System.out.println(cb_movie.getValue());
-			  System.out.println(cb_removal_addition.getValue());
+		  System.out.println(cb_time.getValue());
+		  System.out.println(cb_movie.getValue());
+		  System.out.println(cb_removal_addition.getValue());
 			 
 			try {
 				AppClient.getClient().sendToServer(msg);

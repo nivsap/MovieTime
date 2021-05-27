@@ -252,6 +252,7 @@ public class Main extends AbstractServer{
 		addDataToDB();
 
 	}
+	
 	public static <T> void saveRowInDB(T objectType) {
 		try {
 			session = sessionFactory.openSession();
@@ -273,6 +274,7 @@ public class Main extends AbstractServer{
 			System.out.println("saveCustomerInDB");
 		}
 	}
+	
 	public static <T> void updateRowDB(T objectType) {
 		try {
 			session = sessionFactory.openSession();
@@ -294,6 +296,7 @@ public class Main extends AbstractServer{
 			System.out.println("Complaint added to database");
 		}
 	}
+	
 	public static <T> ArrayList<T> getAllOfType(Class<T> objectType) {
 		session = sessionFactory.openSession();
 		session.beginTransaction();
@@ -351,7 +354,15 @@ public class Main extends AbstractServer{
 		
 		if(currentMsg.getAction().equals("update movie time")) {
 			System.out.println("about to update movie time");
-			updateMovie(((Message) msg).getMovieName(),((Message) msg).getTime(), ((Message) msg).getDbAction(), client);
+			updateMovie(currentMsg.getMovieName(),((Message) msg).getTime(), ((Message) msg).getDbAction(), client);
+			currentMsg.setAction("updated movie time");
+			currentMsg.setScreeningArrayList(getAllOfType(Screening.class));
+			try {
+				client.sendToClient(currentMsg);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 		
 		}

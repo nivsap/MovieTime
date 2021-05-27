@@ -46,7 +46,7 @@ public class Main extends AbstractServer {
 	Message serverMsg;
 
 	public Main(int port) {
-
+		
 		super(port);
 	}
 
@@ -76,7 +76,7 @@ public class Main extends AbstractServer {
 	}
 
 	private static LocalDateTime getExacTime(int year, int month, int day, int hours, int minutes) {
-		return LocalDate.of(year, month, month).atTime(hours, minutes);
+		return LocalDate.of(year, month, day).atTime(hours, minutes);
 	}
 
 	public static void addDataToDB() {
@@ -273,7 +273,7 @@ public class Main extends AbstractServer {
 			Complaint someComplaint3 = new Complaint("Hadar", "Manor", "Some title", "Some details", false, null, true);
 			Purchase customer = new Purchase("Hadar", "Manor", "Some title", "Some details", "12312312",
 					new Pair<Boolean, Integer>(true, 20), false, null, null, null, new ArrayList<>(), 10, null);
-			
+
 			Purchase customer2 = new Purchase("Alon", "Latman", "Some title", "Some details", "123456789",
 					new Pair<Boolean, Integer>(true, 20), false, null, null, null, new ArrayList<>(), 10, null);
 			session.save(customer);
@@ -310,6 +310,7 @@ public class Main extends AbstractServer {
 			System.out.println("hello server");
 		}
 		addDataToDB();
+		//saveRowInDB(new Screening(LocalDateTime.now(), new Hall(), new Movie(), new Cinema()));
 
 	}
 	public static <T> void saveRowInDB(T objectType) {
@@ -332,7 +333,7 @@ public class Main extends AbstractServer {
 			System.out.println("save the object type: " + objectType.getClass());
 		}
 	}
-	
+
 	public static void saveScreeningInDB(Screening screening) {
 		try {
 			session = sessionFactory.openSession();
@@ -355,7 +356,7 @@ public class Main extends AbstractServer {
 			System.out.println("save screening in database");
 		}
 	}
-	
+
 	public static <T> void deleteRowInDB(T objectType) {
 		try {
 			session = sessionFactory.openSession();
@@ -397,8 +398,8 @@ public class Main extends AbstractServer {
 			System.out.println("Complaint added to database");
 		}
 	}
-	
-	
+
+
 
 	public static <T> ArrayList<T> getAllOfType(Class<T> objectType) {
 		session = sessionFactory.openSession();
@@ -438,54 +439,75 @@ public class Main extends AbstractServer {
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		System.out.println("message recieved " +  ((Message)msg).getAction());
-		
+
 		Message currentMsg = ((Message)msg);
 
 		serverMsg = new Message();
-//		if(currentMsg.getAction().equals("pull movies")) {
-//			serverMsg.setMovies(getAllOfType(Movie.class));
-//			serverMsg.setAction("got movies");
-//			try {
-//				client.sendToClient(serverMsg);
-//			} catch (IOException e) {
-//				System.out.println("cant create list of movies");
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
-		
+		//		if(currentMsg.getAction().equals("pull movies")) {
+		//			serverMsg.setMovies(getAllOfType(Movie.class));
+		//			serverMsg.setAction("got movies");
+		//			try {
+		//				client.sendToClient(serverMsg);
+		//			} catch (IOException e) {
+		//				System.out.println("cant create list of movies");
+		//				// TODO Auto-generated catch block
+		//				e.printStackTrace();
+		//			}
+		//		}
+
 		if(currentMsg.getAction().equals("update movie time")) {
-			
+
 			System.out.println("about to update movie time");
 			Screening newScreening = new Screening(currentMsg.getDateMovie(),ScreeningController.getHallById(currentMsg.getHallId()),
 					MovieController.getMovieByName(currentMsg.getMovieName()), MovieController.getCinemaByName(currentMsg.getCinemaName()));
-			ArrayList<Screening> screenings = getAllOfType(Screening.class);
 			
-			for(Screening screening : screenings) {
-				if(screening == newScreening) {
-					System.out.println("screening == newScreening");
-					if(currentMsg.getDbAction().equals("addition")) {
-						Message serverMsg = new Message();
-						serverMsg.setAction("update movie time error");
-						serverMsg.setError("screening already exists");
-						try {
-							client.sendToClient(serverMsg);
-							return;
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-					if(currentMsg.getAction().equals("removal"))
-					{
-						deleteRowInDB(screening);
-						break;
-					}
+			
+			if(currentMsg.getDbAction().equals("removal")) {
+				deleteRowInDB(currentMsg.getScreening());
+				serverMsg = new Message();
+				currentMsg.setAction("updated movie time");
+				currentMsg.setScreeningArrayList(getAllOfType(Screening.class));
+				try {
+					client.sendToClient(currentMsg);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+				return;
 			}
-
+			
+			  List<Screening> screenings = getAllOfType(Screening.class);
+			  
+			  
+			  
+			  for(Screening screening : screenings) { 
+				  if(screening.getDate_screen().equals(newScreening.getDate_screen()) && 
+						 screening.getCinema().getName().equals(newScreening.getCinema().getName())&&
+						 screening.getMovie().getName().equals(newScreening.getMovie().getName())&&
+						 screening.getHall().getHallId() == (newScreening.getHall().getHallId())) {
+					  System.out.println("screening == newScreening");
+					  if(currentMsg.getDbAction().equals("addition"))
+					  { 
+						  Message serverMsg = new
+						  Message(); serverMsg.setAction("update movie time error");
+						  serverMsg.setError("screening already exists");
+						  try {
+							  client.sendToClient(serverMsg); 
+							  return; 
+						  	  } catch (IOException e){
+						  		  // TODOAuto-generated catch block 
+						  		  e.printStackTrace(); 
+						  		  } 
+						  }
+					  if(currentMsg.getDbAction().equals("removal")) 
+					  { 
+						  deleteRowInDB(screening);
+						  break;
+					  }
+				  }
+			  }
+			  
 			System.out.println("about to save newScreening in database");
-			//saveScreeningInDB(newScreening);
 			saveRowInDB(newScreening);
 			serverMsg = new Message();
 			currentMsg.setAction("updated movie time");
@@ -497,7 +519,7 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		
+
 		if(currentMsg.getAction().equals("login")) {
 			try {
 				if(currentMsg.getUsername().equals(null) || ((Message) msg).getPassword().equals(null)) {
@@ -682,7 +704,7 @@ public class Main extends AbstractServer {
 					serverMsg.setAction("picking seats error");
 					serverMsg.setError("Seats have already been chosen by another customer, please choose again");
 					serverMsg.setScreening(serverScreening);
-					
+
 				}
 				client.sendToClient(serverMsg);
 			}
@@ -710,12 +732,12 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}*/
-		
+
 		if(currentMsg.getAction().equals("save customer")) { // save ticket // save customer
 			try {
-				
+
 				serverMsg = currentMsg;
-			
+
 				saveRowInDB(serverMsg.getPurchase());
 				serverMsg.setAction("save customer done");
 				client.sendToClient(serverMsg);
@@ -795,7 +817,7 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		
+
 		if(currentMsg.getAction().equals("send successful purchase mail")) {
 			try {
 				serverMsg = currentMsg;
@@ -924,28 +946,28 @@ public class Main extends AbstractServer {
 	}
 
 
-//	public static <T> T getExacRow(Class<T> objectType , int id) {
-//		T t = null;
-//		try {
-//			session = sessionFactory.openSession();
-//			session.beginTransaction();
-//			
-//			//System.out.println(12);
-//			t = session.load(objectType , id);
-//			System.out.println(((Cinema)t).getName());
-//		}catch (Exception e) {
-//			e.printStackTrace();
-//			if (session != null) {
-//				session.getTransaction().rollback();
-//			}
-//			System.out.println("exan row loader");
-//		}
-//		finally {
-//			session.close();
-//		}
-//		
-//		return t;
-//		
-//	}
+	//	public static <T> T getExacRow(Class<T> objectType , int id) {
+	//		T t = null;
+	//		try {
+	//			session = sessionFactory.openSession();
+	//			session.beginTransaction();
+	//			
+	//			//System.out.println(12);
+	//			t = session.load(objectType , id);
+	//			System.out.println(((Cinema)t).getName());
+	//		}catch (Exception e) {
+	//			e.printStackTrace();
+	//			if (session != null) {
+	//				session.getTransaction().rollback();
+	//			}
+	//			System.out.println("exan row loader");
+	//		}
+	//		finally {
+	//			session.close();
+	//		}
+	//		
+	//		return t;
+	//		
+	//	}
 
 }

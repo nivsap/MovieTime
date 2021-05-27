@@ -29,10 +29,7 @@ public class CustomerServiceMenuController {
     }
     @FXML
     void loadComplaint(ActionEvent event) throws IOException {
-    	App.setWindowTitle(PageTitles.FilingComplaintsPage);
-    	System.out.println("I am before OpenComplaints set content");
+    	App.setWindowTitle(PageTitles.OpenComplaintsPage);
     	App.setContent("OpenComplaints");
-    	System.out.println("I am afterrr OpenComplaints set content");
-
     }
 }

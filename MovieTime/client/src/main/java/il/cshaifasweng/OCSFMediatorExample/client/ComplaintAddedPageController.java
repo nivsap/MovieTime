@@ -1,21 +1,11 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
 public class ComplaintAddedPageController {
-
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
-
-    @FXML
+	@FXML
     private Label firstNameLabel;
 
     @FXML
@@ -50,8 +40,7 @@ public class ComplaintAddedPageController {
         assert complaintTitleLabel != null : "fx:id=\"complaintTitleLabel\" was not injected: check your FXML file 'ComplaintAddedPage.fxml'.";
         assert complaintDetailsLabel != null : "fx:id=\"complaintDetailsLabel\" was not injected: check your FXML file 'ComplaintAddedPage.fxml'.";
     }
-    
-    
+     
     void setData(Complaint complaint) {
     	complaintDetailsLabel.setWrapText(true);
         firstNameLabel.setText(complaint.getFirstName());

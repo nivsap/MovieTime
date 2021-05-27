@@ -109,6 +109,10 @@ public class AppClient extends AbstractClient {
     	if(currentMsg.getAction().equals("got purchase by id")) {
     		EventBus.getDefault().post(((Message) msg));
     	}
+    	
+    	if(currentMsg.getAction().equals("got purchase cancelation by id")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	}
 	}
 	
 	@Override

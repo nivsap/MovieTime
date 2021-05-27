@@ -329,7 +329,51 @@ public class Main extends AbstractServer {
 		} finally {
 			// assert session != null;
 			session.close();
-			System.out.println("saveCustomerInDB");
+			System.out.println("save the object type: " + objectType.getClass());
+		}
+	}
+	
+	public static void saveScreeningInDB(Screening screening) {
+		try {
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+			ArrayList<Screening> screenings = getAllOfType(Screening.class);
+			screenings.add(screening);
+			session.update(screenings);
+			session.flush();
+			session.getTransaction().commit();
+			session.clear();
+		} catch (Exception e) {
+			if (session != null) {
+				session.getTransaction().rollback();
+			}
+			System.err.println("An error occured, changes have been rolled back.");
+			e.printStackTrace();
+		} finally {
+			// assert session != null;
+			session.close();
+			System.out.println("save screening in database");
+		}
+	}
+	
+	public static <T> void deleteRowInDB(T objectType) {
+		try {
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+			session.delete(objectType);
+			session.flush();
+			session.getTransaction().commit();
+			session.clear();
+		} catch (Exception e) {
+			if (session != null) {
+				session.getTransaction().rollback();
+			}
+			System.err.println("An error occured, changes have been rolled back.");
+			e.printStackTrace();
+		} finally {
+			// assert session != null;
+			session.close();
+			System.out.println("deleteRowInDB");
 		}
 	}
 
@@ -353,6 +397,8 @@ public class Main extends AbstractServer {
 			System.out.println("Complaint added to database");
 		}
 	}
+	
+	
 
 	public static <T> ArrayList<T> getAllOfType(Class<T> objectType) {
 		session = sessionFactory.openSession();
@@ -409,8 +455,39 @@ public class Main extends AbstractServer {
 //		}
 		
 		if(currentMsg.getAction().equals("update movie time")) {
+			
 			System.out.println("about to update movie time");
-			updateMovie(currentMsg.getMovieName(),((Message) msg).getTime(), ((Message) msg).getDbAction(), client);
+			Screening newScreening = new Screening(currentMsg.getDateMovie(),ScreeningController.getHallById(currentMsg.getHallId()),
+					MovieController.getMovieByName(currentMsg.getMovieName()), MovieController.getCinemaByName(currentMsg.getCinemaName()));
+			ArrayList<Screening> screenings = getAllOfType(Screening.class);
+			
+			for(Screening screening : screenings) {
+				if(screening == newScreening) {
+					System.out.println("screening == newScreening");
+					if(currentMsg.getDbAction().equals("addition")) {
+						Message serverMsg = new Message();
+						serverMsg.setAction("update movie time error");
+						serverMsg.setError("screening already exists");
+						try {
+							client.sendToClient(serverMsg);
+							return;
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					if(currentMsg.getAction().equals("removal"))
+					{
+						deleteRowInDB(screening);
+						break;
+					}
+				}
+			}
+
+			System.out.println("about to save newScreening in database");
+			//saveScreeningInDB(newScreening);
+			saveRowInDB(newScreening);
+			serverMsg = new Message();
 			currentMsg.setAction("updated movie time");
 			currentMsg.setScreeningArrayList(getAllOfType(Screening.class));
 			try {
@@ -419,9 +496,8 @@ public class Main extends AbstractServer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-		
 		}
+		
 		if(currentMsg.getAction().equals("login")) {
 			try {
 				if(currentMsg.getUsername().equals(null) || ((Message) msg).getPassword().equals(null)) {

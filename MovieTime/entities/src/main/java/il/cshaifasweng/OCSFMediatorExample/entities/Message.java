@@ -23,7 +23,7 @@ public class Message implements Serializable {
 	ArrayList<Complaint> complaints;
 	String emailMessage;
 	String customerEmail;
-	
+	String cinemaName;
 
 	String id;
 	int movieId;            				//clientSide need to fill/set is field when send msg to server
@@ -63,7 +63,7 @@ public class Message implements Serializable {
 	String movieName;
 	String DbAction;
 	String error;
-	
+	int hallId;
 	String genre;    						//clientSide need to fill/set is field when send msg to server
 	LocalDateTime dateMovie;    			//clientSide need to fill/set is field when send msg to server
 	Purchase purchase;
@@ -475,6 +475,22 @@ public class Message implements Serializable {
 
 	public void setCustomerEmail(String customerEmail) {
 		this.customerEmail = customerEmail;
+	}
+
+	public int getHallId() {
+		return hallId;
+	}
+
+	public void setHallId(int hallId) {
+		this.hallId = hallId;
+	}
+
+	public String getCinemaName() {
+		return cinemaName;
+	}
+
+	public void setCinemaName(String cinemaName) {
+		this.cinemaName = cinemaName;
 	}
 }
 

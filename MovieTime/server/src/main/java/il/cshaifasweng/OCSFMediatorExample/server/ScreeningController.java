@@ -54,6 +54,18 @@ public class ScreeningController {
 		}
 		return null;
 	}
+	
+	public static Hall getHallById(int id) {
+		ArrayList<Hall> halls = Main.getAllOfType(Hall.class);
+		for(Hall hall : halls) {
+			if(hall.getId() == id) {
+				return hall;
+
+			}
+		}
+		return null;
+	}
+	
 	public static boolean pickChair (int[][] ks, Screening screening) {
 		for(int i = 0 ; i < screening.getHall().getRows() ; i++) {
 			for(int j = 0 ; j < screening.getHall().getCols() ; j++) {

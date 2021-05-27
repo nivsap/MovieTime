@@ -37,6 +37,10 @@ public class AppClient extends AbstractClient {
 		{
 			EventBus.getDefault().post(((Message) msg));
 		}
+		if (currentMsg.getAction().equals("update movie time error"))
+		{
+			EventBus.getDefault().post(currentMsg);
+		}
 		if (currentMsg.getAction().equals("login done"))
 		{
 			EventBus.getDefault().post(((Message) msg));

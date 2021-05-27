@@ -249,7 +249,7 @@ public class UpdateMoviesPageController{
 
     			});
     		}
-    		if(msg.getAction().equals("update movie error")) {
+    		if(msg.getAction().equals("update movie time error")) {
     			JOptionPane.showMessageDialog(null, msg.getError());
     			
     		}
@@ -278,27 +278,36 @@ public class UpdateMoviesPageController{
 				cb_date.getSelectionModel().isEmpty() ||
 				cb_time.getSelectionModel().isEmpty() ||
 				cb_cinema.getSelectionModel().isEmpty() ||
-				cb_removal_addition.getSelectionModel().isEmpty()) {
+				cb_removal_addition.getSelectionModel().isEmpty()
+				||cb_hall.getValue().isBlank() ) {
 			
 			JOptionPane.showMessageDialog(null, "You must fill all the fields");
 		}else {
-			Message msg = new Message();
-			msg.setAction("update movie time");
-			msg.setMovieName(cb_movie.getValue());
-			msg.setDbAction(cb_removal_addition.getValue());
-			String onlyDate = cb_date.getValue().toString();
-			String onlyTime = cb_time.getValue().toString();
-			int year = Integer.parseInt(onlyDate.substring(0,4));
-			int month = Integer.parseInt(onlyDate.substring(5,7));
-			int day = Integer.parseInt(onlyDate.substring(8,10));
-			int hour = Integer.parseInt(onlyTime.substring(11,14));
-			int minutes = Integer.parseInt(onlyTime.substring(15,17));
-			msg.setDateMovie(LocalDate.of(year,month,day).atTime(hour,minutes));
 			
-			
-		  System.out.println(cb_time.getValue());
-		  System.out.println(cb_movie.getValue());
-		  System.out.println(cb_removal_addition.getValue());
+				Message msg = new Message();
+				msg.setAction("update movie time");
+				msg.setMovieName(cb_movie.getValue());
+				msg.setDbAction(cb_removal_addition.getValue());
+				msg.setCinemaName(cb_cinema.getValue());
+				msg.setHallId(Integer.parseInt(cb_hall.getValue()));
+
+				
+				
+				String onlyDate = cb_date.getValue().toString();
+				String onlyTime = cb_time.getValue().toString();
+				int year = Integer.parseInt(onlyDate.substring(0,4));
+				int month = Integer.parseInt(onlyDate.substring(5,7));
+				int day = Integer.parseInt(onlyDate.substring(8,10));
+				int hour = Integer.parseInt(onlyTime.substring(0,2));
+				int minutes = Integer.parseInt(onlyTime.substring(3,4));
+				
+				System.out.println(year);
+				System.out.println(month);
+				System.out.println(day);
+				System.out.println(hour);
+				System.out.println(minutes);
+				msg.setDateMovie(LocalDate.of(year,month,day).atTime(hour,minutes));
+
 			 
 			try {
 				AppClient.getClient().sendToServer(msg);

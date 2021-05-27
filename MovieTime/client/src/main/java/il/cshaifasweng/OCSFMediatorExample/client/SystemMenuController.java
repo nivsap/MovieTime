@@ -70,7 +70,7 @@ public class SystemMenuController extends Pane {
     	App.setWindowTitle(PageTitles.PurchaseCancelation);
     	App.setContent("PurchaseCancelation");
     }
-
+    @FXML
     void loadViewingPackages(ActionEvent event) throws IOException {
     	App.setWindowTitle(PageTitles.ViewingPackages);
     	App.setBarAndGridLayout("ViewingPackagesPage");

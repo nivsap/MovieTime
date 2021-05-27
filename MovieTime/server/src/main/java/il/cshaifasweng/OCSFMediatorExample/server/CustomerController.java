@@ -12,8 +12,8 @@ import javafx.util.Pair;
 
 
 public class CustomerController{
-	static SessionFactory sessionFactory = Main.getSessionFactory();
-	private static Session session;
+	/*static SessionFactory sessionFactory = Main.getSessionFactory();
+	private static Session session;*/
 	
 //	public static <T> void saveRowInDB(T objectType) {
 //		try {

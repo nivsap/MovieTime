@@ -393,7 +393,10 @@ public class Main extends AbstractServer{
 		if(currentMsg.getAction().equals("cinema contained movies")) {
 			try {
 				serverMsg = currentMsg;
+				System.out.println("about to pull cinemas according to movie id");
+				System.out.println("movie id is: " + currentMsg.getMovieId()) ;
 				serverMsg.setCinemasArrayList((ArrayList<Cinema>) ScreeningController.getCinemas(currentMsg.getMovieId()));
+				System.out.println("finished pulling cinemas according to movie id");
 				serverMsg.setAction("cinema contained movies done");
 				client.sendToClient(serverMsg);
 			}
@@ -652,6 +655,32 @@ public class Main extends AbstractServer{
 				serverMsg = currentMsg;
 				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Thank you for your purchase at The Sirtiya!", serverMsg.getEmailMessage());
 				serverMsg.setAction("sent successful purchase mail");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant get status complaints monthly");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("send successful purchase mail")) {
+			try {
+				serverMsg = currentMsg;
+				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Thank you for your purchase at The Sirtiya!", serverMsg.getEmailMessage());
+				serverMsg.setAction("sent successful purchase mail");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant get status complaints monthly");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("get all screenings")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.setScreeningArrayList(getAllOfType(Screening.class));
+				serverMsg.setAction("got all screenings");
 				client.sendToClient(serverMsg);
 			}
 			catch (IOException e) {

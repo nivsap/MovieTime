@@ -193,7 +193,7 @@ public class PaymentPageController {
     	this.purchaseType = type;
     	this.screening = screening;
     	String order;
-		paymentLabel.setText(Double.toString(seats.size() * screening.getCinema().getLinkPrice()));
+		paymentLabel.setText(Double.toString(screening.getCinema().getLinkPrice()));
     	order = screening.getMovie().getName() + " " + screening.getDate_screen();
 		order += "Total price: " + paymentLabel.getText();
         orderSummeryTextArea.setText(order);

@@ -35,6 +35,8 @@ public class Cinema implements  Serializable{
 	private BranchManager manager;
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "cinema" )
 	private List<Screening> screeningArray;
+	//@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "cinema" )
+	//private List<Screening> screeningArray;
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "cinema")
 	private List<Hall> hallArray;
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "cinema")
@@ -192,6 +194,7 @@ public class Cinema implements  Serializable{
 		this.subscriptionPrice = subscriptionPrice;
 	}
 
+	
 	
 
 

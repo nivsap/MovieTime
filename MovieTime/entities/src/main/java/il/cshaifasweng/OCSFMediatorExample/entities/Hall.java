@@ -32,9 +32,9 @@ public class Hall implements  Serializable{
 	private int rows;
 	@Column (name = "hall_cols")
 	private int cols;
-	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "hall")
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "hall")
 	private List<Screening> screeningArray;
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "cinema_id")
 	private Cinema cinema;
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "hall")

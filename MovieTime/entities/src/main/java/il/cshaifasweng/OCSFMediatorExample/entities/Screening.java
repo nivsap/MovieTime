@@ -31,7 +31,7 @@ public class Screening implements  Serializable{
 	private Hall hall;
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Movie movie;
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "cinema_id")
 	private Cinema cinema;
 	

@@ -130,6 +130,36 @@ public class Main extends AbstractServer {
 			avengersEndgame.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("10:00", "12:00")));
 			sherlockHolmes.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("16:00", "18:00")));
 			babyDriver.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("20:00", "22:00")));
+
+			// Worker shirWorker = new BranchManager("shir", "shir", "shir", "shir",null);
+			// Worker nivWorker = new BranchManager("niv", "niv", "niv", "niv",null);
+			// Worker lielWorker = new ContentManager("liel", "liel", "liel", "liel",null);
+			// Worker asafWorker = new CustomerService("asaf", "asaf", "asaf", "asaf",null,false);
+			// Worker hadarWorker = new NetworkAdministrator("hadar", "hadar", "hadar", "hadar",null);
+
+
+			// //create movie 
+			// ArrayList<String> movieStartTimes = new ArrayList<String>(Arrays.asList("10:00" , "12:00" , "16:00" , "18:00" , "20:00" , "22:00" , "00:00"));
+			// Movie avengersEndgame = new Movie("Avengers: Endgame","3h 1min", 5.00, "Action   •   Adventure   •   Drama", "AvengersEndgame.jpg",  "AvengersEndgame.png", movieStartTimes, true, false, "After the devastating events of Avengers: Infinity War (2018), the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe.",
+			// 		"Robert Downey Jr., Chris Evans, Mark Ruffalo", getTime(2019, 4, 26), 50 , "Producers");
+			// Movie sherlockHolmes = new Movie("Sherlock Holmes", "2h 8min", 4.5, "Action   •   Adventure   •   Mystery", "SherlockHolmes.jpg", "SherlockHolmes.png", movieStartTimes, true, false, "Detective Sherlock Holmes and his stalwart partner Watson engage in a battle of wits and brawn with a nemesis whose plot is a threat to all of England.",
+			// 		"Robert Downey Jr., Jude Law, Rachel McAdams", getTime(2009, 12, 25), 50 , "Producers");
+			// Movie babyDriver = new Movie("Baby Driver", "1h 53min", 4.00, "Action   •   Crime   •   Drama ", "BabyDriver.jpg", "BabyDriver.png", movieStartTimes, true, false, "After being coerced into working for a crime boss, a young getaway driver finds himself taking part in a heist doomed to fail.",
+			// 		"Ansel Elgort, Jon Bernthal, Jon Hamm", getTime(2017, 6, 28), 50 , "Producers");
+			// Movie wonderWoman1984  = new Movie("Wonder Woman 1984", "2h 31min", 5.00, "Action   •   Adventure   •   Fantasy", "WonderWoman1984.jpg", "WonderWoman1984.png", movieStartTimes, true, false, "Diana must contend with a work colleague and businessman, whose desire for extreme wealth sends the world down a path of destruction, after an ancient artifact that grants wishes goes missing.",
+			// 		"Gal Gadot, Chris Pine, Kristen Wiig", getTime(2020, 12, 21), 50 , "Producers");
+			// Movie it  = new Movie("IT", "2h 15min", 5.00, "Horror", "It.jpg", "It.png", movieStartTimes, true, false, "In the summer of 1989, a group of bullied kids band together to destroy a shape-shifting monster, which disguises itself as a clown and preys on the children of Derry, their small Maine town.",
+			// 		"Bill Skarsgard, Jaeden Martell, Finn Wolfhard", getTime(2017, 9, 8), 50 , "Producers");
+			// Movie toyStory = new Movie("Toy Story", "1h 40min", 5.00, "Animation   •   Adventure   •   Comedy", "ToyStory.jpg", "ToyStory.png", movieStartTimes, true, false, "When a new toy called 'Forky' joins Woody and the gang, a road trip alongside old and new friends reveals how big the world can be for a toy.",
+			// 		"Tom Hanks, Tim Allen, Annie Potts", getTime(2017, 6, 21), 50 , "Producers");
+			// Movie Minions = new Movie("Minions", "1h 31min", 4.50, "Animation   •   Adventure   •   Comedy", "Minions.jpg", "Minions.png", movieStartTimes, false, false, "Minions Stuart, Kevin, and Bob are recruited by Scarlet Overkill, a supervillain who, alongside her inventor husband Herb, hatches a plot to take over the world.",
+			// 		"Sandra Bullock, Jon Hamm, Michael Keaton", getTime(2015, 7, 10), 50 , "Producers");
+			// Movie StarWars = new Movie("Star Wars", "2h 21min", 5.00, "Action   •   Adventure   •   Fantasy", "StarWars.jpg", "StarWars.png", movieStartTimes, false, true, "The surviving members of the Resistance face the First Order once again, and the legendary conflict between the Jedi and the Sith reaches its peak, bringing the Skywalker saga to its end.",
+			// 		"Daisy Ridley, John Boyega, Oscar Isaac", getTime(2019, 12, 20) , 50 , "Producers");
+
+			// avengersEndgame.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("10:00" , "12:00")));
+			// sherlockHolmes.setMovieBeginingTime(new ArrayList<String>(Arrays.asList( "16:00" , "18:00")));
+			// babyDriver.setMovieBeginingTime(new ArrayList<String>(Arrays.asList( "20:00" , "22:00")));
 			wonderWoman1984.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("00:00")));
 			it.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("11:00", "13:00")));
 			toyStory.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("15:00", "17:00")));
@@ -143,11 +173,10 @@ public class Main extends AbstractServer {
 			session.save(Minions);
 			session.save(StarWars);
 			session.flush();
-			// creating whole data base to cinema,screening,Hall
-			Cinema haifaCinema = new Cinema("Haifa", "Haifa,Carmel st", (BranchManager) shirWorker, new ArrayList<>(),
-					new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-			Cinema telAvivCinema = new Cinema("Tel-Aviv", "Tel-Aviv,Wieztman st", (BranchManager) nivWorker,
-					new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+
+			//creating whole data base to cinema,screening,Hall
+			Cinema haifaCinema = new Cinema("Haifa", "Haifa,Carmel st", (BranchManager)shirWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>(),40,20,0.8);
+			Cinema telAvivCinema = new Cinema("Tel-Aviv", "Tel-Aviv,Wieztman st", (BranchManager)nivWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>(),45,20,0.9);
 			shirWorker.setCinema(haifaCinema);
 			nivWorker.setCinema(telAvivCinema);
 
@@ -200,8 +229,7 @@ public class Main extends AbstractServer {
 			haifaCinema.getScreeningArray().add(screeningOfFilm_4);
 			haifaCinema.getScreeningArray().add(screeningOfFilm_9);
 			haifaCinema.getScreeningArray().add(screeningOfFilm_10);
-			haifaCinema.getHallArray().add(hall1);
-			haifaCinema.getHallArray().add(hall2);
+			haifaCinema.setHallArray(new ArrayList<Hall>(Arrays.asList(hall1,hall2)));
 
 			telAvivCinema.getScreeningArray().add(screeningOfFilm_5);
 			telAvivCinema.getScreeningArray().add(screeningOfFilm_6);
@@ -209,8 +237,7 @@ public class Main extends AbstractServer {
 			telAvivCinema.getScreeningArray().add(screeningOfFilm_8);
 			telAvivCinema.getScreeningArray().add(screeningOfFilm_11);
 			telAvivCinema.getScreeningArray().add(screeningOfFilm_12);
-			telAvivCinema.getHallArray().add(hall3);
-			telAvivCinema.getHallArray().add(hall4);
+			telAvivCinema.setHallArray(new ArrayList<Hall>(Arrays.asList(hall3,hall4)));
 
 			session.save(screeningOfFilm_1);
 			session.save(screeningOfFilm_2);
@@ -426,7 +453,10 @@ public class Main extends AbstractServer {
 		if(currentMsg.getAction().equals("cinema contained movies")) {
 			try {
 				serverMsg = currentMsg;
+				System.out.println("about to pull cinemas according to movie id");
+				System.out.println("movie id is: " + currentMsg.getMovieId()) ;
 				serverMsg.setCinemasArrayList((ArrayList<Cinema>) ScreeningController.getCinemas(currentMsg.getMovieId()));
+				System.out.println("finished pulling cinemas according to movie id");
 				serverMsg.setAction("cinema contained movies done");
 				client.sendToClient(serverMsg);
 			}
@@ -579,6 +609,24 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		if(currentMsg.getAction().equals("pull current complaint")) {
+			try {
+				serverMsg = currentMsg;
+				System.out.println("in pull current complaint");
+				serverMsg.setComplaints((ArrayList<Complaint>) CustomerController.getAllCurrentComplaints());
+				System.out.println("in the func handleMessageFromClient");
+				serverMsg.setAction("got complaints");
+				for (Complaint model : serverMsg.getComplaints()) {
+		            System.out.println(model.getFirstName());
+		        }
+				client.sendToClient(serverMsg);
+			}
+		catch (IOException e) {
+			System.out.println("cant pull complaints");
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 		if(currentMsg.getAction().equals("save customer")) { // save ticket // save customer
 			try {
 				
@@ -648,12 +696,53 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		if(((Message) msg).getAction().equals("pull genre screening movies")) {
+			try {
+				System.out.println("in Main pull screeening movies msg");
+				serverMsg = (Message) msg;
+				serverMsg.genreArray=MovieController.getAllGenreScreeningMovies().toArray(new String[0]); 
+				System.out.println("in the func handleMessageFromClient");
+				serverMsg.setAction("got genre screening movies");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant pull screening movies");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 		if(currentMsg.getAction().equals("send successful purchase mail")) {
 			try {
 				serverMsg = currentMsg;
 				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Thank you for your purchase at The Sirtiya!", serverMsg.getEmailMessage());
 				serverMsg.setAction("sent successful purchase mail");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant get status complaints monthly");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("send successful purchase mail")) {
+			try {
+				serverMsg = currentMsg;
+				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Thank you for your purchase at The Sirtiya!", serverMsg.getEmailMessage());
+				serverMsg.setAction("sent successful purchase mail");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant get status complaints monthly");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("get all screenings")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.setScreeningArrayList(getAllOfType(Screening.class));
+				serverMsg.setAction("got all screenings");
 				client.sendToClient(serverMsg);
 			}
 			catch (IOException e) {
@@ -750,7 +839,7 @@ public class Main extends AbstractServer {
 
 	}
 
-	// Movie movie = session.load(Movie.class , movie.getId());
+
 //	public static <T> T getExacRow(Class<T> objectType , int id) {
 //		T t = null;
 //		try {

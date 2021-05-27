@@ -1,9 +1,7 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -19,6 +17,7 @@ import javafx.scene.layout.VBox;
 
 public class CardContainerController {
 	private int NUM_ROWS = 2, NUM_COLS = 3, currentlyDisplayedFrom = 0, moviesNumber = 0, purchaseType;
+	private List<Movie> recentlyAdded;
 	
     @FXML
     private GridPane movieContainer;
@@ -44,34 +43,28 @@ public class CardContainerController {
     @FXML
     private Button loadMoreBtn;
     
-	private List<Movie> recentlyAdded;
-
-
-    public void initialize(URL location, ResourceBundle resources) {
-    }
-    
     public void sendMsgToServer(String namePage) {
     	EventBus.getDefault().register(this);
 
-    	System.out.println("trying to send pull screening movies from card container  controller");
 		String actionType = null;
     	if(namePage.equals("MainPage")) {
-    		actionType="pull screening movies";
-    		System.out.println("pull screening movies");
-    		setPurchaseType(PurchaseTypes.TICKET);
+    		actionType = "pull screening movies";
+    		purchaseType = PurchaseTypes.TICKET;
 		}
 		if(namePage.equals("ComingSoonPage")) {
-			actionType="pull soon movies";
-			setPurchaseType(PurchaseTypes.NOT_AVAILABLE);
+			actionType = "pull soon movies";
+			purchaseType = PurchaseTypes.NOT_AVAILABLE;
+		}
+		if(namePage.equals("ViewingPackagesPage")) {
+			actionType = "pull movies from home";
+			purchaseType = PurchaseTypes.VIEWING_PACKAGE;
 		}
 		try {
 			Message msg = new Message();
 			msg.setAction(actionType);
-			System.out.println("trying to send msg to server");
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			System.out.println("failed to send msg to server from recentlyAdded");
+			System.out.println("failed to send msg to server from CardContainerController");
 			e.printStackTrace();
 		}	
     }
@@ -79,9 +72,10 @@ public class CardContainerController {
     
     @Subscribe
 	public void onMessageEvent(Message msg) {
-		System.out.println("reveived message!!");
 		System.out.println(msg.getAction());
-    	if(msg.getAction().equals("got screening movies")||msg.getAction().equals("got soon movies")) {
+    	if(msg.getAction().equals("got movies from home") || 
+    		msg.getAction().equals("got screening movies") || 
+    		msg.getAction().equals("got soon movies")) {
     		Platform.runLater(()-> {
     			recentlyAdded = msg.getMovies();
     			moviesNumber = recentlyAdded.size();
@@ -100,7 +94,6 @@ public class CardContainerController {
     }
 
 	public void SetMovies(int displayFrom) {
-
     	int index;
 		if(moviesNumber < NUM_ROWS * NUM_COLS) 
 			index = 0;
@@ -114,7 +107,6 @@ public class CardContainerController {
 							return;
 						index -= moviesNumber;
 					}
-
 					FXMLLoader fxmlLoader = new FXMLLoader();
 					fxmlLoader.setLocation(getClass().getResource("card.fxml"));
 					Button cardBox = fxmlLoader.load();

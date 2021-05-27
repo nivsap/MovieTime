@@ -88,4 +88,17 @@ public class MovieController {
 		}
 		return toReturn;				//return Movies by LaunchDate
 	}
+	public static List<String> getAllGenreScreeningMovies() {
+		ArrayList<Movie> soonMoviesArrayList = new ArrayList<>();
+		ArrayList<String> toReturnArrayList = new ArrayList<>();
+		soonMoviesArrayList = Main.getAllOfType(Movie.class);
+		for(int i = 0 ; i < soonMoviesArrayList.size() ; i++) {
+			//System.out.println(movie.getName());
+			if(soonMoviesArrayList.get(i).isSoonInCinema()&&!toReturnArrayList.contains(soonMoviesArrayList.get(i).getGenre())) {
+				toReturnArrayList.add(soonMoviesArrayList.get(i).getGenre());
+			}
+		}
+		return toReturnArrayList;
+	}
+	
 }

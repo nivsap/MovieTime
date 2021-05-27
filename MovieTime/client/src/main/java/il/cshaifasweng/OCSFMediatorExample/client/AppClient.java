@@ -27,7 +27,7 @@ public class AppClient extends AbstractClient {
 	@Override
 	protected void handleMessageFromServer(Object msg) {
 		System.out.println("msg recieved in appClient!");
-		System.out.println("msg is: " + ((Message)msg));
+		System.out.println("msg is: " + ((Message)msg).getAction());
 		Message currentMsg = (Message) msg;
 		if (currentMsg.getAction().equals("got movies"))
 		{
@@ -90,6 +90,15 @@ public class AppClient extends AbstractClient {
 		{
 			EventBus.getDefault().post(((Message) msg));
 		}
+
+		if (currentMsg.getAction().equals("got genre screening movies"))
+		{
+			EventBus.getDefault().post(((Message) msg));
+		}
+		if (currentMsg.getAction().equals("got movies from home"))
+		{
+			EventBus.getDefault().post(((Message) msg));
+		}
 		if (currentMsg.getAction().equals("picking seats success"))
 		{
 			EventBus.getDefault().post(((Message) msg));
@@ -100,21 +109,22 @@ public class AppClient extends AbstractClient {
 		}
 		if(currentMsg.getAction().equals("save customer done")) {
 			EventBus.getDefault().post(((Message) msg));
-    	}
-    	
-    	if(currentMsg.getAction().equals("sent successful purchase mail")) {
+		}
+	    if(currentMsg.getAction().equals("sent successful purchase mail")) {
+	    		EventBus.getDefault().post(((Message) msg));
+	    }
+	    if(currentMsg.getAction().equals("got all screenings")) {
     		EventBus.getDefault().post(((Message) msg));
-    	}
-    	
-    	if(currentMsg.getAction().equals("got purchase by id")) {
+	    }
+		if(currentMsg.getAction().equals("got purchase by id")) {
     		EventBus.getDefault().post(((Message) msg));
     	}
     	
     	if(currentMsg.getAction().equals("got purchase cancelation by id")) {
     		EventBus.getDefault().post(((Message) msg));
     	}
+		
 	}
-	
 	@Override
 	protected void connectionEstablished() {
 		// TODO Auto-generated method stub

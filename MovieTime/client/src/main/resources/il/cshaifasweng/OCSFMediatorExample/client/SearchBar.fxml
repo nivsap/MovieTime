@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-
 <VBox fx:id="SearchBarContainer" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="700.0" style="-fx-background-color: #2c2d33;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="100.0" prefWidth="700.0">
@@ -18,7 +17,7 @@
             <Label alignment="BASELINE_LEFT" layoutX="104.0" layoutY="65.0" prefHeight="20.0" prefWidth="125.0" text="Filter by..." textFill="WHITE" AnchorPane.leftAnchor="104.0" AnchorPane.rightAnchor="470.4" />
             <ComboBox layoutX="199.0" layoutY="62.0" prefWidth="125.0" promptText="Genre" styleClass="searchBarComboBox" />
             <ComboBox layoutX="334.0" layoutY="62.0" prefWidth="125.0" promptText="Theatre" styleClass="searchBarComboBox" />
-            <ComboBox layoutX="469.0" layoutY="62.0" prefWidth="125.0" promptText="Coming Soon" styleClass="searchBarComboBox" />
+            <ComboBox layoutX="469.0" layoutY="62.0" prefWidth="125.0" promptText="Rate" styleClass="searchBarComboBox" />
             <Button id="searchBarButton" layoutX="579.0" layoutY="27.0" mnemonicParsing="false">
                <graphic>
                   <ImageView fitHeight="20.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">

@@ -16,6 +16,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
+import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,6 +35,7 @@ public class UpdateMoviesPageController{
 
 	
 	private List<Movie> allMovies;
+	private List<Screening> screenings;
 	private String[] time;
 	
 
@@ -63,9 +65,9 @@ public class UpdateMoviesPageController{
 	
 	@FXML
 	public void initialize() {
-		System.out.println("initializing UpdateMoviePage");
+		System.out.println("initializing UpdateMoviesPage");
 		EventBus.getDefault().register(this);
-		PullMovies();
+		PullScreenings();
 		
 		
 		  
@@ -74,12 +76,9 @@ public class UpdateMoviesPageController{
 	}
 	
 	
-	private void PullMovies() {
+	private void PullScreenings() {
 		Message msg= new Message();
-		msg.setAction("pull movies");
-		
-		
-		
+		msg.setAction("get all screenings");
 		try {
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
@@ -91,18 +90,16 @@ public class UpdateMoviesPageController{
 	 
 	public void InitPage(){		
 	 System.out.println("in here");
-	 
+	 String temp;
 		try {
-			for(Movie movie : allMovies) {
-				for(String time : movie.getMovieBeginingTime()) {
-					FXMLLoader fxmlLoader = new FXMLLoader();
-					fxmlLoader.setLocation(getClass().getResource("ScreeningCard.fxml"));
-					HBox cardBox = fxmlLoader.load();				
-					ScreeningCardController ctrl = fxmlLoader.getController();
-					ctrl.SetData(movie.getName(), "Haifa", "20.05.21", time);
-					screening_time_layout.getChildren().add(cardBox);
-				}
-				 
+			for(Screening screening : screenings) {
+				FXMLLoader fxmlLoader = new FXMLLoader();
+				fxmlLoader.setLocation(getClass().getResource("ScreeningCard.fxml"));
+				HBox cardBox = fxmlLoader.load();				
+				ScreeningCardController ctrl = fxmlLoader.getController();
+				temp = screening.getDate_screen().toString();
+				ctrl.SetData(screening.getMovie().getName(), screening.getCinema().getName(),temp.substring(0,10), temp.substring(11,16), screening.getHall().getHallId());
+				screening_time_layout.getChildren().add(cardBox);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -121,12 +118,24 @@ public class UpdateMoviesPageController{
 			cb_cinema.getItems().clear();
 			cb_date.getItems().clear();
 			cb_removal_addition.getItems().clear();			
-			
-			for(Movie movie : allMovies) {
-				cb_movie.getItems().add(movie.getName());
+			String onlyDate;
+			for(Screening screening : screenings) {
+				if(!cb_movie.getItems().contains((screening.getMovie().getName()))){
+					cb_movie.getItems().add(screening.getMovie().getName());
+				}
+				if(!cb_cinema.getItems().contains((screening.getCinema().getName()))){
+					cb_cinema.getItems().add(screening.getCinema().getName());
+				}
+				if(!cb_cinema.getItems().contains((screening.getCinema().getName()))){
+					cb_cinema.getItems().add(screening.getCinema().getName());
+				}
+				onlyDate = screening.getDate_screen().toString();
+    			onlyDate = onlyDate.substring(0,10); 
+    			if(!cb_date.getItems().contains(onlyDate))
+    				cb_date.getItems().add(onlyDate);
 			}
 			
-			cb_cinema.getItems().addAll("Haifa", "Kiryat Ata" , "Kiryat Ono", "Makom Shel Teymanim");
+			
 			cb_removal_addition.getItems().addAll("addition","removal");
 			cb_time.getItems().addAll("00:00","00:30","01:00","01:30","02:00","02:30","03:00", "03:30",
 					"04:00","04:30","05:00","05:30","06:00","06:30","07:00", "07:30",
@@ -134,7 +143,8 @@ public class UpdateMoviesPageController{
 					"12:00","12:30","13:00","13:30","14:00","14:30","15:00", "15:30",
 					"16:00","16:30","17:00","17:30","18:00","18:30","19:00", "19:30",
 					"20:00","20:30","21:00","21:30","22:00","22:30","23:00", "23:30");
-			cb_date.getItems().add("20.05.21");
+			
+			
 			InitPage();
 		
 	}
@@ -142,10 +152,10 @@ public class UpdateMoviesPageController{
 	@Subscribe
 	public void onMessageEvent(Message msg) throws IOException {
 		
-    		if(msg.getAction().equals("got movies")) {
+    		if(msg.getAction().equals("got all screenings")) {
     			
     			Platform.runLater(()-> {
-    				allMovies = msg.getMovies();
+    				screenings = msg.getScreeningArrayList();
     				SetData();
     			});
     		}

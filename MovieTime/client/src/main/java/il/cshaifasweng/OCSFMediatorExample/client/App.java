@@ -1,3 +1,4 @@
+
 package il.cshaifasweng.OCSFMediatorExample.client; // should be View package
 
 import java.io.IOException;
@@ -16,20 +17,17 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
-
-public class App extends Application {    
-	private AppClient client;
+public class App extends Application {
+    
     private static Scene scene;
     private static Stage stage;
-    
     @FXML
     private static BorderPane pageLayout;
-    
     @FXML
     private static VBox menu;
-    
     @FXML
     private static VBox content;
+    private AppClient client;
     
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -60,21 +58,17 @@ public class App extends Application {
 		 * stage.setTitle("Establish Connection"); 
 		 * stage.setScene(scene); 
 		 * stage.show();
-		 */
+		 */ 
     }
     
     static void setWindowTitle(String title) {
     	stage.setTitle(title);
     }
-
-    static void setBarAndGridLayout(String pageName) throws IOException {
-    	BarAndGridLayoutController controller = new BarAndGridLayoutController();
-    	controller.setBarAndGrid(pageName);
-    	content.getChildren().setAll(controller.getTopBar(),controller.getCardContainer());
-    }
-      
+    
     static Object setContent(String pageName) throws IOException {
     	// setContent() loads page/FXML into App's content container and returns page's controller.
+    	if(content != null)
+    		content.getChildren().clear();
     	Pair<Parent, Object> pair = loadFXML(pageName);
     	pageLayout.setCenter(null);
     	content = (VBox) pair.getKey();
@@ -85,6 +79,8 @@ public class App extends Application {
     }
     
     static Object setMenu(String menuType) throws IOException {
+    	if(menu != null)
+    		menu.getChildren().clear();
     	Pair<Parent, Object> pair = loadFXML(menuType);
     	pageLayout.setLeft(null);
     	menu = (VBox) pair.getKey();
@@ -94,18 +90,18 @@ public class App extends Application {
         return pair.getValue();
     }
     
+    static void setBarAndGridLayout(String pageName) throws IOException {
+	    if(content != null)
+	    	content.getChildren().clear();
+	    BarAndGridLayoutController controller = new BarAndGridLayoutController();
+	    controller.setBarAndGrid(pageName);
+	    content.getChildren().setAll(controller.getTopBar(),controller.getCardContainer());
+    }
 
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml).getKey());
     }
-
-    private static Pair<Parent, Object> loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-        Parent root = fxmlLoader.load();
-        Object controller =  fxmlLoader.getController();
-        return new Pair<>(root, controller);
-    }
-
+  
     public static void main(String[] args) {
         launch(args);
     }
@@ -117,4 +113,12 @@ public class App extends Application {
     	}
 	}
 
+    private static Pair<Parent, Object> loadFXML(String fxml) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+        Parent root = fxmlLoader.load();
+        Object controller =  fxmlLoader.getController();
+        return new Pair<>(root, controller);
+    }
 }
+
+

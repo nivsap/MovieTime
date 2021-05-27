@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -20,25 +21,36 @@ public class Cinema implements  Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	//private static final long serialVersionUID = 1L;
+	//private static final long serialVersionUID = 1L
+	
 	private String name;
 	private String address;
+	private int nextHallId;
+	//@Column(name ="moviePrice")
+	@Column(name="movie_price")
+	private double moviePrice;
+	private double linkPrice;
+	private double subscriptionPrice;
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private BranchManager manager;
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "cinema" )
 	private List<Screening> screeningArray;
+	//@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "cinema" )
+	//private List<Screening> screeningArray;
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "cinema")
 	private List<Hall> hallArray;
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "cinema")
 	private List<Worker> workerArray;
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "cinema")
 	private List<Purchase> purchases;
+	//private int nextHallId;
 	
 	public Cinema() {}
 	
 	public Cinema(String name, String address, BranchManager manager, ArrayList<Screening> screeningArray,
-			ArrayList<Hall> hallArray, ArrayList<Worker> workerArray , ArrayList<Purchase> purchases) {
+			ArrayList<Hall> hallArray, ArrayList<Worker> workerArray , ArrayList<Purchase> purchases, double moviePrice,double linkPrice, double rate) {
 		super();
+		//nextHallId = 1;
 		this.name = name;
 		this.address = address;
 		this.manager = manager;
@@ -46,6 +58,11 @@ public class Cinema implements  Serializable{
 		this.hallArray = new ArrayList<>();
 		this.workerArray = new ArrayList<>();
 		this.purchases = new ArrayList<>();
+		this.moviePrice = moviePrice;
+		nextHallId = 1;
+		this.setLinkPrice(linkPrice);
+		this.setSubscriptionPrice(20 * moviePrice * rate);
+		
 	}
 
 
@@ -144,7 +161,41 @@ public class Cinema implements  Serializable{
 
 	public void setHallArray(ArrayList<Hall> hallArray) {
 		this.hallArray = hallArray;
+		
+		  for(Hall hall : hallArray)
+		  {
+			  hall.setHallId(nextHallId); 
+			  nextHallId++;
+		  }
+		 
 	}
+
+	public double getMoviePrice() {
+		return moviePrice;
+	}
+
+	public void setMoviePrice(double moviePrice) {
+		this.moviePrice = moviePrice;
+	}
+
+	public double getLinkPrice() {
+		return linkPrice;
+	}
+
+	public void setLinkPrice(double linkPrice) {
+		this.linkPrice = linkPrice;
+	}
+
+	public double getSubscriptionPrice() {
+		return subscriptionPrice;
+	}
+
+	public void setSubscriptionPrice(double subscriptionPrice) {
+		this.subscriptionPrice = subscriptionPrice;
+	}
+
+	
+	
 
 
 //	public List<Worker> getWorkerArray() {

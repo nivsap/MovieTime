@@ -21,7 +21,7 @@
             </image>
          </ImageView>
          <Label alignment="BASELINE_LEFT" layoutX="450.0" layoutY="55.0" prefHeight="20.0" prefWidth="125.0" text="Filter by..." textFill="WHITE" />
-         <ComboBox layoutX="530.0" layoutY="50.0" prefHeight="20.0" prefWidth="125.0" promptText="Genre" styleClass="searchBarComboBox" />
+         <ComboBox fx:id="GenreComboBox" layoutX="530.0" layoutY="50.0" prefHeight="20.0" prefWidth="125.0" promptText="Genre" styleClass="searchBarComboBox" />
       </children>
    </AnchorPane>
    <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="550.0" prefWidth="700.0" VBox.vgrow="ALWAYS">

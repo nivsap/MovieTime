@@ -1,3 +1,4 @@
+
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
@@ -70,5 +71,9 @@ public class SystemMenuController extends Pane {
     	App.setContent("PurchaseCancelation");
     }
 
+    void loadViewingPackages(ActionEvent event) throws IOException {
+    	App.setWindowTitle(PageTitles.ViewingPackages);
+    	App.setBarAndGridLayout("ViewingPackagesPage");
+    }
     
 }

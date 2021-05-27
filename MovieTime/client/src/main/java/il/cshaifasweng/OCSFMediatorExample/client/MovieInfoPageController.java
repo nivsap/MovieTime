@@ -81,6 +81,7 @@ public class MovieInfoPageController {
     
     void InitPageInfo(Movie movie) {
     	EventBus.getDefault().register(this);
+    	purchaseType = PurchaseTypes.TICKET;
     	movieDescription.setWrapText(true);
     	currentlyDisplayed = movie;
     	movieName.setText(movie.getName());
@@ -228,6 +229,7 @@ public class MovieInfoPageController {
     	}
     	controller.setPurchaseInfo(purchaseType, screeningChosen);
     	controller.loadMovieInfo();
+    	controller.loadScreeningInfo();
     	controller.loadHallMap();
     }
 

@@ -3,8 +3,6 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
-import javax.swing.JOptionPane;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -63,6 +61,11 @@ public class PurchaseCancelationPage {
 	@FXML
 	void padNow(ActionEvent event) throws IOException {
 		Order = OrderTextField.getText();
+		
+		if(!(Order == "" || Order == " "))
+		{
+			OrderWarningLabel.setVisible(false);
+		}
 		if(Order == "" || Order == " ")
 		{
 			OrderWarningLabel.setVisible(true);
@@ -72,7 +75,7 @@ public class PurchaseCancelationPage {
 		msg.setAction("get purchase by id");
 		msg.setId(Order);
 		AppClient.getClient().sendToServer(msg);
-		OrderWarningLabel.setVisible(false);
+		//OrderWarningLabel.setVisible(false);
 		
 	}
 	

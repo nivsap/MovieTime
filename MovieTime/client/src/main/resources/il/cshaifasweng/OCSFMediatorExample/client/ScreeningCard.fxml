@@ -8,10 +8,11 @@
    <children>
       <AnchorPane prefHeight="38.0" prefWidth="617.0" style="-fx-border-radius: 50; -fx-background-radius: 50; -fx-background-color: transperent;">
          <children>
-            <Label fx:id="label_movie_name" layoutX="50.0" layoutY="11.0" text="movie name" textFill="WHITE" />
-            <Label fx:id="label_cinema" layoutX="233.0" layoutY="10.0" text="cinema" textFill="WHITE" />
-            <Label fx:id="label_date" layoutX="399.0" layoutY="11.0" text="date" textFill="WHITE" />
+            <Label fx:id="label_movie_name" layoutX="36.0" layoutY="11.0" text="movie name" textFill="WHITE" />
+            <Label fx:id="label_cinema" layoutX="169.0" layoutY="10.0" text="cinema" textFill="WHITE" />
+            <Label fx:id="label_date" layoutX="423.0" layoutY="10.0" text="date" textFill="WHITE" />
             <Label fx:id="label_time" layoutX="549.0" layoutY="11.0" text="time" textFill="WHITE" />
+            <Label fx:id="label_hall" layoutX="289.0" layoutY="10.0" text="hall" textFill="WHITE" />
          </children>
       </AnchorPane>
    </children>

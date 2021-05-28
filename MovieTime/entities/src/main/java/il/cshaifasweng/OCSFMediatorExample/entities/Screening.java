@@ -26,12 +26,12 @@ public class Screening implements  Serializable{
 	//@Column(name="seats",columnDefinition="LONGTEXT")
 	private int seats[][];
 	private LocalDateTime date_screen;
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinColumn(name = "hall_id")
 	private Hall hall;
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	private Movie movie;
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "cinema_id")
 	private Cinema cinema;
 	

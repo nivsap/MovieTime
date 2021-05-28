@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.Cinema;
 import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
 import il.cshaifasweng.OCSFMediatorExample.entities.Hall;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
@@ -148,35 +149,57 @@ public class PaymentPageController {
         
     }
 
-    public void setInfo(int type, Screening screening, ArrayList<Pair<Integer, Integer>> seatsChosen) {
+    public void setInfoTicket(int type, Screening screening, ArrayList<Pair<Integer, Integer>> seatsChosen) {
     	this.purchaseType = type;
     	this.screening = screening;
     	this.seats = seatsChosen;
-    	String order = screening.getCinema().getName() + " Cinema, hall " + screening.getHall().getHallId() + "\n";
+    	String order;
+    	
+		paymentLabel.setText(Double.toString(seats.size() * screening.getCinema().getMoviePrice()));
+    	order = screening.getCinema().getName() + " Cinema, hall " + screening.getHall().getHallId() + "\n" +
+    			screening.getMovie().getName() + " " + screening.getDate_screen() + "\n";
 		for(Pair<Integer,Integer> seat : seats) {
 			order += "Seat " + seat.getKey() + "," + seat.getValue() + "\n";
 		}
 		order += "Total price: " + seats.size() * screening.getCinema().getMoviePrice();
         orderSummeryTextArea.setText(order);
-    	
-        
+	
+		watchFromHome = false;
+		subscriptionCard = new Pair<Boolean,Integer>(false,0);
         paymentLabel.setText(Double.toString(seats.size() * screening.getCinema().getMoviePrice()));
-    	switch(purchaseType) {
-    	case PurchaseTypes.TICKET: {
-    		watchFromHome = false;
-    		subscriptionCard = new Pair<Boolean,Integer>(false,0);
-    	}
-    	case PurchaseTypes.VIEWING_PACKAGE: {
-    		watchFromHome = true;
-    		subscriptionCard = new Pair<Boolean,Integer>(false,0);
-    	}
-    	case PurchaseTypes.SUBSCRIPTION_CARD: {
-    		watchFromHome = false;
-    		subscriptionCard = new Pair<Boolean,Integer>(true,20);
-    	}
-    	case PurchaseTypes.NOT_AVAILABLE: return;
-    	}
+
+ 
     	
+    }
+    
+    public void setInfoSubscription(int type, double price) {
+    	this.purchaseType = type;
+    	String order;
+    
+		paymentLabel.setText(Double.toString(price));
+		order = "The subscription card will act as a realy time ticket to enter any movie\n in any of our cinemas 20 times!\n";
+		order += "Total price: " + paymentLabel.getText();
+        orderSummeryTextArea.setText(order);
+	
+		watchFromHome = false;
+		subscriptionCard = new Pair<Boolean,Integer>(true,20);
+
+	
+    	
+    }
+    
+    
+    public void setInfoLink(int type, Screening screening) {
+    	this.purchaseType = type;
+    	this.screening = screening;
+    	String order;
+		paymentLabel.setText(Double.toString(screening.getCinema().getLinkPrice()));
+    	order = screening.getMovie().getName() + " " + screening.getDate_screen();
+		order += "Total price: " + paymentLabel.getText();
+        orderSummeryTextArea.setText(order);
+		watchFromHome = true;
+		subscriptionCard = new Pair<Boolean,Integer>(false,0);    	
+	
     	
     }
     
@@ -186,10 +209,12 @@ public class PaymentPageController {
     		screening.getSeats()[seat.getKey()][seat.getValue()] = 1;
     	}
     	
-    	
+    	if(purchaseType == PurchaseTypes.TICKET) {
+    		purchase = new Purchase(firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), cityTextField.getText(), phoneNumberTextField.getText(),
+    			subscriptionCard, watchFromHome, LocalDateTime.now(), screening.getCinema(), screening.getHall(), seats, 0 , null);
+    	}
     	purchase = new Purchase(firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), cityTextField.getText(), phoneNumberTextField.getText(),
     			subscriptionCard, watchFromHome, LocalDateTime.now(), screening.getCinema(), screening.getHall(), seats, 0 , null);
-    	
     	//complaint.setPurchase(purchase);
     	
     	Message msg = new Message();
@@ -207,8 +232,6 @@ public class PaymentPageController {
     
     @Subscribe
     public void OnMessageEvent(Message msg) {
-    	
-    	
     	if(msg.getAction().equals("save customer done")) {
     		String successfulPurchaseString;
     		successfulPurchaseString = "Dear " + purchase.getFirstName() +" " + purchase.getLastName() + ", Thank you for your purchase.\n"

@@ -64,7 +64,7 @@
                   </ImageView>
                </graphic>
             </Button>
-         <Button fx:id="purchaseCancelationMenuBtn" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutY="550.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="200.0" styleClass="menuButton" stylesheets="@style.css" text="Purchase Cancelation" textFill="WHITE">
+         <Button fx:id="purchaseCancelationMenuBtn" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutY="550.0" mnemonicParsing="false" onAction="#loadCancelationPage" prefHeight="52.0" prefWidth="200.0" styleClass="menuButton" stylesheets="@style.css" text="Purchase Cancelation" textFill="WHITE">
             <graphic>
                <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                   <image>

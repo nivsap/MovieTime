@@ -8,6 +8,7 @@ import java.util.List;
 
 import javafx.util.Pair;
 //purchas
+@SuppressWarnings("serial")
 public class Message implements Serializable {
 	String action;
 	String username; 
@@ -22,9 +23,9 @@ public class Message implements Serializable {
 	ArrayList<Complaint> complaints;
 	String emailMessage;
 	String customerEmail;
-	
+	String cinemaName;
 
-	int id;
+	String id;
 	int movieId;            				//clientSide need to fill/set is field when send msg to server
 	int cinemaId;           				//clientSide need to fill/set is field when send msg to server
 	ArrayList<Cinema> cinemasArrayList;
@@ -62,7 +63,7 @@ public class Message implements Serializable {
 	String movieName;
 	String DbAction;
 	String error;
-	
+	int hallId;
 	String genre;    						//clientSide need to fill/set is field when send msg to server
 	LocalDateTime dateMovie;    			//clientSide need to fill/set is field when send msg to server
 	Purchase purchase;
@@ -107,13 +108,13 @@ public class Message implements Serializable {
 
 
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
 
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -474,6 +475,22 @@ public class Message implements Serializable {
 
 	public void setCustomerEmail(String customerEmail) {
 		this.customerEmail = customerEmail;
+	}
+
+	public int getHallId() {
+		return hallId;
+	}
+
+	public void setHallId(int hallId) {
+		this.hallId = hallId;
+	}
+
+	public String getCinemaName() {
+		return cinemaName;
+	}
+
+	public void setCinemaName(String cinemaName) {
+		this.cinemaName = cinemaName;
 	}
 }
 

@@ -32,6 +32,7 @@ public class BarAndGridLayoutController {
 		if(namePage.equals("ViewingPackagesPage")) {
 	    	barFXMLLoader.setLocation(getClass().getResource("SearchBar.fxml"));
 		}
+
 		if(namePage.equals("NetworkAdministratorMainPage")) {
 	    	barFXMLLoader.setLocation(getClass().getResource("SearchBar.fxml"));
 		}

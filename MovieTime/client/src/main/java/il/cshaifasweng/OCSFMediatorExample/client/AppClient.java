@@ -23,7 +23,6 @@ public class AppClient extends AbstractClient {
 	public AppClient(String host, int port) {
 		super(host, port);
 	}
-	
 	@Override
 	protected void handleMessageFromServer(Object msg) {
 		System.out.println("msg recieved in appClient!");

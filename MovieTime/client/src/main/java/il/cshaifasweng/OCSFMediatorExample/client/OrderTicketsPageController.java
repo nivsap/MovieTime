@@ -182,7 +182,7 @@ public class OrderTicketsPageController {
     	PaymentPageController controller;
 		try {
 			controller = (PaymentPageController) App.setContent("PaymentPage");
-			controller.setInfo(purchaseType, screeningChosen,seatsChosen);
+			controller.setInfoTicket(purchaseType, screeningChosen,seatsChosen);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

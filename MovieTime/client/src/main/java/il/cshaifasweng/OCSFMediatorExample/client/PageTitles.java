@@ -9,7 +9,12 @@ public final class PageTitles {
 	static final String OrderTicketsPage = "Order Tickets";
 	static final String LoginPage = "Login";
 	static final String UpdateMoviesPage = "Update Screening Info";
+	static final String PurchaseCancelation = "Update Purchase Cancelation";
 	static final String ViewingPackages = "Viewing Packages";
+	static final String OpenComplaintsPage = "Open Complaints";
+	static final String AddContentPage = "Add Content";
+
 	static final String ComplaintHandeling = "Complaint Handeling";
+
 
 }

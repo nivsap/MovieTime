@@ -14,6 +14,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 
 @Entity
 @Table(name = "Cinema")
@@ -29,6 +32,8 @@ public class Cinema implements  Serializable{
 	//@Column(name ="moviePrice")
 	@Column(name="movie_price")
 	private double moviePrice;
+	private double linkPrice;
+	private double subscriptionPrice;
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private BranchManager manager;
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "cinema" )
@@ -37,16 +42,19 @@ public class Cinema implements  Serializable{
 	private List<Hall> hallArray;
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "cinema")
 	private List<Worker> workerArray;
-	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "cinema")
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "cinema")
+	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Purchase> purchases;
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "cinema")
+	@Fetch(value = FetchMode.SUBSELECT)
+	private List<Purchase> cancelPurchases;
 	//private int nextHallId;
 	
 	public Cinema() {}
 	
 	public Cinema(String name, String address, BranchManager manager, ArrayList<Screening> screeningArray,
-			ArrayList<Hall> hallArray, ArrayList<Worker> workerArray , ArrayList<Purchase> purchases, double moviePrice) {
+			ArrayList<Hall> hallArray, ArrayList<Worker> workerArray , ArrayList<Purchase> purchases, double moviePrice,double linkPrice, double rate,List<Purchase> cancelPurchases) {
 		super();
-		//nextHallId = 1;
 		this.name = name;
 		this.address = address;
 		this.manager = manager;
@@ -56,6 +64,9 @@ public class Cinema implements  Serializable{
 		this.purchases = new ArrayList<>();
 		this.moviePrice = moviePrice;
 		nextHallId = 1;
+		this.setLinkPrice(linkPrice);
+		this.setSubscriptionPrice(20 * moviePrice * rate);
+		this.cancelPurchases = cancelPurchases;
 		
 	}
 
@@ -64,6 +75,22 @@ public class Cinema implements  Serializable{
 		return name;
 	}
 
+
+	public List<Purchase> getPurchases() {
+		return purchases;
+	}
+
+	public void setPurchases(List<Purchase> purchases) {
+		this.purchases = purchases;
+	}
+
+	public List<Purchase> getCancelPurchases() {
+		return cancelPurchases;
+	}
+
+	public void setCancelPurchases(List<Purchase> cancelPurchases) {
+		this.cancelPurchases = cancelPurchases;
+	}
 
 	public int getId() {
 		return id;
@@ -172,6 +199,23 @@ public class Cinema implements  Serializable{
 		this.moviePrice = moviePrice;
 	}
 
+	public double getLinkPrice() {
+		return linkPrice;
+	}
+
+	public void setLinkPrice(double linkPrice) {
+		this.linkPrice = linkPrice;
+	}
+
+	public double getSubscriptionPrice() {
+		return subscriptionPrice;
+	}
+
+	public void setSubscriptionPrice(double subscriptionPrice) {
+		this.subscriptionPrice = subscriptionPrice;
+	}
+
+	
 	
 
 

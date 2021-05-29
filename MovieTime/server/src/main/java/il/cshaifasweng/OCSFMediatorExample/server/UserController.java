@@ -18,22 +18,25 @@ public class UserController {
 				if(arr instanceof BranchManager) {
 					msg.setTypeOfWorkerString("BranchManager");
 					System.out.println(msg.getTypeOfWorkerString());
+					arr.setLoggedIn(true);
 					msg.setWorker(arr);
 				}
 				else if(arr instanceof ContentManager) {
 					msg.setTypeOfWorkerString("ContentManager");
-					
+					arr.setLoggedIn(true);
 					System.out.println(msg.getTypeOfWorkerString());
 					msg.setWorker(arr);
 				}
 				else if(arr instanceof CustomerService) {
 					msg.setTypeOfWorkerString("CustomerService");
 					System.out.println(msg.getTypeOfWorkerString());
+					arr.setLoggedIn(true);
 					msg.setWorker(arr);
 				}
 				else if(arr instanceof NetworkAdministrator) {
 					msg.setTypeOfWorkerString("NetworkAdministrator");
 					System.out.println(msg.getTypeOfWorkerString());
+					arr.setLoggedIn(true);
 					msg.setWorker(arr);
 				}
 				else msg.setTypeOfWorkerString("null");

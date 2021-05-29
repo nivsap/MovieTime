@@ -9,48 +9,52 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 
 public class CardController {
-		int purchaseType;
 	
-	    @FXML
-	    private ImageView movie_img;
+	private Movie cardMovie;
+	private Boolean isDisabled;
+	private int purchaseType;
+	
+	@FXML
+	private ImageView movie_img;
 
-	    @FXML
-	    private Button movie_name;
+	@FXML
+	private Button movie_name;
+	    
+	public void SetData(Movie movie, Boolean isDisabled) {
+		Image image = new  Image(getClass().getResourceAsStream("images/MoviesPosters/" + movie.getImageSrc()));
+		movie_img.setImage(image);
+		movie_name.setText(movie.getName());
+		cardMovie = movie;
+		this.isDisabled = isDisabled;
+	}
+	
+	@FXML
+	void loadMovieInfoPage(ActionEvent event) throws IOException {
+		if(isDisabled)
+			return;
+		
+		App.setWindowTitle(cardMovie.getName());
+	    if(!cardMovie.isSoonInCinema()) {
+	    	MovieInfoPageController controller = (MovieInfoPageController) App.setContent("MovieInfoPage");
+		    controller.InitPageInfo(cardMovie);
+		    controller.setPurchaseType(purchaseType);
+	    }
+	    else {
+	    	ComingSoonInfoPageController controller = (ComingSoonInfoPageController) App.setContent("ComingSoonInfoPage");
+		    controller.setComingSoonInfo(cardMovie);
+		    controller.setPurchaseType(PurchaseTypes.NOT_AVAILABLE);
+	    }	
+	}
+	    
+	public void setPurchaseType(int type) {
+		if(isDisabled)
+			return;
+	    this.purchaseType = type;
+	}
 
-	    Movie cardMovie;
-	    
-	    public void SetData(Movie movie) {
-	    	Image image = new  Image(getClass().getResourceAsStream("images/MoviesPosters/" + movie.getImageSrc()));
-	    	movie_img.setImage(image);
-	    	movie_name.setText(movie.getName());
-	    	cardMovie = movie;
-	    }
-	    
-	    @FXML
-	    void loadMovieInfoPage(ActionEvent event) throws IOException {
-	    	App.setWindowTitle(cardMovie.getName());
-	    	
-	    	if(!cardMovie.isSoonInCinema()) {
-		    	MovieInfoPageController controller = (MovieInfoPageController) App.setContent("MovieInfoPage");
-		    	controller.InitPageInfo(cardMovie);
-		    	controller.setPurchaseType(purchaseType);
-	    	}
-	    	else {
-	    		ComingSoonInfoPageController controller = (ComingSoonInfoPageController) App.setContent("ComingSoonInfoPage");
-		    	controller.setComingSoonInfo(cardMovie);
-		    	controller.setPurchaseType(PurchaseTypes.NOT_AVAILABLE);
-	    	}
-	    	
-	    	
-	    }
-	    
-	    public void setPurchaseType(int type) {
-	    	this.purchaseType = type;
-	    }
-	    
-	    public int getPurchaseType() {
-	    	return this.purchaseType;
-	    }
-	    
-
+	public int getPurchaseType() {
+		if(isDisabled)
+			return PurchaseTypes.NOT_AVAILABLE;
+	    return this.purchaseType;
+	}
 }

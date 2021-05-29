@@ -9,11 +9,14 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import javafx.util.Pair;
 
 public class ScreeningController {
+	
+	
 	public static List<Cinema> getCinemas(int id) {
 		ArrayList<Cinema> list = Main.getAllOfType(Cinema.class);
 		ArrayList<Cinema> toReturnArrayList = new ArrayList<>();
-				
+		System.out.println("wtf " + list.isEmpty());
  		for(Cinema cinema : list) {
+ 			System.out.println("annnnnddd " + cinema.getScreeningArray().isEmpty());
 			for(Screening screening : cinema.getScreeningArray()) {
 				if(screening.getMovie().getId() == id) {
 					toReturnArrayList.add(cinema);
@@ -51,6 +54,18 @@ public class ScreeningController {
 		}
 		return null;
 	}
+	
+	public static Hall getHallById(int id) {
+		ArrayList<Hall> halls = Main.getAllOfType(Hall.class);
+		for(Hall hall : halls) {
+			if(hall.getId() == id) {
+				return hall;
+
+			}
+		}
+		return null;
+	}
+	
 	public static boolean pickChair (int[][] ks, Screening screening) {
 		for(int i = 0 ; i < screening.getHall().getRows() ; i++) {
 			for(int j = 0 ; j < screening.getHall().getCols() ; j++) {

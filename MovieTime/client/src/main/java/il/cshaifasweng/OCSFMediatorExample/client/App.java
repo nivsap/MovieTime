@@ -1,7 +1,10 @@
 
 package il.cshaifasweng.OCSFMediatorExample.client; // should be View package
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -14,11 +17,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
 public class App extends Application {
-    
+    private static List<Object> registeredList = new ArrayList<Object>();  
     private static Scene scene;
     private static Stage stage;
     @FXML
@@ -31,7 +36,7 @@ public class App extends Application {
     
     @Override
     public void start(Stage primaryStage) throws IOException {
-    	EventBus.getDefault().register(this);
+    	
     	stage = primaryStage;
     	client = AppClient.getClient();
     	client.openConnection();
@@ -48,6 +53,7 @@ public class App extends Application {
     	setWindowTitle(PageTitles.MainPage);
         scene = new Scene(pageLayout, 900, 700);
         stage.setScene(scene);
+        
         stage.show();
 
 		 /* For Connection Page:
@@ -61,48 +67,10 @@ public class App extends Application {
 		 */ 
     }
     
-    static Object setContent(String pageName, String pageTitle) throws IOException {
-    	// setContent() loads page/FXML into App's content container and returns page's controller.
-    	if(content != null)
-    		content.getChildren().clear();
-    	Pair<Parent, Object> pair = loadFXML(pageName);
-    	pageLayout.setCenter(null);
-    	content = (VBox) pair.getKey();
-    	pageLayout.setCenter(content);
-        stage.setScene(scene);
-        stage.show();
-        return pair.getValue();
-    }
-    
-
-    static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml).getKey());
-    }
-
-  
-    public static void main(String[] args) {
-        launch(args);
-    }
-    
-    @Subscribe
-	public void SetClient(Message msg) throws IOException {	
-    	if(msg.getAction().equals("set client")) {
-    		client = AppClient.getClient();
-    	}
-	}
-   
     static void setWindowTitle(String title) {
     	stage.setTitle(title);
     }
-
-    static void setBarAndGridLayout(String pageName) throws IOException {
-	    if(content != null)
-	    	content.getChildren().clear();
-	    BarAndGridLayoutController controller = new BarAndGridLayoutController();
-	    controller.setBarAndGrid(pageName);
-	    content.getChildren().setAll(controller.getTopBar(),controller.getCardContainer());
-    }
-      
+    
     static Object setContent(String pageName) throws IOException {
     	// setContent() loads page/FXML into App's content container and returns page's controller.
     	if(content != null)
@@ -127,6 +95,37 @@ public class App extends Application {
         stage.show();
         return pair.getValue();
     }
+    
+    static void setBarAndGridLayout(String pageName) throws IOException {
+    	if(content != null)
+    		content.getChildren().clear();
+	    BarAndGridLayoutController controller = new BarAndGridLayoutController();
+	    controller.setBarAndGrid(pageName);
+	    content.getChildren().setAll(controller.getTopBar(),controller.getCardContainer());
+    }
+    
+    static File openFilePicker() {
+    	FileChooser filePicker = new FileChooser();
+    	ExtensionFilter fileExtensions = new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg");
+    	filePicker.getExtensionFilters().add(fileExtensions);
+    	File pickedFile = filePicker.showOpenDialog(stage);
+    	return pickedFile;
+    }
+
+    static void setRoot(String fxml) throws IOException {
+        scene.setRoot(loadFXML(fxml).getKey());
+    }
+  
+    public static void main(String[] args) {
+        launch(args);
+    }
+    
+    @Subscribe
+	public void SetClient(Message msg) throws IOException {	
+    	if(msg.getAction().equals("set client")) {
+    		client = AppClient.getClient();
+    	}
+	}
 
     private static Pair<Parent, Object> loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
@@ -134,8 +133,6 @@ public class App extends Application {
         Object controller =  fxmlLoader.getController();
         return new Pair<>(root, controller);
     }
-  
-   
 }
 
 

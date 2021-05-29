@@ -41,18 +41,21 @@ public class ScreeningCardController {
 
     @FXML
     private Label label_date;
-
     
-    public Complaint complaint;
+    @FXML
+    private Label label_hall;
+
+	public Complaint complaint;
    
 	public int complainID;
-	
-	
-    public void SetData(String movie,String cinema, String date, String time) {
+    
+    
+    public void SetData(String movie,String cinema, String date, String time, int hall) {
     	label_movie_name.setText(movie);
     	label_cinema.setText(cinema);
     	label_date.setText(date);
     	label_time.setText(time);
+    	label_hall.setText(Integer.toString(hall));
     	
     }
 

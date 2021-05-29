@@ -31,20 +31,28 @@ public class Worker implements  Serializable{
 	private String lastName;
 	private String userName;
 	private String password;
+	private boolean isLoggedIn;
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "worker_id")
 	private Cinema cinema;
 
-	public Worker(String firstName, String lastName, String userName, String password,Cinema cinema) {
+	public Worker(String firstName, String lastName, String userName, String password,Cinema cinema,boolean isLoggedIn) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.userName = userName;
 		this.password = password;
 		this.cinema = cinema;
+		this.isLoggedIn = isLoggedIn;
 	}
 	public Worker() {}
 
+	public boolean isLoggedIn() {
+		return isLoggedIn;
+	}
+	public void setLoggedIn(boolean isLoggedIn) {
+		this.isLoggedIn = isLoggedIn;
+	}
 	public Cinema getCinema() {
 		return cinema;
 	}

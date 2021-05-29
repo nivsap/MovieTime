@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.Cinema;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 
@@ -49,6 +50,19 @@ public class MovieController {
 		}
 		return toReturnArrayList;
 	}
+	
+	
+	public static Movie getMovieByName(String name) {
+		ArrayList<Movie> movies = new ArrayList<>();
+		movies = Main.getAllOfType(Movie.class);
+		for(Movie movie : movies) {
+			if(movie.getName().equals(name)) {
+				return movie;
+			}
+		}
+		return null;
+	}
+	
 
 	public static List<Movie> MoviesByGener (String genre){
 		List<Movie> toReturn = new ArrayList<>();
@@ -99,6 +113,17 @@ public class MovieController {
 			}
 		}
 		return toReturnArrayList;
+	}
+	
+	
+	public static Cinema getCinemaByName(String name) {
+		List<Cinema> cinemas = Main.getAllOfType(Cinema.class);
+		for(Cinema cinema : cinemas) {
+			if(cinema.getName().equals(name)) {
+				return cinema;
+			}
+		}
+		return null;
 	}
 	
 }

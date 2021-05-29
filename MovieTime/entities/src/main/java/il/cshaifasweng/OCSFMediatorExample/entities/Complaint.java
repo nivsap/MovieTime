@@ -29,7 +29,7 @@ public class Complaint implements  Serializable {
 	private LocalDate incidentDate;
 	private String complaintTitle;
 	private String complaintDetails;
-	Boolean isOpen;
+	private Boolean isOpen;
 	private static String[] complaintTypes = { "Movie screening issues", "Viewing package issues", "Payment issues",
 									    	   "Dissatisfaction with customer support", "Other" };
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

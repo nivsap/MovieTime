@@ -7,17 +7,14 @@ public final class PurchaseTypes {
 	static final int NOT_AVAILABLE = 0;
 	
 	public static int getType(String pageName) {
-		if(pageName.equals("MainPage")) {
+		if(pageName.equals("MainPage")) 
 			return PurchaseTypes.TICKET;
-		}
 		
-		if(pageName.equals("ViewingPackages")) {
+		if(pageName.equals("ViewingPackages")) 
 			return PurchaseTypes.VIEWING_PACKAGE;
-		}
 		
-		if(pageName.equals("SubscriptionCards")) {
+		if(pageName.equals("SubscriptionCards")) 
 			return PurchaseTypes.SUBSCRIPTION_CARD;
-		}
 		
 		return PurchaseTypes.NOT_AVAILABLE;
 	}

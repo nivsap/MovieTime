@@ -87,8 +87,9 @@ public class OpenComplaintsController {
 						ScreeningCardController ctrl = fxmlLoader.getController();
 						System.out.println("end in card2");
 						string=complaint.getIncidentDate().toString();
-						//System.out.println("end in card3");
-						//ctrl.SetDataComplain(string, complaint.getFirstName()+complaint.getLastName(), complaint.getComplaintType(), complaint.getComplaintTitle(),complaint.getId());
+
+						//!!!!!!!!!!! need to decide which of the following 2 lines we keep !!!!!!!!!!!
+						ctrl.SetData(string, complaint.getFirstName(), complaint.getComplaintType(), complaint.getComplaintTitle(),0);
 						ctrl.SetDataComplain(complaint);
 
 						System.out.println("end in card4");

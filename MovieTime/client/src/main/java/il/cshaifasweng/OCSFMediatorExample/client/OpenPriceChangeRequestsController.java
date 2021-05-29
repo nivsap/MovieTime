@@ -62,6 +62,10 @@ public class OpenPriceChangeRequestsController {
 	void RequestHandlBtn(ActionEvent event) {
 		String date = DateField.getText();
 		String type = RequestField.getText();
+		if(date == "" && type == "" || date == " " && type == " ")
+		{
+			NoData.setVisible(true);
+		}
 		
 	}
 

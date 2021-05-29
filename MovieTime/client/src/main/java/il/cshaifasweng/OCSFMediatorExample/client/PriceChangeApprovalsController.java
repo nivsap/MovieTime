@@ -3,10 +3,14 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 import java.util.ResourceBundle;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.Message;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBase;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -73,16 +77,19 @@ public class PriceChangeApprovalsController {
 
 	@FXML
 	void PendReq(ActionEvent event) {
+		Message msg = new Message();
 
 	}
 
 	@FXML
 	void ShowApproveDenied(ActionEvent event) {
 
+
 	}
 
 	@FXML
 	void SubBtn(ActionEvent event) {
+		Message msg = new Message();
 
 	}
 
@@ -149,4 +156,17 @@ public class PriceChangeApprovalsController {
 		ShowTheNewPrice.setVisible(false);
 		DecisionTitle.setVisible(false);
 	}
+	
+    @Subscribe
+    public void onMessageEvene(Message msg){
+    	if(msg.getAction().equals("got purchase by id")) {
+    		Platform.runLater(() ->{
+
+    		});
+    	} 	   	
+    	if(msg.getAction().equals("got purchase cancelation by id")) {
+    		Platform.runLater(() ->{
+    		});
+    	} 
+    }
 }

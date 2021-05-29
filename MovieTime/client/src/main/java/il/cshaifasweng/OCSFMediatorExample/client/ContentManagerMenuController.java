@@ -19,12 +19,23 @@ public class ContentManagerMenuController {
     private Button updateViewingPackagesMenuBtn;
 
     @FXML
+    private Button addContentBtn;
+    
+    @FXML
     private Button logoutMenuBtn;
     
     @FXML
     void loadUpdateMovies(ActionEvent event) throws IOException {
     	App.setWindowTitle(PageTitles.UpdateMoviesPage);
     	App.setContent("UpdateMoviesPage");
+    }
+
+
+    @FXML
+    void loadAddContentePage(ActionEvent event) throws IOException {
+    	App.setWindowTitle(PageTitles.AddContentPage);
+    	AddContentPageController controller = (AddContentPageController) App.setContent("AddContentPage");
+    	controller.loadFileLoaderButtons();
     }
     
     @FXML

@@ -10,6 +10,8 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
 
 public class PurpleLimitController {
+	
+	
 	public static void SetPurpleLimit (LocalDateTime fromDate , LocalDateTime toDate) {
 		try {
 			ArrayList<Screening> allScreenings = Main.getAllOfType(Screening.class);
@@ -30,6 +32,8 @@ public class PurpleLimitController {
 			e.printStackTrace();
 		}
 	}
+	
+	
 	public static boolean CheckPurpleLimit (LocalDateTime date) {
 		ArrayList<Worker> workers = Main.getAllOfType(Worker.class);
 		for(Worker worker : workers) {
@@ -43,6 +47,8 @@ public class PurpleLimitController {
 		}
 		return false;
 	}
+	
+	
 	public static int[][] SetSeatsPurpleLimit(Screening screening , int numOfSeats) {
 	    int size = screening.getSeats().length * screening.getSeats()[0].length;
 	    int sumOfPeople = screening.getPurchases().size();

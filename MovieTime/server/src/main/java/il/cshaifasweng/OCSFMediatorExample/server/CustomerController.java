@@ -1,6 +1,7 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
@@ -55,5 +56,38 @@ public class CustomerController{
 			}
 		}
 		
+	}
+	public static int ReturnOnPurchase(Purchase purchase , LocalDateTime time) {
+		if(purchase.getCinemaTab().getKey() == true) {
+			return 0;
+		}
+		else if(purchase.isWatchFromHome()) {
+			if(time.getDayOfYear() < purchase.getPurchaseDate().getDayOfYear()) {
+				return purchase.getPayment();
+			}
+			else if(time.getDayOfYear() == purchase.getPurchaseDate().getDayOfYear()) {
+				if(purchase.getPurchaseDate().getHour()  > time.getHour() + 3) {
+					return purchase.getPayment()/2;
+				}
+				else if(purchase.getPurchaseDate().getHour()  == time.getHour() + 3 && time.getMinute() <= purchase.getPurchaseDate().getMinute()) {
+					return purchase.getPayment()/2;
+				}
+				else return 0;
+			}
+		}
+		else if(time.getDayOfYear() < purchase.getScreening().getDate_screen().getDayOfYear()) {
+			return purchase.getPayment();
+		}
+		else if(time.getDayOfYear() == purchase.getScreening().getDate_screen().getDayOfYear()) {
+			if(purchase.getPurchaseDate().getHour()  > time.getHour() + 3) {
+				return purchase.getPayment()/2;
+			}
+			else if(purchase.getPurchaseDate().getHour()  == time.getHour() + 3 && time.getMinute() <= purchase.getPurchaseDate().getMinute()) {
+				return purchase.getPayment()/2;
+			}
+			else return 0;
+		}
+
+		return 0;
 	}
 }

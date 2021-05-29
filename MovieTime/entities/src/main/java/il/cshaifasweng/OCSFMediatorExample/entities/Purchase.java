@@ -33,7 +33,7 @@ public class Purchase implements  Serializable{
 	private Pair<Boolean , Integer> cinemaTab;
 	private boolean watchFromHome;
 	private LocalDateTime purchaseDate;
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "cinema_id")
 	private Cinema cinema;
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -43,10 +43,13 @@ public class Purchase implements  Serializable{
 	private int payment;
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Complaint complaint;
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "screening_id")
+	private Screening screening;
 
 
 	public Purchase(String firstName, String lastName, String emailOrder, String cityString, String phoneString,
-			Pair<Boolean, Integer> cinemaTab , boolean watchFromHome , LocalDateTime purchaseDate,Cinema cinema , Hall hall ,List<Pair<Integer , Integer>> sitsList ,int payment,Complaint complaint) {
+			Pair<Boolean, Integer> cinemaTab , boolean watchFromHome , LocalDateTime purchaseDate,Cinema cinema , Hall hall ,List<Pair<Integer , Integer>> sitsList ,int payment,Complaint complaint, Screening screening) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -61,9 +64,16 @@ public class Purchase implements  Serializable{
 		//this.sitsList = new ArrayList<>();
 		this.payment = payment;
 		this.complaint = complaint;
+		this.screening = screening;
 	}
 	public Purchase() {}
 	
+	public Screening getScreening() {
+		return screening;
+	}
+	public void setScreening(Screening screening) {
+		this.screening = screening;
+	}
 	public Complaint getComplaint() {
 		return complaint;
 	}

@@ -84,11 +84,11 @@ public class Main extends AbstractServer {
 			session = sessionFactory.openSession();
 			session.beginTransaction();
 
-			Worker shirWorker = new BranchManager("shir", "shir", "shir", "shir", null);
-			Worker nivWorker = new BranchManager("niv", "niv", "niv", "niv", null);
-			Worker lielWorker = new ContentManager("liel", "liel", "liel", "liel", null);
-			Worker asafWorker = new CustomerService("asaf", "asaf", "asaf", "asaf", null, false);
-			Worker hadarWorker = new NetworkAdministrator("hadar", "hadar", "hadar", "hadar", null);
+			Worker shirWorker = new BranchManager("shir", "shir", "shir", "shir", false,null);
+			Worker nivWorker = new BranchManager("niv", "niv", "niv", "niv", false,null);
+			Worker lielWorker = new ContentManager("liel", "liel", "liel", "liel", null,false);
+			Worker asafWorker = new CustomerService("asaf", "asaf", "asaf", "asaf", null, false,true,new Pair<LocalDateTime, LocalDateTime>(getTime(2021,1, 1), getTime(2021,3, 4)));
+			Worker hadarWorker = new NetworkAdministrator("hadar", "hadar", "hadar", "hadar", null,false);
 
 			// create movie
 			ArrayList<String> movieStartTimes = new ArrayList<String>(
@@ -175,10 +175,14 @@ public class Main extends AbstractServer {
 			session.flush();
 
 			//creating whole data base to cinema,screening,Hall
-			Cinema haifaCinema = new Cinema("Haifa", "Haifa,Carmel st", (BranchManager)shirWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>(),40,20,0.8);
-			Cinema telAvivCinema = new Cinema("Tel-Aviv", "Tel-Aviv,Wieztman st", (BranchManager)nivWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>(),45,20,0.9);
+			Cinema haifaCinema = new Cinema("Haifa", "Haifa,Carmel st", (BranchManager)shirWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>(),40,20,0.8,new ArrayList<>());
+			Cinema telAvivCinema = new Cinema("Tel-Aviv", "Tel-Aviv,Wieztman st", (BranchManager)nivWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>(),45,20,0.9,new ArrayList<>());
 			shirWorker.setCinema(haifaCinema);
 			nivWorker.setCinema(telAvivCinema);
+			haifaCinema.getWorkerArray().add(asafWorker);
+			telAvivCinema.getWorkerArray().add(asafWorker);
+			haifaCinema.getWorkerArray().add(lielWorker);
+			telAvivCinema.getWorkerArray().add(lielWorker);
 
 			// Integer[][] planeArray1 = new Integer[3][5];
 
@@ -187,28 +191,28 @@ public class Main extends AbstractServer {
 			Hall hall3 = new Hall(7, 5, new ArrayList<>(), telAvivCinema, new ArrayList<>());
 			Hall hall4 = new Hall(2, 5, new ArrayList<>(), telAvivCinema, new ArrayList<>());
 
-			Screening screeningOfFilm_1 = new Screening(getExacTime(2021, 5, 25, 16, 00), hall1, avengersEndgame,
-					haifaCinema);
+			Screening screeningOfFilm_1 = new Screening(getTime(2021, 2, 3), hall1, avengersEndgame,
+					haifaCinema,new ArrayList<>());
 			Screening screeningOfFilm_2 = new Screening(getExacTime(2021, 5, 25, 20, 00), hall1, sherlockHolmes,
-					haifaCinema);
+					haifaCinema,new ArrayList<>());
 			Screening screeningOfFilm_3 = new Screening(getExacTime(2021, 5, 26, 20, 00), hall2, sherlockHolmes,
-					haifaCinema);
+					haifaCinema,new ArrayList<>());
 			Screening screeningOfFilm_4 = new Screening(getExacTime(2021, 5, 27, 20, 00), hall2, babyDriver,
-					haifaCinema);
+					haifaCinema,new ArrayList<>());
 			Screening screeningOfFilm_9 = new Screening(getExacTime(2021, 5, 27, 20, 30), hall2, sherlockHolmes,
-					haifaCinema);
+					haifaCinema,new ArrayList<>());
 			Screening screeningOfFilm_10 = new Screening(getExacTime(2021, 5, 27, 20, 30), hall1, wonderWoman1984,
-					haifaCinema);
+					haifaCinema,new ArrayList<>());
 			Screening screeningOfFilm_5 = new Screening(getExacTime(2021, 5, 26, 20, 00), hall3, wonderWoman1984,
-					telAvivCinema);
-			Screening screeningOfFilm_6 = new Screening(getExacTime(2021, 5, 27, 20, 00), hall3, it, telAvivCinema);
+					telAvivCinema,new ArrayList<>());
+			Screening screeningOfFilm_6 = new Screening(getExacTime(2021, 5, 27, 20, 00), hall3, it, telAvivCinema,new ArrayList<>());
 			Screening screeningOfFilm_7 = new Screening(getExacTime(2021, 5, 28, 13, 30), hall4, toyStory,
-					telAvivCinema);
+					telAvivCinema,new ArrayList<>());
 			Screening screeningOfFilm_8 = new Screening(getExacTime(2021, 5, 28, 20, 00), hall4, Minions,
-					telAvivCinema);
+					telAvivCinema,new ArrayList<>());
 			Screening screeningOfFilm_11 = new Screening(getExacTime(2021, 5, 28, 10, 15), hall4, Minions,
-					telAvivCinema);
-			Screening screeningOfFilm_12 = new Screening(getExacTime(2021, 5, 28, 10, 15), hall3, it, telAvivCinema);
+					telAvivCinema,new ArrayList<>());
+			Screening screeningOfFilm_12 = new Screening(getExacTime(2021, 5, 28, 10, 15), hall3, it, telAvivCinema,new ArrayList<>());
 
 			hall1.getScreeningArray().add(screeningOfFilm_1);
 			hall1.getScreeningArray().add(screeningOfFilm_2);
@@ -238,7 +242,10 @@ public class Main extends AbstractServer {
 			telAvivCinema.getScreeningArray().add(screeningOfFilm_11);
 			telAvivCinema.getScreeningArray().add(screeningOfFilm_12);
 			telAvivCinema.setHallArray(new ArrayList<Hall>(Arrays.asList(hall3,hall4)));
-
+			Purchase customer = new Purchase("Hadar", "Manor", "nivsap@gmail.com", "Some details", "12312312",
+					new Pair<Boolean, Integer>(true, 20), false, getTime(2021, 2, 3), haifaCinema, hall1, new ArrayList<>(), 10, null,screeningOfFilm_1);
+			//screeningOfFilm_1.getPurchases().add(customer);
+			session.save(customer);
 			session.save(screeningOfFilm_1);
 			session.save(screeningOfFilm_2);
 			session.save(screeningOfFilm_3);
@@ -270,13 +277,12 @@ public class Main extends AbstractServer {
 					"I want to finish this project", true, null, true);
 			Complaint someComplaint2 = new Complaint("Niv", "Sapir", "I want to complain", "I am very upset", true,
 					null, true);
-			Complaint someComplaint3 = new Complaint("Hadar", "Manor", "Some title", "Some details", false, null, true);
-			Purchase customer = new Purchase("Hadar", "Manor", "Some title", "Some details", "12312312",
-					new Pair<Boolean, Integer>(true, 20), false, null, null, null, new ArrayList<>(), 10, null);
+			Complaint someComplaint3 = new Complaint("Hadar", "Manor", "nivsap@gmail.com", "Some details", false, null, true);
+		
 
 			Purchase customer2 = new Purchase("Alon", "Latman", "Some title", "Some details", "123456789",
-					new Pair<Boolean, Integer>(true, 20), false, null, null, null, new ArrayList<>(), 10, null);
-			session.save(customer);
+					new Pair<Boolean, Integer>(true, 20), false, null, haifaCinema, null, new ArrayList<>(), 10, null,null);
+			//session.save(customer);
 			session.save(customer2);
 			session.save(someComplaint1);
 			session.save(someComplaint2);
@@ -310,6 +316,14 @@ public class Main extends AbstractServer {
 			System.out.println("hello server");
 		}
 		addDataToDB();
+//		ArrayList<Worker> lol= getAllOfType(Worker.class);
+//		for(Worker worker : lol) {
+//			if(worker instanceof CustomerService) {
+//				worker = (CustomerService)worker;
+//				PurpleLimitController.SetPurpleLimit(((CustomerService) worker).getDatesOfPurpleLimit().getKey(), ((CustomerService) worker).getDatesOfPurpleLimit().getValue());
+//			}
+//		}
+//		PurpleLimitController.SetPurpleLimit(getTime(2021,1, 1), getTime(2021,3, 4));
 		//saveRowInDB(new Screening(LocalDateTime.now(), new Hall(), new Movie(), new Cinema()));
 
 	}
@@ -459,7 +473,7 @@ public class Main extends AbstractServer {
 
 			System.out.println("about to update movie time");
 			Screening newScreening = new Screening(currentMsg.getDateMovie(),ScreeningController.getHallById(currentMsg.getHallId()),
-					MovieController.getMovieByName(currentMsg.getMovieName()), MovieController.getCinemaByName(currentMsg.getCinemaName()));
+					MovieController.getMovieByName(currentMsg.getMovieName()), MovieController.getCinemaByName(currentMsg.getCinemaName()),null);
 			
 			
 			if(currentMsg.getDbAction().equals("removal")) {
@@ -583,7 +597,6 @@ public class Main extends AbstractServer {
 				System.out.println("cant screening for movie");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-
 			}
 		}
 		if(currentMsg.getAction().equals("pull soon movies")) {
@@ -732,7 +745,7 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}*/
-
+		
 		if(currentMsg.getAction().equals("save customer")) { // save ticket // save customer
 			try {
 
@@ -853,6 +866,35 @@ public class Main extends AbstractServer {
 			}
 			catch (IOException e) {
 				System.out.println("cant get status complaints monthly");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("add movie")) {
+			try {
+				serverMsg = currentMsg;
+				saveRowInDB(serverMsg.getMovie());
+				serverMsg.setAction("added movie");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant add movie");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("set purple limit")) {
+			try {
+				serverMsg = currentMsg;
+				((CustomerService)serverMsg.getWorker()).setPurpleLimit(true);
+				updateRowDB(serverMsg.getWorker());
+				Worker worker = serverMsg.getWorker();
+				PurpleLimitController.SetPurpleLimit(((CustomerService) worker).getDatesOfPurpleLimit().getKey(), ((CustomerService) worker).getDatesOfPurpleLimit().getValue());
+				serverMsg.setAction("added movie");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant add movie");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

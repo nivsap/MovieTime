@@ -23,9 +23,8 @@ public class BranchManager extends Worker implements  Serializable{
 	private Cinema cinema;
 	 public BranchManager() {
 	    }
-	public BranchManager(String firstName, String lastName, String userName, String password,Cinema cinema) {
-		super(firstName, lastName, userName, password,cinema);
-		this.cinema = cinema;
+	public BranchManager(String firstName, String lastName, String userName, String password,boolean isLoggedIn ,Cinema cinema) {
+		super(firstName, lastName, userName, password,cinema,isLoggedIn);
 	}
 	public int getId() {
 		return id;

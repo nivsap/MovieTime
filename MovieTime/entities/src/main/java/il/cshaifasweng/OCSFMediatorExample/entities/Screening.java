@@ -2,7 +2,9 @@ package il.cshaifasweng.OCSFMediatorExample.entities;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 @Entity
@@ -34,9 +37,11 @@ public class Screening implements  Serializable{
 	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "cinema_id")
 	private Cinema cinema;
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "screening")
+	private List<Purchase> purchases;
 	
 	
-	public Screening(LocalDateTime date_screen, Hall hall, Movie movie, Cinema cinema) {
+	public Screening(LocalDateTime date_screen, Hall hall, Movie movie, Cinema cinema,List<Purchase> purchases) {
 		super();
 		this.date_screen = date_screen;
 		this.hall = hall;
@@ -45,15 +50,40 @@ public class Screening implements  Serializable{
 		this.seats = new int[hall.getRows()][hall.getCols()];
 		for(int i = 0 ; i < hall.getRows(); i++) {
 			for(int j = 0 ; j < hall.getCols() ; j++) {
-				seats[i][j] = 0;
+				this.seats[i][j] = 0;
 			}
 		}
+		this.purchases = new ArrayList<Purchase>();
 	}
 	
 	
 	
 	public Screening() {}
-	
+	public void initSeats () {
+		for(int i = 0 ; i < hall.getRows(); i++) {
+			for(int j = 0 ; j < hall.getCols() ; j++) {
+				this.seats[i][j] = 0;
+			}
+		}
+	}
+	public List<Purchase> getPurchases() {
+		return purchases;
+	}
+
+
+
+	public void setPurchases(List<Purchase> purchases) {
+		this.purchases = purchases;
+	}
+
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+
 	public Cinema getCinema() {
 		return cinema;
 	}

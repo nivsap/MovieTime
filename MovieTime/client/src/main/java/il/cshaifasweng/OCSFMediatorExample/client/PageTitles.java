@@ -13,4 +13,8 @@ public final class PageTitles {
 	static final String ViewingPackages = "Viewing Packages";
 	static final String OpenComplaintsPage = "Open Complaints";
 	static final String AddContentPage = "Add Content";
+
+	static final String ComplaintHandeling = "Complaint Handeling";
+
+
 }

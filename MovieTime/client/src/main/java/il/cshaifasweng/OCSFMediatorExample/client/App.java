@@ -3,6 +3,8 @@ package il.cshaifasweng.OCSFMediatorExample.client; // should be View package
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -21,7 +23,7 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 
 public class App extends Application {
-    
+    private static List<Object> registeredList = new ArrayList<Object>();  
     private static Scene scene;
     private static Stage stage;
     @FXML
@@ -34,7 +36,7 @@ public class App extends Application {
     
     @Override
     public void start(Stage primaryStage) throws IOException {
-    	EventBus.getDefault().register(this);
+    	
     	stage = primaryStage;
     	client = AppClient.getClient();
     	client.openConnection();
@@ -51,6 +53,7 @@ public class App extends Application {
     	setWindowTitle(PageTitles.MainPage);
         scene = new Scene(pageLayout, 900, 700);
         stage.setScene(scene);
+        
         stage.show();
 
 		 /* For Connection Page:
@@ -94,8 +97,8 @@ public class App extends Application {
     }
     
     static void setBarAndGridLayout(String pageName) throws IOException {
-	    if(content != null)
-	    	content.getChildren().clear();
+    	if(content != null)
+    		content.getChildren().clear();
 	    BarAndGridLayoutController controller = new BarAndGridLayoutController();
 	    controller.setBarAndGrid(pageName);
 	    content.getChildren().setAll(controller.getTopBar(),controller.getCardContainer());

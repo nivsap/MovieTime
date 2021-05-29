@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -274,17 +275,20 @@ public class Main extends AbstractServer {
 			session.save(haifaCinema);
 			session.save(telAvivCinema);
 
-			Complaint someComplaint1 = new Complaint("Shir", "Avneri", "I'm very upset",
-					"I want to finish this project", true, null, true);
-			Complaint someComplaint2 = new Complaint("Niv", "Sapir", "I want to complain", "I am very upset", true,
-					null, true);
-			Complaint someComplaint3 = new Complaint("Hadar", "Manor", "nivsap@gmail.com", "Some details", false, null, true);
-		
+
 
 			Purchase customer2 = new Purchase("Alon", "Latman", "Some title", "Some details", "123456789",
 					new Pair<Boolean, Integer>(true, 20), false, null, haifaCinema, null, new ArrayList<>(), 10, null,null);
 			//session.save(customer);
 			session.save(customer2);
+
+		    LocalDate date = LocalDate.of(2017, 1, 13);  
+
+			Complaint someComplaint1 = new Complaint("Shir", "Avneri", "I'm very upset", "I want to finish this project", true,date,true,Complaint.getComplaintTypes()[0]);
+			Complaint someComplaint2 = new Complaint("Niv", "Sapir", "I want to complain", "I am very upset", true,date,true,Complaint.getComplaintTypes()[1]);
+			Complaint someComplaint3 = new Complaint("Hadar", "Manor", "Some title", "Some details" ,false,date,true,Complaint.getComplaintTypes()[2]);
+			//Purchase customer = new Purchase("Hadar", "Manor", "Some title", "Some details" , "12312312",new Pair<Boolean, Integer>(true, 20),false,null,null,null,new ArrayList<>(),10,null);
+			//session.save(customer);
 			session.save(someComplaint1);
 			session.save(someComplaint2);
 			session.save(someComplaint3);
@@ -763,7 +767,8 @@ public class Main extends AbstractServer {
 				serverMsg.setComplaints((ArrayList<Complaint>) CustomerController.getAllCurrentComplaints());
 				System.out.println("in the func handleMessageFromClient");
 				serverMsg.setAction("got complaints");
-				for (Complaint model : serverMsg.getComplaints()) {
+	            System.out.println(serverMsg.getComplaints().toString());
+				/*for (Complaint model : serverMsg.getComplaints()) {
 		            System.out.println(model.getFirstName());
 		        }
 				client.sendToClient(serverMsg);
@@ -790,11 +795,13 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		if(currentMsg.getAction().equals("get purchase by id")) {
+		
+		/*if(currentMsg.getAction().equals("get purchase by id")) {
 			try {
 				serverMsg = currentMsg;
 				System.out.println("server msg is " + serverMsg.getId());
 				serverMsg.setPurchase(CustomerController.getID(serverMsg.getId()));
+				serverMsg.setPayment(CustomerController.ReturnOnPurchase(serverMsg.getPurchase(), LocalDateTime.now()));
 				serverMsg.setAction("got purchase by id");
 				client.sendToClient(serverMsg);
 			}
@@ -803,7 +810,8 @@ public class Main extends AbstractServer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+		}*/
+		
 		if(currentMsg.getAction().equals("get report ticket")) {
 			try {
 				serverMsg = currentMsg;
@@ -863,7 +871,7 @@ public class Main extends AbstractServer {
 		if(currentMsg.getAction().equals("send successful purchase mail")) {
 			try {
 				serverMsg = currentMsg;
-				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Thank you for your purchase at The Sirtiya!", serverMsg.getEmailMessage());
+				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Customer Of The Sirtiya", serverMsg.getEmailMessage());
 				serverMsg.setAction("sent successful purchase mail");
 				client.sendToClient(serverMsg);
 			}
@@ -912,6 +920,34 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		if(currentMsg.getAction().equals("deleted movie")) {
+			try {
+				serverMsg = currentMsg;
+				deleteRowInDB(serverMsg.getMovie());
+				serverMsg.setAction("deleted movie");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant deleted movie");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("delete a viewing package")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.getMovie().setStreamOnline(false);
+				updateRowDB(serverMsg.getMovie());
+				serverMsg.setAction("deleted a viewing package");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant deleted movie");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		if(currentMsg.getAction().equals("set purple limit")) {
 			try {
 				serverMsg = currentMsg;
@@ -986,10 +1022,51 @@ public class Main extends AbstractServer {
 			}
 			catch (IOException e) {
 				System.out.println("cant add movie");
+			}
+		}
+		
+		if(currentMsg.getAction().equals("cancellation of purchase")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.getPurchase().getCinema().getCancelPurchases().add(serverMsg.getPurchase());
+				updateRowDB(serverMsg.getPurchase());
+				updateRowDB(serverMsg.getPurchase().getCinema());
+				serverMsg.setAction("deleted a viewing package");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant cancellation of purchase");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+		if(currentMsg.getAction().equals("check purple limit")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.setStatus(PurpleLimitController.CheckPurpleLimit(serverMsg.getDateMovie()));
+				serverMsg.setAction("done check purple limit");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant check purple limit");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		/*if(currentMsg.getAction().equals("selection of seats under restrictions")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.setSeats(PurpleLimitController.SetSeatsPurpleLimit(serverMsg.getScreening(), serverMsg.getNumOfSeats()));
+				serverMsg.setAction("done selection of seats under restrictions");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant selection of seats under restrictions");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}*/
 	}
 
 	public static void updateMovie(String movieName, String time, String action, ConnectionToClient client) {

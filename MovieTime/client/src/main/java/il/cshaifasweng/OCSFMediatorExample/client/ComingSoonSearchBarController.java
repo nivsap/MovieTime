@@ -49,6 +49,7 @@ public class ComingSoonSearchBarController {
 	public void onMessageEvent(Message msg) {
     	if(msg.getAction().equals("got genre screening movies")) {
 		Platform.runLater(()-> {
+			EventBus.getDefault().unregister(this);
 			System.out.println(Arrays.toString(msg.genreArray));
 			currentType=new String[msg.genreArray.length];
 			currentType=msg.genreArray; });	

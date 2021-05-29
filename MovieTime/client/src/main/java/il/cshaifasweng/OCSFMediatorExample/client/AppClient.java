@@ -112,6 +112,7 @@ public class AppClient extends AbstractClient {
 		}
 		if(currentMsg.getAction().equals("save customer done")) {
 			EventBus.getDefault().post(((Message) msg));
+
 		}
 	    if(currentMsg.getAction().equals("sent successful purchase mail")) {
 	    		EventBus.getDefault().post(((Message) msg));
@@ -124,6 +125,7 @@ public class AppClient extends AbstractClient {
     	}
     	
     	if(currentMsg.getAction().equals("got purchase cancelation by id")) {
+
     		EventBus.getDefault().post(((Message) msg));
     	}
 		

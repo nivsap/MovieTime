@@ -32,14 +32,19 @@ public class BarAndGridLayoutController {
 		if(namePage.equals("ViewingPackagesPage")) {
 	    	barFXMLLoader.setLocation(getClass().getResource("SearchBar.fxml"));
 		}
-		
-		
+
+		if(namePage.equals("NetworkAdministratorMainPage")) {
+	    	barFXMLLoader.setLocation(getClass().getResource("SearchBar.fxml"));
+		}
+		if(namePage.equals("BranchManagerMainPage")) {
+	    	barFXMLLoader.setLocation(getClass().getResource("SearchBar.fxml"));
+		}
 		barContainer = barFXMLLoader.load();
 		gridFXMLLoader.setLocation(getClass().getResource("CardContainer.fxml"));
 		gridContainer = gridFXMLLoader.load();
 		gridController = gridFXMLLoader.getController();
 		gridController.setPurchaseType(PurchaseTypes.getType(namePage));
-		gridController.sendMsgToServer(namePage);
+		gridController.sendMessageToServer(namePage);
 	}
 	
 	public VBox getTopBar() {

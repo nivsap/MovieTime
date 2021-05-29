@@ -5,9 +5,10 @@ import java.time.LocalDate;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import java.time.LocalDate;
+
 import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
+
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -75,7 +76,6 @@ public class FilingComplaintsPageController  {
     @FXML
     void initialize() {
     	System.out.println("initializing FilingComplaintsPage");
-		EventBus.getDefault().register(this);
 
         assert firstNameTextField != null : "fx:id=\"firstNameTextField\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
         assert firstNameWarningLabel != null : "fx:id=\"firstNameWarningLabel\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
@@ -163,8 +163,13 @@ public class FilingComplaintsPageController  {
     		complaintDetailsWarningLabel.setVisible(true);
     		return;
     	}
+    	
     	newComplaint = new Complaint(firstName, lastName, email, phoneNumber, complaintType, incidentDate, complaintTitle, complaintDetails, true,null,true);
-    	System.out.println("trying to add a complaint from FilingComplaintsPage");
+    	sendMessageToServer(newComplaint);
+    }
+    
+    public void sendMessageToServer(Complaint newComplaint) {
+    	EventBus.getDefault().register(this);
     	Message msg = new Message();
 		msg.setComplaint(newComplaint);
 		msg.setAction("add a complaint");
@@ -182,6 +187,7 @@ public class FilingComplaintsPageController  {
     	if(msg.getAction().equals("added a complaint")) {
         	Platform.runLater(()-> {
     			try {
+    				EventBus.getDefault().unregister(this);
     				App.setWindowTitle("Thank you");
     				ComplaintAddedPageController controller = (ComplaintAddedPageController) App.setContent("ComplaintAddedPage");
     	    		controller.setData(newComplaint);

@@ -80,7 +80,7 @@ public class MovieInfoPageController {
     private Button orderTicketBtn;
     
     void InitPageInfo(Movie movie) {
-    	EventBus.getDefault().register(this);
+    	
     	purchaseType = PurchaseTypes.TICKET;
     	movieDescription.setWrapText(true);
     	currentlyDisplayed = movie;
@@ -104,6 +104,7 @@ public class MovieInfoPageController {
     }
     
     private void getCinemas(int id) {
+    	EventBus.getDefault().register(this);
     	Message msg = new Message();
     	msg.setAction("cinema contained movies");
     	msg.setMovieId(id);
@@ -125,6 +126,7 @@ public class MovieInfoPageController {
     
     @Subscribe 
     public void onMessageEvent(Message msg){
+    	EventBus.getDefault().unregister(this);
     	if(msg.getAction().equals("cinema contained movies done")) {
     		Platform.runLater(()-> {
 	    		cinemaCombo.getItems().clear();

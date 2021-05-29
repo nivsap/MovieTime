@@ -22,7 +22,8 @@ import org.greenrobot.eventbus.Subscribe;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 
-public class MainPageController implements Initializable {
+public class MainPageController {
+	// We don't use this controller, it is just for reference
 	int NUM_ROWS = 2, NUM_COLS = 3, currentlyDisplayedFrom = 0, moviesNumber = 0;
     
 	@FXML
@@ -71,9 +72,9 @@ public class MainPageController implements Initializable {
 		moviesNumber = 0;
 	}
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		System.out.println("initializing main page");
+	@FXML
+	public void initialize() {
+
 		EventBus.getDefault().register(this);
 		Message msg = new Message();
 		msg.setAction("pull screening movies");
@@ -114,7 +115,7 @@ public class MainPageController implements Initializable {
 					fxmlLoader.setLocation(getClass().getResource("card.fxml"));
 					Button cardBox = fxmlLoader.load();
 					CardController cardController = fxmlLoader.getController();
-					cardController.SetData(recentlyAdded.get(index));
+					cardController.SetData(recentlyAdded.get(index), false);
 					movieContainer.add(cardBox, j, i);
 					index++;
                }
@@ -145,6 +146,7 @@ public class MainPageController implements Initializable {
 		System.out.println(msg.getAction());
     	if(msg.getAction().equals("got screening movies")) {
     		Platform.runLater(()-> {
+    			EventBus.getDefault().unregister(this);
     			recentlyAdded = msg.getMovies();
     			moviesNumber = recentlyAdded.size();
     			currentlyDisplayedFrom = 0;

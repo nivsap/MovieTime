@@ -25,7 +25,7 @@
             </Button>
             <Button fx:id="ComplaintsHandlingMenuBtn" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="2.0" layoutY="270.0" mnemonicParsing="false" onAction="#loadComplaint" prefHeight="52.0" prefWidth="195.0" styleClass="menuButton" stylesheets="@style.css" text="Complaints Handling" textFill="WHITE">
                <graphic>
-                  <ImageView fitHeight="30.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="30.0" fitWidth="47.0" onDragDetected="#loadComplaint" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/ComplaintIconWhite.png" />
                      </image>

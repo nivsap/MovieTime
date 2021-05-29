@@ -316,14 +316,14 @@ public class Main extends AbstractServer {
 			System.out.println("hello server");
 		}
 		addDataToDB();
-		ArrayList<Worker> lol= getAllOfType(Worker.class);
-		for(Worker worker : lol) {
-			if(worker instanceof CustomerService) {
-				worker = (CustomerService)worker;
-				PurpleLimitController.SetPurpleLimit(((CustomerService) worker).getDatesOfPurpleLimit().getKey(), ((CustomerService) worker).getDatesOfPurpleLimit().getValue());
-			}
-		}
-		PurpleLimitController.SetPurpleLimit(getTime(2021,1, 1), getTime(2021,3, 4));
+//		ArrayList<Worker> lol= getAllOfType(Worker.class);
+//		for(Worker worker : lol) {
+//			if(worker instanceof CustomerService) {
+//				worker = (CustomerService)worker;
+//				PurpleLimitController.SetPurpleLimit(((CustomerService) worker).getDatesOfPurpleLimit().getKey(), ((CustomerService) worker).getDatesOfPurpleLimit().getValue());
+//			}
+//		}
+//		PurpleLimitController.SetPurpleLimit(getTime(2021,1, 1), getTime(2021,3, 4));
 		//saveRowInDB(new Screening(LocalDateTime.now(), new Hall(), new Movie(), new Cinema()));
 
 	}

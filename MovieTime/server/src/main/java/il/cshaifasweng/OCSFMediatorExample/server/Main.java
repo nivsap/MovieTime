@@ -766,6 +766,7 @@ public class Main extends AbstractServer {
 				serverMsg = currentMsg;
 				System.out.println("server msg is " + serverMsg.getId());
 				serverMsg.setPurchase(CustomerController.getID(serverMsg.getId()));
+				serverMsg.setPayment(CustomerController.ReturnOnPurchase(serverMsg.getPurchase(), LocalDateTime.now()));
 				serverMsg.setAction("got purchase by id");
 				client.sendToClient(serverMsg);
 			}
@@ -896,6 +897,21 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		if(currentMsg.getAction().equals("delete a viewing package")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.getMovie().setStreamOnline(false);
+				updateRowDB(serverMsg.getMovie());
+				serverMsg.setAction("deleted a viewing package");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant deleted movie");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		if(currentMsg.getAction().equals("set purple limit")) {
 			try {
 				serverMsg = currentMsg;
@@ -908,6 +924,47 @@ public class Main extends AbstractServer {
 			}
 			catch (IOException e) {
 				System.out.println("cant add movie");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("cancellation of purchase")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.getPurchase().getCinema().getCancelPurchases().add(serverMsg.getPurchase());
+				updateRowDB(serverMsg.getPurchase());
+				updateRowDB(serverMsg.getPurchase().getCinema());
+				serverMsg.setAction("deleted a viewing package");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant cancellation of purchase");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("check purple limit")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.setStatus(PurpleLimitController.CheckPurpleLimit(serverMsg.getDateMovie()));
+				serverMsg.setAction("done check purple limit");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant check purple limit");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("selection of seats under restrictions")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.setSeats(PurpleLimitController.SetSeatsPurpleLimit(serverMsg.getScreening(), serverMsg.getNumOfSeats()));
+				serverMsg.setAction("done selection of seats under restrictions");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant selection of seats under restrictions");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

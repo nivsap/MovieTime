@@ -868,19 +868,7 @@ public class Main extends AbstractServer {
 			}
 		}
 
-		if(currentMsg.getAction().equals("send successful purchase mail")) {
-			try {
-				serverMsg = currentMsg;
-				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Customer Of The Sirtiya", serverMsg.getEmailMessage());
-				serverMsg.setAction("sent successful purchase mail");
-				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
-				System.out.println("cant get status complaints monthly");
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+		
 		if(currentMsg.getAction().equals("send successful purchase mail")) {
 			try {
 				serverMsg = currentMsg;
@@ -1054,7 +1042,7 @@ public class Main extends AbstractServer {
 			}
 		}
 		
-		/*if(currentMsg.getAction().equals("selection of seats under restrictions")) {
+		if(currentMsg.getAction().equals("selection of seats under restrictions")) {
 			try {
 				serverMsg = currentMsg;
 				serverMsg.setSeats(PurpleLimitController.SetSeatsPurpleLimit(serverMsg.getScreening(), serverMsg.getNumOfSeats()));
@@ -1066,7 +1054,7 @@ public class Main extends AbstractServer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}*/
+		}
 	}
 
 	public static void updateMovie(String movieName, String time, String action, ConnectionToClient client) {

@@ -883,6 +883,19 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		if(currentMsg.getAction().equals("deleted movie")) {
+			try {
+				serverMsg = currentMsg;
+				deleteRowInDB(serverMsg.getMovie());
+				serverMsg.setAction("deleted movie");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant deleted movie");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		if(currentMsg.getAction().equals("set purple limit")) {
 			try {
 				serverMsg = currentMsg;

@@ -128,7 +128,28 @@ public class AppClient extends AbstractClient {
 
     		EventBus.getDefault().post(((Message) msg));
     	}
-		
+    	if(currentMsg.getAction().equals("added movie")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	} 	
+     	if(currentMsg.getAction().equals("movie deleted")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	}
+     	if(currentMsg.getAction().equals("done selection of seats under restrictions")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	} 	
+    	if(currentMsg.getAction().equals("check purple limit")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	} 	
+    	if(currentMsg.getAction().equals("delete a viewing package")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	} 	
+    	if(currentMsg.getAction().equals("set purple limit")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	} 
+    	if(currentMsg.getAction().equals("cancellation of purchase")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	} 
+  
 	}
 	@Override
 	protected void connectionEstablished() {

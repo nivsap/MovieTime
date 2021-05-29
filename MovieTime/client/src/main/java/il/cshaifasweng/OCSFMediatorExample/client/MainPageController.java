@@ -15,12 +15,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
+import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 
 public class MainPageController {
 	// We don't use this controller, it is just for reference
@@ -53,19 +56,12 @@ public class MainPageController {
     @FXML
     private VBox cell6;
 
-    @FXML
-    private ComboBox<String> cb_genere;
-
-    @FXML
-    private ComboBox<String> cb_theatre;
-
-    @FXML
-    private ComboBox<String> cb_type;
-    
+  
     @FXML
     private Button loadMoreBtn;
 
 	private List<Movie> recentlyAdded;
+	private List<Movie> filteredMovies;
 	
 	public MainPageController() {
 		currentlyDisplayedFrom = 0;
@@ -89,14 +85,16 @@ public class MainPageController {
 		
 	}
 	
+	
+	//public void setMenuController()
+	
 	public void InitializeCB() {
-		cb_genere.getItems().clear();
-		cb_type.getItems().clear();
-		cb_theatre.getItems().clear();
+
 	}
 
-	public void SetMovies(int displayFrom) {
-
+	public void SetMovies(int displayFrom, List<Movie> movies) {
+		System.out.println("recentlyAdded.size() = " + movies.size());
+		movieContainer.getChildren().clear();
     	int index;
 		if(moviesNumber < NUM_ROWS * NUM_COLS) 
 			index = 0;
@@ -116,6 +114,7 @@ public class MainPageController {
 					Button cardBox = fxmlLoader.load();
 					CardController cardController = fxmlLoader.getController();
 					cardController.SetData(recentlyAdded.get(index), false);
+
 					movieContainer.add(cardBox, j, i);
 					index++;
                }
@@ -137,28 +136,43 @@ public class MainPageController {
     		currentlyDisplayedFrom = nextIndex - moviesNumber;
     	else
     		currentlyDisplayedFrom = nextIndex;
-    	SetMovies(currentlyDisplayedFrom);
+    	SetMovies(currentlyDisplayedFrom, filteredMovies);
     }
 
 	@Subscribe
 	public void onMessageEvent(Message msg) {
-		System.out.println("reveived message!!");
-		System.out.println(msg.getAction());
+		
+		
     	if(msg.getAction().equals("got screening movies")) {
     		Platform.runLater(()-> {
     			EventBus.getDefault().unregister(this);
     			recentlyAdded = msg.getMovies();
+    			
+    			filteredMovies = recentlyAdded;
     			moviesNumber = recentlyAdded.size();
     			currentlyDisplayedFrom = 0;
-    			SetMovies(currentlyDisplayedFrom);
+    			SetMovies(currentlyDisplayedFrom,recentlyAdded);
     		});
+    		
     	}
+		/*
+		 * if(msg.getAction().equals("search bar update")) { filteredMovies =
+		 * recentlyAdded;
+		 * 
+		 * if(msg.getTheater() != null) {
+		 * 
+		 * Iterator<Movie> iter = filteredMovies.iterator(); while (iter.hasNext()) {
+		 * Movie movie = iter.next(); if () iter.remove(); } }
+		 */	
+    		
+    	//}
 	}
 
 
 	@FXML
 	private void sendData(ActionEvent event)
 	{
+		
 		FXMLLoader Loader = new FXMLLoader();
 		Loader.setLocation(getClass().getResource("UpdateMoviesPage.fxml"));
 		try {

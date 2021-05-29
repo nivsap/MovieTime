@@ -27,7 +27,7 @@ public class CustomerController{
 
 		return toReturnArrayList;
 	}
-\	
+
 	public static Purchase getID(String name) {
 		//Customer customer = null;
 		ArrayList<Purchase> customerList = Main.getAllOfType(Purchase.class);

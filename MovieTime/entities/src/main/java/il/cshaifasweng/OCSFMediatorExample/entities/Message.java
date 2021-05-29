@@ -24,7 +24,10 @@ public class Message implements Serializable {
 	String emailMessage;
 	String customerEmail;
 	String cinemaName;
-
+	String genere;
+	String theater;
+	String rate;
+	String search;
 	String id;
 	int movieId;            				//clientSide need to fill/set is field when send msg to server
 	int cinemaId;           				//clientSide need to fill/set is field when send msg to server
@@ -491,6 +494,40 @@ public class Message implements Serializable {
 
 	public void setCinemaName(String cinemaName) {
 		this.cinemaName = cinemaName;
+	}
+
+	public String getGenere() {
+		return genere;
+	}
+
+	public void setGenere(String genere) {
+		this.genere = genere;
+	}
+
+
+
+	public String getRate() {
+		return rate;
+	}
+
+	public void setRate(String rate) {
+		this.rate = rate;
+	}
+
+	public String getTheater() {
+		return theater;
+	}
+
+	public void setTheater(String theater) {
+		this.theater = theater;
+	}
+
+	public String getSearch() {
+		return search;
+	}
+
+	public void setSearch(String search) {
+		this.search = search;
 	}
 }
 

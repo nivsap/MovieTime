@@ -167,9 +167,7 @@ public class PaymentPageController {
 		watchFromHome = false;
 		subscriptionCard = new Pair<Boolean,Integer>(false,0);
         paymentLabel.setText(Double.toString(seats.size() * screening.getCinema().getMoviePrice()));
-
- 
-    	
+   	
     }
     
     public void setInfoSubscription(int type, double price) {
@@ -198,8 +196,7 @@ public class PaymentPageController {
 		order += "Total price: " + paymentLabel.getText();
         orderSummeryTextArea.setText(order);
 		watchFromHome = true;
-		subscriptionCard = new Pair<Boolean,Integer>(false,0);    	
-	
+		subscriptionCard = new Pair<Boolean,Integer>(false,0);    		
     	
     }
     
@@ -211,10 +208,10 @@ public class PaymentPageController {
     	
     	if(purchaseType == PurchaseTypes.TICKET) {
     		purchase = new Purchase(firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), cityTextField.getText(), phoneNumberTextField.getText(),
-    			subscriptionCard, watchFromHome, LocalDateTime.now(), screening.getCinema(), screening.getHall(), seats, 0 , null);
+    			subscriptionCard, watchFromHome, LocalDateTime.now(), screening.getCinema(), screening.getHall(), seats, 0 , null,screening);
     	}
     	purchase = new Purchase(firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), cityTextField.getText(), phoneNumberTextField.getText(),
-    			subscriptionCard, watchFromHome, LocalDateTime.now(), screening.getCinema(), screening.getHall(), seats, 0 , null);
+    			subscriptionCard, watchFromHome, LocalDateTime.now(), screening.getCinema(), screening.getHall(), seats, 0 , null,screening);
     	//complaint.setPurchase(purchase);
     	
     	Message msg = new Message();

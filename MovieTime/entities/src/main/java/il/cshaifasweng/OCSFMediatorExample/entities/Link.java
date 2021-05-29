@@ -39,6 +39,4 @@ public class Link implements  Serializable{
 		this.available_time = available_time;
 	}
 
-	
-
 }

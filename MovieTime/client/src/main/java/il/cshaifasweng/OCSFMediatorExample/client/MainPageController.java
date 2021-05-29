@@ -71,7 +71,7 @@ public class MainPageController {
 	@FXML
 	public void initialize() {
 
-		EventBus.getDefault().register(this);
+		//EventBus.getDefault().register(this);
 		Message msg = new Message();
 		msg.setAction("pull screening movies");
 		try {
@@ -145,7 +145,7 @@ public class MainPageController {
 		
     	if(msg.getAction().equals("got screening movies")) {
     		Platform.runLater(()-> {
-    			EventBus.getDefault().unregister(this);
+    			//EventBus.getDefault().unregister(this);
     			recentlyAdded = msg.getMovies();
     			
     			filteredMovies = recentlyAdded;
@@ -181,7 +181,7 @@ public class MainPageController {
 			ex.printStackTrace();
 		}
 		
-		EventBus.getDefault().unregister(this);
+		//EventBus.getDefault().unregister(this);
 
 		Stage stage = (Stage) btn_update_movie_time.getScene().getWindow();
 		Parent p =Loader.getRoot();

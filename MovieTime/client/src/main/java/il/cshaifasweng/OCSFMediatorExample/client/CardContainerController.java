@@ -92,7 +92,7 @@ public class CardContainerController {
     		msg.getAction().equals("got soon movies")) {
     		Platform.runLater(()-> {
     			movieContainer.getChildren().clear();
-    			EventBus.getDefault().unregister(this);
+    			//EventBus.getDefault().unregister(this);
     			recentlyAdded = msg.getMovies();
     			moviesNumber = recentlyAdded.size();
     			currentlyDisplayedFrom = 0;

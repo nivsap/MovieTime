@@ -9,6 +9,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Cinema;
+import il.cshaifasweng.OCSFMediatorExample.entities.Hall;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
@@ -24,9 +25,14 @@ import javafx.scene.layout.AnchorPane;
 
 public class MovieInfoPageController {
     private Movie currentlyDisplayed;  
+    private Screening screeningChosen;
     private ArrayList<Cinema> cinemas;
     private ArrayList<Screening> screenings;
     private int purchaseType;
+    private boolean isTavSagol = false;
+    private int tavSagolLimit;
+    private double seatsLimit;
+    private int seatsTaken;
 
     @FXML
     private ImageView movieLargeImageSrc;
@@ -74,7 +80,7 @@ public class MovieInfoPageController {
     private ComboBox<String> timeCombo;
 
     @FXML
-    private ComboBox<String> LanguageCombo;
+    private ComboBox<String> numberOfSeatsCombo;
 
     @FXML
     private Button orderTicketBtn;
@@ -101,6 +107,8 @@ public class MovieInfoPageController {
     	cinemaCombo.getItems().clear();
     	dateCombo.getItems().clear();
     	timeCombo.getItems().clear();
+    	numberOfSeatsCombo.getItems().clear();
+    	numberOfSeatsCombo.setVisible(false);
     }
     
     private void getCinemas(int id) {
@@ -143,6 +151,7 @@ public class MovieInfoPageController {
     		Platform.runLater(()-> {
     	    	String onlyDate;
 	    		screenings = msg.getScreeningArrayList();
+	    		System.out.println("screening for movie done, arraylist size: " + screenings.size());
 	    		dateCombo.getItems().clear();
 	    		for(Screening screening : screenings) {
 	    			onlyDate = screening.getDate_screen().toString();
@@ -152,10 +161,20 @@ public class MovieInfoPageController {
 	    		}
     		});	
     	}	
+    	
+    	
+    	if(msg.getAction().equals("done check purple limit")) {
+    		isTavSagol = msg.getStatus();
+    		tavSagolLimit = msg.getTavSagolLimit();
+    		
+    	}
     }
     
+    
+
     @FXML
     private void cinemaChosen() {
+    	EventBus.getDefault().register(this);
     	int cinemaId = -1;
     	if(cinemaCombo.getValue() == null) {
     		return;
@@ -186,6 +205,16 @@ public class MovieInfoPageController {
     
     @FXML
     void dateChosen() {
+    	EventBus.getDefault().register(this);
+    	Message msg = new Message();
+    	msg.setAction("check purple limit");
+    	msg.setDateMovie(screenings.get(0).getDate_screen());
+    	try {
+			AppClient.getClient().sendToServer(msg);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	String onlyTime;
     	if(dateCombo.getValue() == null) {
     		return;
@@ -200,22 +229,11 @@ public class MovieInfoPageController {
     	}
     }
     
-    @FXML
-    void ChooseSeats(ActionEvent event) throws IOException {
-    	try {
-    		if(cinemaCombo.getValue().isEmpty() || dateCombo.getValue().isEmpty() || timeCombo.getValue().isEmpty()) {
-    		
-    		JOptionPane.showMessageDialog(null, "You must fill all the fields");
-    		}
-    	}catch(Exception e) {
-    		JOptionPane.showMessageDialog(null, "You must fill all the fields");
-    		return;
-    	}
     
-    	Screening screeningChosen = null;
+    @FXML
+    void timeChosen() {
     	String LDT;
-    	App.setWindowTitle(PageTitles.OrderTicketsPage);
-    	OrderTicketsPageController controller = (OrderTicketsPageController) App.setContent("OrderTicketsPage");
+    	numberOfSeatsCombo.setVisible(true);
     	for (Screening screening : screenings) {
     		if(screening.getCinema().getName().equals(cinemaCombo.getValue())) {
     			LDT = screening.getDate_screen().toString();
@@ -229,7 +247,63 @@ public class MovieInfoPageController {
     	if(screeningChosen == null) {
     		System.out.println("Error in movieInfoPage, screeningChosen is null!!");
     	}
-    	controller.setPurchaseInfo(purchaseType, screeningChosen);
+    	Hall hall = screeningChosen.getHall();
+    	if(isTavSagol) {
+    		seatsLimit = hall.getRows() * hall.getRows();
+    		if((double)tavSagolLimit*1.2 < seatsLimit) {
+    			seatsLimit = tavSagolLimit;
+    		}
+    		if(seatsLimit > 0.8* (double)tavSagolLimit) {
+    			seatsLimit = 0.8* (double)tavSagolLimit;
+    		}
+    		if(seatsLimit <= 0.8* (double)tavSagolLimit) {
+    			seatsLimit = seatsLimit/2;
+    		}
+    		
+    		seatsTaken = 0;
+    		for(int i = 0 ; i < hall.getRows() ; i++) {
+    			for(int j = 0 ; j < hall.getCols() ; j++) {
+    				
+    				if(screeningChosen.getSeats()[i][j] == 1) {
+    					seatsTaken++;
+    				}
+    			}
+    		}
+    		
+    		for(int i = 1 ; i + seatsTaken <= seatsLimit ; i++) {
+    			numberOfSeatsCombo.getItems().add(Integer.toString(i));
+    			i++;
+    		}
+    		
+    		
+    		
+    		
+    		
+    	}
+    }
+    
+    @FXML
+    void ChooseSeats(ActionEvent event) throws IOException {
+    	try {
+    		if(cinemaCombo.getValue().isEmpty() || dateCombo.getValue().isEmpty() || timeCombo.getValue().isEmpty()) {
+    		
+    			JOptionPane.showMessageDialog(null, "You must fill all the fields");
+    			return;
+    		}
+    		if(isTavSagol && numberOfSeatsCombo.getValue().isBlank()) {
+    			JOptionPane.showMessageDialog(null, "You must fill all the fields");
+    		}
+    		
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    		return;
+    	}
+    
+    	App.setWindowTitle(PageTitles.OrderTicketsPage);
+    	OrderTicketsPageController controller = (OrderTicketsPageController) App.setContent("OrderTicketsPage");
+    	
+    	
+    	controller.setPurchaseInfo(purchaseType, screeningChosen,isTavSagol, Integer.parseInt(numberOfSeatsCombo.getValue()),seatsLimit, seatsTaken);
     	controller.loadMovieInfo();
     	controller.loadScreeningInfo();
     	controller.loadHallMap();

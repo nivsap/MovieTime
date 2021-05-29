@@ -115,7 +115,7 @@ public class UpdateMoviesPageController{
 			Iterator<Screening> iter = filteredScreenings.iterator();
 			while (iter.hasNext()) {
 			  Screening s = iter.next();
-			  if (!s.getDate_screen().toString().substring(2,10).equals(cb_date.getValue()))
+			  if (!s.getDate_screen().toString().substring(0,10).equals(cb_date.getValue()))
 				  iter.remove();
 			}
 		}
@@ -284,7 +284,15 @@ public class UpdateMoviesPageController{
 			JOptionPane.showMessageDialog(null, "You must fill all the fields");
 		}else {
 			
+			
+				if(cb_removal_addition.getValue().equals("addition") && filteredScreenings.size() == 1) {
+					JOptionPane.showMessageDialog(null, "screening already exists!");
+				}
+				
 				Message msg = new Message();
+				if(cb_removal_addition.getValue().equals("removal") && filteredScreenings.size() == 1) {
+					msg.setScreening(filteredScreenings.get(0));
+				}
 				msg.setAction("update movie time");
 				msg.setMovieName(cb_movie.getValue());
 				msg.setDbAction(cb_removal_addition.getValue());
@@ -292,14 +300,13 @@ public class UpdateMoviesPageController{
 				msg.setHallId(Integer.parseInt(cb_hall.getValue()));
 
 				
-				
 				String onlyDate = cb_date.getValue().toString();
 				String onlyTime = cb_time.getValue().toString();
 				int year = Integer.parseInt(onlyDate.substring(0,4));
 				int month = Integer.parseInt(onlyDate.substring(5,7));
 				int day = Integer.parseInt(onlyDate.substring(8,10));
 				int hour = Integer.parseInt(onlyTime.substring(0,2));
-				int minutes = Integer.parseInt(onlyTime.substring(3,4));
+				int minutes = Integer.parseInt(onlyTime.substring(3,5));
 				
 				System.out.println(year);
 				System.out.println(month);

@@ -20,9 +20,9 @@ public class ContentManager extends Worker implements  Serializable {
 	private int id;
 	//private ArrayList<Movie> allMoviesInCinema;
 	public ContentManager() {}
-	public ContentManager(String firstName, String lastName, String userName, String password , Cinema cinema
+	public ContentManager(String firstName, String lastName, String userName, String password , Cinema cinema,boolean isLoggedIn
 			) {
-		super(firstName, lastName, userName, password,cinema);
+		super(firstName, lastName, userName, password,cinema, isLoggedIn);
 		//this.allMoviesInCinema = new ArrayList<Movie>();
 	}
 

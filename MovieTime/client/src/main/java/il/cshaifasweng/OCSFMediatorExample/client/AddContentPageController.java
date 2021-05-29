@@ -261,13 +261,13 @@ public class AddContentPageController {
     		return;
     	}
     	
-    	if(imagePickerController.getLoadedFile().equals("")) {
+    	if(imagePickerController.getLoadedFileString().equals("")) {
     		movieWarningLabel.setText("Please pick poster image first");
     		movieWarningLabel.setVisible(true);
     		return;
     	}
     		
-    	if(largeImagePickerController.getLoadedFile().equals("")) {
+    	if(largeImagePickerController.getLoadedFileString().equals("")) {
     		movieWarningLabel.setText("Please pick cover image first");
     		movieWarningLabel.setVisible(true);
     		return;

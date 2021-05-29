@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -286,8 +287,8 @@ public class Main extends AbstractServer {
 			Complaint someComplaint1 = new Complaint("Shir", "Avneri", "I'm very upset", "I want to finish this project", true,date,true,Complaint.getComplaintTypes()[0]);
 			Complaint someComplaint2 = new Complaint("Niv", "Sapir", "I want to complain", "I am very upset", true,date,true,Complaint.getComplaintTypes()[1]);
 			Complaint someComplaint3 = new Complaint("Hadar", "Manor", "Some title", "Some details" ,false,date,true,Complaint.getComplaintTypes()[2]);
-			Purchase customer = new Purchase("Hadar", "Manor", "Some title", "Some details" , "12312312",new Pair<Boolean, Integer>(true, 20),false,null,null,null,new ArrayList<>(),10,null);
-			session.save(customer);
+			//Purchase customer = new Purchase("Hadar", "Manor", "Some title", "Some details" , "12312312",new Pair<Boolean, Integer>(true, 20),false,null,null,null,new ArrayList<>(),10,null);
+			//session.save(customer);
 			session.save(someComplaint1);
 			session.save(someComplaint2);
 			session.save(someComplaint3);
@@ -690,17 +691,45 @@ public class Main extends AbstractServer {
 		}
 		if(currentMsg.getAction().equals("pull movies from home")) {
 			try {
-				serverMsg = (Message) msg;
-				serverMsg.setMovies((ArrayList<Movie>) MovieController.WatchingFromHome()); 
+				ArrayList<Movie> movies = ((ArrayList<Movie>) MovieController.WatchingFromHome()); 
+				if(currentMsg.getRate() != null) {
+					
+					Iterator<Movie> iter = movies.iterator();
+					
+					while(iter.hasNext()) {
+						Movie movie = iter.next();
+						if(Double.parseDouble(currentMsg.getRate()) != movie.getPopular()) {
+							iter.remove();
+						}
+					}
+				}
+				
+				if(currentMsg.getSearch() != null) {
+					
+					Iterator<Movie> iter = movies.iterator();
+					
+					while(iter.hasNext()) {
+						Movie movie = iter.next();
+						if(!movie.getName().contains(currentMsg.getSearch())) {
+							iter.remove();
+						}
+					}
+				}
+				
+				Message serverMsg = new Message();
 				serverMsg.setAction("got movies from home");
+				serverMsg.setMovies(movies);
 				client.sendToClient(serverMsg);
+				
 			}
 			catch (IOException e) {
-				System.out.println("cant pull screening movies");
+				System.out.println("cant add movie");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+		
+		
 		if(currentMsg.getAction().equals("picking chair")) {
 			try {
 				serverMsg = currentMsg;
@@ -741,7 +770,7 @@ public class Main extends AbstractServer {
 	            System.out.println(serverMsg.getComplaints().toString());
 				/*for (Complaint model : serverMsg.getComplaints()) {
 		            System.out.println(model.getFirstName());
-		        }*/
+		        }
 				client.sendToClient(serverMsg);
 			}
 			catch (IOException e) {
@@ -766,7 +795,8 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		if(currentMsg.getAction().equals("get purchase by id")) {
+		
+		/*if(currentMsg.getAction().equals("get purchase by id")) {
 			try {
 				serverMsg = currentMsg;
 				System.out.println("server msg is " + serverMsg.getId());
@@ -780,7 +810,8 @@ public class Main extends AbstractServer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+		}*/
+		
 		if(currentMsg.getAction().equals("get report ticket")) {
 			try {
 				serverMsg = currentMsg;
@@ -933,6 +964,67 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		
+		if(currentMsg.getAction().equals("search bar update")) {
+			try {
+				ArrayList<Movie> movies = new ArrayList<Movie>();
+				List<Screening> screenings = getAllOfType(Screening.class);
+				
+				if(currentMsg.getTheater() != null) {
+					Iterator<Screening> iters = screenings.iterator();
+					while(iters.hasNext()) {
+						Screening s = iters.next();
+						if(!s.getCinema().getName().equals(currentMsg.getTheater())) {
+							System.out.println("removed screening in search bar update");
+							iters.remove();
+						}
+					}
+					
+					for(Screening screening : screenings) {
+						if(!movies.contains(screening.getMovie())){
+							movies.add(screening.getMovie());
+						}
+					}
+				}else {
+					movies = getAllOfType(Movie.class);
+				}
+				
+				
+				if(currentMsg.getRate() != null) {
+					
+					Iterator<Movie> iter = movies.iterator();
+					
+					while(iter.hasNext()) {
+						Movie movie = iter.next();
+						if(Double.parseDouble(currentMsg.getRate()) != movie.getPopular()) {
+							iter.remove();
+						}
+					}
+				}
+				
+				if(currentMsg.getSearch() != null) {
+					
+					Iterator<Movie> iter = movies.iterator();
+					
+					while(iter.hasNext()) {
+						Movie movie = iter.next();
+						if(!movie.getName().contains(currentMsg.getSearch())) {
+							iter.remove();
+						}
+					}
+				}
+				
+				Message serverMsg = new Message();
+				serverMsg.setAction("got screening movies");
+				serverMsg.setMovies(movies);
+				client.sendToClient(serverMsg);
+				
+			}
+			catch (IOException e) {
+				System.out.println("cant add movie");
+			}
+		}
+		
 		if(currentMsg.getAction().equals("cancellation of purchase")) {
 			try {
 				serverMsg = currentMsg;
@@ -961,7 +1053,8 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		if(currentMsg.getAction().equals("selection of seats under restrictions")) {
+		
+		/*if(currentMsg.getAction().equals("selection of seats under restrictions")) {
 			try {
 				serverMsg = currentMsg;
 				serverMsg.setSeats(PurpleLimitController.SetSeatsPurpleLimit(serverMsg.getScreening(), serverMsg.getNumOfSeats()));
@@ -973,7 +1066,7 @@ public class Main extends AbstractServer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+		}*/
 	}
 
 	public static void updateMovie(String movieName, String time, String action, ConnectionToClient client) {

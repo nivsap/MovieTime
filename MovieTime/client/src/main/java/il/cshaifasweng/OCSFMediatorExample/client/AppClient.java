@@ -149,9 +149,7 @@ public class AppClient extends AbstractClient {
     	if(currentMsg.getAction().equals("cancellation of purchase")) {
     		EventBus.getDefault().post(((Message) msg));
     	} 
-    	if(currentMsg.getAction().equals("added movie")) {
-    		EventBus.getDefault().post(((Message) msg));
-    	} 
+  
 	}
 	@Override
 	protected void connectionEstablished() {

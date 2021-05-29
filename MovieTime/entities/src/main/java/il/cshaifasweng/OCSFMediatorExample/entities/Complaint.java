@@ -48,8 +48,27 @@ public class Complaint implements  Serializable {
 		this.isOpen = isOpen;
 		this.purchase = purchase;
 		this.status = status;
+		 email="hadarmanor12@gmail.com";
+		  phoneNumber=null;
+		 complaintType=null;
+		 incidentDate=null;
+								
 	}
-	
+	public Complaint(String firstName, String lastName, String complaintTitle, String complaintDetails, boolean isOpen, LocalDate incidentDate , boolean status,String complaintType) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.complaintTitle = complaintTitle;
+		this.complaintDetails = complaintDetails;
+		this.isOpen = isOpen;
+		this.incidentDate = incidentDate;
+		this.status = status;
+		this.complaintType=complaintType;
+		this.purchase = null;
+		 email="hadarmanor12@gmail.com";
+		  phoneNumber=null;
+		
+	}
 	public Complaint(String firstName, String lastName, String email, String phoneNumber, String complaintType, LocalDate incidentDate, 
 					 String complaintTitle, String complaintDetails, boolean isOpen,Purchase purchase, boolean status) {
 		super();

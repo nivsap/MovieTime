@@ -110,6 +110,9 @@ public class AppClient extends AbstractClient {
 		if(currentMsg.getAction().equals("save customer done")) {
 			EventBus.getDefault().post(((Message) msg));
     }
+		if(currentMsg.getAction().equals("got complaints")) {
+			EventBus.getDefault().post(((Message) msg));
+    }
     if(currentMsg.getAction().equals("sent successful purchase mail")) {
     		EventBus.getDefault().post(((Message) msg));
     }

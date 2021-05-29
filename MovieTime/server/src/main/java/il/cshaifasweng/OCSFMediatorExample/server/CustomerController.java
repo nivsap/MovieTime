@@ -13,8 +13,8 @@ import javafx.util.Pair;
 
 
 public class CustomerController{
-	static SessionFactory sessionFactory = Main.getSessionFactory();
-	private static Session session;
+	//static SessionFactory sessionFactory = Main.getSessionFactory();
+	//private static Session session;
 	
 //	public static <T> void saveRowInDB(T objectType) {
 //		try {
@@ -60,16 +60,19 @@ public class CustomerController{
 //	}
 	
 	public static ArrayList<Complaint> getAllCurrentComplaints() {
-		ArrayList<Complaint> screeningComplaintArrayList = new ArrayList<>();
+		ArrayList<Complaint> ComplaintArrayList = new ArrayList<>();
 		ArrayList<Complaint> toReturnArrayList = new ArrayList<>();
-		screeningComplaintArrayList = Main.getAllOfType(Complaint.class);
+        System.out.println("I am here in getAllCurrentComplaints ");
+		ComplaintArrayList = Main.getAllOfType(Complaint.class);
         System.out.println("in getAllCurrentComplaints");
-		for(Complaint complaint : screeningComplaintArrayList) {
+		for(Complaint complaint : ComplaintArrayList) {
 	         System.out.println(complaint.getFirstName());
 			if(complaint.getIsOpen() == true) {
 				toReturnArrayList.add(complaint);
 			}
 		}
+        System.out.println("end getAllCurrentComplaints ");
+
 		return toReturnArrayList;
 	}
 	

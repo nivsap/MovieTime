@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -211,10 +212,19 @@ public class Main extends AbstractServer{
 
 			session.save(haifaCinema);
 			session.save(telAvivCinema);
-			
-			Complaint someComplaint1 = new Complaint("Shir", "Avneri", "I'm very upset", "I want to finish this project", true,null,true);
-			Complaint someComplaint2 = new Complaint("Niv", "Sapir", "I want to complain", "I am very upset", true,null,true);
-			Complaint someComplaint3 = new Complaint("Hadar", "Manor", "Some title", "Some details" ,false,null,true);
+			/*public Purchase(String firstName, String lastName, String emailOrder, String cityString, String phoneString,
+					Pair<Boolean, Integer> cinemaTab , boolean watchFromHome , LocalDateTime purchaseDate,Cinema cinema , Hall hall ,List<Pair<Integer , Integer>> sitsList ,int payment,Complaint complaint) {
+				super();*/
+			//Cinema cinema=new cinema
+			//Purchase purchase= new Purchase("Hadar","Manor","hadar@gmail.com","Kiryat One","0322222",new Pair<>(true, 1),true,LocalDate.of(2014, Month.JANUARY, 1),);
+
+			//Purchase purchase= new Purchase("Hadar","Manor","hadar@gmail.com","Kiryat One","0322222",new Pair<>(true, 1),true,LocalDate.of(2014, Month.JANUARY, 1),);
+			//Purchase  purchase= new Purchase();
+		    LocalDate date = LocalDate.of(2017, 1, 13);  
+
+			Complaint someComplaint1 = new Complaint("Shir", "Avneri", "I'm very upset", "I want to finish this project", true,date,true,Complaint.getComplaintTypes()[0]);
+			Complaint someComplaint2 = new Complaint("Niv", "Sapir", "I want to complain", "I am very upset", true,date,true,Complaint.getComplaintTypes()[1]);
+			Complaint someComplaint3 = new Complaint("Hadar", "Manor", "Some title", "Some details" ,false,date,true,Complaint.getComplaintTypes()[2]);
 			Purchase customer = new Purchase("Hadar", "Manor", "Some title", "Some details" , "12312312",new Pair<Boolean, Integer>(true, 20),false,null,null,null,new ArrayList<>(),10,null);
 			session.save(customer);
 			session.save(someComplaint1);
@@ -552,9 +562,10 @@ public class Main extends AbstractServer{
 				serverMsg.setComplaints((ArrayList<Complaint>) CustomerController.getAllCurrentComplaints());
 				System.out.println("in the func handleMessageFromClient");
 				serverMsg.setAction("got complaints");
-				for (Complaint model : serverMsg.getComplaints()) {
+	            System.out.println(serverMsg.getComplaints().toString());
+				/*for (Complaint model : serverMsg.getComplaints()) {
 		            System.out.println(model.getFirstName());
-		        }
+		        }*/
 				client.sendToClient(serverMsg);
 			}
 		catch (IOException e) {
@@ -650,7 +661,7 @@ public class Main extends AbstractServer{
 		if(currentMsg.getAction().equals("send successful purchase mail")) {
 			try {
 				serverMsg = currentMsg;
-				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Thank you for your purchase at The Sirtiya!", serverMsg.getEmailMessage());
+				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Customer Of The Sirtiya", serverMsg.getEmailMessage());
 				serverMsg.setAction("sent successful purchase mail");
 				client.sendToClient(serverMsg);
 			}

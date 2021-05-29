@@ -47,8 +47,6 @@ public class ComingSoonSearchBarController {
 	}
 	@Subscribe
 	public void onMessageEvent(Message msg) {
-		System.out.println("reveived message");
-		System.out.println(msg.getAction());
     	if(msg.getAction().equals("got genre screening movies")) {
 		Platform.runLater(()-> {
 			System.out.println(Arrays.toString(msg.genreArray));

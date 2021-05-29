@@ -72,11 +72,13 @@ public class CardContainerController {
     
     @Subscribe
 	public void onMessageEvent(Message msg) {
+    	
 		System.out.println(msg.getAction());
     	if(msg.getAction().equals("got movies from home") || 
     		msg.getAction().equals("got screening movies") || 
     		msg.getAction().equals("got soon movies")) {
     		Platform.runLater(()-> {
+    			movieContainer.getChildren().clear();
     			recentlyAdded = msg.getMovies();
     			moviesNumber = recentlyAdded.size();
     			currentlyDisplayedFrom = 0;
@@ -84,6 +86,8 @@ public class CardContainerController {
     		});
     	}
     }
+    
+    
     
     public void setPurchaseType(int type) {
     	this.purchaseType = type;

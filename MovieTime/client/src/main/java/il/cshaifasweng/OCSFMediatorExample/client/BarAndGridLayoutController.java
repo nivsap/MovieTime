@@ -32,6 +32,8 @@ public class BarAndGridLayoutController {
 		if(namePage.equals("ViewingPackagesPage")) {
 	    	barFXMLLoader.setLocation(getClass().getResource("SearchBar.fxml"));
 		}
+		
+		
 		barContainer = barFXMLLoader.load();
 		gridFXMLLoader.setLocation(getClass().getResource("CardContainer.fxml"));
 		gridContainer = gridFXMLLoader.load();

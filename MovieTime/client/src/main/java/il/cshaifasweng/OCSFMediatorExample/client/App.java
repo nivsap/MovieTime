@@ -1,6 +1,7 @@
 
 package il.cshaifasweng.OCSFMediatorExample.client; // should be View package
 
+import java.io.File;
 import java.io.IOException;
 
 import org.greenrobot.eventbus.EventBus;
@@ -14,6 +15,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -96,6 +99,14 @@ public class App extends Application {
 	    BarAndGridLayoutController controller = new BarAndGridLayoutController();
 	    controller.setBarAndGrid(pageName);
 	    content.getChildren().setAll(controller.getTopBar(),controller.getCardContainer());
+    }
+    
+    static File openFilePicker() {
+    	FileChooser filePicker = new FileChooser();
+    	ExtensionFilter fileExtensions = new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg");
+    	filePicker.getExtensionFilters().add(fileExtensions);
+    	File pickedFile = filePicker.showOpenDialog(stage);
+    	return pickedFile;
     }
 
     static void setRoot(String fxml) throws IOException {

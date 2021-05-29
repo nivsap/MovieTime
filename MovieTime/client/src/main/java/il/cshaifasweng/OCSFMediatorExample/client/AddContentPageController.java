@@ -100,7 +100,6 @@ public class AddContentPageController {
     private Button addViewingPackageBtn;
 
     public AddContentPageController() {
-    	EventBus.getDefault().register(this);
     	genreCheckBoxContainer = new VBox();
     	imagePickerController = new FilePickerController();
     	largeImagePickerController = new FilePickerController();
@@ -127,6 +126,7 @@ public class AddContentPageController {
         assert movieWarningLabel != null : "fx:id=\"movieWarningLabel\" was not injected: check your FXML file 'AddContentPage.fxml'.";
         assert addViewingPackageBtn != null : "fx:id=\"addViewingPackageBtn\" was not injected: check your FXML file 'AddContentPage.fxml'.";
 
+        movieWarningLabel.setVisible(false);
         
         setEventListeners();
         genreCheckBoxContainer.getChildren().addAll(allGenres);
@@ -294,6 +294,7 @@ public class AddContentPageController {
     }
     
     void sendMovieToServer(Movie newMovie) {
+    	EventBus.getDefault().register(this);
     	Message msg = new Message();
     	msg.setAction("add movie");
     	msg.setMovie(newMovie);
@@ -311,6 +312,7 @@ public class AddContentPageController {
     public void onMessageEvent(Message msg){
     	if(msg.getAction().equals("added movie")) {
     		Platform.runLater(()-> {
+    			EventBus.getDefault().unregister(this);
     			System.out.println("added movie");
     			JOptionPane.showMessageDialog(null, "Movie added successfully");
     		});

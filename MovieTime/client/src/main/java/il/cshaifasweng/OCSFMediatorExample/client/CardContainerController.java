@@ -15,9 +15,10 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
-public class CardContainerController {
+public class CardContainerController {	
 	private int NUM_ROWS = 2, NUM_COLS = 3, currentlyDisplayedFrom = 0, moviesNumber = 0, purchaseType;
 	private List<Movie> recentlyAdded;
+	private Boolean disableCards;
 	
     @FXML
     private GridPane movieContainer;
@@ -43,23 +44,35 @@ public class CardContainerController {
     @FXML
     private Button loadMoreBtn;
     
-    public void sendMsgToServer(String namePage) {
-    	EventBus.getDefault().register(this);
-
+    public void sendMessageToServer(String namePage) {
 		String actionType = null;
     	if(namePage.equals("MainPage")) {
+    		disableCards = false;
     		actionType = "pull screening movies";
     		purchaseType = PurchaseTypes.TICKET;
 		}
 		if(namePage.equals("ComingSoonPage")) {
+			disableCards = false;
 			actionType = "pull soon movies";
 			purchaseType = PurchaseTypes.NOT_AVAILABLE;
 		}
 		if(namePage.equals("ViewingPackagesPage")) {
+			disableCards = false;
 			actionType = "pull movies from home";
 			purchaseType = PurchaseTypes.VIEWING_PACKAGE;
 		}
+		if(namePage.equals("NetworkAdministratorMainPage")) {
+			disableCards = true;
+			actionType = "pull screening movies";
+			purchaseType = PurchaseTypes.NOT_AVAILABLE;
+		}
+		if(namePage.equals("BranchManagerMainPage")) {
+			disableCards = true;
+			actionType = "pull screening movies";
+			purchaseType = PurchaseTypes.NOT_AVAILABLE;
+		}
 		try {
+			EventBus.getDefault().register(this);
 			Message msg = new Message();
 			msg.setAction(actionType);
 			AppClient.getClient().sendToServer(msg);
@@ -77,6 +90,7 @@ public class CardContainerController {
     		msg.getAction().equals("got screening movies") || 
     		msg.getAction().equals("got soon movies")) {
     		Platform.runLater(()-> {
+    			EventBus.getDefault().unregister(this);
     			recentlyAdded = msg.getMovies();
     			moviesNumber = recentlyAdded.size();
     			currentlyDisplayedFrom = 0;
@@ -111,7 +125,7 @@ public class CardContainerController {
 					fxmlLoader.setLocation(getClass().getResource("card.fxml"));
 					Button cardBox = fxmlLoader.load();
 					CardController cardController = fxmlLoader.getController();
-					cardController.SetData(recentlyAdded.get(index));
+					cardController.SetData(recentlyAdded.get(index), disableCards);
 					cardController.setPurchaseType(purchaseType);
 					movieContainer.add(cardBox, j, i);
 					index++;
@@ -135,5 +149,6 @@ public class CardContainerController {
     		currentlyDisplayedFrom = nextIndex;
     	SetMovies(currentlyDisplayedFrom);
     }
+    
 
 }

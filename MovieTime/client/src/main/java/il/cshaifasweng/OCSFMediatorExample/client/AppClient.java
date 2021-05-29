@@ -19,7 +19,7 @@ public class AppClient extends AbstractClient {
 	private static final Logger LOGGER = Logger.getLogger(AppClient.class.getName());
 	
 
-	
+	//unregister
 	public AppClient(String host, int port) {
 		super(host, port);
 	}
@@ -28,7 +28,12 @@ public class AppClient extends AbstractClient {
 		System.out.println("msg recieved in appClient!");
 		System.out.println("msg is: " + ((Message)msg).getAction());
 		Message currentMsg = (Message) msg;
+		EventBus.getDefault().post(((Message) msg));
 		if (currentMsg.getAction().equals("got movies"))
+		{
+			EventBus.getDefault().post(((Message) msg));
+		}
+		if (currentMsg.getAction().equals("screening for movie done"))
 		{
 			EventBus.getDefault().post(((Message) msg));
 		}

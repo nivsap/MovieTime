@@ -29,6 +29,7 @@ public class Message implements Serializable {
 	String rate;
 	String search;
 	String id;
+	int tavSagolLimit;
 	int numOfSeats;
 	int payment;
 	
@@ -141,7 +142,7 @@ public class Message implements Serializable {
 
 
 
-	public boolean isStatus() {
+	public boolean getStatus() {
 		return status;
 	}
 
@@ -550,6 +551,14 @@ public class Message implements Serializable {
 
 	public void setPayment(int payment) {
 		this.payment = payment;
+	}
+
+	public int getTavSagolLimit() {
+		return tavSagolLimit;
+	}
+
+	public void setTavSagolLimit(int tavSagolLimit) {
+		this.tavSagolLimit = tavSagolLimit;
 	}
 }
 

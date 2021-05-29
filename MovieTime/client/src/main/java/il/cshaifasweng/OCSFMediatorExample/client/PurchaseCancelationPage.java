@@ -55,6 +55,7 @@ public class PurchaseCancelationPage {
 		Message msg = new Message();
 		msg.setAction("got purchase cancelation by id");
 		AppClient.getClient().sendToServer(msg);
+		EventBus.getDefault().unregister(this);
 		hideWarningLabels();
 	}
 
@@ -70,6 +71,8 @@ public class PurchaseCancelationPage {
 		{
 			OrderWarningLabel.setVisible(true);
 		}
+		
+		EventBus.getDefault().register(this);
 		Message msg = new Message();
 		System.out.println("got here " + Order);
 		msg.setAction("get purchase by id");
@@ -96,8 +99,7 @@ public class PurchaseCancelationPage {
     }
     
 	@FXML
-	void initialize() {
-		EventBus.getDefault().register(this);
+	void initialize() {	
 		assert OrderTextField != null
 				: "fx:id=\"OrderTextField\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
 		assert OrderWarningLabel != null

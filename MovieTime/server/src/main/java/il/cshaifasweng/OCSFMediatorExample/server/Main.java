@@ -177,8 +177,8 @@ public class Main extends AbstractServer {
 			session.flush();
 
 			//creating whole data base to cinema,screening,Hall
-			Cinema haifaCinema = new Cinema("Haifa", "Haifa,Carmel st", (BranchManager)shirWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>(),40,20,0.8,new ArrayList<>());
-			Cinema telAvivCinema = new Cinema("Tel-Aviv", "Tel-Aviv,Wieztman st", (BranchManager)nivWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>(),45,20,0.9,new ArrayList<>());
+			Cinema haifaCinema = new Cinema("Haifa", "Haifa,Carmel st", (BranchManager)shirWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>(),40,20,0.8,new ArrayList<>(),new ArrayList<>());
+			Cinema telAvivCinema = new Cinema("Tel-Aviv", "Tel-Aviv,Wieztman st", (BranchManager)nivWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>(),45,20,0.9,new ArrayList<>(),new ArrayList<>());
 			shirWorker.setCinema(haifaCinema);
 			nivWorker.setCinema(telAvivCinema);
 			haifaCinema.getWorkerArray().add(asafWorker);
@@ -278,20 +278,57 @@ public class Main extends AbstractServer {
 
 
 			Purchase customer2 = new Purchase("Alon", "Latman", "Some title", "Some details", "123456789",
-					new Pair<Boolean, Integer>(true, 20), false, null, haifaCinema, null, new ArrayList<>(), 10, null,null);
+					new Pair<Boolean, Integer>(true, 20), false, getExacTime(2021, 5, 28, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,null);
+			Purchase customer1 = new Purchase("Alon", "Latman", "Some title", "Some details", "123456789",
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 28, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,null);
+			Purchase customer3 = new Purchase("Alon", "Latman", "Some title", "Some details", "123456789",
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 30, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,null);
+			Purchase customer4 = new Purchase("Alon", "Latman", "Some title", "Some details", "123456789",
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,null);
+			Purchase customer5 = new Purchase("Alon", "Latman", "Some title", "Some details", "123456789",
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 6, 28, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,null);
+			Purchase customer6 = new Purchase("Alon", "Latman", "Some title", "Some details", "123456789",
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 28, 10, 15), telAvivCinema, null, new ArrayList<>(), 10, null,null);
+			Purchase customer7 = new Purchase("Alon", "Latman", "Some title", "Some details", "123456789",
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 6, 28, 10, 15), telAvivCinema, null, new ArrayList<>(), 10, null,null);
+			Purchase customer8 = new Purchase("Alon", "Latman", "Some title", "Some details", "123456789",
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 28, 10, 15), telAvivCinema, null, new ArrayList<>(), 10, null,null);
+			Purchase customer9 = new Purchase("Alon", "Latman", "Some title", "Some details", "123456789",
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 4, 28, 10, 15), telAvivCinema, null, new ArrayList<>(), 10, null,null);
+			Purchase customer10 = new Purchase("Alon", "Latman", "Some title", "Some details", "123456789",
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,null);
+			Purchase customer11 = new Purchase("Alon", "Latman", "Some title", "Some details", "123456789",
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,null);
+			
+			
+			
+			
+			
 			//session.save(customer);
 			session.save(customer2);
+			session.save(customer1);
+			session.save(customer3);
+			session.save(customer4);
+			session.save(customer5);
+			session.save(customer6);
+			session.save(customer7);
+			session.save(customer8);
+			session.save(customer9);
+			session.save(customer10);
+			session.save(customer11);
 
-		    LocalDate date = LocalDate.of(2017, 1, 13);  
+		    LocalDate date = LocalDate.of(2021, 1, 13);  
 
-			Complaint someComplaint1 = new Complaint("Shir", "Avneri", "I'm very upset", "I want to finish this project", true,date,true,Complaint.getComplaintTypes()[0]);
-			Complaint someComplaint2 = new Complaint("Niv", "Sapir", "I want to complain", "I am very upset", true,date,true,Complaint.getComplaintTypes()[1]);
-			Complaint someComplaint3 = new Complaint("Hadar", "Manor", "Some title", "Some details" ,false,date,true,Complaint.getComplaintTypes()[2]);
+			Complaint someComplaint1 = new Complaint("Shir", "Avneri", "I'm very upset", "I want to finish this project", true,date,true,Complaint.getComplaintTypes()[0],haifaCinema);
+			Complaint someComplaint2 = new Complaint("Niv", "Sapir", "I want to complain", "I am very upset", true,date,true,Complaint.getComplaintTypes()[1],telAvivCinema);
+			Complaint someComplaint3 = new Complaint("Hadar", "Manor", "Some title", "Some details" ,false,date,true,Complaint.getComplaintTypes()[2],haifaCinema);
 			//Purchase customer = new Purchase("Hadar", "Manor", "Some title", "Some details" , "12312312",new Pair<Boolean, Integer>(true, 20),false,null,null,null,new ArrayList<>(),10,null);
 			//session.save(customer);
 			session.save(someComplaint1);
 			session.save(someComplaint2);
 			session.save(someComplaint3);
+			session.save(haifaCinema);
+			session.save(telAvivCinema);
 
 			session.flush();
 
@@ -803,6 +840,37 @@ public class Main extends AbstractServer {
 				serverMsg.setPurchase(CustomerController.getID(serverMsg.getId()));
 				serverMsg.setPayment(CustomerController.ReturnOnPurchase(serverMsg.getPurchase(), LocalDateTime.now()));
 				serverMsg.setAction("got purchase by id");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant get purchase by id");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		if(currentMsg.getAction().equals("get purchases")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.setPurchasesList(getAllOfType(Purchase.class));
+				serverMsg.setAction("got purchases");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant get purchase by id");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
+		if(currentMsg.getAction().equals("get cinemas and purchases and complaints")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.setPurchasesList(getAllOfType(Purchase.class));
+				serverMsg.setCinemasArrayList(getAllOfType(Cinema.class));
+				serverMsg.setComplaints(getAllOfType(Complaint.class));
+				serverMsg.setAction("got cinemas and purchases and complaints");
 				client.sendToClient(serverMsg);
 			}
 			catch (IOException e) {

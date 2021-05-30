@@ -48,12 +48,15 @@ public class Cinema implements  Serializable{
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "cinema")
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Purchase> cancelPurchases;
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "cinema")
+	@Fetch(value = FetchMode.SUBSELECT)
+	private List<Complaint> complaints;
 	//private int nextHallId;
 	
 	public Cinema() {}
 	
 	public Cinema(String name, String address, BranchManager manager, ArrayList<Screening> screeningArray,
-			ArrayList<Hall> hallArray, ArrayList<Worker> workerArray , ArrayList<Purchase> purchases, double moviePrice,double linkPrice, double rate,List<Purchase> cancelPurchases) {
+			ArrayList<Hall> hallArray, ArrayList<Worker> workerArray , ArrayList<Purchase> purchases, double moviePrice,double linkPrice, double rate,List<Purchase> cancelPurchases , List<Complaint> complaints) {
 		super();
 		this.name = name;
 		this.address = address;
@@ -67,6 +70,7 @@ public class Cinema implements  Serializable{
 		this.setLinkPrice(linkPrice);
 		this.setSubscriptionPrice(20 * moviePrice * rate);
 		this.cancelPurchases = cancelPurchases;
+		this.complaints = new ArrayList<>();
 		
 	}
 
@@ -75,6 +79,14 @@ public class Cinema implements  Serializable{
 		return name;
 	}
 
+
+	public List<Complaint> getComplaints() {
+		return complaints;
+	}
+
+	public void setComplaints(List<Complaint> complaints) {
+		this.complaints = complaints;
+	}
 
 	public List<Purchase> getPurchases() {
 		return purchases;

@@ -27,5 +27,14 @@ public class BranchManagerMenuController {
     	App.setBarAndGridLayout("MainPage");
     	App.setMenu("SystemMenu");
     }
+    
+    @FXML
+    void reports(ActionEvent event) throws IOException {
+    	App.setWindowTitle(PageTitles.ReportsPage);
+    	App.setContent("ReportsPage");
+    }
+    
+    
+    
 
 }

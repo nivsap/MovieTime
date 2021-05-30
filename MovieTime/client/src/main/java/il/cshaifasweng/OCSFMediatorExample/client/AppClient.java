@@ -28,7 +28,7 @@ public class AppClient extends AbstractClient {
 		System.out.println("msg recieved in appClient!");
 		System.out.println("msg is: " + ((Message)msg).getAction());
 		Message currentMsg = (Message) msg;
-		EventBus.getDefault().post(((Message) msg));
+		//EventBus.getDefault().post(((Message) msg));
 		if (currentMsg.getAction().equals("got movies"))
 		{
 			EventBus.getDefault().post(((Message) msg));
@@ -152,6 +152,12 @@ public class AppClient extends AbstractClient {
     		EventBus.getDefault().post(((Message) msg));
     	} 
     	if(currentMsg.getAction().equals("cancellation of purchase")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	} 
+    	if(currentMsg.getAction().equals("got purchases")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	} 
+    	if(currentMsg.getAction().equals("got cinemas and purchases and complaints")) {
     		EventBus.getDefault().post(((Message) msg));
     	} 
   

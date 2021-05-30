@@ -35,7 +35,6 @@ public class Message implements Serializable {
 	
 	
 	
-	
 	int movieId;            				//clientSide need to fill/set is field when send msg to server
 	int cinemaId;           				//clientSide need to fill/set is field when send msg to server
 	ArrayList<Cinema> cinemasArrayList;

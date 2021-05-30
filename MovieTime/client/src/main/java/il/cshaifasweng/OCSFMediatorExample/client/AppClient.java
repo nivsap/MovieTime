@@ -136,7 +136,7 @@ public class AppClient extends AbstractClient {
     	if(currentMsg.getAction().equals("added movie")) {
     		EventBus.getDefault().post(((Message) msg));
     	} 	
-     	if(currentMsg.getAction().equals("movie deleted")) {
+     	if(currentMsg.getAction().equals("deleted movie")) {
     		EventBus.getDefault().post(((Message) msg));
     	}
      	if(currentMsg.getAction().equals("done selection of seats under restrictions")) {

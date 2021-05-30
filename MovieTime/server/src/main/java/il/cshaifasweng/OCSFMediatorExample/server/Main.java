@@ -99,35 +99,35 @@ public class Main extends AbstractServer {
 					"Action   •   Adventure   •   Drama", "AvengersEndgame.jpg", "AvengersEndgame.png", movieStartTimes,
 					true, false,
 					"After the devastating events of Avengers: Infinity War (2018), the \nuniverse is in ruins. With the help of remaining allies, \nthe Avengers assemble once more in order to reverse Thanos' \nactions and restore balance to the universe.",
-					"Robert Downey Jr., Chris Evans, Mark Ruffalo", getTime(2019, 4, 26), 50, "Producers");
+					"Robert Downey Jr., Chris Evans, Mark Ruffalo", getTime(2019, 4, 26), 50, "Producers",null,false);
 			Movie sherlockHolmes = new Movie("Sherlock Holmes", "2h 8min", 4.5, "Action   •   Adventure   •   Mystery",
 					"SherlockHolmes.jpg", "SherlockHolmes.png", movieStartTimes, true, false,
 					"Detective Sherlock Holmes and his stalwart partner Watson engage in \na battle of wits and brawn with a nemesis whose plot \nis a threat to all of England.",
-					"Robert Downey Jr., Jude Law, Rachel McAdams", getTime(2009, 12, 25), 50, "Producers");
+					"Robert Downey Jr., Jude Law, Rachel McAdams", getTime(2009, 12, 25), 50, "Producers",null,false);
 			Movie babyDriver = new Movie("Baby Driver", "1h 53min", 4.00, "Action   •   Crime   •   Drama ",
 					"BabyDriver.jpg", "BabyDriver.png", movieStartTimes, true, false,
 					"After being coerced into working for a crime boss, a young getaway \ndriver finds himself taking part in a heist doomed to fail.",
-					"Ansel Elgort, Jon Bernthal, Jon Hamm", getTime(2017, 6, 28), 50, "Producers");
+					"Ansel Elgort, Jon Bernthal, Jon Hamm", getTime(2017, 6, 28), 50, "Producers",null,false);
 			Movie wonderWoman1984 = new Movie("Wonder Woman 1984", "2h 31min", 5.00,
 					"Action   •   Adventure   •   Fantasy", "WonderWoman1984.jpg", "WonderWoman1984.png",
 					movieStartTimes, true, false,
 					"Diana must contend with a work colleague and businessman, whose desire \nfor extreme wealth sends the world down a path of destruction, \nafter an ancient artifact that grants wishes goes missing.",
-					"Gal Gadot, Chris Pine, Kristen Wiig", getTime(2020, 12, 21), 50, "Producers");
+					"Gal Gadot, Chris Pine, Kristen Wiig", getTime(2020, 12, 21), 50, "Producers",null,false);
 			Movie it = new Movie("IT", "2h 15min", 5.00, "Horror", "It.jpg", "It.png", movieStartTimes, true, false,
 					"In the summer of 1989, a group of bullied kids band together\n to destroy a shape-shifting monster, which disguises itself \nas a clown and preys on the children of Derry, \ntheir small Maine town.",
-					"Bill Skarsgard, Jaeden Martell, Finn Wolfhard", getTime(2017, 9, 8), 50, "Producers");
+					"Bill Skarsgard, Jaeden Martell, Finn Wolfhard", getTime(2017, 9, 8), 50, "Producers",null,false);
 			Movie toyStory = new Movie("Toy Story", "1h 40min", 5.00, "Animation   •   Adventure   •   Comedy",
 					"ToyStory.jpg", "ToyStory.png", movieStartTimes, true, false,
 					"When a new toy called 'Forky' joins Woody and the gang, \na road trip alongside old and new friends reveals how \nbig the world can be for a toy.",
-					"Tom Hanks, Tim Allen, Annie Potts", getTime(2017, 6, 21), 50, "Producers");
+					"Tom Hanks, Tim Allen, Annie Potts", getTime(2017, 6, 21), 50, "Producers",null,false);
 			Movie Minions = new Movie("Minions", "1h 31min", 4.50, "Animation   •   Adventure   •   Comedy",
 					"Minions.jpg", "Minions.png", movieStartTimes, true, false,
 					"Minions Stuart, Kevin, and Bob are recruited by Scarlet Overkill, \na supervillain who, alongside her inventor husband Herb, \nhatches a plot to take over the world.",
-					"Sandra Bullock, Jon Hamm, Michael Keaton", getTime(2015, 7, 10), 50, "Producers");
+					"Sandra Bullock, Jon Hamm, Michael Keaton", getTime(2015, 7, 10), 50, "Producers",null,false);
 			Movie StarWars = new Movie("Star Wars", "2h 21min", 5.00, "Action   •   Adventure   •   Fantasy",
 					"StarWars.jpg", "StarWars.png", movieStartTimes, true, true,
 					"The surviving members of the Resistance face the First Order once \nagain, and the legendary conflict between the Jedi and the Sith reaches \nits peak, bringing the Skywalker saga to its end.",
-					"Daisy Ridley, John Boyega, Oscar Isaac", getTime(2019, 12, 20), 50, "Producers");
+					"Daisy Ridley, John Boyega, Oscar Isaac", getTime(2019, 12, 20), 50, "Producers",null,false);
 
 			avengersEndgame.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("10:00", "12:00")));
 			sherlockHolmes.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("16:00", "18:00")));
@@ -358,6 +358,17 @@ public class Main extends AbstractServer {
 			System.out.println("hello server");
 		}
 		addDataToDB();
+//		ArrayList<Movie> what = getAllOfType(Movie.class);
+//		ArrayList<Screening> lol = getAllOfType(Screening.class);
+//		for(Screening iScreening : lol) {
+//			if(iScreening.getMovie().equals(what.get(0))) {
+//				deleteRowInDB(iScreening);
+//			}
+//		}
+//		ArrayList<Movie> what = getAllOfType(Movie.class);
+//		if(what.get(0) != null) {
+//			what.get(0).setDeleted(true);
+//			updateRowDB(what.get(0));}
 //		ArrayList<Worker> lol= getAllOfType(Worker.class);
 //		for(Worker worker : lol) {
 //			if(worker instanceof CustomerService) {
@@ -417,6 +428,8 @@ public class Main extends AbstractServer {
 		try {
 			session = sessionFactory.openSession();
 			session.beginTransaction();
+			//session.clear();
+		//	session.merge(objectType);
 			session.delete(objectType);
 			session.flush();
 			session.getTransaction().commit();
@@ -966,6 +979,7 @@ public class Main extends AbstractServer {
 		if(currentMsg.getAction().equals("add movie")) {
 			try {
 				serverMsg = currentMsg;
+				serverMsg.getMovie().setDeleted(false);
 				saveRowInDB(serverMsg.getMovie());
 				serverMsg.setAction("added movie");
 				client.sendToClient(serverMsg);
@@ -976,10 +990,11 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		if(currentMsg.getAction().equals("deleted movie")) {
+		if(currentMsg.getAction().equals("delete movie")) {
 			try {
 				serverMsg = currentMsg;
-				deleteRowInDB(serverMsg.getMovie());
+				serverMsg.getMovie().setDeleted(true);
+				updateRowDB(serverMsg.getMovie());
 				serverMsg.setAction("deleted movie");
 				client.sendToClient(serverMsg);
 			}

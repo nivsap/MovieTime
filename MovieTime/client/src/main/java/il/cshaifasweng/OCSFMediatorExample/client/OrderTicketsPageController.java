@@ -30,6 +30,8 @@ public class OrderTicketsPageController {
 	private int purchaseType;
 	private Screening screeningChosen;
 	private VBox hallMap;
+	private boolean isTavSagol;
+	private int numOfSeats;
 	private ArrayList<Pair<Integer,Integer>> seatsChosen = new ArrayList<Pair<Integer, Integer>>();
 	
     @FXML
@@ -76,7 +78,6 @@ public class OrderTicketsPageController {
     
     @FXML
     void initialize() {
-    	EventBus.getDefault().register(this);
     	
         assert movieLargeImageSrc != null : "fx:id=\"movieLargeImageSrc\" was not injected: check your FXML file 'OrderTicketsPage.fxml'.";
         assert movieImageSrc != null : "fx:id=\"movieImageSrc\" was not injected: check your FXML file 'OrderTicketsPage.fxml'.";
@@ -87,9 +88,33 @@ public class OrderTicketsPageController {
         assert orderTicketsBtn != null : "fx:id=\"orderTicketsBtn\" was not injected: check your FXML file 'OrderTicketsPage.fxml'.";
     }
     
-    public void setPurchaseInfo(int type, Screening screening) {
+    public void setPurchaseInfo(int type, Screening screening, boolean isTavSagol, int numOfSeats, double limit , int taken) {
     	purchaseType = type;
     	screeningChosen = screening;
+    	this.isTavSagol = isTavSagol;
+    	this.numOfSeats = numOfSeats;
+    	if(isTavSagol) {
+    		if(taken + numOfSeats < limit) {
+    	    	for(int i = 0 ; i < screening.getHall().getRows(); i++) {
+    	    		for(int j = 0 ; j < screening.getHall().getCols() ; j++) {
+    	    			if(screening.getSeats()[i][j] == 0) {
+    	    				screening.getSeats()[i][j] = 2;
+    	    				seatsChosen.add(new Pair<Integer,Integer>(i,j));
+    	    				if(seatsChosen.size() == numOfSeats) {
+    	    					continue;
+    	    				}
+    	    			}
+    	    		}
+    	    		if(seatsChosen.size() == numOfSeats) {
+    					continue;
+    				}
+    	    	}
+    	    }
+    	}
+    	
+    	
+    	
+    	
     }
     
     public void loadMovieInfo() {
@@ -140,6 +165,7 @@ public class OrderTicketsPageController {
     		JOptionPane.showMessageDialog(null, "Please choose a Seat");
     		return;
     	}else {
+        	EventBus.getDefault().register(this);
     		Message msg  = new Message();
     		msg.setAction("picking chair");
     		msg.setScreening(screeningChosen);
@@ -155,6 +181,8 @@ public class OrderTicketsPageController {
     
     @Subscribe
     public void onMessageEvene(Message msg){
+    	EventBus.getDefault().unregister(this);
+
     	if(msg.getAction().equals("picking seats success")) {
     		Platform.runLater(() ->{;
     			orderTicketsSuccess();

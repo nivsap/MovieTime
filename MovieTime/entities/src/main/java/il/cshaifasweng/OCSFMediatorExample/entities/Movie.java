@@ -36,8 +36,9 @@ public class Movie implements  Serializable
     private int priceMovie;
     private String producersMovie;
     private LocalDateTime launchDate;
-    @OneToOne(mappedBy = "movie", cascade = CascadeType.MERGE , fetch = FetchType.EAGER)
-	private Screening screening;
+    private boolean isDeleted;
+//    @OneToOne(mappedBy = "movie", cascade = CascadeType.MERGE , fetch = FetchType.EAGER)
+//	private Screening screening;
     //TODO ending time, duration = ending time - starting time
 
 
@@ -47,7 +48,7 @@ public class Movie implements  Serializable
 
     public Movie(String name, String duration, Double popular, String genre, String imageSrc, String largeImageSrc,
 			ArrayList<String> movie_Begining_Time, boolean streamOnline, boolean soonInCinema, String description,
-			String mainActors, LocalDateTime launchDate ,int priceMovie, String producersMovie,Screening screening) {
+			String mainActors, LocalDateTime launchDate ,int priceMovie, String producersMovie,Screening screening,boolean isDeleted) {
 		Name = name;
 		this.duration = duration;
 		this.popular = popular;
@@ -62,6 +63,7 @@ public class Movie implements  Serializable
 		this.launchDate = launchDate;
 		this.priceMovie = priceMovie;
 		this.producersMovie = producersMovie;
+		this.isDeleted = isDeleted;
 	//	this.screening = screening;
 	}
     
@@ -86,6 +88,14 @@ public class Movie implements  Serializable
 //	public void setScreening(Screening screening) {
 //		this.screening = screening;
 //	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 
 	public Movie() {
 		super();

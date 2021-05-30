@@ -52,6 +52,8 @@ public class UserController {
 			}
 			else if(arr.getUserName().equals(msg.getUsername()) && arr.getPassword().equals( msg.getPassword()) &&arr.isLoggedIn()==true) {
 				msg.setTypeOfWorkerString("you are already logged in");
+				arr.setLoggedIn(false);
+				Main.updateRowDB(arr);
 				flag = 1;
 			}
 

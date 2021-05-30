@@ -289,7 +289,7 @@ public class AddContentPageController {
     							   mainActors,
     							   launchDateTime,
     							   0,
-    							   producers,null);
+    							   producers,null,false);
     	sendMovieToServer(newMovie);
     }
     

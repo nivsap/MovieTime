@@ -52,6 +52,8 @@ public class CustomerController{
 		}
 		
 	}
+	 
+	//This function checks whether the customer deserves a refund and if so, returns the money to him according to the company's terms
 	public static int ReturnOnPurchase(Purchase purchase , LocalDateTime time) {
 		if(purchase.getCinemaTab().getKey() == true) {
 			return 0;

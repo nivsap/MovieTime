@@ -92,7 +92,6 @@ public class LoginPageController {
 	public void onMessageEvent(Message msg) {
     	if(msg.getAction().equals("login done")) {
     		Platform.runLater(()-> {
-    			EventBus.getDefault().unregister(this);
     			String workerType = msg.getTypeOfWorkerString();
     			if(workerType != null) {
 	    			try {
@@ -100,7 +99,7 @@ public class LoginPageController {
 	    					App.setBarAndGridLayout("NetworkAdministratorMainPage");
 	    				
 	    				if(workerType.equals("ContentManager"))
-	    					App.setBarAndGridLayout("MainPage");
+	    					App.setContent("DeleteMoviePage");
 	    				
 	    				if(workerType.equals("BranchManager")) 
 	    					App.setBarAndGridLayout("BranchManagerMainPage");

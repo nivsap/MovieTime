@@ -14,7 +14,7 @@
                   <Image url="@images/FinalLogo.png" />
                </image>
             </ImageView>
-            <Button fx:id="updateMoviesMenuBtn" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutY="200.0" mnemonicParsing="false" onAction="#loadUpdateMovies" prefHeight="52.0" prefWidth="200.0" styleClass="menuButton" text="Remove Movies" textFill="WHITE">
+            <Button fx:id="deleteMoviesMenuBtn" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutY="200.0" mnemonicParsing="false" onAction="#loadDeleteMoviesPage" prefHeight="52.0" prefWidth="200.0" styleClass="menuButton" text="Remove Movies" textFill="WHITE">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
                      <image>

@@ -11,6 +11,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -35,11 +37,14 @@ public class Complaint implements  Serializable {
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Purchase purchase;
 	private boolean status;
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "cinema_id")
+	private Cinema cinema;
 	
 	public Complaint() {
 		super();
 	}
-	public Complaint(String firstName, String lastName, String complaintTitle, String complaintDetails, boolean isOpen,Purchase purchase , boolean status) {
+	public Complaint(String firstName, String lastName, String complaintTitle, String complaintDetails, boolean isOpen,Purchase purchase , boolean status,Cinema cinema) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -50,11 +55,12 @@ public class Complaint implements  Serializable {
 		this.status = status;
 		 email="hadarmanor12@gmail.com";
 		  phoneNumber=null;
-		 complaintType=null;
 		 incidentDate=null;
+		 this.cinema = cinema;
+		 
 								
 	}
-	public Complaint(String firstName, String lastName, String complaintTitle, String complaintDetails, boolean isOpen, LocalDate incidentDate , boolean status,String complaintType) {
+	public Complaint(String firstName, String lastName, String complaintTitle, String complaintDetails, boolean isOpen, LocalDate incidentDate , boolean status,String complaintType,Cinema cinema) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -67,10 +73,10 @@ public class Complaint implements  Serializable {
 		this.purchase = null;
 		 email="hadarmanor12@gmail.com";
 		  phoneNumber=null;
-		
+		  this.cinema = cinema;
 	}
 	public Complaint(String firstName, String lastName, String email, String phoneNumber, String complaintType, LocalDate incidentDate, 
-					 String complaintTitle, String complaintDetails, boolean isOpen,Purchase purchase, boolean status) {
+					 String complaintTitle, String complaintDetails, boolean isOpen,Purchase purchase, boolean status,Cinema cinema) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -83,6 +89,7 @@ public class Complaint implements  Serializable {
 		this.isOpen = isOpen;
 		this.purchase = purchase;
 		this.status = status;
+		 this.cinema = cinema;
 	}
 	
 	public int getId() {
@@ -97,6 +104,12 @@ public class Complaint implements  Serializable {
 		return status;
 	}
 
+	public Cinema getCinema() {
+		return cinema;
+	}
+	public void setCinema(Cinema cinema) {
+		this.cinema = cinema;
+	}
 	public void setStatus(boolean status) {
 		this.status = status;
 	}

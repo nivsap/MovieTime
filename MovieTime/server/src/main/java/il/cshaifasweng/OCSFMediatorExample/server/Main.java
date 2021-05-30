@@ -177,8 +177,8 @@ public class Main extends AbstractServer {
 			session.flush();
 
 			//creating whole data base to cinema,screening,Hall
-			Cinema haifaCinema = new Cinema("Haifa", "Haifa,Carmel st", (BranchManager)shirWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>(),40,20,0.8,new ArrayList<>());
-			Cinema telAvivCinema = new Cinema("Tel-Aviv", "Tel-Aviv,Wieztman st", (BranchManager)nivWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>(),45,20,0.9,new ArrayList<>());
+			Cinema haifaCinema = new Cinema("Haifa", "Haifa,Carmel st", (BranchManager)shirWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>(),40,20,0.8,new ArrayList<>(),new ArrayList<>());
+			Cinema telAvivCinema = new Cinema("Tel-Aviv", "Tel-Aviv,Wieztman st", (BranchManager)nivWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>(),45,20,0.9,new ArrayList<>(),new ArrayList<>());
 			shirWorker.setCinema(haifaCinema);
 			nivWorker.setCinema(telAvivCinema);
 			haifaCinema.getWorkerArray().add(asafWorker);
@@ -317,16 +317,18 @@ public class Main extends AbstractServer {
 			session.save(customer10);
 			session.save(customer11);
 
-		    LocalDate date = LocalDate.of(2017, 1, 13);  
+		    LocalDate date = LocalDate.of(2021, 1, 13);  
 
-			Complaint someComplaint1 = new Complaint("Shir", "Avneri", "I'm very upset", "I want to finish this project", true,date,true,Complaint.getComplaintTypes()[0]);
-			Complaint someComplaint2 = new Complaint("Niv", "Sapir", "I want to complain", "I am very upset", true,date,true,Complaint.getComplaintTypes()[1]);
-			Complaint someComplaint3 = new Complaint("Hadar", "Manor", "Some title", "Some details" ,false,date,true,Complaint.getComplaintTypes()[2]);
+			Complaint someComplaint1 = new Complaint("Shir", "Avneri", "I'm very upset", "I want to finish this project", true,date,true,Complaint.getComplaintTypes()[0],haifaCinema);
+			Complaint someComplaint2 = new Complaint("Niv", "Sapir", "I want to complain", "I am very upset", true,date,true,Complaint.getComplaintTypes()[1],telAvivCinema);
+			Complaint someComplaint3 = new Complaint("Hadar", "Manor", "Some title", "Some details" ,false,date,true,Complaint.getComplaintTypes()[2],haifaCinema);
 			//Purchase customer = new Purchase("Hadar", "Manor", "Some title", "Some details" , "12312312",new Pair<Boolean, Integer>(true, 20),false,null,null,null,new ArrayList<>(),10,null);
 			//session.save(customer);
 			session.save(someComplaint1);
 			session.save(someComplaint2);
 			session.save(someComplaint3);
+			session.save(haifaCinema);
+			session.save(telAvivCinema);
 
 			session.flush();
 
@@ -868,7 +870,7 @@ public class Main extends AbstractServer {
 				serverMsg.setPurchasesList(getAllOfType(Purchase.class));
 				serverMsg.setCinemasArrayList(getAllOfType(Cinema.class));
 				serverMsg.setComplaints(getAllOfType(Complaint.class));
-				serverMsg.setAction("got cinemas and purchases");
+				serverMsg.setAction("got cinemas and purchases and complaints");
 				client.sendToClient(serverMsg);
 			}
 			catch (IOException e) {

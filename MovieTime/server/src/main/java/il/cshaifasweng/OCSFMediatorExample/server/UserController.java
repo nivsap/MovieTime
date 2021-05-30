@@ -14,7 +14,7 @@ public class UserController {
 	public static void getUser (Message msg) {
 		ArrayList<Worker> allWorkers = Main.getAllOfType(Worker.class);
 		for(Worker arr : allWorkers) {
-			if(arr.getUserName().equals(msg.getUsername()) && arr.getPassword().equals( msg.getPassword())) {
+			if(arr.getUserName().equals(msg.getUsername()) && arr.getPassword().equals( msg.getPassword()) && arr.isLoggedIn()==false) {
 				if(arr instanceof BranchManager) {
 					msg.setTypeOfWorkerString("BranchManager");
 					System.out.println(msg.getTypeOfWorkerString());
@@ -41,6 +41,10 @@ public class UserController {
 				}
 				else msg.setTypeOfWorkerString("null");
 			}
+			else if(arr.isLoggedIn()==true) {
+				msg.setTypeOfWorkerString("you are already logged in");
+			}
+
 		}
 	}
 }

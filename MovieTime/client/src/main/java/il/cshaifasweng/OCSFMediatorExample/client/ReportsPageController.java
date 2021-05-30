@@ -119,18 +119,20 @@ public class ReportsPageController {
 	    	YearMonth yearMonthObject = YearMonth.of(2021,Integer.parseInt(monthComboBox.getValue()) );
 	    	int daysInMonth = yearMonthObject.lengthOfMonth(); //28 
 	    	
-	    	ArrayList count;
+	    	ArrayList<Integer> count;
+	    	count = new ArrayList<Integer>(daysInMonth);
 	    	for(int i = 1 ; i <= daysInMonth ; i++) {
-	    		count = new ArrayList<Integer>(daysInMonth);
+	    		//count = new ArrayList<Integer>(daysInMonth);
 	    		for(int j = 0 ; j < count.size() ; j++) {
 	    			count.set(j, 0);
 	    		}
 		    	for(Cinema cinema : cinemas) {
 		        	
 			    	for(Complaint complaint : complaints) {
-			    		if(complaint.getCinema().getName().equals(cinema.getName())) {
+			    		if(complaint.getCinema().getName().equals(cinema.getName()))
+			    		{
 				    		if(complaint.getIncidentDate().getMonthValue() == Integer.parseInt(monthComboBox.getValue())) {
-								count.set(complaint.getIncidentDate().getDayOfMonth(), count.get((complaint.getIncidentDate().getDayOfMonth()) + 1);
+				    			count.set(complaint.getIncidentDate().getDayOfMonth(), (Integer)count.get((complaint.getIncidentDate().getDayOfMonth())) + 1 );
 							}
 			    		}
 			    	}
@@ -166,7 +168,7 @@ public class ReportsPageController {
     	
     	
     	Message msg = new Message();
-    	msg.setAction("get cinemas and purchases");
+    	msg.setAction("get cinemas and purchases and complaints");
     	try {
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {

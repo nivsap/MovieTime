@@ -73,7 +73,7 @@ public class PurchaseCancelationPage {
 		Message msg = new Message();
 		System.out.println("got here " + Order);
 		msg.setAction("get purchase by id");
-		msg.setId(Order);
+		msg.setId(Integer.parseInt(Order));
 		AppClient.getClient().sendToServer(msg);
 		//OrderWarningLabel.setVisible(false);
 		

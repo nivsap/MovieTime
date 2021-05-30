@@ -29,21 +29,16 @@ public class CustomerController{
 		return toReturnArrayList;
 	}
 
-	public static Purchase getID(String name) {
+	public static Purchase getID(int id) {
 		//Customer customer = null;
 		ArrayList<Purchase> customerList = Main.getAllOfType(Purchase.class);
 		System.out.println(customerList.size());
 		for(Purchase customer : customerList) {
-			if(customer.getFirstName().equals(name)) {
+			if(customer.getId() == id) {
 				return customer;
-			}
-			else
-			{
-				System.out.println(customer.getFirstName());
 			}
 		}
 		return null;
-		
 	}
 	public static void reduceTab(int id) {
 		//Customer customer = null;

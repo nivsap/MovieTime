@@ -358,17 +358,6 @@ public class Main extends AbstractServer {
 			System.out.println("hello server");
 		}
 		addDataToDB();
-//		ArrayList<Movie> what = getAllOfType(Movie.class);
-//		ArrayList<Screening> lol = getAllOfType(Screening.class);
-//		for(Screening iScreening : lol) {
-//			if(iScreening.getMovie().equals(what.get(0))) {
-//				deleteRowInDB(iScreening);
-//			}
-//		}
-//		ArrayList<Movie> what = getAllOfType(Movie.class);
-//		if(what.get(0) != null) {
-//			what.get(0).setDeleted(true);
-//			updateRowDB(what.get(0));}
 //		ArrayList<Worker> lol= getAllOfType(Worker.class);
 //		for(Worker worker : lol) {
 //			if(worker instanceof CustomerService) {
@@ -428,8 +417,6 @@ public class Main extends AbstractServer {
 		try {
 			session = sessionFactory.openSession();
 			session.beginTransaction();
-			//session.clear();
-		//	session.merge(objectType);
 			session.delete(objectType);
 			session.flush();
 			session.getTransaction().commit();
@@ -979,7 +966,6 @@ public class Main extends AbstractServer {
 		if(currentMsg.getAction().equals("add movie")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.getMovie().setDeleted(false);
 				saveRowInDB(serverMsg.getMovie());
 				serverMsg.setAction("added movie");
 				client.sendToClient(serverMsg);
@@ -990,11 +976,10 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		if(currentMsg.getAction().equals("delete movie")) {
+		if(currentMsg.getAction().equals("deleted movie")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.getMovie().setDeleted(true);
-				updateRowDB(serverMsg.getMovie());
+				deleteRowInDB(serverMsg.getMovie());
 				serverMsg.setAction("deleted movie");
 				client.sendToClient(serverMsg);
 			}
@@ -1207,7 +1192,7 @@ public class Main extends AbstractServer {
 					}
 					if (error) {
 						System.out.println("7");
-						msg.setAction("update movie error");
+						msg.setAction("	 error");
 						client.sendToClient(msg);
 						break;
 					}

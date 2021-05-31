@@ -39,8 +39,8 @@ public class Movie implements  Serializable
     private String producersMovie;
     private LocalDateTime launchDate;
     private boolean isScreeningDeleted;
-//    @OneToMany(mappedBy = "movies", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private List<ViewingPackage> viewingPackages;
+  //  @OneToMany(mappedBy = "movies", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+   // private List<ViewingPackage> viewingPackages;
 //    @OneToOne(mappedBy = "movie", cascade = CascadeType.MERGE , fetch = FetchType.EAGER)
 //	private Screening screening;
     //TODO ending time, duration = ending time - starting time

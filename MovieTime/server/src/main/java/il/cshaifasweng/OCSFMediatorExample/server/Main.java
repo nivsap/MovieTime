@@ -843,13 +843,18 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		System.out.println("123");
 		if(currentMsg.getAction().equals("get purchase by id")) {
 			try {
 				serverMsg = currentMsg;
+				System.out.println("1");
 				serverMsg.setPurchase(CustomerController.getID(serverMsg.getId()));
-				serverMsg.setPayment(CustomerController.ReturnOnPurchase(serverMsg.getPurchase(), LocalDateTime.now()));
+				System.out.println("2");
+				if(serverMsg.getPurchase()!=null) {
+					serverMsg.setPayment(CustomerController.ReturnOnPurchase(serverMsg.getPurchase(), LocalDateTime.now()));}
+				System.out.println("3");
 				serverMsg.setAction("got purchase by id");
-				if(serverMsg.getPurchase().isCanceled())
+				if(serverMsg.getPurchase()!= null && serverMsg.getPurchase().isCanceled())
 					serverMsg.setPurchase(null);
 				client.sendToClient(serverMsg);
 			}
@@ -859,6 +864,7 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		System.out.println("321");
 		if(currentMsg.getAction().equals("get purchases")) {
 			try {
 				serverMsg = currentMsg;

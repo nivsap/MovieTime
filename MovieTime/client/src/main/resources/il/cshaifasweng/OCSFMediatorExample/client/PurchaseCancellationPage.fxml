@@ -8,7 +8,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #1d1e22;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.PurchaseCancelationPage">
+<VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #1d1e22;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.PurchaseCancellationPageController">
    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #343537;">
       <children>
          <AnchorPane layoutX="25.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="650.0" style="-fx-background-color: #141518;">
@@ -25,7 +25,7 @@
                <Button fx:id="searchBtn" alignment="CENTER" layoutX="200.0" layoutY="150.0" mnemonicParsing="false" onAction="#getPurchaseInfo" prefHeight="30.0" prefWidth="250.0" styleClass="orangeButton" text="Search" />
             </children>
          </AnchorPane>
-         <AnchorPane fx:id="purchaseCancelationFormContainer" layoutX="25.0" layoutY="230.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="650.0" style="-fx-background-color: #141518;">
+         <AnchorPane fx:id="purchaseCancelationFormContainer" layoutX="25.0" layoutY="220.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="650.0" style="-fx-background-color: #141518;">
             <children>
                <Label layoutX="10.0" layoutY="10.0" style="-fx-font-weight: bold;" text="Purchase Information" textFill="WHITE">
                   <font>

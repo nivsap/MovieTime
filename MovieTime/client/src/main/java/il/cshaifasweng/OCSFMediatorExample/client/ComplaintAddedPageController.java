@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
 public class ComplaintAddedPageController {
-	@FXML
+    @FXML
     private Label firstNameLabel;
 
     @FXML
@@ -21,7 +21,7 @@ public class ComplaintAddedPageController {
     private Label complaintTypeLabel;
 
     @FXML
-    private Label incidentDateLabel;
+    private Label orderNumberLabel;
 
     @FXML
     private Label complaintTitleLabel;
@@ -36,7 +36,7 @@ public class ComplaintAddedPageController {
         assert emailLabel != null : "fx:id=\"emailLabel\" was not injected: check your FXML file 'ComplaintAddedPage.fxml'.";
         assert phoneNumberLabel != null : "fx:id=\"phoneNumberLabel\" was not injected: check your FXML file 'ComplaintAddedPage.fxml'.";
         assert complaintTypeLabel != null : "fx:id=\"complaintTypeLabel\" was not injected: check your FXML file 'ComplaintAddedPage.fxml'.";
-        assert incidentDateLabel != null : "fx:id=\"incidentDateLabel\" was not injected: check your FXML file 'ComplaintAddedPage.fxml'.";
+        assert orderNumberLabel != null : "fx:id=\"orderNumberLabel\" was not injected: check your FXML file 'ComplaintAddedPage.fxml'.";
         assert complaintTitleLabel != null : "fx:id=\"complaintTitleLabel\" was not injected: check your FXML file 'ComplaintAddedPage.fxml'.";
         assert complaintDetailsLabel != null : "fx:id=\"complaintDetailsLabel\" was not injected: check your FXML file 'ComplaintAddedPage.fxml'.";
     }
@@ -48,7 +48,7 @@ public class ComplaintAddedPageController {
         emailLabel.setText(complaint.getEmail());
         phoneNumberLabel.setText(complaint.getPhoneNumber());
         complaintTypeLabel.setText(complaint.getComplaintType());
-        incidentDateLabel.setText(complaint.getIncidentDate().toString());
+        orderNumberLabel.setText(String.valueOf(complaint.getPurchase().getId()));
         complaintTitleLabel.setText(complaint.getComplaintTitle());
         complaintDetailsLabel.setText(complaint.getComplaintDetails());
     }

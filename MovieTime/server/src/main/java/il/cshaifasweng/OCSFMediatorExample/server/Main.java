@@ -1156,6 +1156,21 @@ public class Main extends AbstractServer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			
+		}
+		if(currentMsg.getAction().equals("log out")) {
+			try {
+				UserController.logUserOut(currentMsg);
+				serverMsg = new Message();
+				serverMsg.setAction("logged out");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant selection of seats under restrictions");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 

@@ -93,6 +93,7 @@ public class LoginPageController {
     	if(msg.getAction().equals("login done")) {
     		Platform.runLater(()-> {
     			String workerType = msg.getTypeOfWorkerString();
+    			App.currentWorker=msg.getWorker();
     			if(workerType != null) {
 	    			try {
 	    				if(workerType.equals("NetworkAdministrator")) {

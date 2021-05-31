@@ -16,6 +16,7 @@ public final class PageTitles {
 	static final String DeleteMoviesPage = "Delete Movies";
 
 	static final String ReportsPage = "Reports";
+	static final String PurpleLimitPage = "Purple Limit Page";
 
 	static final String ComplaintHandeling = "Complaint Handeling";
 }

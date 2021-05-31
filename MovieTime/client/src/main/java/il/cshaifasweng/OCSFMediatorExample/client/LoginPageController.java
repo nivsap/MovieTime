@@ -95,9 +95,10 @@ public class LoginPageController {
     			String workerType = msg.getTypeOfWorkerString();
     			if(workerType != null) {
 	    			try {
-	    				if(workerType.equals("NetworkAdministrator"))
+	    				if(workerType.equals("NetworkAdministrator")) {
 	    					App.setBarAndGridLayout("NetworkAdministratorMainPage");
-	    				
+	    					
+	    				}
 	    				if(workerType.equals("ContentManager"))
 	    					App.setContent("DeleteMoviePage");
 	    				

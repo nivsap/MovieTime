@@ -164,7 +164,7 @@ public class FilingComplaintsPageController  {
     		return;
     	}
     	
-    	newComplaint = new Complaint(firstName, lastName, email, phoneNumber, complaintType, incidentDate, complaintTitle, complaintDetails, true,null,true);
+    	newComplaint = new Complaint(firstName, lastName, email, phoneNumber, complaintType, incidentDate, complaintTitle, complaintDetails, true,null,true,null);
     	sendMessageToServer(newComplaint);
     }
     

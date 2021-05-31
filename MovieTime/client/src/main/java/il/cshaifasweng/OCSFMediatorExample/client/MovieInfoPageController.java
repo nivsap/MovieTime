@@ -28,6 +28,7 @@ public class MovieInfoPageController {
     private Screening screeningChosen;
     private ArrayList<Cinema> cinemas;
     private ArrayList<Screening> screenings;
+    private ArrayList<Screening> filteredScreenings;
     private int purchaseType;
     private boolean isTavSagol = false;
     private int tavSagolLimit;
@@ -175,6 +176,7 @@ public class MovieInfoPageController {
     @FXML
     private void cinemaChosen() {
     	EventBus.getDefault().register(this);
+    	filteredScreenings = screenings;
     	int cinemaId = -1;
     	if(cinemaCombo.getValue() == null) {
     		return;
@@ -223,17 +225,19 @@ public class MovieInfoPageController {
     		return;
     	}
     	for(Screening screening : screenings) {
-    		onlyTime = screening.getDate_screen().toString();
-    		onlyTime = onlyTime.substring(11,16);
-    		timeCombo.getItems().add(onlyTime);
+    		if(screening.getDate_screen().toString().substring(0,10).equals(dateCombo.getValue())){
+    			onlyTime = screening.getDate_screen().toString().substring(11,16);
+        		timeCombo.getItems().add(onlyTime);
+    		}
+    				
     	}
+    	
     }
     
     
     @FXML
     void timeChosen() {
     	String LDT;
-    	numberOfSeatsCombo.setVisible(true);
     	for (Screening screening : screenings) {
     		if(screening.getCinema().getName().equals(cinemaCombo.getValue())) {
     			LDT = screening.getDate_screen().toString();
@@ -249,6 +253,7 @@ public class MovieInfoPageController {
     	}
     	Hall hall = screeningChosen.getHall();
     	if(isTavSagol) {
+
     		seatsLimit = hall.getRows() * hall.getRows();
     		if((double)tavSagolLimit*1.2 < seatsLimit) {
     			seatsLimit = tavSagolLimit;
@@ -274,10 +279,7 @@ public class MovieInfoPageController {
     			numberOfSeatsCombo.getItems().add(Integer.toString(i));
     			i++;
     		}
-    		
-    		
-    		
-    		
+        	numberOfSeatsCombo.setVisible(true);
     		
     	}
     }
@@ -302,7 +304,9 @@ public class MovieInfoPageController {
     	App.setWindowTitle(PageTitles.OrderTicketsPage);
     	OrderTicketsPageController controller = (OrderTicketsPageController) App.setContent("OrderTicketsPage");
     	
-    	
+    	if(numberOfSeatsCombo.getValue() == null) {
+    		numberOfSeatsCombo.setValue(Integer.toString(0));
+    	}
     	controller.setPurchaseInfo(purchaseType, screeningChosen,isTavSagol, Integer.parseInt(numberOfSeatsCombo.getValue()),seatsLimit, seatsTaken);
     	controller.loadMovieInfo();
     	controller.loadScreeningInfo();

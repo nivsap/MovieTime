@@ -44,7 +44,7 @@ public class MovieController {
 		ArrayList<Movie> toReturnArrayList = new ArrayList<>();
 		screeningMoviesArrayList = Main.getAllOfType(Movie.class);
 		for(Movie movie : screeningMoviesArrayList) {
-			if(movie.isSoonInCinema() == false) {
+			if(movie.isSoonInCinema() == false && movie.isDeleted() == false) {
 				toReturnArrayList.add(movie);
 			}
 		}

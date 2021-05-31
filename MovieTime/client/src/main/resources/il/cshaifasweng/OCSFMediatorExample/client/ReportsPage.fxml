@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #1d1e22;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.ReportsPageController">
+   <children>
+      <AnchorPane prefHeight="700.0" prefWidth="700.0">
+         <children>
+            <BarChart fx:id="reportChart" layoutX="100.0" layoutY="224.0" style="-fx-background-color: #ffffff;" title="Report">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </BarChart>
+            <ComboBox fx:id="reportNameComboBox" layoutX="294.0" layoutY="168.0" prefWidth="150.0" promptText="Report name" styleClass="orangeComboBox" />
+            <ComboBox fx:id="monthComboBox" layoutX="100.0" layoutY="168.0" prefWidth="150.0" promptText="month" styleClass="orangeComboBox" />
+            <Button layoutX="490.0" layoutY="168.0" mnemonicParsing="false" onAction="#getReport" prefHeight="30.0" prefWidth="109.0" styleClass="orangeButton" text="Button" />
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>

@@ -15,7 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
-public class PurchaseCancelationPage {
+public class PurchaseCancellationPageController {
 	private Boolean isRegistered;
 	private int waitingForMessageCounter;
 	private String orderNumber;
@@ -64,7 +64,7 @@ public class PurchaseCancelationPage {
 	@FXML
 	private Label weAreSorryLabel;
 	
-	public PurchaseCancelationPage() {
+	public PurchaseCancellationPageController() {
 		isRegistered = false;
 		waitingForMessageCounter = 0;
 		foundPurchase = new Purchase();
@@ -190,6 +190,9 @@ public class PurchaseCancelationPage {
     public void onMessageEvent(Message msg){
     	if(msg.getAction().equals("got purchase by id")) {
     		waitingForMessageCounter--;
+        	if(waitingForMessageCounter == 0) {
+        		EventBus.getDefault().unregister(this);
+        	}
     		Platform.runLater(() -> {
     			orderNumber = "";
     			foundPurchase = msg.getPurchase();
@@ -210,6 +213,9 @@ public class PurchaseCancelationPage {
     	
     	if(msg.getAction().equals("got purchase cancelation by id")) {
     		waitingForMessageCounter--;
+        	if(waitingForMessageCounter == 0) {
+        		EventBus.getDefault().unregister(this);
+        	}
     		Platform.runLater(() -> {
     			try {
 					sendCancellationEmail();
@@ -222,18 +228,17 @@ public class PurchaseCancelationPage {
     	
     	if(msg.getAction().equals("sent purchase cancellation mail")) {
     		waitingForMessageCounter--;
+        	if(waitingForMessageCounter == 0) {
+        		EventBus.getDefault().unregister(this);
+        	}
     		Platform.runLater(() -> {
-    			/*try {
-					// LoadPage...
+    			try {
+					App.setContent("PurchaseCanceledPage");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}*/
+				}
     		});
     	} 
-    	
-    	if(waitingForMessageCounter == 0) {
-    		EventBus.getDefault().unregister(this);
-    	}
     }
 }

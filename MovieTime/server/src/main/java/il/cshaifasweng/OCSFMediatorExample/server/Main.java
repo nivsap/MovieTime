@@ -484,7 +484,7 @@ public class Main extends AbstractServer {
 	@Override
 	protected synchronized void clientDisconnected(ConnectionToClient client) {
 		// TODO Auto-generated method stub
-
+		
 		System.out.println("Client Disconnected.");
 		super.clientDisconnected(client);
 	}

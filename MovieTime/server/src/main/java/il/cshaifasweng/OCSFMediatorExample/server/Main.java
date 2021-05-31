@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 import java.time.LocalDateTime;
-import java.time.Month;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -501,17 +501,25 @@ public class Main extends AbstractServer {
 		Message currentMsg = ((Message)msg);
 
 		serverMsg = new Message();
-		//		if(currentMsg.getAction().equals("pull movies")) {
-		//			serverMsg.setMovies(getAllOfType(Movie.class));
-		//			serverMsg.setAction("got movies");
-		//			try {
-		//				client.sendToClient(serverMsg);
-		//			} catch (IOException e) {
-		//				System.out.println("cant create list of movies");
-		//				// TODO Auto-generated catch block
-		//				e.printStackTrace();
-		//			}
-		//		}
+				if(currentMsg.getAction().equals("pull movies")) {
+					ArrayList<Movie> screeningMoviesArrayList = new ArrayList<>();
+					ArrayList<Movie> toReturnArrayList = new ArrayList<>();
+					screeningMoviesArrayList = Main.getAllOfType(Movie.class);
+					for(Movie movie : screeningMoviesArrayList) {
+						if(movie.isDeleted() == false) {
+							toReturnArrayList.add(movie);
+						}
+					}
+					serverMsg.setMovies(toReturnArrayList);
+					serverMsg.setAction("got movies");
+					try {
+						client.sendToClient(serverMsg);
+					} catch (IOException e) {
+						System.out.println("cant create list of movies");
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 
 		if(currentMsg.getAction().equals("update movie time")) {
 

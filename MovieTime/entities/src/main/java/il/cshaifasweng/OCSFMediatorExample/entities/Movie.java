@@ -38,7 +38,7 @@ public class Movie implements  Serializable
     private int priceMovie;
     private String producersMovie;
     private LocalDateTime launchDate;
-    private boolean isDeleted;
+    private boolean isScreeningDeleted;
 //    @OneToMany(mappedBy = "movies", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //    private List<ViewingPackage> viewingPackages;
 //    @OneToOne(mappedBy = "movie", cascade = CascadeType.MERGE , fetch = FetchType.EAGER)
@@ -67,7 +67,7 @@ public class Movie implements  Serializable
 		this.launchDate = launchDate;
 		this.priceMovie = priceMovie;
 		this.producersMovie = producersMovie;
-		this.isDeleted = isDeleted;
+		this.isScreeningDeleted = isDeleted;
 	//	this.viewingPackages = new ArrayList<ViewingPackage>();
 	//	this.screening = screening;
 	}
@@ -103,11 +103,11 @@ public class Movie implements  Serializable
 //	}
 
 	public boolean isDeleted() {
-		return isDeleted;
+		return isScreeningDeleted;
 	}
 
 	public void setDeleted(boolean isDeleted) {
-		this.isDeleted = isDeleted;
+		this.isScreeningDeleted = isDeleted;
 	}
 
 	public Movie() {

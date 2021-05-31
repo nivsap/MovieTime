@@ -197,26 +197,26 @@ public class Main extends AbstractServer {
 
 			Screening screeningOfFilm_1 = new Screening(getTime(2021, 2, 3), hall1, avengersEndgame,
 					haifaCinema,new ArrayList<>());
-			Screening screeningOfFilm_2 = new Screening(getExacTime(2021, 5, 25, 20, 00), hall1, sherlockHolmes,
+			Screening screeningOfFilm_2 = new Screening(getExacTime(2021, 6, 25, 20, 00), hall1, sherlockHolmes,
 					haifaCinema,new ArrayList<>());
-			Screening screeningOfFilm_3 = new Screening(getExacTime(2021, 5, 26, 20, 00), hall2, sherlockHolmes,
+			Screening screeningOfFilm_3 = new Screening(getExacTime(2021, 6, 26, 20, 00), hall2, sherlockHolmes,
 					haifaCinema,new ArrayList<>());
-			Screening screeningOfFilm_4 = new Screening(getExacTime(2021, 5, 27, 20, 00), hall2, babyDriver,
+			Screening screeningOfFilm_4 = new Screening(getExacTime(2021, 6, 27, 20, 00), hall2, babyDriver,
 					haifaCinema,new ArrayList<>());
-			Screening screeningOfFilm_9 = new Screening(getExacTime(2021, 5, 27, 20, 30), hall2, sherlockHolmes,
+			Screening screeningOfFilm_9 = new Screening(getExacTime(2021, 6, 27, 20, 30), hall2, sherlockHolmes,
 					haifaCinema,new ArrayList<>());
-			Screening screeningOfFilm_10 = new Screening(getExacTime(2021, 5, 27, 20, 30), hall1, wonderWoman1984,
+			Screening screeningOfFilm_10 = new Screening(getExacTime(2021, 6, 27, 20, 30), hall1, wonderWoman1984,
 					haifaCinema,new ArrayList<>());
-			Screening screeningOfFilm_5 = new Screening(getExacTime(2021, 5, 26, 20, 00), hall3, wonderWoman1984,
+			Screening screeningOfFilm_5 = new Screening(getExacTime(2021, 6, 26, 20, 00), hall3, wonderWoman1984,
 					telAvivCinema,new ArrayList<>());
-			Screening screeningOfFilm_6 = new Screening(getExacTime(2021, 5, 27, 20, 00), hall3, it, telAvivCinema,new ArrayList<>());
-			Screening screeningOfFilm_7 = new Screening(getExacTime(2021, 5, 28, 13, 30), hall4, toyStory,
+			Screening screeningOfFilm_6 = new Screening(getExacTime(2021, 6, 27, 20, 00), hall3, it, telAvivCinema,new ArrayList<>());
+			Screening screeningOfFilm_7 = new Screening(getExacTime(2021, 6, 28, 13, 30), hall4, toyStory,
 					telAvivCinema,new ArrayList<>());
-			Screening screeningOfFilm_8 = new Screening(getExacTime(2021, 5, 28, 20, 00), hall4, Minions,
+			Screening screeningOfFilm_8 = new Screening(getExacTime(2021, 6, 28, 20, 00), hall4, Minions,
 					telAvivCinema,new ArrayList<>());
-			Screening screeningOfFilm_11 = new Screening(getExacTime(2021, 5, 28, 10, 15), hall4, Minions,
+			Screening screeningOfFilm_11 = new Screening(getExacTime(2021, 6, 28, 10, 15), hall4, Minions,
 					telAvivCinema,new ArrayList<>());
-			Screening screeningOfFilm_12 = new Screening(getExacTime(2021, 5, 28, 10, 15), hall3, it, telAvivCinema,new ArrayList<>());
+			Screening screeningOfFilm_12 = new Screening(getExacTime(2021, 6, 28, 10, 15), hall3, it, telAvivCinema,new ArrayList<>());
 
 			hall1.getScreeningArray().add(screeningOfFilm_1);
 			hall1.getScreeningArray().add(screeningOfFilm_2);
@@ -279,28 +279,28 @@ public class Main extends AbstractServer {
 
 
 
-			Purchase customer2 = new Purchase("Alon", "Latman", "Some title", "Some details", "123456789",
-					new Pair<Boolean, Integer>(true, 20), false, getExacTime(2021, 5, 28, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,null);
-			Purchase customer1 = new Purchase("Alon", "Latman", "Some title", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 28, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,null);
-			Purchase customer3 = new Purchase("Alon", "Latman", "Some title", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 30, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,null);
-			Purchase customer4 = new Purchase("Alon", "Latman", "Some title", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,null);
-			Purchase customer5 = new Purchase("Alon", "Latman", "Some title", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 6, 28, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,null);
-			Purchase customer6 = new Purchase("Alon", "Latman", "Some title", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 28, 10, 15), telAvivCinema, null, new ArrayList<>(), 10, null,null);
-			Purchase customer7 = new Purchase("Alon", "Latman", "Some title", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 6, 28, 10, 15), telAvivCinema, null, new ArrayList<>(), 10, null,null);
-			Purchase customer8 = new Purchase("Alon", "Latman", "Some title", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 28, 10, 15), telAvivCinema, null, new ArrayList<>(), 10, null,null);
-			Purchase customer9 = new Purchase("Alon", "Latman", "Some title", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 4, 28, 10, 15), telAvivCinema, null, new ArrayList<>(), 10, null,null);
-			Purchase customer10 = new Purchase("Alon", "Latman", "Some title", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,null);
-			Purchase customer11 = new Purchase("Alon", "Latman", "Some title", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,null);
+			Purchase customer2 = new Purchase("Alon", "Latman1", "Some title", "Some details", "123456789",
+					new Pair<Boolean, Integer>(true, 20), false, getExacTime(2021, 5, 28, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_2);
+			Purchase customer1 = new Purchase("Alon", "Latman2", "Some title", "Some details", "123456789",
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 28, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_3);
+			Purchase customer3 = new Purchase("Alon", "Latman3", "Some title", "Some details", "123456789",
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 30, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_4);
+			Purchase customer4 = new Purchase("Alon", "Latman4", "Some title", "Some details", "123456789",
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_10);
+			Purchase customer5 = new Purchase("Alon", "Latman5", "Some title", "Some details", "123456789",
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 6, 28, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_5);
+			Purchase customer6 = new Purchase("Alon", "Latman6", "Some title", "Some details", "123456789",
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 28, 10, 15), telAvivCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_6);
+			Purchase customer7 = new Purchase("Alon", "Latman7", "Some title", "Some details", "123456789",
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 6, 28, 10, 15), telAvivCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_7);
+			Purchase customer8 = new Purchase("Alon", "Latman8", "Some title", "Some details", "123456789",
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 28, 10, 15), telAvivCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_8);
+			Purchase customer9 = new Purchase("Alon", "Latman9", "Some title", "Some details", "123456789",
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 4, 28, 10, 15), telAvivCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_8);
+			Purchase customer10 = new Purchase("Alon", "Latman22", "Some title", "Some details", "123456789",
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_1);
+			Purchase customer11 = new Purchase("Alon", "Latman33", "Some title", "Some details", "123456789",
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_3);
 			
 			
 			
@@ -360,6 +360,7 @@ public class Main extends AbstractServer {
 			System.out.println("hello server");
 		}
 		addDataToDB();
+	//	Purchase purchase = CustomerController.getID(10);
 //		ArrayList<Worker> lol= getAllOfType(Worker.class);
 //		for(Worker worker : lol) {
 //			if(worker instanceof CustomerService) {
@@ -842,11 +843,9 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		
 		if(currentMsg.getAction().equals("get purchase by id")) {
 			try {
 				serverMsg = currentMsg;
-				System.out.println("server msg is " + serverMsg.getId());
 				serverMsg.setPurchase(CustomerController.getID(serverMsg.getId()));
 				serverMsg.setPayment(CustomerController.ReturnOnPurchase(serverMsg.getPurchase(), LocalDateTime.now()));
 				serverMsg.setAction("got purchase by id");
@@ -858,7 +857,6 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		
 		if(currentMsg.getAction().equals("get purchases")) {
 			try {
 				serverMsg = currentMsg;
@@ -946,7 +944,7 @@ public class Main extends AbstractServer {
 			}
 		}
 
-		
+		//
 		if(currentMsg.getAction().equals("send successful purchase mail")) {
 			try {
 				serverMsg = currentMsg;
@@ -1098,7 +1096,7 @@ public class Main extends AbstractServer {
 				serverMsg.getPurchase().getCinema().getCancelPurchases().add(serverMsg.getPurchase());
 				updateRowDB(serverMsg.getPurchase());
 				updateRowDB(serverMsg.getPurchase().getCinema());
-				serverMsg.setAction("deleted a viewing package");
+				serverMsg.setAction("got purchase cancelation by id");
 				client.sendToClient(serverMsg);
 			}
 			catch (IOException e) {

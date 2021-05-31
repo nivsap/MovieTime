@@ -32,7 +32,7 @@ public class CustomerController{
 	public static Purchase getID(int id) {
 		//Customer customer = null;
 		ArrayList<Purchase> customerList = Main.getAllOfType(Purchase.class);
-		System.out.println(customerList.size());
+	//	System.out.println(customerList.size());
 		for(Purchase customer : customerList) {
 			if(customer.getId() == id) {
 				return customer;

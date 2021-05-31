@@ -1,24 +1,25 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
-import java.time.LocalDate;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
-
+import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class FilingComplaintsPageController  {
+	private Boolean isRegistered;
+	private int waitingForMessageCounter;
+	private Complaint newComplaint;
 
     @FXML
     private TextField firstNameTextField;
@@ -51,10 +52,10 @@ public class FilingComplaintsPageController  {
     private Label complaintTypeWarningLabel;
 
     @FXML
-    private DatePicker incidentDatePicker;
+    private TextField orderNumberTextField;
 
     @FXML
-    private Label incidentDateWarningLabel;
+    private Label orderNumberWarningLabel;
 
     @FXML
     private TextField complaintTitleTextField;
@@ -70,13 +71,15 @@ public class FilingComplaintsPageController  {
 
     @FXML
     private Button fileComplaintBtn;
-    
-    private Complaint newComplaint;
+
+    public FilingComplaintsPageController() {
+    	isRegistered = false;
+    	waitingForMessageCounter = 0;
+    	newComplaint = new Complaint();
+    }
     
     @FXML
     void initialize() {
-    	System.out.println("initializing FilingComplaintsPage");
-
         assert firstNameTextField != null : "fx:id=\"firstNameTextField\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
         assert firstNameWarningLabel != null : "fx:id=\"firstNameWarningLabel\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
         assert lastNameTextField != null : "fx:id=\"lastNameTextField\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
@@ -87,8 +90,8 @@ public class FilingComplaintsPageController  {
         assert phoneNumberWarningLabel != null : "fx:id=\"phoneNumberWarningLabel\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
         assert complaintTypeComboBox != null : "fx:id=\"complaintTypeComboBox\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
         assert complaintTypeWarningLabel != null : "fx:id=\"complaintTypeWarningLabel\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
-        assert incidentDatePicker != null : "fx:id=\"incidentDatePicket\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
-        assert incidentDateWarningLabel != null : "fx:id=\"incidentDateWarningLabel\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
+        assert orderNumberTextField != null : "fx:id=\"orderNumberTextField\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
+        assert orderNumberWarningLabel != null : "fx:id=\"orderNumberWarningLabel\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
         assert complaintTitleTextField != null : "fx:id=\"complaintTitleTextField\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
         assert complaintTitleWarningLabel != null : "fx:id=\"complaintTitleWarningLabel\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
         assert complaintDetailsTextArea != null : "fx:id=\"complaintDetailsTextArea\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
@@ -96,7 +99,6 @@ public class FilingComplaintsPageController  {
         assert fileComplaintBtn != null : "fx:id=\"fileComplaintBtn\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
         
         complaintTypeComboBox.getItems().addAll(Complaint.getComplaintTypes());
-        
         hideWarningLabels();
     }
     
@@ -106,11 +108,10 @@ public class FilingComplaintsPageController  {
 		emailWarningLabel.setVisible(false);
 		phoneNumberWarningLabel.setVisible(false);
 		complaintTypeWarningLabel.setVisible(false);
-		incidentDateWarningLabel.setVisible(false);
+		orderNumberWarningLabel.setVisible(false);
 		complaintTitleWarningLabel.setVisible(false);
 		complaintDetailsWarningLabel.setVisible(false);
 	}
-    
     
     @FXML
     void fileComplaint() {
@@ -121,78 +122,125 @@ public class FilingComplaintsPageController  {
     		firstNameWarningLabel.setVisible(true);
     		return;
     	}
+    	newComplaint.setFirstName(firstName);
     	
     	String lastName = lastNameTextField.getText();
     	if(lastName.equals("")) {
     		lastNameWarningLabel.setVisible(true);
     		return;
     	}
+    	newComplaint.setLastName(lastName);
     	
     	String email = emailTextField.getText();
     	if(email.equals("")) {
     		emailWarningLabel.setVisible(true);
     		return;
     	}
+    	newComplaint.setEmail(email);
     	
     	String phoneNumber = phoneNumberTextField.getText();
     	if(phoneNumber.equals("")) {
     		phoneNumberWarningLabel.setVisible(true);
     		return;
     	}
+    	newComplaint.setPhoneNumber(phoneNumber);
     	
     	String complaintType = (String) complaintTypeComboBox.getValue();
     	if(complaintType.equals("")) {
     		complaintTypeWarningLabel.setVisible(true);
     		return;
     	}
+    	newComplaint.setComplaintType(complaintType);
 
-		LocalDate incidentDate = incidentDatePicker.getValue();
-    	if(incidentDate == null) {
-    		incidentDateWarningLabel.setVisible(true);
-    		return;
-    	}
-    	
     	String complaintTitle = complaintTitleTextField.getText();
     	if(complaintTitle.equals("")) {
     		complaintTitleWarningLabel.setVisible(true);
     		return;
     	}
+    	newComplaint.setComplaintTitle(complaintTitle);
     	
     	String complaintDetails = complaintDetailsTextArea.getText();
     	if(complaintDetails.equals("")) {
     		complaintDetailsWarningLabel.setVisible(true);
     		return;
     	}
+    	newComplaint.setComplaintDetails(complaintDetails);
     	
-    	newComplaint = new Complaint(firstName, lastName, email, phoneNumber, complaintType, incidentDate, complaintTitle, complaintDetails, true,null,true,null);
-    	sendMessageToServer(newComplaint);
+    	String orderNumber = orderNumberTextField.getText();
+    	if(orderNumber == null) {
+    		orderNumberWarningLabel.setText("Order number must be filled");
+    		orderNumberWarningLabel.setVisible(true);
+    		return;
+    	}
+    	getOrderByID((Integer.parseInt(orderNumber)));
+    }
+ 
+    public void getOrderByID(int orderNumber) {
+		Message msg = new Message();
+		msg.setAction("get purchase by id");
+		msg.setId(orderNumber);
+		sendMessageToServer(msg);
     }
     
-    public void sendMessageToServer(Complaint newComplaint) {
-    	EventBus.getDefault().register(this);
+    public void fileComplaint(Purchase foundPurchase) {
+    	newComplaint.setPurchase(foundPurchase);
+    	newComplaint.setCinema(foundPurchase.getCinema());
+    	newComplaint.setIncidentDate(null);
+    	newComplaint.setIsOpen(true);
+    	newComplaint.setStatus(true);
     	Message msg = new Message();
 		msg.setComplaint(newComplaint);
 		msg.setAction("add a complaint");
+		sendMessageToServer(msg);
+    }
+    
+    void sendMessageToServer(Message msg) {
 		try {
+			if(!isRegistered) {
+				EventBus.getDefault().register(this);
+				isRegistered = true;
+			}
 			AppClient.getClient().sendToServer(msg);
+			waitingForMessageCounter++;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			System.out.println("failed to send msg to server from FilingComplaintsPage");
+			waitingForMessageCounter--;
 			e.printStackTrace();
 		}
-    }
+	}
 
     @Subscribe
 	public void onMessageEvent(Message msg) throws IOException {
+    	
+       	if(msg.getAction().equals("got purchase by id")) {
+       		Purchase foundPurchase = msg.getPurchase();
+    		waitingForMessageCounter--;
+        	if(waitingForMessageCounter == 0 && isRegistered) {
+        		EventBus.getDefault().unregister(this);
+        		isRegistered = false;
+        	}
+    		Platform.runLater(() -> {
+    			if(foundPurchase == null) {
+    				orderNumberWarningLabel.setText("Order number not found");
+    				orderNumberWarningLabel.setVisible(true);
+    			}
+    			else {
+    				fileComplaint(foundPurchase);
+    			}
+    		});
+    	} 	
     	if(msg.getAction().equals("added a complaint")) {
+    		waitingForMessageCounter--;
+        	if(waitingForMessageCounter == 0 && isRegistered) {
+        		EventBus.getDefault().unregister(this);
+        		isRegistered = false;
+        	}
         	Platform.runLater(()-> {
     			try {
-    				EventBus.getDefault().unregister(this);
     				App.setWindowTitle("Thank you");
     				ComplaintAddedPageController controller = (ComplaintAddedPageController) App.setContent("ComplaintAddedPage");
     	    		controller.setData(newComplaint);
     			} catch (IOException e) {
-    				// TODO Auto-generated catch block
     				e.printStackTrace();
     			}
     		});

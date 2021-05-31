@@ -108,10 +108,7 @@ public class PurchaseCancellationPageController {
 		Message msg = new Message();
 		msg.setAction("get purchase by id");
 		msg.setId(Integer.parseInt(orderNumber));
-		if(!isRegistered) 
-			EventBus.getDefault().register(this);
-		AppClient.getClient().sendToServer(msg);
-		waitingForMessageCounter++;
+		sendMessageToServer(msg);
 	}
     
     void setPurchaseInfo() { // Still need to deal with orderTypeLabel
@@ -159,20 +156,14 @@ public class PurchaseCancellationPageController {
     
 	@FXML
 	void cancelPurchase(ActionEvent event) throws IOException {
-		if(foundPurchase == null) {
-			return;
-		}
-		if(foundPurchase.getCinemaTab().getKey()) {
+		if(foundPurchase == null || foundPurchase.getCinemaTab().getKey()) {
 			weAreSorryLabel.setVisible(true);
 			return;
 		}
 		Message msg = new Message();
 		msg.setAction("cancellation of purchase");
 		msg.setPurchase(foundPurchase);
-		if(!isRegistered) 
-			EventBus.getDefault().register(this);
-		AppClient.getClient().sendToServer(msg);
-		waitingForMessageCounter++;
+		sendMessageToServer(msg);
 	}
 	
 	void sendCancellationEmail() throws IOException {
@@ -180,18 +171,31 @@ public class PurchaseCancellationPageController {
 		msg.setAction("send purchase cancellation mail");
 		msg.setPurchase(foundPurchase);
 		msg.setPayment(refundAmount);
-		if(!isRegistered) 
-			EventBus.getDefault().register(this);
-		AppClient.getClient().sendToServer(msg);
-		waitingForMessageCounter++;
+		sendMessageToServer(msg);
+	}
+	
+	void sendMessageToServer(Message msg) {
+		try {
+			if(!isRegistered) {
+				EventBus.getDefault().register(this);
+				isRegistered = true;
+			}
+			AppClient.getClient().sendToServer(msg);
+			waitingForMessageCounter++;
+		} catch (IOException e) {
+			System.out.println("failed to send msg to server from PurchaseCancellationPage");
+			waitingForMessageCounter--;
+			e.printStackTrace();
+		}
 	}
 	
     @Subscribe
     public void onMessageEvent(Message msg){
     	if(msg.getAction().equals("got purchase by id")) {
     		waitingForMessageCounter--;
-        	if(waitingForMessageCounter == 0) {
+        	if(waitingForMessageCounter == 0 && isRegistered) {
         		EventBus.getDefault().unregister(this);
+        		isRegistered = false;
         	}
     		Platform.runLater(() -> {
     			orderNumber = "";
@@ -213,14 +217,14 @@ public class PurchaseCancellationPageController {
     	
     	if(msg.getAction().equals("got purchase cancelation by id")) {
     		waitingForMessageCounter--;
-        	if(waitingForMessageCounter == 0) {
+        	if(waitingForMessageCounter == 0 && isRegistered) {
         		EventBus.getDefault().unregister(this);
+        		isRegistered = false;
         	}
     		Platform.runLater(() -> {
     			try {
 					sendCancellationEmail();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
     		});
@@ -228,14 +232,14 @@ public class PurchaseCancellationPageController {
     	
     	if(msg.getAction().equals("sent purchase cancellation mail")) {
     		waitingForMessageCounter--;
-        	if(waitingForMessageCounter == 0) {
+        	if(waitingForMessageCounter == 0 && isRegistered) {
         		EventBus.getDefault().unregister(this);
+        		isRegistered = false;
         	}
     		Platform.runLater(() -> {
     			try {
 					App.setContent("PurchaseCanceledPage");
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
     		});

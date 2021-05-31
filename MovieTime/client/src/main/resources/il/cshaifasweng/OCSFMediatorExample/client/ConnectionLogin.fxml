@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #1d1e22;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.ConnectionLoginController">
+<VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: #1d1e22;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.ConnectionLoginController">
    <children>
       <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true">
          <image>
@@ -18,11 +18,11 @@
       </ImageView>
       <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="230.0" prefWidth="700.0">
          <children>
-            <Label layoutX="225.0" layoutY="30.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="20.0" prefWidth="70.0" text="Host" textFill="WHITE" />
-            <TextField fx:id="tf_host" layoutX="225.0" layoutY="50.0" prefHeight="30.0" prefWidth="250.0" promptText="Host" />
-            <PasswordField fx:id="tf_port" layoutX="225.0" layoutY="115.0" prefHeight="30.0" prefWidth="250.0" promptText="PassPortword" />
-            <Label layoutX="225.0" layoutY="95.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="20.0" prefWidth="70.0" text="Port" textFill="WHITE" />
-            <Button fx:id="loginBtn" layoutX="225.0" layoutY="170.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#Connect" prefHeight="30.0" prefWidth="250.0" styleClass="greenButton" text="Connect" />
+            <Label layoutX="325.0" layoutY="30.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="20.0" prefWidth="70.0" text="Host" textFill="WHITE" />
+            <TextField fx:id="tf_host" layoutX="325.0" layoutY="50.0" prefHeight="30.0" prefWidth="250.0" promptText="Host" />
+            <PasswordField fx:id="tf_port" layoutX="325.0" layoutY="115.0" prefHeight="30.0" prefWidth="250.0" promptText="PassPortword" />
+            <Label layoutX="325.0" layoutY="95.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="20.0" prefWidth="70.0" text="Port" textFill="WHITE" />
+            <Button fx:id="loginBtn" layoutX="325.0" layoutY="170.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#Connect" prefHeight="30.0" prefWidth="250.0" styleClass="greenButton" text="Connect" />
          </children>
       </AnchorPane>
    </children>

@@ -3,10 +3,7 @@ package il.cshaifasweng.OCSFMediatorExample.client; // should be View package
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
@@ -23,7 +20,7 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 
 public class App extends Application {
-    private static List<Object> registeredList = new ArrayList<Object>();  
+
     private static Scene scene;
     private static Stage stage;
     @FXML
@@ -53,7 +50,6 @@ public class App extends Application {
     	setWindowTitle(PageTitles.MainPage);
         scene = new Scene(pageLayout, 900, 700);
         stage.setScene(scene);
-        
         stage.show();
 
 		 /* For Connection Page:

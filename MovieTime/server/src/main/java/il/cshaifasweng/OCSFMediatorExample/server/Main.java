@@ -944,7 +944,7 @@ public class Main extends AbstractServer {
 			}
 		}
 
-		
+		//
 		if(currentMsg.getAction().equals("send successful purchase mail")) {
 			try {
 				serverMsg = currentMsg;

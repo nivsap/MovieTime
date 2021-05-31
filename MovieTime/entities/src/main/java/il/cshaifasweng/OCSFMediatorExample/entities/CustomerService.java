@@ -19,19 +19,27 @@ public class CustomerService extends Worker implements  Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	boolean purpleLimit;
+	private boolean purpleLimit;
+	private int y;
 	Pair<LocalDateTime,LocalDateTime> datesOfPurpleLimit;
 	
 	public CustomerService() {}
-	public CustomerService(String firstName, String lastName, String userName, String password,Cinema cinema, boolean purpleLimit,boolean isLoggedIn,Pair<LocalDateTime,LocalDateTime> datesOfPurpleLimit) {
+	public CustomerService(String firstName, String lastName, String userName, String password,Cinema cinema, boolean purpleLimit,boolean isLoggedIn,Pair<LocalDateTime,LocalDateTime> datesOfPurpleLimit,int y) {
 		super(firstName, lastName, userName, password,cinema, isLoggedIn);
 		this.purpleLimit = purpleLimit;
 		this.datesOfPurpleLimit = datesOfPurpleLimit;
+		this.y = y;
 	}
 	public int getId() {
 		return id;
 	}
 	
+	public int getY() {
+		return y;
+	}
+	public void setY(int y) {
+		this.y = y;
+	}
 	public Pair<LocalDateTime, LocalDateTime> getDatesOfPurpleLimit() {
 		return datesOfPurpleLimit;
 	}

@@ -163,6 +163,14 @@ public class AppClient extends AbstractClient {
     	if(currentMsg.getAction().equals("got cinemas and purchases and complaints")) {
     		EventBus.getDefault().post(((Message) msg));
     	} 
+    	if(currentMsg.getAction().equals("got complaints")) {
+
+    		EventBus.getDefault().post(((Message) msg));
+    	}
+    	if(currentMsg.getAction().equals("got purple limit")) {
+
+    		EventBus.getDefault().post(((Message) msg));
+    	}
   
 	}
 	@Override

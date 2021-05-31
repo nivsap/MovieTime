@@ -56,8 +56,7 @@ public class OpenComplaintsController {
 		System.out.println("end aopen com[lain");
 
 	}
-	
-	
+
 	private void PullComplaint() {
 		System.out.println("start PullComplaint");
 		Message msg= new Message();
@@ -86,10 +85,10 @@ public class OpenComplaintsController {
 						System.out.println("end in card1");
 						ScreeningCardController ctrl = fxmlLoader.getController();
 						System.out.println("end in card2");
-						string=complaint.getIncidentDate().toString();
+						//string=complaint.getIncidentDate().toString();
 
 						//!!!!!!!!!!! need to decide which of the following 2 lines we keep !!!!!!!!!!!
-						ctrl.SetData(string, complaint.getFirstName(), complaint.getComplaintType(), complaint.getComplaintTitle(),0);
+						//ctrl.SetData(string, complaint.getFirstName(), complaint.getComplaintType(), complaint.getComplaintTitle(),0);
 						ctrl.SetDataComplain(complaint);
 
 						System.out.println("end in card4");
@@ -133,6 +132,5 @@ public class OpenComplaintsController {
     			});
     		}
    		 System.out.println("end onMessageEvent");
-
 	}		
 }

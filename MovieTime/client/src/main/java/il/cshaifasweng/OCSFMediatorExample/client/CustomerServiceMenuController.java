@@ -32,4 +32,11 @@ public class CustomerServiceMenuController {
     	App.setWindowTitle(PageTitles.OpenComplaintsPage);
     	App.setContent("OpenComplaints");
     }
+    @FXML
+    void loadPurpleLimit(ActionEvent event) throws IOException {
+    	System.out.println("in the loadPurpleLimit1");
+    	App.setWindowTitle(PageTitles.PurpleLimitPage);
+    	System.out.println("in the loadPurpleLimit");
+    	App.setContent("PurpleLimitPage");
+    }
 }

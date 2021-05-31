@@ -7,6 +7,7 @@ import java.io.IOException;
 import org.greenrobot.eventbus.Subscribe;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
+import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -31,7 +32,7 @@ public class App extends Application {
     @FXML
     private static VBox content;
     private AppClient client;
-    
+    public static Worker currentWorker;
     @Override
     public void start(Stage primaryStage) throws IOException {
     	
@@ -143,6 +144,14 @@ public class App extends Application {
         Object controller =  fxmlLoader.getController();
         return new Pair<>(root, controller);
     }
+    
+    public static Worker getCurrentWorker() {
+		return currentWorker;
+	}
+
+	public static void setCurrentWorker(Worker worker) {
+		currentWorker = worker;
+	}
 }
 
 

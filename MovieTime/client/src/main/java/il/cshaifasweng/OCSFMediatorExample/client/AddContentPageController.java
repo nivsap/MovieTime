@@ -291,7 +291,7 @@ public class AddContentPageController {
     							   mainActors,
     							   launchDateTime,
     							   0,
-    							   producers,null,false,new ArrayList<>());
+    							   producers,null,false,new ArrayList<>(),true);
     	sendMovieToServer(newMovie);
     }
     

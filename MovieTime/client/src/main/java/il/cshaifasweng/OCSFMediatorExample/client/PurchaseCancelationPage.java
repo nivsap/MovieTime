@@ -14,139 +14,184 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 
 public class PurchaseCancelationPage {
-	private String Order;
+	private String orderNumber;
+	private Purchase foundPurchase;
+	private float refundAmount;
 	
-	private Purchase cust;
+	@FXML
+	private TextField OrderNumberTextField;
 
 	@FXML
-	private ResourceBundle resources;
+	private Label orderNumberWarningLabel;
 
 	@FXML
-	private TextField OrderTextField;
+	private Button searchBtn;
 
 	@FXML
-	private Label OrderWarningLabel;
+	private AnchorPane purchaseCancelationFormContainer;
 
 	@FXML
-	private Button SearchNowBtn;
+	private Label firstNameLabel;
 
 	@FXML
-	private Label OrderWarningLabel2;
+	private Label lastNameLabel;
 
 	@FXML
-	private TextField FirstNameTextField;
+	private Label emailLabel;
 
 	@FXML
-	private TextField SecondNameTextField;
+	private Label phoneNumberLabel;
 
 	@FXML
-	private TextField EmailTextField;
+	private Label dateLabel;
 
 	@FXML
-	private TextField RefundAmntTextField;
+	private Label orderTypeLabel;
 
 	@FXML
-	private Button CancelNowBtn1;
+	private Label paidAmountLabel;
 
 	@FXML
-	void CancelBtn(ActionEvent event) throws IOException {
-		Message msg = new Message();
-		msg.setAction("got purchase cancelation by id");
-		AppClient.getClient().sendToServer(msg);
-		hideWarningLabels();
-	}
+	private Label refundAmountLabel;
 
 	@FXML
-	void padNow(ActionEvent event) throws IOException {
-		Order = OrderTextField.getText();
-		
-		if(!(Order == "" || Order == " "))
-		{
-			OrderWarningLabel.setVisible(false);
-		}
-		if(Order == "" || Order == " ")
-		{
-			OrderWarningLabel.setVisible(true);
-		}
-		Message msg = new Message();
-		System.out.println("got here " + Order);
-		msg.setAction("get purchase by id");
-		msg.setId(Integer.parseInt(Order));
-		AppClient.getClient().sendToServer(msg);
-		//OrderWarningLabel.setVisible(false);
-		
+	private Button cancelBtn;
+
+	@FXML
+	private Label weAreSorryLabel;
+	
+	public PurchaseCancelationPage() {
+		foundPurchase = new Purchase();
+		orderNumber = "";
+		refundAmount = 0;
 	}
 	
-    @Subscribe
-    public void onMessageEvene(Message msg){
-    	if(msg.getAction().equals("got purchase by id")) {
-    		Platform.runLater(() ->{
-    		cust = msg.getPurchase();
-    		gotCustomer();
-    		});
-    	} 	
+    @FXML
+    void initialize() {
+		EventBus.getDefault().register(this);
     	
-    	if(msg.getAction().equals("got purchase cancelation by id")) {
-    		Platform.runLater(() ->{
-    		hideWarningLabels();
-    		});
-    	} 
+        assert OrderNumberTextField != null : "fx:id=\"OrderNumberTextField\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
+        assert orderNumberWarningLabel != null : "fx:id=\"orderNumberWarningLabel\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
+        assert searchBtn != null : "fx:id=\"searchBtn\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
+        assert purchaseCancelationFormContainer != null : "fx:id=\"purchaseCancelationFormContainer\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
+        assert firstNameLabel != null : "fx:id=\"firstNameLabel\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
+        assert lastNameLabel != null : "fx:id=\"lastNameLabel\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
+        assert emailLabel != null : "fx:id=\"emailLabel\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
+        assert phoneNumberLabel != null : "fx:id=\"phoneNumberLabel\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
+        assert dateLabel != null : "fx:id=\"dateLabel\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
+        assert orderTypeLabel != null : "fx:id=\"orderTypeLabel\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
+        assert paidAmountLabel != null : "fx:id=\"paidAmountLabel\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
+        assert refundAmountLabel != null : "fx:id=\"refundAmountLabel\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
+        assert cancelBtn != null : "fx:id=\"cancelBtn\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
+        assert weAreSorryLabel != null : "fx:id=\"weAreSorryLabel\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
+        
+    	purchaseCancelationFormContainer.setVisible(false);
+    	orderNumberWarningLabel.setVisible(false);
+    }
+
+	@FXML
+	void getPurchaseInfo(ActionEvent event) throws IOException {
+		foundPurchase = null;
+		orderNumberWarningLabel.setVisible(false);
+		orderNumber = OrderNumberTextField.getText();
+		if(orderNumber.equals("") || orderNumber.equals(null))
+		{
+			orderNumberWarningLabel.setVisible(true);
+			orderNumberWarningLabel.setText("Order number must be entered");
+			return;
+		}	
+		Message msg = new Message();
+		msg.setAction("get purchase by id");
+		msg.setId(Integer.parseInt(orderNumber));
+		AppClient.getClient().sendToServer(msg);
+	}
+    
+    void setPurchaseInfo() { // Still need to deal with orderTypeLabel
+    	
+    	String firstName = foundPurchase.getFirstName();
+    	if(!firstName.equals(""))
+    		firstNameLabel.setText(firstName);
+    	else 
+    		firstNameLabel.setText("Unknown");
+    	
+    	String lastName = foundPurchase.getLastName();
+    	if(!lastName.equals(""))
+    		lastNameLabel.setText(lastName);
+    	else 
+    		lastNameLabel.setText("Unknown");
+    	
+    	String email = foundPurchase.getEmailOrder();
+    	if(!email.equals(""))
+    		emailLabel.setText(email);
+    	else 
+    		emailLabel.setText("Unknown");
+    	
+    	String phoneNumber = foundPurchase.getPhoneString();
+    	if(!phoneNumber.equals(""))
+    		phoneNumberLabel.setText(phoneNumber);
+    	else 
+    		phoneNumberLabel.setText("Unknown");
+    	
+    	String date = foundPurchase.getPurchaseDate().toString();
+    	if(!date.equals(""))
+    		dateLabel.setText(date.substring(0,10));
+    	else 
+    		dateLabel.setText("Unknown");
+    	
+    	
+    	String paidAmount = String.valueOf(foundPurchase.getPayment());
+    	if(!paidAmount.equals(""))
+    		paidAmountLabel.setText(paidAmount);
+    	else 
+    		paidAmountLabel.setText("Unknown");
+    
+    	refundAmountLabel.setText(String.valueOf(refundAmount));
+    	weAreSorryLabel.setVisible(false);
     }
     
 	@FXML
-	void initialize() {
-		EventBus.getDefault().register(this);
-		assert OrderTextField != null
-				: "fx:id=\"OrderTextField\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
-		assert OrderWarningLabel != null
-				: "fx:id=\"OrderWarningLabel\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
-		assert SearchNowBtn != null
-				: "fx:id=\"SearchNowBtn\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
-		assert OrderWarningLabel2 != null
-				: "fx:id=\"OrderWarningLabel2\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
-		assert FirstNameTextField != null
-				: "fx:id=\"FirstNameTextField\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
-		assert SecondNameTextField != null
-				: "fx:id=\"SecondNameTextField\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
-		assert EmailTextField != null
-				: "fx:id=\"EmailTextField\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
-		assert RefundAmntTextField != null
-				: "fx:id=\"RefundAmntTextField\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
-		assert CancelNowBtn1 != null
-				: "fx:id=\"CancelNowBtn1\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
-
-		hideWarningLabels();
-	}
-
-	private void hideWarningLabels() {
-		// TODO Auto-generated method stub
-		OrderWarningLabel.setVisible(false);
-		OrderWarningLabel2.setVisible(false);
-		RefundAmntTextField.setVisible(false);
-		FirstNameTextField.setVisible(false);
-		SecondNameTextField.setVisible(false);
-		EmailTextField.setVisible(false);
-		CancelNowBtn1.setVisible(false);
+	void cancelPurchase(ActionEvent event) throws IOException {
+		if(foundPurchase == null) {
+			return;
+		}
+		if(foundPurchase.getCinemaTab().getKey()) {
+			weAreSorryLabel.setVisible(true);
+			return;
+		}
+		Message msg = new Message();
+		msg.setAction("cancellation of purchase");
+		msg.setPurchase(foundPurchase);
+		AppClient.getClient().sendToServer(msg);
 	}
 	
-	private void foundPurchase()
-	{
-		FirstNameTextField.setVisible(true);
-		SecondNameTextField.setVisible(true);
-		EmailTextField.setVisible(true);
-		CancelNowBtn1.setVisible(true);
-		RefundAmntTextField.setVisible(true);
-	}
-	
-	private void gotCustomer()
-	{
-		FirstNameTextField.setText(cust.getFirstName());
-		SecondNameTextField.setText(cust.getLastName());
-		EmailTextField.setText(cust.getEmailOrder());
-		RefundAmntTextField.setText(Integer.toString(cust.getPayment()));
-		foundPurchase();
-	}
-
+    @Subscribe
+    public void onMessageEvent(Message msg){
+    	if(msg.getAction().equals("got purchase by id")) {
+    		Platform.runLater(() -> {
+    			orderNumber = "";
+    			foundPurchase = msg.getPurchase();
+    			if(foundPurchase == null) {
+    				refundAmount = 0;
+    				orderNumberWarningLabel.setText("Order number not found");
+    				orderNumberWarningLabel.setVisible(true);
+    				purchaseCancelationFormContainer.setVisible(false);
+    			}
+    			else {
+    				refundAmount = msg.getPayment();
+    				orderNumberWarningLabel.setVisible(false);
+    				purchaseCancelationFormContainer.setVisible(true);
+    				setPurchaseInfo();
+    			}
+    		});
+    	} 	
+    	/* There isn't a suitable function yet...
+    	if(msg.getAction().equals("got purchase cancellation")) {
+    		Platform.runLater(() -> {
+    		});
+    	} 
+    	*/
+    }
 }

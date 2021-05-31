@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 @Entity
@@ -37,6 +39,8 @@ public class Movie implements  Serializable
     private String producersMovie;
     private LocalDateTime launchDate;
     private boolean isDeleted;
+//    @OneToMany(mappedBy = "movies", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private List<ViewingPackage> viewingPackages;
 //    @OneToOne(mappedBy = "movie", cascade = CascadeType.MERGE , fetch = FetchType.EAGER)
 //	private Screening screening;
     //TODO ending time, duration = ending time - starting time
@@ -48,7 +52,7 @@ public class Movie implements  Serializable
 
     public Movie(String name, String duration, Double popular, String genre, String imageSrc, String largeImageSrc,
 			ArrayList<String> movie_Begining_Time, boolean streamOnline, boolean soonInCinema, String description,
-			String mainActors, LocalDateTime launchDate ,int priceMovie, String producersMovie,Screening screening,boolean isDeleted) {
+			String mainActors, LocalDateTime launchDate ,int priceMovie, String producersMovie,Screening screening,boolean isDeleted , List<ViewingPackage> viewingPackages) {
 		Name = name;
 		this.duration = duration;
 		this.popular = popular;
@@ -64,6 +68,7 @@ public class Movie implements  Serializable
 		this.priceMovie = priceMovie;
 		this.producersMovie = producersMovie;
 		this.isDeleted = isDeleted;
+	//	this.viewingPackages = new ArrayList<ViewingPackage>();
 	//	this.screening = screening;
 	}
     
@@ -87,6 +92,14 @@ public class Movie implements  Serializable
 //
 //	public void setScreening(Screening screening) {
 //		this.screening = screening;
+//	}
+//
+//	public List<ViewingPackage> getViewingPackages() {
+//		return viewingPackages;
+//	}
+//
+//	public void setViewingPackages(List<ViewingPackage> viewingPackages) {
+//		this.viewingPackages = viewingPackages;
 //	}
 
 	public boolean isDeleted() {

@@ -301,11 +301,7 @@ public class Main extends AbstractServer {
 					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_1,false);
 			Purchase customer11 = new Purchase("Alon", "Latman33", "shiravneri@gmail.com", "Some details", "123456789",
 					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_3,false);
-			
-			
-			
-			
-			
+		
 			//session.save(customer);
 			session.save(customer2);
 			session.save(customer1);
@@ -318,6 +314,7 @@ public class Main extends AbstractServer {
 			session.save(customer9);
 			session.save(customer10);
 			session.save(customer11);
+			System.out.println(customer11.getId());
 
 		    LocalDate date = LocalDate.of(2021, 1, 13);  
 
@@ -832,7 +829,6 @@ public class Main extends AbstractServer {
 			try {
 
 				serverMsg = currentMsg;
-
 				saveRowInDB(serverMsg.getPurchase());
 				serverMsg.setAction("save customer done");
 				client.sendToClient(serverMsg);
@@ -843,16 +839,13 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("123");
+
 		if(currentMsg.getAction().equals("get purchase by id")) {
 			try {
 				serverMsg = currentMsg;
-				System.out.println("1");
 				serverMsg.setPurchase(CustomerController.getID(serverMsg.getId()));
-				System.out.println("2");
 				if(serverMsg.getPurchase()!=null) {
 					serverMsg.setPayment(CustomerController.ReturnOnPurchase(serverMsg.getPurchase(), LocalDateTime.now()));}
-				System.out.println("3");
 				serverMsg.setAction("got purchase by id");
 				if(serverMsg.getPurchase()!= null && serverMsg.getPurchase().isCanceled())
 					serverMsg.setPurchase(null);
@@ -864,7 +857,6 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("321");
 		if(currentMsg.getAction().equals("get purchases")) {
 			try {
 				serverMsg = currentMsg;
@@ -955,7 +947,7 @@ public class Main extends AbstractServer {
 		if(currentMsg.getAction().equals("send successful purchase mail")) {
 			try {
 				serverMsg = currentMsg;
-				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Customer Of The Sirtiya", serverMsg.getEmailMessage());
+				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Customer Of The Sirtiya, Order Number :" , serverMsg.getEmailMessage());
 				serverMsg.setAction("sent successful purchase mail");
 				client.sendToClient(serverMsg);
 			}

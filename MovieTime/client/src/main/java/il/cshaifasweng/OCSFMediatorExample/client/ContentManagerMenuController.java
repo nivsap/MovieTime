@@ -8,28 +8,35 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 
 public class ContentManagerMenuController {
-
-    @FXML
+  @FXML
     private AnchorPane menuContainer;
 
     @FXML
-    private Button updateMoviesMenuBtn;
+    private Button deleteMoviesMenuBtn;
 
     @FXML
     private Button updateViewingPackagesMenuBtn;
 
     @FXML
     private Button addContentBtn;
-    
+
     @FXML
     private Button logoutMenuBtn;
+
     
+    @FXML
+    void loadDeleteMoviesPage(ActionEvent event) throws IOException {
+    	App.setWindowTitle(PageTitles.DeleteMoviesPage);
+    	App.setContent("DeleteMoviePage");
+    }
+    
+    /*
     @FXML
     void loadUpdateMovies(ActionEvent event) throws IOException {
     	App.setWindowTitle(PageTitles.UpdateMoviesPage);
     	App.setContent("UpdateMoviesPage");
     }
-
+    */
 
     @FXML
     void loadAddContentePage(ActionEvent event) throws IOException {

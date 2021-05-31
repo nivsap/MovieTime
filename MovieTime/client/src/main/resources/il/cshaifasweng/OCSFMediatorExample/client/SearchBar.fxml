@@ -18,7 +18,7 @@
             <ComboBox fx:id="genreComboBox" layoutX="199.0" layoutY="62.0" onAction="#onComboBoxEvent" prefWidth="125.0" promptText="Genre" styleClass="searchBarComboBox" />
             <ComboBox fx:id="theaterComboBox" layoutX="334.0" layoutY="62.0" onAction="#onComboBoxEvent" prefWidth="125.0" promptText="Theatre" styleClass="searchBarComboBox" />
             <ComboBox fx:id="rateComboBox" layoutX="469.0" layoutY="62.0" onAction="#onComboBoxEvent" prefWidth="125.0" promptText="Rate" styleClass="searchBarComboBox" />
-            <Button id="searchBarButton" layoutX="579.0" layoutY="27.0" mnemonicParsing="false">
+            <Button layoutX="579.0" layoutY="27.0" mnemonicParsing="false" styleClass="searchBarButton">
                <graphic>
                   <ImageView fitHeight="20.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                      <image>

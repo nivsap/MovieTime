@@ -625,13 +625,13 @@ public class Main extends AbstractServer {
 				System.out.println("cant cinema contained movies");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+
 			}
 		}
 		if(currentMsg.getAction().equals("screening for movie")) {
 			try {
 				serverMsg = currentMsg;
 				serverMsg.setScreeningArrayList((ArrayList<Screening>) ScreeningController.getAllDateOfMovie(serverMsg.getMovieId(), serverMsg.getCinemaId()));
-				System.out.println("screening for movie size: " + serverMsg.getScreeningArrayList().size());
 				serverMsg.setAction("screening for movie done");
 				client.sendToClient(serverMsg);
 			}
@@ -833,7 +833,7 @@ public class Main extends AbstractServer {
 			}
 		}
 		
-		if(currentMsg.getAction().equals("get purchase by id")) {
+		/*if(currentMsg.getAction().equals("get purchase by id")) {
 			try {
 				serverMsg = currentMsg;
 				System.out.println("server msg is " + serverMsg.getId());
@@ -847,7 +847,7 @@ public class Main extends AbstractServer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+		}*/
 		
 		if(currentMsg.getAction().equals("get purchases")) {
 			try {
@@ -1101,8 +1101,6 @@ public class Main extends AbstractServer {
 				serverMsg = currentMsg;
 				serverMsg.setStatus(PurpleLimitController.CheckPurpleLimit(serverMsg.getDateMovie()));
 				serverMsg.setAction("done check purple limit");
-				//for clarification
-				serverMsg.setTavSagolLimit(currentMsg.getTavSagolLimit());
 				client.sendToClient(serverMsg);
 			}
 			catch (IOException e) {

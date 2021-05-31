@@ -213,13 +213,13 @@ public class FilingComplaintsPageController  {
 	public void onMessageEvent(Message msg) throws IOException {
     	
        	if(msg.getAction().equals("got purchase by id")) {
-       		Purchase foundPurchase = msg.getPurchase();
-    		waitingForMessageCounter--;
-        	if(waitingForMessageCounter == 0 && isRegistered) {
-        		EventBus.getDefault().unregister(this);
-        		isRegistered = false;
-        	}
     		Platform.runLater(() -> {
+    			Purchase foundPurchase = msg.getPurchase();
+        		waitingForMessageCounter--;
+            	if(waitingForMessageCounter == 0 && isRegistered) {
+            		EventBus.getDefault().unregister(this);
+            		isRegistered = false;
+            	}
     			if(foundPurchase == null) {
     				orderNumberWarningLabel.setText("Order number not found");
     				orderNumberWarningLabel.setVisible(true);
@@ -230,12 +230,12 @@ public class FilingComplaintsPageController  {
     		});
     	} 	
     	if(msg.getAction().equals("added a complaint")) {
-    		waitingForMessageCounter--;
-        	if(waitingForMessageCounter == 0 && isRegistered) {
-        		EventBus.getDefault().unregister(this);
-        		isRegistered = false;
-        	}
         	Platform.runLater(()-> {
+        		waitingForMessageCounter--;
+            	if(waitingForMessageCounter == 0 && isRegistered) {
+            		EventBus.getDefault().unregister(this);
+            		isRegistered = false;
+            	}
     			try {
     				App.setWindowTitle("Thank you");
     				ComplaintAddedPageController controller = (ComplaintAddedPageController) App.setContent("ComplaintAddedPage");

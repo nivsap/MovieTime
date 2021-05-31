@@ -39,7 +39,7 @@ public class App extends Application {
     	client = AppClient.getClient();
     	client.openConnection();
     	
-    	// Setting Layout's Content:
+    	// Setting Layout's Content
     	pageLayout = new BorderPane();
     	menu = (VBox) loadFXML("SystemMenu").getKey();
     	content = new VBox();
@@ -47,7 +47,7 @@ public class App extends Application {
     	pageLayout.setLeft(menu);
     	pageLayout.setCenter(content);
     	
-    	// Setting App's Window:
+    	// Setting App's Window
     	setWindowTitle(PageTitles.MainPage);
         scene = new Scene(pageLayout, 900, 700);
         stage.setScene(scene);
@@ -55,7 +55,6 @@ public class App extends Application {
 
         
         
-        stage.setOnCloseRequest(e -> Platform.exit());
 		 /* For Connection Page:
 		 * pageLayout = new BorderPane(); 
 		 * content = (VBox) loadFXML("ConnectionLogin").getKey();
@@ -65,6 +64,7 @@ public class App extends Application {
 		 * stage.setScene(scene); 
 		 * stage.show();
 		 */ 
+
     }
     
     static void setWindowTitle(String title) {
@@ -90,11 +90,11 @@ public class App extends Application {
     	pageLayout.setCenter(content);
         stage.setScene(scene);
         stage.show();
-        stage.setOnCloseRequest(e -> Platform.exit());
         return pair.getValue();
     }
     
     static Object setMenu(String menuType) throws IOException {
+    	// setMenu() loads page/FXML into App's menu container and returns menu's controller.
     	if(menu != null)
     		menu.getChildren().clear();
     	Pair<Parent, Object> pair = loadFXML(menuType);
@@ -103,7 +103,6 @@ public class App extends Application {
     	pageLayout.setLeft(menu);
         stage.setScene(scene);
         stage.show();
-        stage.setOnCloseRequest(e -> Platform.exit());
         return pair.getValue();
     }
     

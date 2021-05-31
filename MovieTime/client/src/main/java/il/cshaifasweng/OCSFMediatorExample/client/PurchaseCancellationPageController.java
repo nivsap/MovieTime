@@ -192,12 +192,12 @@ public class PurchaseCancellationPageController {
     @Subscribe
     public void onMessageEvent(Message msg){
     	if(msg.getAction().equals("got purchase by id")) {
-    		waitingForMessageCounter--;
-        	if(waitingForMessageCounter == 0 && isRegistered) {
-        		EventBus.getDefault().unregister(this);
-        		isRegistered = false;
-        	}
     		Platform.runLater(() -> {
+    			waitingForMessageCounter--;
+            	if(waitingForMessageCounter == 0 && isRegistered) {
+            		EventBus.getDefault().unregister(this);
+            		isRegistered = false;
+            	}
     			orderNumber = "";
     			foundPurchase = msg.getPurchase();
     			if(foundPurchase == null) {
@@ -216,12 +216,12 @@ public class PurchaseCancellationPageController {
     	} 	
     	
     	if(msg.getAction().equals("got purchase cancelation by id")) {
-    		waitingForMessageCounter--;
-        	if(waitingForMessageCounter == 0 && isRegistered) {
-        		EventBus.getDefault().unregister(this);
-        		isRegistered = false;
-        	}
     		Platform.runLater(() -> {
+    			waitingForMessageCounter--;
+            	if(waitingForMessageCounter == 0 && isRegistered) {
+            		EventBus.getDefault().unregister(this);
+            		isRegistered = false;
+            	}
     			try {
 					sendCancellationEmail();
 				} catch (IOException e) {
@@ -231,12 +231,12 @@ public class PurchaseCancellationPageController {
     	} 
     	
     	if(msg.getAction().equals("sent purchase cancellation mail")) {
-    		waitingForMessageCounter--;
-        	if(waitingForMessageCounter == 0 && isRegistered) {
-        		EventBus.getDefault().unregister(this);
-        		isRegistered = false;
-        	}
     		Platform.runLater(() -> {
+    			waitingForMessageCounter--;
+            	if(waitingForMessageCounter == 0 && isRegistered) {
+            		EventBus.getDefault().unregister(this);
+            		isRegistered = false;
+            	}
     			try {
 					App.setContent("PurchaseCanceledPage");
 				} catch (IOException e) {

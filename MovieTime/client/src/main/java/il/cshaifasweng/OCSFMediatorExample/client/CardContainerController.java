@@ -1,6 +1,7 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.greenrobot.eventbus.EventBus;
@@ -16,7 +17,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 public class CardContainerController {	
-	private int NUM_ROWS = 2, NUM_COLS = 3, currentlyDisplayedFrom = 0, moviesNumber = 0, purchaseType;
+	private Boolean isRegistered;
+	private int waitingForMessageCounter, currentlyDisplayedFrom, moviesNumber, purchaseType;
+	private int NUM_ROWS = 2, NUM_COLS = 3;
+	private String moviesType;
 	private List<Movie> recentlyAdded;
 	private Boolean disableCards;
 	
@@ -43,41 +47,66 @@ public class CardContainerController {
 
     @FXML
     private Button loadMoreBtn;
+
+    public CardContainerController() {
+    	isRegistered = false;
+    	waitingForMessageCounter = 0;
+    	moviesType = "";
+    	recentlyAdded = new ArrayList<Movie>();
+    	currentlyDisplayedFrom = 0;
+    	moviesNumber = 0; 
+    	purchaseType = 0;
+    	disableCards = false;
+    }
     
-    public void sendMessageToServer(String namePage) {
+    public void setGridContent(String namePage) {
 		String actionType = null;
     	if(namePage.equals("MainPage")) {
     		disableCards = false;
     		actionType = "pull screening movies";
+    		moviesType = "got screening movies";
     		purchaseType = PurchaseTypes.TICKET;
 		}
 		if(namePage.equals("ComingSoonPage")) {
 			disableCards = false;
 			actionType = "pull soon movies";
+			moviesType = "got soon movies";
 			purchaseType = PurchaseTypes.NOT_AVAILABLE;
 		}
 		if(namePage.equals("ViewingPackagesPage")) {
 			disableCards = false;
 			actionType = "pull movies from home";
+			moviesType = "got movies from home";
 			purchaseType = PurchaseTypes.VIEWING_PACKAGE;
 		}
 		if(namePage.equals("NetworkAdministratorMainPage")) {
 			disableCards = true;
 			actionType = "pull screening movies";
+			moviesType = "got screening movies";
 			purchaseType = PurchaseTypes.NOT_AVAILABLE;
 		}
 		if(namePage.equals("BranchManagerMainPage")) {
 			disableCards = true;
 			actionType = "pull screening movies";
+			moviesType = "got screening movies";
 			purchaseType = PurchaseTypes.NOT_AVAILABLE;
 		}
-		try {
-			EventBus.getDefault().register(this);
-			Message msg = new Message();
-			msg.setAction(actionType);
+		Message msg = new Message();
+		msg.setAction(actionType);
+		sendMessageToServer(msg);
+    }
+    
+    public void sendMessageToServer(Message msg) {
+    	try {
+    		if(!isRegistered) {
+				EventBus.getDefault().register(this);
+				isRegistered = true;
+			}
 			AppClient.getClient().sendToServer(msg);
+			waitingForMessageCounter++;
 		} catch (IOException e) {
 			System.out.println("failed to send msg to server from CardContainerController");
+			waitingForMessageCounter--;
 			e.printStackTrace();
 		}	
     }
@@ -85,14 +114,15 @@ public class CardContainerController {
     
     @Subscribe
 	public void onMessageEvent(Message msg) {
-    	
 		System.out.println(msg.getAction());
-    	if(msg.getAction().equals("got movies from home") || 
-    		msg.getAction().equals("got screening movies") || 
-    		msg.getAction().equals("got soon movies")) {
+    	if(msg.getAction().equals(moviesType)) {
     		Platform.runLater(()-> {
+        		waitingForMessageCounter--;
+            	if(waitingForMessageCounter == 0 && isRegistered) {
+            		EventBus.getDefault().unregister(this);
+            		isRegistered = false;
+            	}
     			movieContainer.getChildren().clear();
-    			//EventBus.getDefault().unregister(this);
     			recentlyAdded = msg.getMovies();
     			moviesNumber = recentlyAdded.size();
     			currentlyDisplayedFrom = 0;
@@ -100,8 +130,6 @@ public class CardContainerController {
     		});
     	}
     }
-    
-    
     
     public void setPurchaseType(int type) {
     	this.purchaseType = type;

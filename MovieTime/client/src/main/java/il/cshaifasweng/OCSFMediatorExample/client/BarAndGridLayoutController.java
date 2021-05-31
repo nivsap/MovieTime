@@ -44,7 +44,7 @@ public class BarAndGridLayoutController {
 		gridContainer = gridFXMLLoader.load();
 		gridController = gridFXMLLoader.getController();
 		gridController.setPurchaseType(PurchaseTypes.getType(namePage));
-		gridController.sendMessageToServer(namePage);
+		gridController.setGridContent(namePage);
 	}
 	
 	public VBox getTopBar() {

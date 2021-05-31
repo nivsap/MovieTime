@@ -38,7 +38,8 @@ public class Movie implements  Serializable
     private int priceMovie;
     private String producersMovie;
     private LocalDateTime launchDate;
-    private boolean isScreeningDeleted;
+    private boolean isDeleted;
+    private boolean isScreening;
   //  @OneToMany(mappedBy = "movies", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
    // private List<ViewingPackage> viewingPackages;
 //    @OneToOne(mappedBy = "movie", cascade = CascadeType.MERGE , fetch = FetchType.EAGER)
@@ -52,7 +53,7 @@ public class Movie implements  Serializable
 
     public Movie(String name, String duration, Double popular, String genre, String imageSrc, String largeImageSrc,
 			ArrayList<String> movie_Begining_Time, boolean streamOnline, boolean soonInCinema, String description,
-			String mainActors, LocalDateTime launchDate ,int priceMovie, String producersMovie,Screening screening,boolean isDeleted , List<ViewingPackage> viewingPackages) {
+			String mainActors, LocalDateTime launchDate ,int priceMovie, String producersMovie,Screening screening,boolean isDeleted , List<ViewingPackage> viewingPackages,boolean isScreening) {
 		Name = name;
 		this.duration = duration;
 		this.popular = popular;
@@ -67,7 +68,8 @@ public class Movie implements  Serializable
 		this.launchDate = launchDate;
 		this.priceMovie = priceMovie;
 		this.producersMovie = producersMovie;
-		this.isScreeningDeleted = isDeleted;
+		this.isDeleted = isDeleted;
+		this.isScreening = isScreening;
 	//	this.viewingPackages = new ArrayList<ViewingPackage>();
 	//	this.screening = screening;
 	}
@@ -102,12 +104,20 @@ public class Movie implements  Serializable
 //		this.viewingPackages = viewingPackages;
 //	}
 
+	public boolean isScreening() {
+		return isScreening;
+	}
+
+	public void setScreening(boolean isScreening) {
+		this.isScreening = isScreening;
+	}
+
 	public boolean isDeleted() {
-		return isScreeningDeleted;
+		return this.isDeleted;
 	}
 
 	public void setDeleted(boolean isDeleted) {
-		this.isScreeningDeleted = isDeleted;
+		this.isDeleted = isDeleted;
 	}
 
 	public Movie() {

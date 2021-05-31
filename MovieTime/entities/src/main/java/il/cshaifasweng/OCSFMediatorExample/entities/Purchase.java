@@ -46,10 +46,11 @@ public class Purchase implements  Serializable{
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "screening_id")
 	private Screening screening;
+	private boolean isCanceled;
 
 
 	public Purchase(String firstName, String lastName, String emailOrder, String cityString, String phoneString,
-			Pair<Boolean, Integer> cinemaTab , boolean watchFromHome , LocalDateTime purchaseDate,Cinema cinema , Hall hall ,List<Pair<Integer , Integer>> sitsList ,int payment,Complaint complaint, Screening screening) {
+			Pair<Boolean, Integer> cinemaTab , boolean watchFromHome , LocalDateTime purchaseDate,Cinema cinema , Hall hall ,List<Pair<Integer , Integer>> sitsList ,int payment,Complaint complaint, Screening screening,boolean isCanceled) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -65,9 +66,16 @@ public class Purchase implements  Serializable{
 		this.payment = payment;
 		this.complaint = complaint;
 		this.screening = screening;
+		this.isCanceled = isCanceled;
 	}
 	public Purchase() {}
 	
+	public boolean isCanceled() {
+		return isCanceled;
+	}
+	public void setCanceled(boolean isCanceled) {
+		this.isCanceled = isCanceled;
+	}
 	public Screening getScreening() {
 		return screening;
 	}

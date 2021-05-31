@@ -7,7 +7,9 @@ import java.io.IOException;
 import org.greenrobot.eventbus.Subscribe;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
+import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -30,7 +32,7 @@ public class App extends Application {
     @FXML
     private static VBox content;
     private AppClient client;
-    
+    public static Worker currentWorker;
     @Override
     public void start(Stage primaryStage) throws IOException {
     	
@@ -52,20 +54,31 @@ public class App extends Application {
         stage.setScene(scene);
         stage.show();
 
-		// For Connection Page - put everything from "Setting Layout's Content" in a comment, and add this:
         
-		/* pageLayout = new BorderPane(); 
-		* content = (VBox) loadFXML("ConnectionLogin").getKey();
-		* pageLayout.setCenter(content); 
-		* scene = new Scene(pageLayout, 900, 700);
-		* stage.setTitle("Establish Connection"); 
-		* stage.setScene(scene); 
-		* stage.show();
-		*/ 
+        
+		 /* For Connection Page:
+		 * pageLayout = new BorderPane(); 
+		 * content = (VBox) loadFXML("ConnectionLogin").getKey();
+		 * pageLayout.setCenter(content); 
+		 * scene = new Scene(pageLayout, 900, 700);
+		 * stage.setTitle("Establish Connection"); 
+		 * stage.setScene(scene); 
+		 * stage.show();
+		 */ 
+
     }
     
     static void setWindowTitle(String title) {
     	stage.setTitle(title);
+    }
+    
+    @Override
+    public void stop(){
+        System.out.println("Stage is closing");
+        Platform.exit();
+        System.exit(0);
+        //Message msg = new Message();
+        
     }
     
     static Object setContent(String pageName) throws IOException {
@@ -131,6 +144,14 @@ public class App extends Application {
         Object controller =  fxmlLoader.getController();
         return new Pair<>(root, controller);
     }
+    
+    public static Worker getCurrentWorker() {
+		return currentWorker;
+	}
+
+	public static void setCurrentWorker(Worker worker) {
+		currentWorker = worker;
+	}
 }
 
 

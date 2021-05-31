@@ -484,7 +484,7 @@ public class Main extends AbstractServer {
 	@Override
 	protected synchronized void clientDisconnected(ConnectionToClient client) {
 		// TODO Auto-generated method stub
-
+		
 		System.out.println("Client Disconnected.");
 		super.clientDisconnected(client);
 	}
@@ -808,7 +808,7 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		/*if(currentMsg.getAction().equals("pull current complaint")) {
+		if(currentMsg.getAction().equals("pull current complaint")) {
 			try {
 				serverMsg = currentMsg;
 				System.out.println("in pull current complaint");
@@ -816,7 +816,7 @@ public class Main extends AbstractServer {
 				System.out.println("in the func handleMessageFromClient");
 				serverMsg.setAction("got complaints");
 	            System.out.println(serverMsg.getComplaints().toString());
-				/*for (Complaint model : serverMsg.getComplaints()) {
+				for (Complaint model : serverMsg.getComplaints()) {
 		            System.out.println(model.getFirstName());
 		        }
 				client.sendToClient(serverMsg);
@@ -826,7 +826,7 @@ public class Main extends AbstractServer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}*/
+		}
 		
 		if(currentMsg.getAction().equals("save customer")) { // save ticket // save customer
 			try {
@@ -955,7 +955,7 @@ public class Main extends AbstractServer {
 		if(currentMsg.getAction().equals("send successful purchase mail")) {
 			try {
 				serverMsg = currentMsg;
-				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Thank you for your purchase at The Sirtiya!", serverMsg.getEmailMessage());
+				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Customer Of The Sirtiya", serverMsg.getEmailMessage());
 				serverMsg.setAction("sent successful purchase mail");
 				client.sendToClient(serverMsg);
 			}
@@ -1044,7 +1044,7 @@ public class Main extends AbstractServer {
 				updateRowDB(serverMsg.getWorker());
 				Worker worker = serverMsg.getWorker();
 				PurpleLimitController.SetPurpleLimit(((CustomerService) worker).getDatesOfPurpleLimit().getKey(), ((CustomerService) worker).getDatesOfPurpleLimit().getValue());
-				serverMsg.setAction("added movie");
+				serverMsg.setAction("got purple limit");
 				client.sendToClient(serverMsg);
 			}
 			catch (IOException e) {

@@ -246,7 +246,7 @@ public class Main extends AbstractServer {
 			telAvivCinema.getScreeningArray().add(screeningOfFilm_11);
 			telAvivCinema.getScreeningArray().add(screeningOfFilm_12);
 			telAvivCinema.setHallArray(new ArrayList<Hall>(Arrays.asList(hall3,hall4)));
-			Purchase customer = new Purchase("Hadar", "Manor", "nivsap@gmail.com", "Some details", "12312312",
+			Purchase customer = new Purchase("Shir", "Avneri", "shiravneri@gmail.com", "Some details", "0523456789",
 					new Pair<Boolean, Integer>(true, 20), false, getTime(2021, 2, 3), haifaCinema, hall1, new ArrayList<>(), 10, null,screeningOfFilm_1,false);
 			//screeningOfFilm_1.getPurchases().add(customer);
 			session.save(customer);
@@ -279,27 +279,27 @@ public class Main extends AbstractServer {
 
 
 
-			Purchase customer2 = new Purchase("Alon", "Latman1", "Some title", "Some details", "123456789",
+			Purchase customer2 = new Purchase("Alon", "Latman1", "shiravneri@gmail.com", "Some details", "123456789",
 					new Pair<Boolean, Integer>(true, 20), false, getExacTime(2021, 5, 28, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_2,false);
-			Purchase customer1 = new Purchase("Alon", "Latman2", "Some title", "Some details", "123456789",
+			Purchase customer1 = new Purchase("Alon", "Latman2", "shiravneri@gmail.com", "Some details", "123456789",
 					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 28, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_3,false);
-			Purchase customer3 = new Purchase("Alon", "Latman3", "Some title", "Some details", "123456789",
+			Purchase customer3 = new Purchase("Alon", "Latman3", "shiravneri@gmail.com", "Some details", "123456789",
 					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 30, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_4,false);
-			Purchase customer4 = new Purchase("Alon", "Latman4", "Some title", "Some details", "123456789",
+			Purchase customer4 = new Purchase("Alon", "Latman4", "shiravneri@gmail.com", "Some details", "123456789",
 					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_10,false);
-			Purchase customer5 = new Purchase("Alon", "Latman5", "Some title", "Some details", "123456789",
+			Purchase customer5 = new Purchase("Alon", "Latman5", "shiravneri@gmail.com", "Some details", "123456789",
 					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 6, 28, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_5,false);
-			Purchase customer6 = new Purchase("Alon", "Latman6", "Some title", "Some details", "123456789",
+			Purchase customer6 = new Purchase("Alon", "Latman6", "shiravneri@gmail.com", "Some details", "123456789",
 					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 28, 10, 15), telAvivCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_6,false);
-			Purchase customer7 = new Purchase("Alon", "Latman7", "Some title", "Some details", "123456789",
+			Purchase customer7 = new Purchase("Alon", "Latman7", "shiravneri@gmail.com", "Some details", "123456789",
 					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 6, 28, 10, 15), telAvivCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_7,false);
-			Purchase customer8 = new Purchase("Alon", "Latman8", "Some title", "Some details", "123456789",
+			Purchase customer8 = new Purchase("Alon", "Latman8", "shiravneri@gmail.com", "Some details", "123456789",
 					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 28, 10, 15), telAvivCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_8,false);
-			Purchase customer9 = new Purchase("Alon", "Latman9", "Some title", "Some details", "123456789",
+			Purchase customer9 = new Purchase("Alon", "Latman9", "shiravneri@gmail.com", "Some details", "123456789",
 					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 4, 28, 10, 15), telAvivCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_8,false);
-			Purchase customer10 = new Purchase("Alon", "Latman22", "Some title", "Some details", "123456789",
+			Purchase customer10 = new Purchase("Alon", "Latman22", "shiravneri@gmail.com", "Some details", "123456789",
 					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_1,false);
-			Purchase customer11 = new Purchase("Alon", "Latman33", "Some title", "Some details", "123456789",
+			Purchase customer11 = new Purchase("Alon", "Latman33", "shiravneri@gmail.com", "Some details", "123456789",
 					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_3,false);
 			
 			
@@ -965,6 +965,23 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		
+		if(currentMsg.getAction().equals("send purchase cancellation mail")) {
+			try {
+				serverMsg = currentMsg;
+				
+				JavaMailUtil.sendPurchaseCancellationMessage(serverMsg.getPurchase().getEmailOrder(), serverMsg.getPurchase().getFirstName() + " " + serverMsg.getPurchase().getLastName(), String.valueOf(serverMsg.getPurchase().getId()), serverMsg.getPayment());
+				serverMsg.setAction("sent purchase cancellation mail");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant send purchase cancellation mail");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
 		if(currentMsg.getAction().equals("get all screenings")) {
 			try {
 				serverMsg = currentMsg;

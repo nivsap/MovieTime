@@ -177,10 +177,13 @@ public class PurchaseCancelationPage {
 	
 	void sendCancellationEmail() throws IOException {
 		Message msg = new Message();
-		msg.setAction("send purchase cancellation email");
+		msg.setAction("send purchase cancellation mail");
 		msg.setPurchase(foundPurchase);
 		msg.setPayment(refundAmount);
+		if(!isRegistered) 
+			EventBus.getDefault().register(this);
 		AppClient.getClient().sendToServer(msg);
+		waitingForMessageCounter++;
 	}
 	
     @Subscribe
@@ -206,9 +209,26 @@ public class PurchaseCancelationPage {
     	} 	
     	
     	if(msg.getAction().equals("got purchase cancelation by id")) {
-    		waitingForMessageCounter++;
+    		waitingForMessageCounter--;
     		Platform.runLater(() -> {
-    			
+    			try {
+					sendCancellationEmail();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		});
+    	} 
+    	
+    	if(msg.getAction().equals("sent purchase cancellation mail")) {
+    		waitingForMessageCounter--;
+    		Platform.runLater(() -> {
+    			/*try {
+					// LoadPage...
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}*/
     		});
     	} 
     	

@@ -31,7 +31,7 @@ public class Message implements Serializable {
 	int id;
 	int tavSagolLimit;
 	int numOfSeats;
-	int payment;
+	double payment;
 	
 	
 	
@@ -544,11 +544,11 @@ public class Message implements Serializable {
 		this.numOfSeats = numOfSeats;
 	}
 
-	public int getPayment() {
+	public double getPayment() {
 		return payment;
 	}
 
-	public void setPayment(int payment) {
+	public void setPayment(double payment) {
 		this.payment = payment;
 	}
 

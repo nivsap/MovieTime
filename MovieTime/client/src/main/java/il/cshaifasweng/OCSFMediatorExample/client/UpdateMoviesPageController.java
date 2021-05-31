@@ -28,6 +28,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -41,7 +42,9 @@ public class UpdateMoviesPageController{
 	List<Screening> filteredScreenings;
 	private String[] time;
 	
-
+	@FXML
+    private DatePicker dateCard;
+	
     @FXML
     private ComboBox<String> cb_hall;
     
@@ -51,8 +54,6 @@ public class UpdateMoviesPageController{
     @FXML
     private ComboBox<String> cb_time;
 
-    @FXML
-    private ComboBox<String> cb_date;
 
     @FXML
     private ComboBox<String> cb_cinema;
@@ -111,11 +112,12 @@ public class UpdateMoviesPageController{
 			}
 		}
 		
-		if(cb_date.getValue() != null && !cb_date.getValue().isBlank()) {
+		if(dateCard.getValue() != null) {
+			System.out.println(dateCard.getValue());
 			Iterator<Screening> iter = filteredScreenings.iterator();
 			while (iter.hasNext()) {
 			  Screening s = iter.next();
-			  if (!s.getDate_screen().toString().substring(0,10).equals(cb_date.getValue()))
+			  if (!s.getDate_screen().toString().substring(0,10).equals(dateCard.getValue().toString()))
 				  iter.remove();
 			}
 		}
@@ -189,7 +191,6 @@ public class UpdateMoviesPageController{
 			cb_time.getItems().clear();
 			cb_movie.getItems().clear();
 			cb_cinema.getItems().clear();
-			cb_date.getItems().clear();
 			
 			cb_removal_addition.getItems().clear();
 			cb_hall.getItems().clear();
@@ -211,10 +212,7 @@ public class UpdateMoviesPageController{
 				if(!cb_hall.getItems().contains((Integer.toString(screening.getHall().getHallId())))){
 					cb_hall.getItems().add((Integer.toString(screening.getHall().getHallId())));
 				}
-				onlyDate = screening.getDate_screen().toString();
-    			onlyDate = onlyDate.substring(0,10); 
-    			if(!cb_date.getItems().contains(onlyDate))
-    				cb_date.getItems().add(onlyDate);
+				
 			}
 			
 			
@@ -233,7 +231,7 @@ public class UpdateMoviesPageController{
 	
 	@Subscribe
 	public void onMessageEvent(Message msg) throws IOException {
-		
+		EventBus.getDefault().unregister(this);
     		if(msg.getAction().equals("got all screenings")) {
     			
     			Platform.runLater(()-> {
@@ -272,10 +270,10 @@ public class UpdateMoviesPageController{
 	@FXML
 	private void UpdateMovieTime(ActionEvent event)
 	{
-		
+		EventBus.getDefault().register(this);
 		boolean timeChanged = false;
 		if(cb_movie.getSelectionModel().isEmpty() ||  
-				cb_date.getSelectionModel().isEmpty() ||
+				!dateCard.getValue().toString().equals("") ||
 				cb_time.getSelectionModel().isEmpty() ||
 				cb_cinema.getSelectionModel().isEmpty() ||
 				cb_removal_addition.getSelectionModel().isEmpty()
@@ -300,7 +298,7 @@ public class UpdateMoviesPageController{
 				msg.setHallId(Integer.parseInt(cb_hall.getValue()));
 
 				
-				String onlyDate = cb_date.getValue().toString();
+				String onlyDate = dateCard.getValue().toString();
 				String onlyTime = cb_time.getValue().toString();
 				int year = Integer.parseInt(onlyDate.substring(0,4));
 				int month = Integer.parseInt(onlyDate.substring(5,7));

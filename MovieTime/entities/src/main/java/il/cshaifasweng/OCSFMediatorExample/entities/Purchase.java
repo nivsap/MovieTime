@@ -40,7 +40,7 @@ public class Purchase implements  Serializable{
 	@JoinColumn(name = "hall_id")
 	private Hall hall;
 //	private List<Pair<Integer , Integer>> sitsList;
-	private int payment;
+	private double payment;
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Complaint complaint;
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -50,7 +50,7 @@ public class Purchase implements  Serializable{
 
 
 	public Purchase(String firstName, String lastName, String emailOrder, String cityString, String phoneString,
-			Pair<Boolean, Integer> cinemaTab , boolean watchFromHome , LocalDateTime purchaseDate,Cinema cinema , Hall hall ,List<Pair<Integer , Integer>> sitsList ,int payment,Complaint complaint, Screening screening,boolean isCanceled) {
+			Pair<Boolean, Integer> cinemaTab , boolean watchFromHome , LocalDateTime purchaseDate,Cinema cinema , Hall hall ,List<Pair<Integer , Integer>> sitsList ,double payment,Complaint complaint, Screening screening,boolean isCanceled) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -88,10 +88,10 @@ public class Purchase implements  Serializable{
 	public void setComplaint(Complaint complaint) {
 		this.complaint = complaint;
 	}
-	public int getPayment() {
+	public double getPayment() {
 		return payment;
 	}
-	public void setPayment(int payment) {
+	public void setPayment(double payment) {
 		this.payment = payment;
 	}
 	public LocalDateTime getPurchaseDate() {

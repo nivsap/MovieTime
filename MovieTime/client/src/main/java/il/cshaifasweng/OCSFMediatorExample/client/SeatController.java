@@ -31,6 +31,11 @@ public class SeatController {
 		return seat;
 	}
 
+	public void setIsTChosen() {
+		seat = 2;
+		Image image = new Image(getClass().getResourceAsStream("images/SelectedSeatIcon.png"));
+    	seatIcon.setImage(image);
+	}
     @FXML
     void switchColor(ActionEvent event) {
     	if(seat == 1) 

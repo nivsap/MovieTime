@@ -29,7 +29,7 @@
             <Label layoutX="15.0" layoutY="190.0" text="Phone number:" textFill="WHITE" />
             <Label layoutX="300.0" layoutY="110.0" style="-fx-font-weight: bold;" text="Complaint Information" textFill="WHITE" />
             <Label layoutX="300.0" layoutY="130.0" text="Complaint Type:" textFill="WHITE" />
-            <Label layoutX="300.0" layoutY="150.0" text="Incident Date:" textFill="WHITE" />
+            <Label layoutX="300.0" layoutY="150.0" text="Order Number:" textFill="WHITE" />
             <Label layoutX="300.0" layoutY="170.0" text="Complaint Title:" textFill="WHITE" />
             <Label layoutX="300.0" layoutY="190.0" text="Complaint Details:" textFill="WHITE" />
             <Label fx:id="firstNameLabel" layoutX="120.0" layoutY="130.0" text="Liel" textFill="WHITE" />
@@ -37,7 +37,7 @@
             <Label fx:id="emailLabel" layoutX="120.0" layoutY="170.0" text="myemail@gmail.com" textFill="WHITE" />
             <Label fx:id="phoneNumberLabel" layoutX="120.0" layoutY="190.0" text="0523456789" textFill="WHITE" />
             <Label fx:id="complaintTypeLabel" layoutX="420.0" layoutY="130.0" text="Payment issues" textFill="WHITE" />
-            <Label fx:id="incidentDateLabel" layoutX="420.0" layoutY="150.0" text="01.01.1990" textFill="WHITE" />
+            <Label fx:id="orderNumberLabel" layoutX="420.0" layoutY="150.0" text="5" textFill="WHITE" />
             <Label fx:id="complaintTitleLabel" layoutX="420.0" layoutY="170.0" text="I'm very upset" textFill="WHITE" />
             <Label fx:id="complaintDetailsLabel" layoutX="420.0" layoutY="190.0" prefWidth="200.0" text="Where is my money?" textFill="WHITE" />
          </children></AnchorPane>

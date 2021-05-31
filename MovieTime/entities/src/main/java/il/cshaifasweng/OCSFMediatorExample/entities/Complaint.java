@@ -11,6 +11,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -30,17 +32,20 @@ public class Complaint implements  Serializable {
 	private String complaintTitle;
 	private String complaintDetails;
 	private Boolean isOpen;
-	private static String[] complaintTypes = { "Movie screening issues", "Viewing package issues", "Payment issues",
-									    	   "Dissatisfaction with customer support", "Other" };
+	private static String[] complaintTypes = { "Movie screening issues", "Viewing package issues", "Subscription card issues", "Payment issues" };
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Purchase purchase;
 	private boolean status;
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "cinema_id")
+	private Cinema cinema;
 	
 	public Complaint() {
 		super();
 	}
-	public Complaint(String firstName, String lastName, String complaintTitle, String complaintDetails, boolean isOpen,Purchase purchase , boolean status) {
+	public Complaint(String firstName, String lastName, String complaintTitle, String complaintDetails, boolean isOpen,Purchase purchase , boolean status,Cinema cinema) {
 		super();
+		incidentDate = LocalDate.now();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.complaintTitle = complaintTitle;
@@ -48,22 +53,41 @@ public class Complaint implements  Serializable {
 		this.isOpen = isOpen;
 		this.purchase = purchase;
 		this.status = status;
+		email="hadarmanor12@gmail.com";
+		phoneNumber=null;
+		incidentDate = LocalDate.now();
+		this.cinema = cinema;						
 	}
-	
-	public Complaint(String firstName, String lastName, String email, String phoneNumber, String complaintType, LocalDate incidentDate, 
-					 String complaintTitle, String complaintDetails, boolean isOpen,Purchase purchase, boolean status) {
+	public Complaint(String firstName, String lastName, String complaintTitle, String complaintDetails, boolean isOpen, LocalDate incidentDate , boolean status,String complaintType,Cinema cinema) {
 		super();
+		incidentDate = LocalDate.now();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.complaintTitle = complaintTitle;
+		this.complaintDetails = complaintDetails;
+		this.isOpen = isOpen;
+		this.status = status;
+		this.complaintType=complaintType;
+		this.purchase = null;
+		email="hadarmanor12@gmail.com";
+		phoneNumber=null;
+		this.cinema = cinema;
+	}
+	public Complaint(String firstName, String lastName, String email, String phoneNumber, String complaintType, LocalDate incidentDate, 
+					 String complaintTitle, String complaintDetails, boolean isOpen,Purchase purchase, boolean status,Cinema cinema) {
+		super();
+		incidentDate = LocalDate.now();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
 		this.complaintType = complaintType;
-		this.incidentDate = incidentDate;
 		this.complaintTitle = complaintTitle;
 		this.complaintDetails = complaintDetails;
 		this.isOpen = isOpen;
 		this.purchase = purchase;
 		this.status = status;
+		this.cinema = cinema;
 	}
 	
 	public int getId() {
@@ -78,6 +102,12 @@ public class Complaint implements  Serializable {
 		return status;
 	}
 
+	public Cinema getCinema() {
+		return cinema;
+	}
+	public void setCinema(Cinema cinema) {
+		this.cinema = cinema;
+	}
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
@@ -115,7 +145,7 @@ public class Complaint implements  Serializable {
 	}
 	
 	public void setIncidentDate(LocalDate incidentDate) {
-		this.incidentDate = incidentDate;
+		this.incidentDate = LocalDate.now();
 	}
 	
 	public void setComplaintDetails(String complaintDetails) {

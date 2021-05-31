@@ -12,6 +12,8 @@ import javax.swing.JOptionPane;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+
+
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import javafx.application.Platform;
@@ -100,7 +102,6 @@ public class AddContentPageController {
     private Button addViewingPackageBtn;
 
     public AddContentPageController() {
-    	EventBus.getDefault().register(this);
     	genreCheckBoxContainer = new VBox();
     	imagePickerController = new FilePickerController();
     	largeImagePickerController = new FilePickerController();
@@ -127,6 +128,7 @@ public class AddContentPageController {
         assert movieWarningLabel != null : "fx:id=\"movieWarningLabel\" was not injected: check your FXML file 'AddContentPage.fxml'.";
         assert addViewingPackageBtn != null : "fx:id=\"addViewingPackageBtn\" was not injected: check your FXML file 'AddContentPage.fxml'.";
 
+        movieWarningLabel.setVisible(false);
         
         setEventListeners();
         genreCheckBoxContainer.getChildren().addAll(allGenres);
@@ -289,11 +291,12 @@ public class AddContentPageController {
     							   mainActors,
     							   launchDateTime,
     							   0,
-    							   producers);
+    							   producers,null,false,new ArrayList<>(),true);
     	sendMovieToServer(newMovie);
     }
     
     void sendMovieToServer(Movie newMovie) {
+    	EventBus.getDefault().register(this);
     	Message msg = new Message();
     	msg.setAction("add movie");
     	msg.setMovie(newMovie);
@@ -311,6 +314,7 @@ public class AddContentPageController {
     public void onMessageEvent(Message msg){
     	if(msg.getAction().equals("added movie")) {
     		Platform.runLater(()-> {
+    			EventBus.getDefault().unregister(this);
     			System.out.println("added movie");
     			JOptionPane.showMessageDialog(null, "Movie added successfully");
     		});

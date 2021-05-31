@@ -37,7 +37,6 @@ public class LoginPageController {
 	@FXML
 	void initialize() {
 		System.out.println("initializing LoginPage");
-		EventBus.getDefault().register(this);
 		
 		assert usernameTextField != null : "fx:id=\"usernameTextField\" was not injected: check your FXML file 'LoginPage.fxml'.";
 	    assert usernameWarningLabel != null : "fx:id=\"usernameWarningLabel\" was not injected: check your FXML file 'LoginPage.fxml'.";
@@ -47,12 +46,12 @@ public class LoginPageController {
 	    assert loginFailedLabel != null : "fx:id=\"loginFailedLabel\" was not injected: check your FXML file 'LoginPage.fxml'.";
 	    
 	    hideWarningLabels();
-	    loginFailedLabel.setVisible(false);
 	}
 	
 	void hideWarningLabels() {
 		usernameWarningLabel.setVisible(false);
 		passwordWarningLabel.setVisible(false);
+		loginFailedLabel.setVisible(false);
 	}
 	
 	@FXML
@@ -71,6 +70,11 @@ public class LoginPageController {
     		return;
     	}
     	
+    	sendMessageToServer(username, password);
+	}
+	
+	public void sendMessageToServer(String username, String password) {
+		EventBus.getDefault().register(this);
 		Message msg = new Message();
 		msg.setUsername(username);
 		msg.setPassword(password);
@@ -88,12 +92,23 @@ public class LoginPageController {
 	public void onMessageEvent(Message msg) {
     	if(msg.getAction().equals("login done")) {
     		Platform.runLater(()-> {
-    			String menuType = msg.getTypeOfWorkerString();
-    			if(menuType != null) {
+    			String workerType = msg.getTypeOfWorkerString();
+    			if(workerType != null) {
 	    			try {
+	    				if(workerType.equals("NetworkAdministrator"))
+	    					App.setBarAndGridLayout("NetworkAdministratorMainPage");
+	    				
+	    				if(workerType.equals("ContentManager"))
+	    					App.setContent("DeleteMoviePage");
+	    				
+	    				if(workerType.equals("BranchManager")) 
+	    					App.setBarAndGridLayout("BranchManagerMainPage");
+
+	    				if(workerType.equals("CustomerService"))
+	    					App.setBarAndGridLayout("MainPage");
+	    				
 	    				App.setWindowTitle(PageTitles.MainPage);
-						App.setContent("MainPage");
-						App.setMenu(menuType + "Menu");
+	    				App.setMenu(workerType + "Menu");
 					} catch (IOException e) {
 						e.printStackTrace();
 					}

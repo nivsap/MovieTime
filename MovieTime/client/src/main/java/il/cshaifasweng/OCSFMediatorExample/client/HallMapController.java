@@ -39,6 +39,9 @@ public class HallMapController {
 				if(ks[i][j] == 1)
 					seatController.setIsTaken();
 				newRow.getChildren().add(seat);
+				if(ks[i][j] == 2) {
+					seatController.setIsTChosen();
+				}
     		}
     		newRow.setAlignment(Pos.TOP_CENTER);
     		hallMapContainer.getChildren().add(newRow);

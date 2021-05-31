@@ -50,13 +50,16 @@ public class OpenComplaintsController {
 	
 	@FXML
 	public void initialize() {
-		System.out.println("initializing UpdateMoviePage");
+		System.out.println("initializing aopen com[lain");
 		EventBus.getDefault().register(this);
-		PullComplaint();	
+		PullComplaint();
+		System.out.println("end aopen com[lain");
+
 	}
 	
 	
 	private void PullComplaint() {
+		System.out.println("start PullComplaint");
 		Message msg= new Message();
 		msg.setAction("pull current complaint");
 		try {
@@ -66,19 +69,30 @@ public class OpenComplaintsController {
 			System.out.println("failed to send msg to server from updateMoviesPage");
 			e.printStackTrace();
 		}
+		System.out.println("end PullComplaint");
+
 	}
 	public void InitPage(){		
-		 System.out.println("in here");
+		 System.out.println("start InitPage");
 		 String string;
 		 
 			try {
 				for(Complaint complaint : allComplaints) {
 						FXMLLoader fxmlLoader = new FXMLLoader();
-						fxmlLoader.setLocation(getClass().getResource("ScreeningCard.fxml"));
-						HBox cardBox = fxmlLoader.load();				
+						System.out.println("in card");
+						fxmlLoader.setLocation(getClass().getResource("cardContainerComplaint.fxml"));
+						System.out.println("end in card");
+						HBox cardBox = fxmlLoader.load();	
+						System.out.println("end in card1");
 						ScreeningCardController ctrl = fxmlLoader.getController();
+						System.out.println("end in card2");
 						string=complaint.getIncidentDate().toString();
+
+						//!!!!!!!!!!! need to decide which of the following 2 lines we keep !!!!!!!!!!!
 						ctrl.SetData(string, complaint.getFirstName(), complaint.getComplaintType(), complaint.getComplaintTitle(),0);
+						ctrl.SetDataComplain(complaint);
+
+						System.out.println("end in card4");
 						screening_time_layout.getChildren().add(cardBox);
 					
 					 
@@ -91,15 +105,22 @@ public class OpenComplaintsController {
 			//if (needUpdateMovieTime) {
 				
 		//	}
+			 System.out.println("end InitPage");
+
 		}
 	public void SetData() {
+		 System.out.println("start SetData");
+
 		InitPage();
+		 System.out.println("end SetData");
+
 	
 }
 
 	@Subscribe
 	public void onMessageEvent(Message msg) throws IOException {
-		
+		 System.out.println("start onMessageEvent");
+
     		if(msg.getAction().equals("got complaints")) {
     			
     			Platform.runLater(()-> {
@@ -111,7 +132,7 @@ public class OpenComplaintsController {
     				SetData();
     			});
     		}
-	}
-	
-		
+   		 System.out.println("end onMessageEvent");
+
+	}		
 }

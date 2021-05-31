@@ -148,7 +148,7 @@ public class DeleteMoviePageController {
     			setMovies(currentlyDisplayedFrom);
     		});
     	}
-    	if(msg.getAction().equals("movie deleted")) {
+    	if(msg.getAction().equals("deleted movie")) {
     		Platform.runLater(()-> {
     			movieContainer.getChildren().clear();
     			currentlyDisplayedFrom = 0;

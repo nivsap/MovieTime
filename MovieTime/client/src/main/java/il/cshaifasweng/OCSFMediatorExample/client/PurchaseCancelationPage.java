@@ -1,7 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
-import java.util.ResourceBundle;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -17,10 +16,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
 public class PurchaseCancelationPage {
+	private Boolean isRegistered;
+	private int waitingForMessageCounter;
 	private String orderNumber;
 	private Purchase foundPurchase;
-	private float refundAmount;
-	
+	private int refundAmount; // Needs to be changed to float...
+
 	@FXML
 	private TextField OrderNumberTextField;
 
@@ -64,6 +65,8 @@ public class PurchaseCancelationPage {
 	private Label weAreSorryLabel;
 	
 	public PurchaseCancelationPage() {
+		isRegistered = false;
+		waitingForMessageCounter = 0;
 		foundPurchase = new Purchase();
 		orderNumber = "";
 		refundAmount = 0;
@@ -71,8 +74,6 @@ public class PurchaseCancelationPage {
 	
     @FXML
     void initialize() {
-		EventBus.getDefault().register(this);
-    	
         assert OrderNumberTextField != null : "fx:id=\"OrderNumberTextField\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
         assert orderNumberWarningLabel != null : "fx:id=\"orderNumberWarningLabel\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
         assert searchBtn != null : "fx:id=\"searchBtn\" was not injected: check your FXML file 'PurchaseCancelation.fxml'.";
@@ -103,10 +104,14 @@ public class PurchaseCancelationPage {
 			orderNumberWarningLabel.setText("Order number must be entered");
 			return;
 		}	
+		
 		Message msg = new Message();
 		msg.setAction("get purchase by id");
 		msg.setId(Integer.parseInt(orderNumber));
+		if(!isRegistered) 
+			EventBus.getDefault().register(this);
 		AppClient.getClient().sendToServer(msg);
+		waitingForMessageCounter++;
 	}
     
     void setPurchaseInfo() { // Still need to deal with orderTypeLabel
@@ -164,12 +169,24 @@ public class PurchaseCancelationPage {
 		Message msg = new Message();
 		msg.setAction("cancellation of purchase");
 		msg.setPurchase(foundPurchase);
+		if(!isRegistered) 
+			EventBus.getDefault().register(this);
+		AppClient.getClient().sendToServer(msg);
+		waitingForMessageCounter++;
+	}
+	
+	void sendCancellationEmail() throws IOException {
+		Message msg = new Message();
+		msg.setAction("send purchase cancellation email");
+		msg.setPurchase(foundPurchase);
+		msg.setPayment(refundAmount);
 		AppClient.getClient().sendToServer(msg);
 	}
 	
     @Subscribe
     public void onMessageEvent(Message msg){
     	if(msg.getAction().equals("got purchase by id")) {
+    		waitingForMessageCounter--;
     		Platform.runLater(() -> {
     			orderNumber = "";
     			foundPurchase = msg.getPurchase();
@@ -187,11 +204,16 @@ public class PurchaseCancelationPage {
     			}
     		});
     	} 	
-    	/* There isn't a suitable function yet...
-    	if(msg.getAction().equals("got purchase cancellation")) {
+    	
+    	if(msg.getAction().equals("got purchase cancelation by id")) {
+    		waitingForMessageCounter++;
     		Platform.runLater(() -> {
+    			
     		});
     	} 
-    	*/
+    	
+    	if(waitingForMessageCounter == 0) {
+    		EventBus.getDefault().unregister(this);
+    	}
     }
 }

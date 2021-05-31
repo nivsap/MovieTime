@@ -47,6 +47,19 @@ public class JavaMailUtil {
 		
 	}
 	
+	public static void sendPurchaseCancellationMessage(String toMail, String customerName, String orderNumber, Boolean isRefunded) {
+		
+		String subject = "We are sad to see you go";
+		String message = 
+				"Dear " +customerName + ",\n"
+				+ "Your order, number: " + orderNumber + ", has been cancelled to your request.";
+				if(isRefunded)
+					message+="\nA refund of %s₪ was issued to the credit card you paid with.";
+				message+="\n\nWe hope you will come back to the Sirtiya!\nCheers.";
+				
+		sendEmail(message, subject, toMail, from);
+	}
+	
 	
 	private static void sendEmail(String message, String subject, String to, String from) {
 		

@@ -8,6 +8,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -52,6 +53,9 @@ public class App extends Application {
         stage.setScene(scene);
         stage.show();
 
+        
+        
+        stage.setOnCloseRequest(e -> Platform.exit());
 		 /* For Connection Page:
 		 * pageLayout = new BorderPane(); 
 		 * content = (VBox) loadFXML("ConnectionLogin").getKey();
@@ -67,6 +71,15 @@ public class App extends Application {
     	stage.setTitle(title);
     }
     
+    @Override
+    public void stop(){
+        System.out.println("Stage is closing");
+        Platform.exit();
+        System.exit(0);
+        //Message msg = new Message();
+        
+    }
+    
     static Object setContent(String pageName) throws IOException {
     	// setContent() loads page/FXML into App's content container and returns page's controller.
     	if(content != null)
@@ -77,6 +90,7 @@ public class App extends Application {
     	pageLayout.setCenter(content);
         stage.setScene(scene);
         stage.show();
+        stage.setOnCloseRequest(e -> Platform.exit());
         return pair.getValue();
     }
     
@@ -89,6 +103,7 @@ public class App extends Application {
     	pageLayout.setLeft(menu);
         stage.setScene(scene);
         stage.show();
+        stage.setOnCloseRequest(e -> Platform.exit());
         return pair.getValue();
     }
     

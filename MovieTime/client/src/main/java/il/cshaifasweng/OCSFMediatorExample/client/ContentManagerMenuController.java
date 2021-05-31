@@ -30,13 +30,13 @@ public class ContentManagerMenuController {
     	App.setContent("DeleteMoviePage");
     }
     
-    /*
+    
     @FXML
     void loadUpdateMovies(ActionEvent event) throws IOException {
     	App.setWindowTitle(PageTitles.UpdateMoviesPage);
     	App.setContent("UpdateMoviesPage");
     }
-    */
+    
 
     @FXML
     void loadAddContentePage(ActionEvent event) throws IOException {

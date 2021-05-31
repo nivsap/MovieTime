@@ -47,7 +47,7 @@ public class JavaMailUtil {
 		
 	}
 	
-	public static void sendPurchaseCancellationMessage(String toMail, String customerName, String orderNumber, float refund) {
+	public static void sendPurchaseCancellationMessage(String toMail, String customerName, String orderNumber, double refund) {
 		Boolean isRefunded = refund > 0? true:false;
 		String subject = "We are sad to see you go";
 		String message = 

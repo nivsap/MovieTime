@@ -14,9 +14,7 @@ public class ScreeningController {
 	public static List<Cinema> getCinemas(int id) {
 		ArrayList<Cinema> list = Main.getAllOfType(Cinema.class);
 		ArrayList<Cinema> toReturnArrayList = new ArrayList<>();
-		System.out.println("wtf " + list.isEmpty());
  		for(Cinema cinema : list) {
- 			System.out.println("annnnnddd " + cinema.getScreeningArray().isEmpty());
 			for(Screening screening : cinema.getScreeningArray()) {
 				if(screening.getMovie().getId() == id) {
 					toReturnArrayList.add(cinema);

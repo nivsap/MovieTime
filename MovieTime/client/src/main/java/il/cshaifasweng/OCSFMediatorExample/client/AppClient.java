@@ -19,7 +19,7 @@ public class AppClient extends AbstractClient {
 	private static final Logger LOGGER = Logger.getLogger(AppClient.class.getName());
 	
 
-	
+	//unregister
 	public AppClient(String host, int port) {
 		super(host, port);
 	}
@@ -28,7 +28,12 @@ public class AppClient extends AbstractClient {
 		System.out.println("msg recieved in appClient!");
 		System.out.println("msg is: " + ((Message)msg).getAction());
 		Message currentMsg = (Message) msg;
+		//EventBus.getDefault().post(((Message) msg));
 		if (currentMsg.getAction().equals("got movies"))
+		{
+			EventBus.getDefault().post(((Message) msg));
+		}
+		if (currentMsg.getAction().equals("screening for movie done"))
 		{
 			EventBus.getDefault().post(((Message) msg));
 		}
@@ -117,6 +122,9 @@ public class AppClient extends AbstractClient {
 	    if(currentMsg.getAction().equals("sent successful purchase mail")) {
 	    		EventBus.getDefault().post(((Message) msg));
 	    }
+	    if(currentMsg.getAction().equals("sent purchase cancellation mail")) {
+    		EventBus.getDefault().post(((Message) msg));
+	    } 
 	    if(currentMsg.getAction().equals("got all screenings")) {
     		EventBus.getDefault().post(((Message) msg));
 	    }
@@ -125,10 +133,37 @@ public class AppClient extends AbstractClient {
     	}
     	
     	if(currentMsg.getAction().equals("got purchase cancelation by id")) {
-
+//
     		EventBus.getDefault().post(((Message) msg));
     	}
-		
+    	if(currentMsg.getAction().equals("added movie")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	} 	
+     	if(currentMsg.getAction().equals("deleted movie")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	}
+     	if(currentMsg.getAction().equals("done selection of seats under restrictions")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	} 	
+    	if(currentMsg.getAction().equals("check purple limit")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	} 	
+    	if(currentMsg.getAction().equals("delete a viewing package")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	} 	
+    	if(currentMsg.getAction().equals("set purple limit")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	} 
+    	if(currentMsg.getAction().equals("cancellation of purchase")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	} 
+    	if(currentMsg.getAction().equals("got purchases")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	} 
+    	if(currentMsg.getAction().equals("got cinemas and purchases and complaints")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	} 
+  
 	}
 	@Override
 	protected void connectionEstablished() {

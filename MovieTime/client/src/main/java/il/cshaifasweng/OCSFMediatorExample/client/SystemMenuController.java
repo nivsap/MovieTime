@@ -67,8 +67,8 @@ public class SystemMenuController extends Pane {
     
     @FXML
     void loadCancelationPage(ActionEvent event) throws IOException {
-    	App.setWindowTitle(PageTitles.PurchaseCancelation);
-    	App.setContent("PurchaseCancelation");
+    	App.setWindowTitle(PageTitles.PurchaseCancellationPage);
+    	App.setContent("PurchaseCancellationPage");
     }
     @FXML
     void loadViewingPackages(ActionEvent event) throws IOException {

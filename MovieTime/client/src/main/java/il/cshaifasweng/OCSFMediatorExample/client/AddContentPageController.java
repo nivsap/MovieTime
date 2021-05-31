@@ -12,6 +12,8 @@ import javax.swing.JOptionPane;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+
+
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import javafx.application.Platform;
@@ -289,7 +291,7 @@ public class AddContentPageController {
     							   mainActors,
     							   launchDateTime,
     							   0,
-    							   producers);
+    							   producers,null,false,new ArrayList<>(),true);
     	sendMovieToServer(newMovie);
     }
     

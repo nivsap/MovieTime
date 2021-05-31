@@ -16,6 +16,7 @@ import javafx.scene.control.ComboBox;
 public class ComingSoonSearchBarController {
 	@FXML
     private ComboBox<String> genreID;
+	
 	String [] currentType;
 	public ComingSoonSearchBarController() {
 		EventBus.getDefault().register(this);
@@ -49,7 +50,6 @@ public class ComingSoonSearchBarController {
 	public void onMessageEvent(Message msg) {
     	if(msg.getAction().equals("got genre screening movies")) {
 		Platform.runLater(()-> {
-			EventBus.getDefault().unregister(this);
 			System.out.println(Arrays.toString(msg.genreArray));
 			currentType=new String[msg.genreArray.length];
 			currentType=msg.genreArray; });	

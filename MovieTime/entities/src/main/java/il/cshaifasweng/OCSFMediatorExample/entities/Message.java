@@ -28,7 +28,13 @@ public class Message implements Serializable {
 	String theater;
 	String rate;
 	String search;
-	String id;
+	int id;
+	int tavSagolLimit;
+	int numOfSeats;
+	int payment;
+	
+	
+	
 	int movieId;            				//clientSide need to fill/set is field when send msg to server
 	int cinemaId;           				//clientSide need to fill/set is field when send msg to server
 	ArrayList<Cinema> cinemasArrayList;
@@ -55,7 +61,7 @@ public class Message implements Serializable {
 
 	public String[] genreArray;
 
-	Integer[][] seats;
+	int[][] seats;
 	String firstName;       				//clientSide need to fill/set is field when send msg to server
 	String lastName;        				//clientSide need to fill/set is field when send msg to server
 	String emailOrder;      				//clientSide need to fill/set is field when send msg to server
@@ -111,13 +117,13 @@ public class Message implements Serializable {
 
 
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
 
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -135,7 +141,7 @@ public class Message implements Serializable {
 
 
 
-	public boolean isStatus() {
+	public boolean getStatus() {
 		return status;
 	}
 
@@ -448,11 +454,11 @@ public class Message implements Serializable {
 		return error;
 	}
 	
-	public Integer[][] getSeats(){
+	public int[][] getSeats(){
 		return seats;
 	}
 	
-	public void setSeats(Integer[][] seats) {
+	public void setSeats(int[][] seats) {
 		this.seats = seats;
 	}
 	
@@ -528,6 +534,30 @@ public class Message implements Serializable {
 
 	public void setSearch(String search) {
 		this.search = search;
+	}
+
+	public int getNumOfSeats() {
+		return numOfSeats;
+	}
+
+	public void setNumOfSeats(int numOfSeats) {
+		this.numOfSeats = numOfSeats;
+	}
+
+	public int getPayment() {
+		return payment;
+	}
+
+	public void setPayment(int payment) {
+		this.payment = payment;
+	}
+
+	public int getTavSagolLimit() {
+		return tavSagolLimit;
+	}
+
+	public void setTavSagolLimit(int tavSagolLimit) {
+		this.tavSagolLimit = tavSagolLimit;
 	}
 }
 

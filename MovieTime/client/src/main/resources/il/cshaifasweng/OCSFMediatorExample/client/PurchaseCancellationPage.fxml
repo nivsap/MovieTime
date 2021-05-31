@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #1d1e22;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.PurchaseCancellationPageController">
+   <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #343537;">
+      <children>
+         <AnchorPane layoutX="25.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="650.0" style="-fx-background-color: #141518;">
+            <children>
+               <Label layoutX="10.0" layoutY="10.0" style="-fx-font-weight: bold;" text="Purchase Cancelation" textFill="WHITE">
+                  <font>
+                     <Font size="18.0" />
+                  </font>
+               </Label>
+               <Line endX="630.0" endY="-7.62939453125E-6" layoutX="10.0" layoutY="40.0" stroke="WHITE" />
+               <Label layoutX="200.0" layoutY="60.0" text="Please Type In an Order Number *" textFill="WHITE" />
+               <TextField fx:id="OrderNumberTextField" layoutX="200.0" layoutY="85.0" prefHeight="30.0" prefWidth="250.0" promptText="Order number" />
+               <Label fx:id="orderNumberWarningLabel" layoutX="200.0" layoutY="120.0" prefHeight="10.0" prefWidth="250.0" text="Order number must be entered" textFill="RED" />
+               <Button fx:id="searchBtn" alignment="CENTER" layoutX="200.0" layoutY="150.0" mnemonicParsing="false" onAction="#getPurchaseInfo" prefHeight="30.0" prefWidth="250.0" styleClass="orangeButton" text="Search" />
+            </children>
+         </AnchorPane>
+         <AnchorPane fx:id="purchaseCancelationFormContainer" layoutX="25.0" layoutY="220.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="650.0" style="-fx-background-color: #141518;">
+            <children>
+               <Label layoutX="10.0" layoutY="10.0" style="-fx-font-weight: bold;" text="Purchase Information" textFill="WHITE">
+                  <font>
+                     <Font size="18.0" />
+                  </font>
+               </Label>
+               <Line endX="640.0" endY="-7.62939453125E-6" layoutY="40.0" startX="10.0" stroke="WHITE" />
+               <AnchorPane layoutX="125.0" layoutY="60.0" prefHeight="220.0" prefWidth="400.0" style="-fx-background-color: #1d1e22;">
+                  <children>
+                     <Label layoutX="20.0" layoutY="10.0" text="First name" textFill="WHITE">
+                        <font>
+                           <Font name="System Bold" size="14.0" />
+                        </font>
+                     </Label>
+                     <Label fx:id="firstNameLabel" layoutX="200.0" layoutY="10.0" prefWidth="200.0" text="Alon" textFill="WHITE">
+                        <font>
+                           <Font size="14.0" />
+                        </font>
+                     </Label>
+                     <Label layoutX="20.0" layoutY="40.0" text="Last name" textFill="WHITE">
+                        <font>
+                           <Font name="System Bold" size="14.0" />
+                        </font>
+                     </Label>
+                     <Label fx:id="lastNameLabel" layoutX="200.0" layoutY="40.0" prefWidth="200.0" text="Latman" textFill="WHITE">
+                        <font>
+                           <Font size="14.0" />
+                        </font>
+                     </Label>
+                     <Label layoutX="20.0" layoutY="70.0" text="Email" textFill="WHITE">
+                        <font>
+                           <Font name="System Bold" size="14.0" />
+                        </font>
+                     </Label>
+                     <Label fx:id="emailLabel" layoutX="200.0" layoutY="70.0" prefWidth="200.0" text="somemail@gmail.com" textFill="WHITE">
+                        <font>
+                           <Font size="14.0" />
+                        </font>
+                     </Label>
+                     <Label layoutX="20.0" layoutY="100.0" text="Phone number" textFill="WHITE">
+                        <font>
+                           <Font name="System Bold" size="14.0" />
+                        </font>
+                     </Label>
+                     <Label fx:id="phoneNumberLabel" layoutX="200.0" layoutY="100.0" prefWidth="200.0" text="0501234567" textFill="WHITE">
+                        <font>
+                           <Font size="14.0" />
+                        </font>
+                     </Label>
+                     <Label layoutX="20.0" layoutY="130.0" text="Date of Purchase" textFill="WHITE">
+                        <font>
+                           <Font name="System Bold" size="14.0" />
+                        </font>
+                     </Label>
+                     <Label fx:id="dateLabel" layoutX="200.0" layoutY="130.0" prefWidth="200.0" text="01/01/01" textFill="WHITE">
+                        <font>
+                           <Font size="14.0" />
+                        </font>
+                     </Label>
+                     <Label layoutX="20.0" layoutY="160.0" text="Order Type" textFill="WHITE">
+                        <font>
+                           <Font name="System Bold" size="14.0" />
+                        </font>
+                     </Label>
+                     <Label fx:id="orderTypeLabel" layoutX="200.0" layoutY="160.0" prefWidth="200.0" text="Movie Tickets" textFill="WHITE">
+                        <font>
+                           <Font size="14.0" />
+                        </font>
+                     </Label>
+                     <Label layoutX="20.0" layoutY="190.0" text="Paid Amount" textFill="WHITE">
+                        <font>
+                           <Font name="System Bold" size="14.0" />
+                        </font>
+                     </Label>
+                     <Label fx:id="paidAmountLabel" layoutX="200.0" layoutY="190.0" prefWidth="200.0" text="15 ₪" textFill="WHITE">
+                        <font>
+                           <Font size="14.0" />
+                        </font>
+                     </Label>
+                  </children>
+               </AnchorPane>
+               <Label layoutX="10.0" layoutY="300.0" style="-fx-font-weight: bold;" text="Purchase Cancelation" textFill="WHITE">
+                  <font>
+                     <Font size="18.0" />
+                  </font>
+               </Label>
+               <Line endX="640.0" endY="-7.62939453125E-6" layoutY="330.0" startX="10.0" stroke="WHITE" />
+               <Label alignment="CENTER" layoutY="350.0" prefWidth="650.0" text="Your Refund Amount" textFill="WHITE">
+                  <font>
+                     <Font name="System Bold" size="18.0" />
+                  </font>
+               </Label>
+               <Label fx:id="refundAmountLabel" alignment="CENTER" layoutY="380.0" prefWidth="650.0" text="15 ₪" textAlignment="CENTER" textFill="WHITE">
+                  <font>
+                     <Font name="System Bold" size="18.0" />
+                  </font>
+               </Label>
+               <Button fx:id="cancelBtn" alignment="CENTER" layoutX="200.0" layoutY="410.0" mnemonicParsing="false" onAction="#cancelPurchase" prefHeight="30.0" prefWidth="250.0" styleClass="orangeButton" text="Cancel" />
+               <Label fx:id="weAreSorryLabel" alignment="CENTER" layoutY="440.0" prefWidth="650.0" text="We are sorry! Your order can not be canceled" textAlignment="CENTER" textFill="RED" wrapText="true">
+                  <font>
+                     <Font name="System Bold" size="12.0" />
+                  </font>
+               </Label>
+            </children>
+         </AnchorPane>
+      </children>
+   </AnchorPane>
+</VBox>

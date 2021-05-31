@@ -147,7 +147,7 @@ public class PurchaseCancelationPage {
 		FirstNameTextField.setText(cust.getFirstName());
 		SecondNameTextField.setText(cust.getLastName());
 		EmailTextField.setText(cust.getEmailOrder());
-		RefundAmntTextField.setText(Integer.toString(cust.getPayment()));
+		RefundAmntTextField.setText(Integer.toString((int) cust.getPayment()));
 		foundPurchase();
 	}
 

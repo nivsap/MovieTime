@@ -211,7 +211,7 @@ public class PaymentPageController {
     			subscriptionCard, watchFromHome, LocalDateTime.now(), screening.getCinema(), screening.getHall(), seats, 0 , null,screening,false);
     	}
     	purchase = new Purchase(firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), cityTextField.getText(), phoneNumberTextField.getText(),
-    			subscriptionCard, watchFromHome, LocalDateTime.now(), screening.getCinema(), screening.getHall(), seats, 0 , null,screening,false);
+    			subscriptionCard, watchFromHome, LocalDateTime.now(), screening.getCinema(), screening.getHall(), seats, Double.parseDouble(paymentLabel.getText()) , null,screening,false);
     	//complaint.setPurchase(purchase);
     	
     	Message msg = new Message();
@@ -229,6 +229,7 @@ public class PaymentPageController {
     
     @Subscribe
     public void OnMessageEvent(Message msg) {
+    	EventBus.getDefault().unregister(this);
     	if(msg.getAction().equals("save customer done")) {
     		String successfulPurchaseString;
     		successfulPurchaseString = "Dear " + purchase.getFirstName() +" " + purchase.getLastName() + ", Thank you for your purchase.\n"

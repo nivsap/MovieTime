@@ -84,7 +84,6 @@ public class PriceChangeApprovalsController {
 	@FXML
 	void ShowApproveDenied(ActionEvent event) {
 
-
 	}
 
 	@FXML
@@ -156,17 +155,14 @@ public class PriceChangeApprovalsController {
 		ShowTheNewPrice.setVisible(false);
 		DecisionTitle.setVisible(false);
 	}
-	
-    @Subscribe
-    public void onMessageEvene(Message msg){
-    	if(msg.getAction().equals("got purchase by id")) {
-    		Platform.runLater(() ->{
 
-    		});
-    	} 	   	
-    	if(msg.getAction().equals("got purchase cancelation by id")) {
-    		Platform.runLater(() ->{
-    		});
-    	} 
-    }
+	@Subscribe
+	public void onMessageEvene(Message msg) {
+		if (msg.getAction().equals("got pending price change request")) {
+			Platform.runLater(() -> {
+
+			});
+		}
+
+	}
 }

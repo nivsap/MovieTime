@@ -1,7 +1,14 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import il.cshaifasweng.OCSFMediatorExample.entities.Message;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -62,19 +69,17 @@ public class OpenPriceChangeRequestsController {
 	void RequestHandlBtn(ActionEvent event) {
 		String date = DateField.getText();
 		String type = RequestField.getText();
-		if(date == "" && type == "" || date == " " && type == " ")
-		{
+		if (date == "" && type == "" || date == " " && type == " ") {
 			NoData.setVisible(true);
 		}
-		
+
 	}
 
 	@FXML
 	void RequestHandlBtn1(ActionEvent event) {
 		String date = DateField1.getText();
 		String type = RequestField1.getText();
-		if(date == "" && type == "" || date == " " && type == " ")
-		{
+		if (date == "" && type == "" || date == " " && type == " ") {
 			NoData.setVisible(true);
 		}
 	}
@@ -83,8 +88,7 @@ public class OpenPriceChangeRequestsController {
 	void RequestHandlBtn2(ActionEvent event) {
 		String date = DateField2.getText();
 		String type = RequestField2.getText();
-		if(date == "" && type == "" || date == " " && type == " ")
-		{
+		if (date == "" && type == "" || date == " " && type == " ") {
 			NoData.setVisible(true);
 		}
 	}
@@ -93,8 +97,7 @@ public class OpenPriceChangeRequestsController {
 	void RequestHandlBtn3(ActionEvent event) {
 		String date = DateField3.getText();
 		String type = RequestField3.getText();
-		if(date == "" && type == "" || date == " " && type == " ")
-		{
+		if (date == "" && type == "" || date == " " && type == " ") {
 			NoData.setVisible(true);
 		}
 	}
@@ -135,4 +138,15 @@ public class OpenPriceChangeRequestsController {
 	private void hideAlert() {
 		NoData.setVisible(false);
 	}
+
+	@Subscribe
+	public void onMessageEvent(Message msg) {
+		if (msg.getAction().equals("got purchase by id")) {
+			Platform.runLater(() -> {
+
+			});
+		}
+
+	}
+
 }

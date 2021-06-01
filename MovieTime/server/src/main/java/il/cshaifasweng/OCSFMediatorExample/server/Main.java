@@ -25,6 +25,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
+
 import il.cshaifasweng.OCSFMediatorExample.entities.BranchManager;
 import il.cshaifasweng.OCSFMediatorExample.entities.Cinema;
 import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
@@ -167,7 +168,6 @@ public class Main extends AbstractServer {
 			wonderWoman1984.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("00:00")));
 			it.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("11:00", "13:00")));
 			toyStory.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("15:00", "17:00")));
-
 			session.save(avengersEndgame);
 			session.save(sherlockHolmes);
 			session.save(babyDriver);
@@ -177,6 +177,8 @@ public class Main extends AbstractServer {
 			session.save(Minions);
 			session.save(StarWars);
 			session.flush();
+			//ViewingPackage viewingPackage = new ViewingPackage(babyDriver, getTime(2021, 6,6), new ArrayList<>());
+			//session.save(viewingPackage);
 
 			//creating whole data base to cinema,screening,Hall
 			Cinema haifaCinema = new Cinema("Haifa", "Haifa,Carmel st", (BranchManager)shirWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>(),40,20,0.8,new ArrayList<>(),new ArrayList<>());
@@ -277,7 +279,8 @@ public class Main extends AbstractServer {
 			session.save(haifaCinema);
 			session.save(telAvivCinema);
 
-
+			ViewingPackage viewingPackage = new ViewingPackage(null, getTime(2021, 6,6), new ArrayList<>(),"www.sirtiya.co.il");
+			session.save(viewingPackage);
 
 			Purchase customer2 = new Purchase("Alon", "Latman1", "shiravneri@gmail.com", "Some details", "123456789",
 					new Pair<Boolean, Integer>(true, 20), false, getExacTime(2021, 5, 28, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_2,false);
@@ -1156,6 +1159,19 @@ public class Main extends AbstractServer {
 				UserController.logUserOut(currentMsg);
 				serverMsg = new Message();
 				serverMsg.setAction("logged out");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant selection of seats under restrictions");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("add viewing package")) {
+			try {
+				serverMsg = currentMsg;
+				saveRowInDB(serverMsg.getViewingPackage());
+				serverMsg.setAction("added viewing package");
 				client.sendToClient(serverMsg);
 			}
 			catch (IOException e) {

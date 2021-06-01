@@ -47,6 +47,9 @@ public class Purchase implements  Serializable{
 	@JoinColumn(name = "screening_id")
 	private Screening screening;
 	private boolean isCanceled;
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "viewingPackage_id")
+	private ViewingPackage viewingPackage;
 
 
 	public Purchase(String firstName, String lastName, String emailOrder, String cityString, String phoneString,

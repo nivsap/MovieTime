@@ -34,7 +34,15 @@ public class CardController {
 			return;
 		
 		App.setWindowTitle(cardMovie.getName());
-	    if(!cardMovie.isSoonInCinema()) {
+		if(cardMovie.isStreamOnline()&&purchaseType==PurchaseTypes.VIEWING_PACKAGE) {
+    		System.out.println("in loadMovieInfoPage");
+    		
+    		ViewingPackagesInfoPageController controller = (ViewingPackagesInfoPageController) App.setContent("LinkMovieInfoPage");
+	    	controller.InitPageInfo(cardMovie);
+	    	controller.setPurchaseType(purchaseType);
+    	}
+
+		else if(!cardMovie.isSoonInCinema()) {
 	    	MovieInfoPageController controller = (MovieInfoPageController) App.setContent("MovieInfoPage");
 		    controller.InitPageInfo(cardMovie);
 		    controller.setPurchaseType(purchaseType);

@@ -23,19 +23,22 @@ public class ViewingPackage implements  Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	//private static final long serialVersionUID = 1L;
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "movies_id")
 	private Movie movie;
 	//@Column (name = "link string")
 	private String link;
-	private LocalDateTime dateTime;
+	private LocalDateTime startDateTime;
+	private ArrayList<LocalDateTime> datesAvailables;
 	
 	
-	public ViewingPackage(Movie movie, LocalDateTime dateTime) {
+	public ViewingPackage(Movie movie, LocalDateTime dateTime, ArrayList<LocalDateTime> datesAvailables,String link) {
 		super();
-		this.link = "www.sirtiya-" + this.movie.getName() + "." + this.id + "co.il";
+	//	this.link = "www.sirtiya-" + this.movie.getName() + "." + this.id + "co.il";
+		this.link = link;
 		this.movie = movie;
-		this.dateTime = dateTime;
+		this.startDateTime = dateTime;
+		this.datesAvailables = new ArrayList<>();
 	}
 	public int getId() {
 		return id;
@@ -56,10 +59,10 @@ public class ViewingPackage implements  Serializable{
 		this.link = link;
 	}
 	public LocalDateTime getDateTime() {
-		return dateTime;
+		return startDateTime;
 	}
 	public void setDateTime(LocalDateTime dateTime) {
-		this.dateTime = dateTime;
+		this.startDateTime = dateTime;
 	}
 	
 

@@ -233,7 +233,7 @@ public class PaymentPageController {
     	if(msg.getAction().equals("save customer done")) {
     		String successfulPurchaseString;
     		successfulPurchaseString = "Dear " + purchase.getFirstName() +" " + purchase.getLastName() + ", Thank you for your purchase.\n"
-    				+ "the details of your order are:\n"
+    				+ "the details of your order are:\n" + "Order Number: " + purchase.getId()
     				+ purchase.getCinema().getName() + " Cinema, hall " + purchase.getHall().getHallId() + "with the following seats:\n";
     			for(Pair<Integer,Integer> seat : seats) {
     				successfulPurchaseString += "Seat " + seat.getKey() + "," + seat.getValue() + "\n";

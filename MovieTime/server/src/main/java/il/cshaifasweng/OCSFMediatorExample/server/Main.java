@@ -25,6 +25,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
+
 import il.cshaifasweng.OCSFMediatorExample.entities.BranchManager;
 import il.cshaifasweng.OCSFMediatorExample.entities.Cinema;
 import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
@@ -167,7 +168,6 @@ public class Main extends AbstractServer {
 			wonderWoman1984.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("00:00")));
 			it.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("11:00", "13:00")));
 			toyStory.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("15:00", "17:00")));
-
 			session.save(avengersEndgame);
 			session.save(sherlockHolmes);
 			session.save(babyDriver);
@@ -177,6 +177,8 @@ public class Main extends AbstractServer {
 			session.save(Minions);
 			session.save(StarWars);
 			session.flush();
+			//ViewingPackage viewingPackage = new ViewingPackage(babyDriver, getTime(2021, 6,6), new ArrayList<>());
+			//session.save(viewingPackage);
 
 			//creating whole data base to cinema,screening,Hall
 			Cinema haifaCinema = new Cinema("Haifa", "Haifa,Carmel st", (BranchManager)shirWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>(),40,20,0.8,new ArrayList<>(),new ArrayList<>());
@@ -277,7 +279,8 @@ public class Main extends AbstractServer {
 			session.save(haifaCinema);
 			session.save(telAvivCinema);
 
-
+			ViewingPackage viewingPackage = new ViewingPackage(null, getTime(2021, 6,6), new ArrayList<>(),"www.sirtiya.co.il");
+			session.save(viewingPackage);
 
 			Purchase customer2 = new Purchase("Alon", "Latman1", "shiravneri@gmail.com", "Some details", "123456789",
 					new Pair<Boolean, Integer>(true, 20), false, getExacTime(2021, 5, 28, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_2,false);
@@ -301,11 +304,7 @@ public class Main extends AbstractServer {
 					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_1,false);
 			Purchase customer11 = new Purchase("Alon", "Latman33", "shiravneri@gmail.com", "Some details", "123456789",
 					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_3,false);
-			
-			
-			
-			
-			
+		
 			//session.save(customer);
 			session.save(customer2);
 			session.save(customer1);
@@ -318,6 +317,7 @@ public class Main extends AbstractServer {
 			session.save(customer9);
 			session.save(customer10);
 			session.save(customer11);
+			System.out.println(customer11.getId());
 
 		    LocalDate date = LocalDate.of(2021, 1, 13);  
 
@@ -808,7 +808,7 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		/*if(currentMsg.getAction().equals("pull current complaint")) {
+		if(currentMsg.getAction().equals("pull current complaint")) {
 			try {
 				serverMsg = currentMsg;
 				System.out.println("in pull current complaint");
@@ -816,7 +816,7 @@ public class Main extends AbstractServer {
 				System.out.println("in the func handleMessageFromClient");
 				serverMsg.setAction("got complaints");
 	            System.out.println(serverMsg.getComplaints().toString());
-				/*for (Complaint model : serverMsg.getComplaints()) {
+				for (Complaint model : serverMsg.getComplaints()) {
 		            System.out.println(model.getFirstName());
 		        }
 				client.sendToClient(serverMsg);
@@ -826,13 +826,12 @@ public class Main extends AbstractServer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}*/
+		}
 		
 		if(currentMsg.getAction().equals("save customer")) { // save ticket // save customer
 			try {
 
 				serverMsg = currentMsg;
-
 				saveRowInDB(serverMsg.getPurchase());
 				serverMsg.setAction("save customer done");
 				client.sendToClient(serverMsg);
@@ -843,16 +842,13 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("123");
+
 		if(currentMsg.getAction().equals("get purchase by id")) {
 			try {
 				serverMsg = currentMsg;
-				System.out.println("1");
 				serverMsg.setPurchase(CustomerController.getID(serverMsg.getId()));
-				System.out.println("2");
 				if(serverMsg.getPurchase()!=null) {
 					serverMsg.setPayment(CustomerController.ReturnOnPurchase(serverMsg.getPurchase(), LocalDateTime.now()));}
-				System.out.println("3");
 				serverMsg.setAction("got purchase by id");
 				if(serverMsg.getPurchase()!= null && serverMsg.getPurchase().isCanceled())
 					serverMsg.setPurchase(null);
@@ -864,7 +860,6 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("321");
 		if(currentMsg.getAction().equals("get purchases")) {
 			try {
 				serverMsg = currentMsg;
@@ -955,7 +950,7 @@ public class Main extends AbstractServer {
 		if(currentMsg.getAction().equals("send successful purchase mail")) {
 			try {
 				serverMsg = currentMsg;
-				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Thank you for your purchase at The Sirtiya!", serverMsg.getEmailMessage());
+				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Customer Of The Sirtiya, Order Number :" , serverMsg.getEmailMessage());
 				serverMsg.setAction("sent successful purchase mail");
 				client.sendToClient(serverMsg);
 			}
@@ -1044,7 +1039,7 @@ public class Main extends AbstractServer {
 				updateRowDB(serverMsg.getWorker());
 				Worker worker = serverMsg.getWorker();
 				PurpleLimitController.SetPurpleLimit(((CustomerService) worker).getDatesOfPurpleLimit().getKey(), ((CustomerService) worker).getDatesOfPurpleLimit().getValue());
-				serverMsg.setAction("added movie");
+				serverMsg.setAction("got purple limit");
 				client.sendToClient(serverMsg);
 			}
 			catch (IOException e) {
@@ -1149,6 +1144,34 @@ public class Main extends AbstractServer {
 				serverMsg = currentMsg;
 				serverMsg.setSeats(PurpleLimitController.SetSeatsPurpleLimit(serverMsg.getScreening(), serverMsg.getNumOfSeats()));
 				serverMsg.setAction("done selection of seats under restrictions");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant selection of seats under restrictions");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+		}
+		if(currentMsg.getAction().equals("log out")) {
+			try {
+				UserController.logUserOut(currentMsg);
+				serverMsg = new Message();
+				serverMsg.setAction("logged out");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant selection of seats under restrictions");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("add viewing package")) {
+			try {
+				serverMsg = currentMsg;
+				saveRowInDB(serverMsg.getViewingPackage());
+				serverMsg.setAction("added viewing package");
 				client.sendToClient(serverMsg);
 			}
 			catch (IOException e) {

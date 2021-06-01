@@ -143,7 +143,7 @@ public class OpenPriceChangeRequestsController {
 	public void onMessageEvent(Message msg) {
 		if (msg.getAction().equals("got purchase by id")) {
 			Platform.runLater(() -> {
-
+				
 			});
 		}
 

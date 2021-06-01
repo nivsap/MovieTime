@@ -1,12 +1,16 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+import java.io.IOException;
 import java.util.ResourceBundle;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
+import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -17,6 +21,14 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class PriceChangeApprovalsController {
+	private Boolean isRegistered;
+	@SuppressWarnings("unused")
+	private int waitingForMessageCounter;
+	
+	public PriceChangeApprovalsController() {
+		isRegistered = false;
+		waitingForMessageCounter = 0;
+	}
 
 	@FXML
 	private ResourceBundle resources;
@@ -58,7 +70,7 @@ public class PriceChangeApprovalsController {
 	private TextField ReasonField;
 
 	@FXML
-	private ComboBox<?> decisionBox;
+	private ComboBox<String> decisionBox;
 
 	@FXML
 	private Button PendingBtn1;
@@ -78,23 +90,43 @@ public class PriceChangeApprovalsController {
 	@FXML
 	void PendReq(ActionEvent event) {
 		Message msg = new Message();
+		msg.setAction("got pending price change request");
+		sendMessageToServer(msg);
+	}
 
+	ObservableList<String> list = FXCollections.observableArrayList("Accept", "Reject");
+
+	private void sendMessageToServer(Message msg) {
+		try {
+			if (!isRegistered) {
+				EventBus.getDefault().register(this);
+				isRegistered = true;
+			}
+			AppClient.getClient().sendToServer(msg);
+			waitingForMessageCounter++;
+		} catch (IOException e) {
+			System.out.println("failed to send msg to server from PurchaseCancellationPage");
+			waitingForMessageCounter--;
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
 	void ShowApproveDenied(ActionEvent event) {
-
+		
 	}
 
 	@FXML
 	void SubBtn(ActionEvent event) {
 		Message msg = new Message();
+		msg.setAction("price has changed");
+		sendMessageToServer(msg);
 
 	}
 
 	@FXML
 	void initialize() {
-
+		
 		EventBus.getDefault().register(this);
 		assert PendintAlert != null
 				: "fx:id=\"PendintAlert\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
@@ -133,6 +165,7 @@ public class PriceChangeApprovalsController {
 		assert DecisionTitle != null
 				: "fx:id=\"DecisionTitle\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
 		hideWarnings();
+		decisionBox.setItems(list);
 
 	}
 
@@ -160,9 +193,20 @@ public class PriceChangeApprovalsController {
 	public void onMessageEvene(Message msg) {
 		if (msg.getAction().equals("got pending price change request")) {
 			Platform.runLater(() -> {
-
+				try {
+					App.setContent("OpenPriceChangeRequests");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			});
-		}
 
+			if (msg.getAction().equals("price has changed")) {
+				Platform.runLater(() -> {
+					hideWarnings();
+				});
+			}
+
+		}
 	}
 }

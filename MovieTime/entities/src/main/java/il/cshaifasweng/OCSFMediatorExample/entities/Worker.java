@@ -1,23 +1,22 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Polymorphism;
-import org.hibernate.annotations.PolymorphismType;
 
 
 @Entity
@@ -35,6 +34,8 @@ public class Worker implements  Serializable{
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "worker_id")
 	private Cinema cinema;
+//	@OneToMany(cascade = CascadeType.MERGE,fetch = FetchType.EAGER,mappedBy = "worker")
+//	private List<PriceRequest> priceRequests;
 
 	public Worker(String firstName, String lastName, String userName, String password,Cinema cinema,boolean isLoggedIn) {
 		super();
@@ -44,9 +45,16 @@ public class Worker implements  Serializable{
 		this.password = password;
 		this.cinema = cinema;
 		this.isLoggedIn = isLoggedIn;
+		//this.priceRequests = new ArrayList<>();
 	}
 	public Worker() {}
 
+//	public List<PriceRequest> getPriceRequests() {
+//		return priceRequests;
+//	}
+//	public void setPriceRequests(List<PriceRequest> priceRequests) {
+//		this.priceRequests = priceRequests;
+//	}
 	public boolean isLoggedIn() {
 		return isLoggedIn;
 	}

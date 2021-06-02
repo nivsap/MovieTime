@@ -93,20 +93,21 @@ public class OrderTicketsPageController {
     	screeningChosen = screening;
     	this.isTavSagol = isTavSagol;
     	this.numOfSeats = numOfSeats;
+    	ArrayList<Pair<Integer,Integer>> tavSeats = new ArrayList<Pair<Integer, Integer>>();
     	if(isTavSagol) {
     		if(taken + numOfSeats < limit) {
     	    	for(int i = 0 ; i < screening.getHall().getRows(); i++) {
     	    		for(int j = 0 ; j < screening.getHall().getCols() ; j++) {
     	    			if(screening.getSeats()[i][j] == 0) {
     	    				screening.getSeats()[i][j] = 2;
-    	    				seatsChosen.add(new Pair<Integer,Integer>(i,j));
-    	    				if(seatsChosen.size() == numOfSeats) {
-    	    					continue;
+    	    				tavSeats.add(new Pair<Integer,Integer>(i,j));
+    	    				if(tavSeats.size() == numOfSeats) {
+    	    					break;
     	    				}
     	    			}
     	    		}
-    	    		if(seatsChosen.size() == numOfSeats) {
-    					continue;
+    	    		if(tavSeats.size() == numOfSeats) {
+    					break;
     				}
     	    	}
     	    }
@@ -141,6 +142,7 @@ public class OrderTicketsPageController {
 		fxmlLoader.setLocation(getClass().getResource("HallMap.fxml"));
 		hallMap = fxmlLoader.load();
 		hallMapController = fxmlLoader.getController();
+		hallMapController.setTavSagol(isTavSagol);
 		hallMapController.setMap(screeningChosen.getSeats(), screeningChosen.getHall());
 		hallMapContainer.getChildren().add(hallMap);
 		
@@ -181,14 +183,15 @@ public class OrderTicketsPageController {
     
     @Subscribe
     public void onMessageEvene(Message msg){
-    	EventBus.getDefault().unregister(this);
 
     	if(msg.getAction().equals("picking seats success")) {
+    		EventBus.getDefault().unregister(this);
     		Platform.runLater(() ->{;
     			orderTicketsSuccess();
     		});
     	}
     	if(msg.getAction().equals("picking seats error")) {
+    		EventBus.getDefault().unregister(this);
     		JOptionPane.showMessageDialog(null, msg.getError());
     		Platform.runLater(()->{
 				screeningChosen = msg.getScreening();

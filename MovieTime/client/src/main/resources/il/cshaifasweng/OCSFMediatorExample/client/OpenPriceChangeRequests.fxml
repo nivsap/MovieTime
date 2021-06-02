@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
@@ -26,21 +29,19 @@
                      <Font size="18.0" />
                   </font>
                </Label>
-               <Button fx:id="RqstHandlBtn" alignment="CENTER" layoutX="492.0" layoutY="164.0" mnemonicParsing="false" onAction="#RequestHandlBtn" prefWidth="150.0" styleClass="orangeBtn" text="Handle Request" />
-               <TextField fx:id="DateField" layoutX="32.0" layoutY="164.0" />
-               <TextField fx:id="RequestField" layoutX="240.0" layoutY="164.0" prefHeight="25.0" prefWidth="190.0" />
-               <Label layoutX="42.0" layoutY="138.0" prefHeight="17.0" prefWidth="126.0" text="Date" textFill="WHITE" />
-               <Label fx:id="RqstTitle" layoutX="240.0" layoutY="138.0" prefHeight="17.0" prefWidth="126.0" text="Request Type" textFill="WHITE" />
-               <TextField fx:id="DateField1" layoutX="31.0" layoutY="205.0" />
-               <TextField fx:id="RequestField1" layoutX="240.0" layoutY="205.0" prefHeight="25.0" prefWidth="190.0" />
-               <TextField fx:id="RequestField2" layoutX="240.0" layoutY="243.0" prefHeight="25.0" prefWidth="190.0" />
-               <TextField fx:id="RequestField3" layoutX="240.0" layoutY="280.0" prefHeight="25.0" prefWidth="190.0" />
-               <TextField fx:id="DateField2" layoutX="32.0" layoutY="243.0" />
-               <TextField fx:id="DateField3" layoutX="32.0" layoutY="280.0" />
-               <Button fx:id="RqstHandlBtn1" alignment="CENTER" layoutX="492.0" layoutY="205.0" mnemonicParsing="false" onAction="#RequestHandlBtn1" prefWidth="150.0" styleClass="orangeBtn" text="Handle Request" />
-               <Button fx:id="RqstHandlBtn2" alignment="CENTER" layoutX="492.0" layoutY="243.0" mnemonicParsing="false" onAction="#RequestHandlBtn2" prefWidth="150.0" styleClass="orangeBtn" text="Handle Request" />
-               <Button fx:id="RqstHandlBtn3" alignment="CENTER" layoutX="492.0" layoutY="280.0" mnemonicParsing="false" onAction="#RequestHandlBtn3" prefWidth="150.0" styleClass="orangeBtn" text="Handle Request" />
-               <Label fx:id="NoData" layoutX="491.0" layoutY="127.0" prefHeight="17.0" prefWidth="150.0" text="Nothing To Handle" textFill="RED" />
+               <Button fx:id="RqstHandlBtn" alignment="CENTER" layoutX="410.0" layoutY="145.0" mnemonicParsing="false" onAction="#RequestHandlBtn" prefHeight="41.0" prefWidth="150.0" styleClass="orangeBtn" text="Request" />
+               <Label fx:id="DateLabel" layoutX="23.0" layoutY="52.0" prefHeight="17.0" prefWidth="126.0" text="Date" textFill="WHITE" />
+               <Label fx:id="RqstTitle" layoutX="200.0" layoutY="52.0" prefHeight="17.0" prefWidth="126.0" text="Request Type" textFill="WHITE" />
+               <ComboBox fx:id="RequestBox" layoutX="200.0" layoutY="69.0" onAction="#RequestTypeBox" prefWidth="150.0" />
+               <Label fx:id="NewPriceLabel" layoutX="379.0" layoutY="52.0" prefHeight="17.0" prefWidth="126.0" text="New price" textFill="WHITE" />
+               <TextField layoutX="379.0" layoutY="69.0" />
+               <Label fx:id="OldPriceLeble" layoutX="542.0" layoutY="52.0" prefHeight="17.0" prefWidth="126.0" text="Old price" textFill="WHITE" />
+               <Label fx:id="OldPriceShow" layoutX="542.0" layoutY="73.0" prefHeight="17.0" prefWidth="126.0" text="Change me" textFill="WHITE" />
+               <TextArea layoutX="200.0" layoutY="137.0" prefHeight="56.0" prefWidth="200.0" />
+               <Label fx:id="ReasonLabel" layoutX="200.0" layoutY="120.0" prefHeight="17.0" prefWidth="126.0" text="Reason" textFill="WHITE" />
+               <Label fx:id="CinemaLable" layoutX="23.0" layoutY="120.0" prefHeight="17.0" prefWidth="126.0" text="Cinema" textFill="WHITE" />
+               <ComboBox fx:id="CinemaBox" layoutX="23.0" layoutY="140.0" onAction="#CinemaSelect" prefWidth="150.0" />
+               <DatePicker fx:id="DateBox" layoutX="15.0" layoutY="69.0" onAction="#DateBoxShow" />
             </children>
          </AnchorPane>
       </children>

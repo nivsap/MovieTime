@@ -22,6 +22,16 @@ public class ContentManagerMenuController {
 
     @FXML
     private Button logoutMenuBtn;
+    
+
+    @FXML
+    private Button RequestPriceChangeBtn;
+
+    @FXML
+    void RequestPriceChange(ActionEvent event) throws IOException {
+    	App.setWindowTitle(PageTitles.OpenPriceChangeRequests);
+    	App.setContent("OpenPriceChangeRequests");
+    }
 
     
     @FXML

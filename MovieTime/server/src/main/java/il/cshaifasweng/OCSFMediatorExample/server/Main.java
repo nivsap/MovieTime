@@ -92,7 +92,7 @@ public class Main extends AbstractServer {
 			Worker shirWorker = new BranchManager("shir", "shir", "shir", "shir", false,null);
 			Worker nivWorker = new BranchManager("niv", "niv", "niv", "niv", false,null);
 			Worker lielWorker = new ContentManager("liel", "liel", "liel", "liel", null,false);
-			Worker asafWorker = new CustomerService("asaf", "asaf", "asaf", "asaf", null, false,true,new Pair<LocalDateTime, LocalDateTime>(getTime(2021,1, 1), getTime(2021,3, 4)),70);
+			Worker asafWorker = new CustomerService("asaf", "asaf", "asaf", "asaf", null, false,true,new Pair<LocalDateTime, LocalDateTime>(getTime(2021,1, 1), getTime(2021,3, 4)),40);
 			Worker hadarWorker = new NetworkAdministrator("hadar", "hadar", "hadar", "hadar", null,false);
 
 			// create movie
@@ -1128,7 +1128,9 @@ public class Main extends AbstractServer {
 		if(currentMsg.getAction().equals("check purple limit")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.setStatus(PurpleLimitController.CheckPurpleLimit(serverMsg.getDateMovie()));
+				Pair<Boolean,Integer> tavSagol = (PurpleLimitController.CheckPurpleLimit(serverMsg.getDateMovie()));
+				serverMsg.setStatus(tavSagol.getKey());
+				serverMsg.setTavSagolLimit(tavSagol.getValue());
 				serverMsg.setAction("done check purple limit");
 				client.sendToClient(serverMsg);
 			}
@@ -1172,6 +1174,20 @@ public class Main extends AbstractServer {
 				serverMsg = currentMsg;
 				saveRowInDB(serverMsg.getViewingPackage());
 				serverMsg.setAction("added viewing package");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant selection of seats under restrictions");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("cancel current order")) {
+			try {
+				serverMsg = currentMsg;
+				Screening screening = serverMsg.getScreening();
+				updateRowDB(screening);
+				serverMsg.setAction("canceled current order");
 				client.sendToClient(serverMsg);
 			}
 			catch (IOException e) {

@@ -80,7 +80,7 @@ public class OpenPriceChangeRequestsController {
 
 	@FXML
 	void RequestTypeBox(ActionEvent event) {
-		
+		textCollector = RequestBox.getValue();
 	}
 
 	@FXML
@@ -119,6 +119,5 @@ public class OpenPriceChangeRequestsController {
 		
 		DateBox.setPromptText("Please enter a date");
 		RequestBox.setPromptText("Select Type");
-
 	}
 }

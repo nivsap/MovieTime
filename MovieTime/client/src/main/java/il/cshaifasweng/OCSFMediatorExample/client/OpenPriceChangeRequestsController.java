@@ -1,5 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+import java.awt.TextField;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -14,81 +15,112 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 
 public class OpenPriceChangeRequestsController {
-	
-	ObservableList <String> list = FXCollections.observableArrayList("Movie", "Viewing Package", "Card");
-    @FXML
-    private ResourceBundle resources;
+	private String textCollector;
+	private Double price;
 
-    @FXML
-    private URL location;
+	ObservableList<String> list = FXCollections.observableArrayList("Movie", "Viewing Package", "Card");
 
-    @FXML
-    private Button RqstHandlBtn;
+	@FXML
+	private ResourceBundle resources;
 
-    @FXML
-    private Label DateLabel;
+	@FXML
+	private URL location;
 
-    @FXML
-    private Label RqstTitle;
+	@FXML
+	private Button RqstHandlBtn;
 
-    @FXML
-    private ComboBox<String> RequestBox;
+	@FXML
+	private Label DateLabel;
 
-    @FXML
-    private Label NewPriceLabel;
+	@FXML
+	private Label RqstTitle;
 
-    @FXML
-    private Label OldPriceLeble;
+	@FXML
+	private ComboBox<String> RequestBox;
 
-    @FXML
-    private Label OldPriceShow;
+	@FXML
+	private Label NewPriceLabel;
 
-    @FXML
-    private Label ReasonLabel;
+	@FXML
+	private Label OldPriceLeble;
 
-    @FXML
-    private Label CinemaLable;
+	@FXML
+	private Label OldPriceShow;
 
-    @FXML
-    private ComboBox<String> CinemaBox;
+	@FXML
+	private Label ReasonLabel;
 
-    @FXML
-    private DatePicker DateBox;
+	@FXML
+	private Label CinemaLable;
 
-    @FXML
-    void CinemaSelect(ActionEvent event) {
-    	
-    }
+	@FXML
+	private ComboBox<String> CinemaBox;
 
-    @FXML
-    void DateBoxShow(ActionEvent event) {
-    	LocalDate date = DateBox.getValue();
-    	System.out.print(date.toString());
-    }
+	@FXML
+	private DatePicker DateBox;
 
-    @FXML
-    void RequestHandlBtn(ActionEvent event) {
+	@FXML
+	void CinemaSelect(ActionEvent event) {
 
-    }
+	}
 
-    @FXML
-    void RequestTypeBox(ActionEvent event) {
-    	RequestBox.setItems(list);
-    }
+	@FXML
+	void DateBoxShow(ActionEvent event) {
+		LocalDate date = DateBox.getValue();
+		System.out.print(date.toString());
+	}
 
-    @FXML
-    void initialize() {
-        assert RqstHandlBtn != null : "fx:id=\"RqstHandlBtn\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
-        assert DateLabel != null : "fx:id=\"DateLabel\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
-        assert RqstTitle != null : "fx:id=\"RqstTitle\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
-        assert RequestBox != null : "fx:id=\"RequestBox\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
-        assert NewPriceLabel != null : "fx:id=\"NewPriceLabel\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
-        assert OldPriceLeble != null : "fx:id=\"OldPriceLeble\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
-        assert OldPriceShow != null : "fx:id=\"OldPriceShow\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
-        assert ReasonLabel != null : "fx:id=\"ReasonLabel\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
-        assert CinemaLable != null : "fx:id=\"CinemaLable\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
-        assert CinemaBox != null : "fx:id=\"CinemaBox\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
-        assert DateBox != null : "fx:id=\"DateBox\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
+	@FXML
+	void RequestHandlBtn(ActionEvent event) {
 
-    }
+	}
+
+	@FXML
+	void RequestTypeBox(ActionEvent event) {
+
+		textCollector = RequestBox.getValue();
+	}
+
+	@FXML
+	private TextField NewPriceField;
+
+	@FXML
+	void enterNewPrice(ActionEvent event) {
+		price = (double) Integer.parseInt(NewPriceField.getText());
+	}
+
+	@FXML
+	void initialize() {
+		assert RqstHandlBtn != null
+				: "fx:id=\"RqstHandlBtn\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
+		assert DateLabel != null
+				: "fx:id=\"DateLabel\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
+		assert RqstTitle != null
+				: "fx:id=\"RqstTitle\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
+		assert RequestBox != null
+				: "fx:id=\"RequestBox\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
+		assert NewPriceLabel != null
+				: "fx:id=\"NewPriceLabel\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
+		assert NewPriceField != null
+				: "fx:id=\"NewPriceField\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
+		assert OldPriceLeble != null
+				: "fx:id=\"OldPriceLeble\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
+		assert OldPriceShow != null
+				: "fx:id=\"OldPriceShow\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
+		assert ReasonLabel != null
+				: "fx:id=\"ReasonLabel\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
+		assert CinemaLable != null
+				: "fx:id=\"CinemaLable\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
+		assert CinemaBox != null
+				: "fx:id=\"CinemaBox\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
+		assert DateBox != null
+				: "fx:id=\"DateBox\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
+
+		DateBox.setPromptText("Select Date");
+		RequestBox.setPromptText("Select Type Of Request");
+		RequestBox.setItems(list);
+
+	}
+
+
 }

@@ -51,7 +51,7 @@ public class Main extends AbstractServer {
 	Message serverMsg;
 
 	public Main(int port) {
-		
+
 		super(port);
 	}
 
@@ -310,7 +310,7 @@ public class Main extends AbstractServer {
 					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_1,false);
 			Purchase customer11 = new Purchase("Alon", "Latman33", "shiravneri@gmail.com", "Some details", "123456789",
 					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_3,false);
-		
+
 			//session.save(customer);
 			session.save(customer2);
 			session.save(customer1);
@@ -325,7 +325,7 @@ public class Main extends AbstractServer {
 			session.save(customer11);
 			System.out.println(customer11.getId());
 
-		    LocalDate date = LocalDate.of(2021, 1, 13);  
+			LocalDate date = LocalDate.of(2021, 1, 13);  
 
 			Complaint someComplaint1 = new Complaint("Shir", "Avneri", "I'm very upset", "I want to finish this project", true,date,true,Complaint.getComplaintTypes()[0],haifaCinema);
 			Complaint someComplaint2 = new Complaint("Niv", "Sapir", "I want to complain", "I am very upset", true,date,true,Complaint.getComplaintTypes()[1],telAvivCinema);
@@ -366,17 +366,17 @@ public class Main extends AbstractServer {
 			System.out.println("hello server");
 		}
 		addDataToDB();
-		
-	//	Purchase purchase = CustomerController.getID(10);
-	//	ArrayList<Worker> lol= getAllOfType(Worker.class);
-//		for(Worker worker : lol) {
-//			if(worker instanceof ContentManager) {
-//				//worker.getPriceRequests().add(new PriceRequest(null, null, false, null, 10, false));
-//				//saveRowInDB(worker);
-//				System.out.println(worker.getPriceRequests().get(0).getNewPrice());
-//			}
-//		}
-//		PurpleLimitController.SetPurpleLimit(getTime(2021,1, 1), getTime(2021,3, 4));
+
+		//	Purchase purchase = CustomerController.getID(10);
+		//	ArrayList<Worker> lol= getAllOfType(Worker.class);
+		//		for(Worker worker : lol) {
+		//			if(worker instanceof ContentManager) {
+		//				//worker.getPriceRequests().add(new PriceRequest(null, null, false, null, 10, false));
+		//				//saveRowInDB(worker);
+		//				System.out.println(worker.getPriceRequests().get(0).getNewPrice());
+		//			}
+		//		}
+		//		PurpleLimitController.SetPurpleLimit(getTime(2021,1, 1), getTime(2021,3, 4));
 		//saveRowInDB(new Screening(LocalDateTime.now(), new Hall(), new Movie(), new Cinema()));
 
 	}
@@ -492,7 +492,7 @@ public class Main extends AbstractServer {
 	@Override
 	protected synchronized void clientDisconnected(ConnectionToClient client) {
 		// TODO Auto-generated method stub
-		
+
 		System.out.println("Client Disconnected.");
 		super.clientDisconnected(client);
 	}
@@ -510,33 +510,33 @@ public class Main extends AbstractServer {
 		Message currentMsg = ((Message)msg);
 
 		serverMsg = new Message();
-				if(currentMsg.getAction().equals("pull movies")) {
-					ArrayList<Movie> screeningMoviesArrayList = new ArrayList<>();
-					ArrayList<Movie> toReturnArrayList = new ArrayList<>();
-					screeningMoviesArrayList = Main.getAllOfType(Movie.class);
-					for(Movie movie : screeningMoviesArrayList) {
-						if(movie.isDeleted() == false && (movie.isScreening() == true || movie.isSoonInCinema()==true)) {
-							toReturnArrayList.add(movie);
-						}
-					}
-					serverMsg.setMovies(toReturnArrayList);
-					serverMsg.setAction("got movies");
-					try {
-						client.sendToClient(serverMsg);
-					} catch (IOException e) {
-						System.out.println("cant create list of movies");
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+		if(currentMsg.getAction().equals("pull movies")) {
+			ArrayList<Movie> screeningMoviesArrayList = new ArrayList<>();
+			ArrayList<Movie> toReturnArrayList = new ArrayList<>();
+			screeningMoviesArrayList = Main.getAllOfType(Movie.class);
+			for(Movie movie : screeningMoviesArrayList) {
+				if(movie.isDeleted() == false && (movie.isScreening() == true || movie.isSoonInCinema()==true)) {
+					toReturnArrayList.add(movie);
 				}
+			}
+			serverMsg.setMovies(toReturnArrayList);
+			serverMsg.setAction("got movies");
+			try {
+				client.sendToClient(serverMsg);
+			} catch (IOException e) {
+				System.out.println("cant create list of movies");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 
 		if(currentMsg.getAction().equals("update movie time")) {
 
 			System.out.println("about to update movie time");
 			Screening newScreening = new Screening(currentMsg.getDateMovie(),ScreeningController.getHallById(currentMsg.getHallId()),
 					MovieController.getMovieByName(currentMsg.getMovieName()), MovieController.getCinemaByName(currentMsg.getCinemaName()),null);
-			
-			
+
+
 			if(currentMsg.getDbAction().equals("removal")) {
 				deleteRowInDB(currentMsg.getScreening());
 				serverMsg = new Message();
@@ -550,38 +550,38 @@ public class Main extends AbstractServer {
 				}
 				return;
 			}
-			
-			  List<Screening> screenings = getAllOfType(Screening.class);
-			  
-			  
-			  
-			  for(Screening screening : screenings) { 
-				  if(screening.getDate_screen().equals(newScreening.getDate_screen()) && 
-						 screening.getCinema().getName().equals(newScreening.getCinema().getName())&&
-						 screening.getMovie().getName().equals(newScreening.getMovie().getName())&&
-						 screening.getHall().getHallId() == (newScreening.getHall().getHallId())) {
-					  System.out.println("screening == newScreening");
-					  if(currentMsg.getDbAction().equals("addition"))
-					  { 
-						  Message serverMsg = new
-						  Message(); serverMsg.setAction("update movie time error");
-						  serverMsg.setError("screening already exists");
-						  try {
-							  client.sendToClient(serverMsg); 
-							  return; 
-						  	  } catch (IOException e){
-						  		  // TODOAuto-generated catch block 
-						  		  e.printStackTrace(); 
-						  		  } 
-						  }
-					  if(currentMsg.getDbAction().equals("removal")) 
-					  { 
-						  deleteRowInDB(screening);
-						  break;
-					  }
-				  }
-			  }
-			  
+
+			List<Screening> screenings = getAllOfType(Screening.class);
+
+
+
+			for(Screening screening : screenings) { 
+				if(screening.getDate_screen().equals(newScreening.getDate_screen()) && 
+						screening.getCinema().getName().equals(newScreening.getCinema().getName())&&
+						screening.getMovie().getName().equals(newScreening.getMovie().getName())&&
+						screening.getHall().getHallId() == (newScreening.getHall().getHallId())) {
+					System.out.println("screening == newScreening");
+					if(currentMsg.getDbAction().equals("addition"))
+					{ 
+						Message serverMsg = new
+								Message(); serverMsg.setAction("update movie time error");
+								serverMsg.setError("screening already exists");
+								try {
+									client.sendToClient(serverMsg); 
+									return; 
+								} catch (IOException e){
+									// TODOAuto-generated catch block 
+									e.printStackTrace(); 
+								} 
+					}
+					if(currentMsg.getDbAction().equals("removal")) 
+					{ 
+						deleteRowInDB(screening);
+						break;
+					}
+				}
+			}
+
 			System.out.println("about to save newScreening in database");
 			saveRowInDB(newScreening);
 			serverMsg = new Message();
@@ -749,9 +749,9 @@ public class Main extends AbstractServer {
 			try {
 				ArrayList<Movie> movies = ((ArrayList<Movie>) MovieController.WatchingFromHome()); 
 				if(currentMsg.getRate() != null) {
-					
+
 					Iterator<Movie> iter = movies.iterator();
-					
+
 					while(iter.hasNext()) {
 						Movie movie = iter.next();
 						if(Double.parseDouble(currentMsg.getRate()) != movie.getPopular()) {
@@ -759,11 +759,11 @@ public class Main extends AbstractServer {
 						}
 					}
 				}
-				
+
 				if(currentMsg.getSearch() != null) {
-					
+
 					Iterator<Movie> iter = movies.iterator();
-					
+
 					while(iter.hasNext()) {
 						Movie movie = iter.next();
 						if(!movie.getName().contains(currentMsg.getSearch())) {
@@ -771,12 +771,12 @@ public class Main extends AbstractServer {
 						}
 					}
 				}
-				
+
 				Message serverMsg = new Message();
 				serverMsg.setAction("got movies from home");
 				serverMsg.setMovies(movies);
 				client.sendToClient(serverMsg);
-				
+
 			}
 			catch (IOException e) {
 				System.out.println("cant add movie");
@@ -784,8 +784,8 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		
-		
+
+
 		if(currentMsg.getAction().equals("picking chair")) {
 			try {
 				serverMsg = currentMsg;
@@ -823,10 +823,10 @@ public class Main extends AbstractServer {
 				serverMsg.setComplaints((ArrayList<Complaint>) CustomerController.getAllCurrentComplaints());
 				System.out.println("in the func handleMessageFromClient");
 				serverMsg.setAction("got complaints");
-	            System.out.println(serverMsg.getComplaints().toString());
+				System.out.println(serverMsg.getComplaints().toString());
 				for (Complaint model : serverMsg.getComplaints()) {
-		            System.out.println(model.getFirstName());
-		        }
+					System.out.println(model.getFirstName());
+				}
 				client.sendToClient(serverMsg);
 			}
 			catch (IOException e) {
@@ -835,7 +835,7 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		
+
 		if(currentMsg.getAction().equals("save customer")) { // save ticket // save customer
 			try {
 
@@ -881,8 +881,8 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		
-		
+
+
 		if(currentMsg.getAction().equals("get cinemas and purchases and complaints")) {
 			try {
 				serverMsg = currentMsg;
@@ -898,7 +898,7 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		
+
 		if(currentMsg.getAction().equals("get report ticket")) {
 			try {
 				serverMsg = currentMsg;
@@ -968,11 +968,11 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		
+
 		if(currentMsg.getAction().equals("send purchase cancellation mail")) {
 			try {
 				serverMsg = currentMsg;
-				
+
 				JavaMailUtil.sendPurchaseCancellationMessage(serverMsg.getPurchase().getEmailOrder(), serverMsg.getPurchase().getFirstName() + " " + serverMsg.getPurchase().getLastName(), String.valueOf(serverMsg.getPurchase().getId()), serverMsg.getPayment());
 				serverMsg.setAction("sent purchase cancellation mail");
 				client.sendToClient(serverMsg);
@@ -983,8 +983,8 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		
-		
+
+
 		if(currentMsg.getAction().equals("get all screenings")) {
 			try {
 				serverMsg = currentMsg;
@@ -1039,7 +1039,7 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		
+
 		if(currentMsg.getAction().equals("set purple limit")) {
 			try {
 				serverMsg = currentMsg;
@@ -1056,12 +1056,12 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		
+
 		if(currentMsg.getAction().equals("search bar update")) {
 			try {
 				ArrayList<Movie> movies = new ArrayList<Movie>();
 				List<Screening> screenings = getAllOfType(Screening.class);
-				
+
 				if(currentMsg.getTheater() != null) {
 					Iterator<Screening> iters = screenings.iterator();
 					while(iters.hasNext()) {
@@ -1071,7 +1071,7 @@ public class Main extends AbstractServer {
 							iters.remove();
 						}
 					}
-					
+
 					for(Screening screening : screenings) {
 						if(!movies.contains(screening.getMovie())){
 							movies.add(screening.getMovie());
@@ -1080,12 +1080,12 @@ public class Main extends AbstractServer {
 				}else {
 					movies = getAllOfType(Movie.class);
 				}
-				
-				
+
+
 				if(currentMsg.getRate() != null) {
-					
+
 					Iterator<Movie> iter = movies.iterator();
-					
+
 					while(iter.hasNext()) {
 						Movie movie = iter.next();
 						if(Double.parseDouble(currentMsg.getRate()) != movie.getPopular()) {
@@ -1093,11 +1093,11 @@ public class Main extends AbstractServer {
 						}
 					}
 				}
-				
+
 				if(currentMsg.getSearch() != null) {
-					
+
 					Iterator<Movie> iter = movies.iterator();
-					
+
 					while(iter.hasNext()) {
 						Movie movie = iter.next();
 						if(!movie.getName().contains(currentMsg.getSearch())) {
@@ -1105,18 +1105,18 @@ public class Main extends AbstractServer {
 						}
 					}
 				}
-				
+
 				Message serverMsg = new Message();
 				serverMsg.setAction("got screening movies");
 				serverMsg.setMovies(movies);
 				client.sendToClient(serverMsg);
-				
+
 			}
 			catch (IOException e) {
 				System.out.println("cant add movie");
 			}
 		}
-		
+
 		if(currentMsg.getAction().equals("cancellation of purchase")) {
 			try {
 				serverMsg = currentMsg;
@@ -1148,7 +1148,7 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		
+
 		if(currentMsg.getAction().equals("selection of seats under restrictions")) {
 			try {
 				serverMsg = currentMsg;
@@ -1161,8 +1161,8 @@ public class Main extends AbstractServer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			
+
+
 		}
 		if(currentMsg.getAction().equals("log out")) {
 			try {
@@ -1200,7 +1200,7 @@ public class Main extends AbstractServer {
 				client.sendToClient(serverMsg);
 			}
 			catch (IOException e) {
-				System.out.println("cant selection of seats under restrictions");
+				System.out.println("cant selection of seats under restrictions");}}
 
 		if(currentMsg.getAction().equals("get all cinemas")) {
 			try {

@@ -1,7 +1,7 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+import java.awt.TextArea;
 import java.awt.TextField;
-import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
@@ -24,9 +24,6 @@ public class OpenPriceChangeRequestsController {
 	private ResourceBundle resources;
 
 	@FXML
-	private URL location;
-
-	@FXML
 	private Button RqstHandlBtn;
 
 	@FXML
@@ -42,10 +39,16 @@ public class OpenPriceChangeRequestsController {
 	private Label NewPriceLabel;
 
 	@FXML
+	private TextField NewPriceField;
+
+	@FXML
 	private Label OldPriceLeble;
 
 	@FXML
 	private Label OldPriceShow;
+
+	@FXML
+	private TextArea textFiller;
 
 	@FXML
 	private Label ReasonLabel;
@@ -67,7 +70,7 @@ public class OpenPriceChangeRequestsController {
 	@FXML
 	void DateBoxShow(ActionEvent event) {
 		LocalDate date = DateBox.getValue();
-		System.out.print(date.toString());
+		System.out.println(date);
 	}
 
 	@FXML
@@ -77,16 +80,12 @@ public class OpenPriceChangeRequestsController {
 
 	@FXML
 	void RequestTypeBox(ActionEvent event) {
-
-		textCollector = RequestBox.getValue();
+		
 	}
 
 	@FXML
-	private TextField NewPriceField;
-
-	@FXML
 	void enterNewPrice(ActionEvent event) {
-		price = (double) Integer.parseInt(NewPriceField.getText());
+		price = Double.parseDouble(NewPriceField.getText());
 	}
 
 	@FXML
@@ -107,6 +106,8 @@ public class OpenPriceChangeRequestsController {
 				: "fx:id=\"OldPriceLeble\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
 		assert OldPriceShow != null
 				: "fx:id=\"OldPriceShow\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
+		assert textFiller != null
+				: "fx:id=\"textFiller\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
 		assert ReasonLabel != null
 				: "fx:id=\"ReasonLabel\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
 		assert CinemaLable != null
@@ -115,12 +116,9 @@ public class OpenPriceChangeRequestsController {
 				: "fx:id=\"CinemaBox\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
 		assert DateBox != null
 				: "fx:id=\"DateBox\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
-
-		DateBox.setPromptText("Select Date");
-		RequestBox.setPromptText("Select Type Of Request");
-		RequestBox.setItems(list);
+		
+		DateBox.setPromptText("Please enter a date");
+		RequestBox.setPromptText("Select Type");
 
 	}
-
-
 }

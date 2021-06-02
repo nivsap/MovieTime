@@ -35,6 +35,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Hall;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.NetworkAdministrator;
+import il.cshaifasweng.OCSFMediatorExample.entities.PriceRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.ViewingPackage;
@@ -71,6 +72,7 @@ public class Main extends AbstractServer {
 		configuration.addAnnotatedClass(Purchase.class);
 		configuration.addAnnotatedClass(Complaint.class);
 		configuration.addAnnotatedClass(ViewingPackage.class);
+		configuration.addAnnotatedClass(PriceRequest.class);
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties()).build();
 		return configuration.buildSessionFactory(serviceRegistry);
@@ -92,8 +94,12 @@ public class Main extends AbstractServer {
 			Worker shirWorker = new BranchManager("shir", "shir", "shir", "shir", false,null);
 			Worker nivWorker = new BranchManager("niv", "niv", "niv", "niv", false,null);
 			Worker lielWorker = new ContentManager("liel", "liel", "liel", "liel", null,false);
-			Worker asafWorker = new CustomerService("asaf", "asaf", "asaf", "asaf", null, false,true,new Pair<LocalDateTime, LocalDateTime>(getTime(2021,1, 1), getTime(2021,3, 4)),70);
+			Worker asafWorker = new CustomerService("asaf", "asaf", "asaf", "asaf", null, false,true,new Pair<LocalDateTime, LocalDateTime>(getTime(2021,1, 1), getTime(2021,3, 4)),40);
 			Worker hadarWorker = new NetworkAdministrator("hadar", "hadar", "hadar", "hadar", null,false);
+			PriceRequest priceRequest = new PriceRequest(null, null, false, null, 10, false);
+			//lielWorker.getPriceRequests().add(priceRequest);
+			//System.out.println(lielWorker.getPriceRequests().get(0).getNewPrice());
+			session.save(priceRequest);
 
 			// create movie
 			ArrayList<String> movieStartTimes = new ArrayList<String>(
@@ -360,12 +366,14 @@ public class Main extends AbstractServer {
 			System.out.println("hello server");
 		}
 		addDataToDB();
+		
 	//	Purchase purchase = CustomerController.getID(10);
-//		ArrayList<Worker> lol= getAllOfType(Worker.class);
+	//	ArrayList<Worker> lol= getAllOfType(Worker.class);
 //		for(Worker worker : lol) {
-//			if(worker instanceof CustomerService) {
-//				worker = (CustomerService)worker;
-//				PurpleLimitController.SetPurpleLimit(((CustomerService) worker).getDatesOfPurpleLimit().getKey(), ((CustomerService) worker).getDatesOfPurpleLimit().getValue());
+//			if(worker instanceof ContentManager) {
+//				//worker.getPriceRequests().add(new PriceRequest(null, null, false, null, 10, false));
+//				//saveRowInDB(worker);
+//				System.out.println(worker.getPriceRequests().get(0).getNewPrice());
 //			}
 //		}
 //		PurpleLimitController.SetPurpleLimit(getTime(2021,1, 1), getTime(2021,3, 4));
@@ -1128,7 +1136,9 @@ public class Main extends AbstractServer {
 		if(currentMsg.getAction().equals("check purple limit")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.setStatus(PurpleLimitController.CheckPurpleLimit(serverMsg.getDateMovie()));
+				Pair<Boolean,Integer> tavSagol = (PurpleLimitController.CheckPurpleLimit(serverMsg.getDateMovie()));
+				serverMsg.setStatus(tavSagol.getKey());
+				serverMsg.setTavSagolLimit(tavSagol.getValue());
 				serverMsg.setAction("done check purple limit");
 				client.sendToClient(serverMsg);
 			}
@@ -1176,6 +1186,57 @@ public class Main extends AbstractServer {
 			}
 			catch (IOException e) {
 				System.out.println("cant selection of seats under restrictions");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		if(currentMsg.getAction().equals("cancel current order")) {
+			try {
+				serverMsg = currentMsg;
+				Screening screening = serverMsg.getScreening();
+				updateRowDB(screening);
+				serverMsg.setAction("canceled current order");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant selection of seats under restrictions");
+
+		if(currentMsg.getAction().equals("get all cinemas")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.setCinemasArrayList(getAllOfType(Cinema.class));
+				serverMsg.setAction("got all cinemas");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant get all cinemas");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("get all price request")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.setPriceRequestsArrayList(getAllOfType(PriceRequest.class));
+				serverMsg.setAction("got all price request");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant get all price request");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("save price request")) {
+			try {
+				serverMsg = currentMsg;
+				saveRowInDB(serverMsg.getPriceRequestmsg());
+				serverMsg.setAction("done to save price request");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant save price request");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

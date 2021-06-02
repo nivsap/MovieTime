@@ -13,15 +13,22 @@ public class SeatController {
 
     @FXML
     private ImageView seatIcon;
+    private boolean tavSagol = false;
+    
+    public void setTavSagol(boolean val) {
+    	tavSagol = val;
+    }
     
     public SeatController() {
     	
     }
 	
 	public void setIsTaken() {
-		seat = 1;
-		Image image = new Image(getClass().getResourceAsStream("images/TakenSeatIcon.png"));
-    	seatIcon.setImage(image);
+		if(!tavSagol) {
+			seat = 1;
+			Image image = new Image(getClass().getResourceAsStream("images/TakenSeatIcon.png"));
+	    	seatIcon.setImage(image);
+		}
 	}
 	
 	public void setSeat(Integer seat) {
@@ -32,24 +39,28 @@ public class SeatController {
 	}
 
 	public void setIsTChosen() {
-		seat = 2;
-		Image image = new Image(getClass().getResourceAsStream("images/SelectedSeatIcon.png"));
-    	seatIcon.setImage(image);
+		if(!tavSagol) {
+			seat = 2;
+			Image image = new Image(getClass().getResourceAsStream("images/SelectedSeatIcon.png"));
+	    	seatIcon.setImage(image);
+		}
 	}
     @FXML
     void switchColor(ActionEvent event) {
-    	if(seat == 1) 
-    		return;
-        String imageSrc = "";
-        if(seat == 0) {
-        	seat = 2;
-        	imageSrc = "SelectedSeatIcon.png";
-        }
-        else {
-        	seat = 0;
-        	imageSrc = "AvailableSeatIcon.png";
-        }
-        Image image = new Image(getClass().getResourceAsStream("images/" + imageSrc));
-        seatIcon.setImage(image);
+    	if(!tavSagol) {
+	    	if(seat == 1) 
+	    		return;
+	        String imageSrc = "";
+	        if(seat == 0) {
+	        	seat = 2;
+	        	imageSrc = "SelectedSeatIcon.png";
+	        }
+	        else {
+	        	seat = 0;
+	        	imageSrc = "AvailableSeatIcon.png";
+	        }
+	        Image image = new Image(getClass().getResourceAsStream("images/" + imageSrc));
+	        seatIcon.setImage(image);
+    	}
     }
 }

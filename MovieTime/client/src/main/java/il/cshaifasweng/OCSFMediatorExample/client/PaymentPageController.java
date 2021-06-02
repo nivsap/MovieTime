@@ -117,7 +117,7 @@ public class PaymentPageController {
 
     @FXML
     void initialize() {
-    	EventBus.getDefault().register(this);
+    	
         assert firstNameTextField != null : "fx:id=\"firstNameTextField\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         assert firstNameWarningLabel != null : "fx:id=\"firstNameWarningLabel\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         assert lastNameTextField != null : "fx:id=\"lastNameTextField\" was not injected: check your FXML file 'PaymentPage.fxml'.";
@@ -201,6 +201,7 @@ public class PaymentPageController {
     }
     
     private void createPurchase() {
+    	EventBus.getDefault().register(this);
     	//complaint = new Complaint(firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), phoneNumberTextField.getText(),false, null ,false);
     	for(Pair<Integer,Integer> seat : seats) {
     		screening.getSeats()[seat.getKey()][seat.getValue()] = 1;
@@ -229,7 +230,7 @@ public class PaymentPageController {
     
     @Subscribe
     public void OnMessageEvent(Message msg) {
-    	EventBus.getDefault().unregister(this);
+    	
     	if(msg.getAction().equals("save customer done")) {
     		String successfulPurchaseString;
     		successfulPurchaseString = "Dear " + purchase.getFirstName() +" " + purchase.getLastName() + ", Thank you for your purchase.\n"
@@ -251,11 +252,22 @@ public class PaymentPageController {
     	}
     	
     	if(msg.getAction().equals("sent successful purchase mail")) {
+    		EventBus.getDefault().unregister(this);
+    
     		JOptionPane.showMessageDialog(null, "Thank you for your purchase, an email has been sent with the details");
     	}
     	
     	
     }
+    
+    public Screening getScreening() {
+    	return screening;
+    }
+    
+    public List<Pair<Integer,Integer>> getSeats(){
+    	return seats;
+    }
+    
  
 	void hideWarningLabels() {
 		firstNameWarningLabel.setVisible(false);

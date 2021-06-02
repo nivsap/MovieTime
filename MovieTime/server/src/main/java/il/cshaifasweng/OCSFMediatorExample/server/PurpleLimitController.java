@@ -8,6 +8,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.CustomerService;
 import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
+import javafx.util.Pair;
 
 public class PurpleLimitController {
 	
@@ -34,18 +35,18 @@ public class PurpleLimitController {
 	}
 	
 	
-	public static boolean CheckPurpleLimit (LocalDateTime date) {
+	public static Pair<Boolean,Integer> CheckPurpleLimit (LocalDateTime date) {
 		ArrayList<Worker> workers = Main.getAllOfType(Worker.class);
 		for(Worker worker : workers) {
 			if(worker instanceof CustomerService) {
 				//worker = ((CustomerService) worker);
 				if(date.getDayOfYear() >= ((CustomerService) worker).getDatesOfPurpleLimit().getKey().getDayOfYear() && date.getDayOfYear() <= ((CustomerService) worker).getDatesOfPurpleLimit().getValue().getDayOfYear()) {
-					return true;
+					return new Pair<Boolean,Integer>(true,((CustomerService) worker).getY());
 				}
 				break;
 			}
 		}
-		return false;
+		return new Pair<Boolean,Integer>(false,0);
 	}
 	
 	

@@ -135,8 +135,9 @@ public class MovieInfoPageController {
     
     @Subscribe 
     public void onMessageEvent(Message msg){
-    	EventBus.getDefault().unregister(this);
+    	
     	if(msg.getAction().equals("cinema contained movies done")) {
+    		EventBus.getDefault().unregister(this);
     		Platform.runLater(()-> {
 	    		cinemaCombo.getItems().clear();
 	    		cinemas = msg.getCinemasArrayList();
@@ -149,6 +150,7 @@ public class MovieInfoPageController {
     	}    	
     	
     	if(msg.getAction().equals("screening for movie done")) {
+    		EventBus.getDefault().unregister(this);
     		Platform.runLater(()-> {
     	    	String onlyDate;
 	    		screenings = msg.getScreeningArrayList();
@@ -165,8 +167,12 @@ public class MovieInfoPageController {
     	
     	
     	if(msg.getAction().equals("done check purple limit")) {
+    		EventBus.getDefault().unregister(this);
     		isTavSagol = msg.getStatus();
+    		System.out.println("tab saglo is" + isTavSagol);
     		tavSagolLimit = msg.getTavSagolLimit();
+    		System.out.println("tav sagol limit is " + tavSagolLimit);
+
     		
     	}
     }
@@ -254,7 +260,8 @@ public class MovieInfoPageController {
     	Hall hall = screeningChosen.getHall();
     	if(isTavSagol) {
 
-    		seatsLimit = hall.getRows() * hall.getRows();
+    		seatsLimit = hall.getRows() * hall.getCols();
+    		System.out.println("seats limit is " + seatsLimit);
     		if((double)tavSagolLimit*1.2 < seatsLimit) {
     			seatsLimit = tavSagolLimit;
     		}
@@ -264,7 +271,7 @@ public class MovieInfoPageController {
     		if(seatsLimit <= 0.8* (double)tavSagolLimit) {
     			seatsLimit = seatsLimit/2;
     		}
-    		
+    		System.out.println("seats limit: " + seatsLimit);
     		seatsTaken = 0;
     		for(int i = 0 ; i < hall.getRows() ; i++) {
     			for(int j = 0 ; j < hall.getCols() ; j++) {
@@ -274,10 +281,10 @@ public class MovieInfoPageController {
     				}
     			}
     		}
-    		
+    		System.out.println("seats taken:" + seatsTaken);
     		for(int i = 1 ; i + seatsTaken <= seatsLimit ; i++) {
     			numberOfSeatsCombo.getItems().add(Integer.toString(i));
-    			i++;
+    			
     		}
         	numberOfSeatsCombo.setVisible(true);
     		

@@ -79,6 +79,7 @@ public class Message implements Serializable {
 	int month;
 	Cinema cinema;
 	List<Purchase> purchasesList;
+	ViewingPackage viewingPackage;
 	public Message() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -86,6 +87,14 @@ public class Message implements Serializable {
 
 	public Cinema getCinema() {
 		return cinema;
+	}
+
+	public ViewingPackage getViewingPackage() {
+		return viewingPackage;
+	}
+
+	public void setViewingPackage(ViewingPackage viewingPackage) {
+		this.viewingPackage = viewingPackage;
 	}
 
 	public void setCinema(Cinema cinema) {

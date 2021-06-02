@@ -171,6 +171,14 @@ public class AppClient extends AbstractClient {
 
     		EventBus.getDefault().post(((Message) msg));
     	}
+    	if(currentMsg.getAction().equals("logged out")) {
+
+    		EventBus.getDefault().post(((Message) msg));
+    	}
+    	if(currentMsg.getAction().equals("added viewing package")) {
+
+    		EventBus.getDefault().post(((Message) msg));
+    	}
   
 	}
 	@Override

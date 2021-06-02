@@ -4,6 +4,7 @@ package il.cshaifasweng.OCSFMediatorExample.client; // should be View package
 import java.io.File;
 import java.io.IOException;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
@@ -24,6 +25,8 @@ import javafx.util.Pair;
 public class App extends Application {
 
     private static Scene scene;
+    private static String userName;
+    private static String password;
     private static Stage stage;
     @FXML
     private static BorderPane pageLayout;
@@ -75,10 +78,39 @@ public class App extends Application {
     @Override
     public void stop(){
         System.out.println("Stage is closing");
-        Platform.exit();
-        System.exit(0);
-        //Message msg = new Message();
-        
+        EventBus.getDefault().register(this);
+       
+        if(userName != null) {
+        	System.out.println(userName);
+        	System.out.println(password);
+        	
+        	Message msg = new Message();
+            msg.setAction("log out");
+	        msg.setUsername(userName);
+	        msg.setPassword(password);
+	        try {
+				AppClient.getClient().sendToServer(msg);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        
+	        //Message msg = new Message();
+        }
+        else {
+        	Platform.exit();
+            System.exit(0);
+        }
+    }
+    
+    
+    @Subscribe
+    void OnMessageEvent(Message msg) {
+    	if(msg.getAction().equals("logged out")) {
+    		EventBus.getDefault().unregister(this);
+    		Platform.exit();
+            System.exit(0);
+    	}
     }
     
     static Object setContent(String pageName) throws IOException {
@@ -151,6 +183,22 @@ public class App extends Application {
 
 	public static void setCurrentWorker(Worker worker) {
 		currentWorker = worker;
+	}
+
+	public static String getPassword() {
+		return password;
+	}
+
+	public static void setPassword(String password) {
+		App.password = password;
+	}
+
+	public static String getUserName() {
+		return userName;
+	}
+
+	public static void setUserName(String userName) {
+		App.userName = userName;
 	}
 }
 

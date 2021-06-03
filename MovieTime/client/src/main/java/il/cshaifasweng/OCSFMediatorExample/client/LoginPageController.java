@@ -102,14 +102,17 @@ public class LoginPageController {
 	    					App.setBarAndGridLayout("NetworkAdministratorMainPage");
 	    					
 	    				}
-	    				if(workerType.equals("ContentManager"))
+	    				if(workerType.equals("ContentManager")) {
 	    					App.setContent("DeleteMoviePage");
+	    				}
 	    				
-	    				if(workerType.equals("BranchManager")) 
+	    				if(workerType.equals("BranchManager"))  {
 	    					App.setBarAndGridLayout("BranchManagerMainPage");
+	    				}
 
-	    				if(workerType.equals("CustomerService"))
-	    					App.setBarAndGridLayout("MainPage");
+	    				if(workerType.equals("CustomerService")) {
+	    					App.setContent("OpenComplaints");
+	    				}
 	    				
 	    				App.setWindowTitle(PageTitles.MainPage);
 	    				App.setMenu(workerType + "Menu");

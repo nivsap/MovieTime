@@ -23,6 +23,7 @@ public class BranchManagerMenuController {
     
     @FXML
     void logout(ActionEvent event) throws IOException {
+    	App.logout(true);
     	App.setWindowTitle(PageTitles.MainPage);
     	App.setBarAndGridLayout("MainPage");
     	App.setMenu("SystemMenu");

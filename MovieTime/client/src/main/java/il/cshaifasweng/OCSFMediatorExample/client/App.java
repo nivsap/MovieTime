@@ -38,11 +38,16 @@ public class App extends Application {
     private static VBox menu;
     @FXML
     private static VBox content;
+    
+    
     private AppClient client;
+    private static Boolean isLogoutClicked = false;
     public static Worker currentWorker;
+    
+    
     @Override
     public void start(Stage primaryStage) throws IOException {
-    	
+    	EventBus.getDefault().register(this);
     	stage = primaryStage;
     	client = AppClient.getClient();
     	client.openConnection();
@@ -82,10 +87,7 @@ public class App extends Application {
     @Override
     public void stop(){
         System.out.println("Stage is closing");
-        EventBus.getDefault().register(this);
-
         if(currentController.getClass().equals(PaymentPageController.class)) {
-
         	Message msg = new Message();
         	msg.setAction("cancel current order");
         	ArrayList<Pair<Integer,Integer>> seats = new ArrayList<Pair<Integer,Integer>>();
@@ -105,24 +107,9 @@ public class App extends Application {
 				}
         	}
         }
-       
-        	
+       	
         if(userName != null) {
-        	System.out.println(userName);
-        	System.out.println(password);
-        	
-        	Message msg = new Message();
-            msg.setAction("log out");
-	        msg.setUsername(userName);
-	        msg.setPassword(password);
-	        try {
-				AppClient.getClient().sendToServer(msg);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	        
-	        //Message msg = new Message();
+        	App.logout(false);
         }
         else {
         	Platform.exit();
@@ -131,12 +118,38 @@ public class App extends Application {
     }
     
     
+    public static void logout(Boolean logoutClicked) {
+    	if(userName == null || password == null) {
+    		Platform.exit();
+    		System.exit(0);
+    	}
+    	isLogoutClicked = logoutClicked;
+    	Message msg = new Message();
+        msg.setAction("log out");
+        msg.setUsername(userName);
+        msg.setPassword(password);
+        try {
+			AppClient.getClient().sendToServer(msg);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    
     @Subscribe
     void OnMessageEvent(Message msg) {
     	if(msg.getAction().equals("logged out")) {
-    		EventBus.getDefault().unregister(this);
-    		Platform.exit();
-            System.exit(0);
+    		if(App.isLogoutClicked) {
+    			userName = null;
+    			password = null;
+    			isLogoutClicked = false;
+    		}
+    		
+    		else {
+    			EventBus.getDefault().unregister(this);
+    			Platform.exit();
+    			System.exit(0);
+    		} 
     	}
     }
     

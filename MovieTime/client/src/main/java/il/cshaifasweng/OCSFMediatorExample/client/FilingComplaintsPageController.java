@@ -183,11 +183,11 @@ public class FilingComplaintsPageController  {
     }
     
     public void fileComplaint(Purchase foundPurchase) {
+    	newComplaint.setComplaintDate();
+    	newComplaint.setComplaintTime();
     	newComplaint.setPurchase(foundPurchase);
     	newComplaint.setCinema(foundPurchase.getCinema());
-    	newComplaint.setIncidentDate(null);
     	newComplaint.setIsOpen(true);
-    	newComplaint.setStatus(true);
     	Message msg = new Message();
 		msg.setComplaint(newComplaint);
 		msg.setAction("add a complaint");

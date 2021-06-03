@@ -86,10 +86,18 @@ public class OpenPriceChangeRequestsController {
 		EventBus.getDefault().register(this);
 		msg.setAction("get all cinemas");
 		AppClient.getClient().sendToServer(msg);
-		for (int i = 0; i < cinemas.size(); i++) {
-			if (cinemas.equals(CinemaBox.getValue())) {
-				theCinema = cinemas.get(i);
+		for (Cinema cine : cinemas) {
+			if (cine.getName().equals(CinemaBox.getValue())) {
+				theCinema.setName(CinemaBox.getValue());
+				break;
 			}
+		}
+		if(!theCinema.getName().isEmpty())
+		{
+			double p = theCinema.getMoviePrice();
+			OldPriceShow.setText(String.valueOf(p));
+			OldPriceShow.setVisible(true);
+			OldPriceLeble.setVisible(true);		
 		}
 	}
 
@@ -154,8 +162,14 @@ public class OpenPriceChangeRequestsController {
 		DateBox.setPromptText("Please enter a date");
 		RequestBox.setPromptText("Select Type");
 		RequestBox.setItems(list);
-		OldPriceShow.setText("20");
+		hideLabels();
 		
+	}
+
+	private void hideLabels() {
+		// TODO Auto-generated method stub
+		OldPriceShow.setVisible(false);
+		OldPriceLeble.setVisible(false);
 	}
 
 	@Subscribe

@@ -1,11 +1,11 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
-import java.awt.TextArea;
-import java.awt.TextField;
+//import java.awt.TextArea;
+//import java.awt.TextField;
+import java.awt.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import org.greenrobot.eventbus.EventBus;
@@ -13,7 +13,6 @@ import org.greenrobot.eventbus.Subscribe;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Cinema;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
-import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.PriceRequest;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -24,6 +23,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
 
 public class OpenPriceChangeRequestsController {
 	private String textCollector;
@@ -102,10 +103,10 @@ public class OpenPriceChangeRequestsController {
 	void RequestHandlBtn(ActionEvent event) throws IOException {
 		Message msg = new Message();
 		if (textCollector.equals("Movie")) {
-			prices = new PriceRequest(date, theCinema, true, textCollector, 50, true);
+			prices = new PriceRequest(date, theCinema, true, textCollector, price, true);
 			msg.setPriceRequestmsg(prices);
 		} else {
-			prices = new PriceRequest(date, theCinema, false, textCollector, 50, true);
+			prices = new PriceRequest(date, theCinema, false, textCollector, price, true);
 			msg.setPriceRequestmsg(prices);
 		}
 		AppClient.getClient().sendToServer(msg);
@@ -152,6 +153,7 @@ public class OpenPriceChangeRequestsController {
 
 		DateBox.setPromptText("Please enter a date");
 		RequestBox.setPromptText("Select Type");
+		RequestBox.setItems(list);
 		OldPriceShow.setText("20");
 		
 	}
@@ -171,7 +173,12 @@ public class OpenPriceChangeRequestsController {
 
 			if (msg.getAction().equals("got all price request")) {
 				Platform.runLater(() -> {
-				
+					try {
+						App.setContent("OpenPriceChangeRequests");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				});
 			}
 		}

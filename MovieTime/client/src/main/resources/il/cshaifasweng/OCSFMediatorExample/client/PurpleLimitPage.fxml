@@ -21,6 +21,7 @@
                      </font>
                   </Label>
                   <Label layoutX="15.0" layoutY="42.0" prefHeight="103.0" prefWidth="634.0" text="Dear employee, update the purple character regulations in accordance with the directive of the Ministry of Health." textFill="#e9e0e0" />
+                  <Label fx:id="currentFrom" layoutX="74.0" layoutY="136.0" />
                </children>
             </AnchorPane>
             <AnchorPane layoutY="240.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="700.0" style="-fx-background-color: #141518;">
@@ -37,11 +38,14 @@
                   <TextField fx:id="YChoose" layoutX="275.0" layoutY="284.0" prefWidth="150.0" promptText="Y" />
                   <Label layoutX="15.0" layoutY="370.0" style="-fx-font-weight: bold;" text="Close Update" textFill="WHITE" />
                   <Line endX="575.0" endY="-7.62939453125E-6" layoutX="115.0" layoutY="390.0" startX="-100.0" stroke="WHITE" />
-                  <Button fx:id="update" alignment="CENTER" layoutX="275.0" layoutY="412.0" mnemonicParsing="false" onAction="#updatePurpleLimit" prefWidth="150.0" styleClass="orangeButton" text="Update" />
+                  <Button fx:id="update" alignment="CENTER" layoutX="275.0" layoutY="412.0" mnemonicParsing="false" onAction="#PurpleLimit" prefWidth="150.0" styleClass="orangeButton" text="Update" />
                   <DatePicker fx:id="FromChooseDate" layoutX="32.0" layoutY="115.0" />
                   <Label layoutX="32.0" layoutY="91.0" text="From:" textFill="#f8f6f6" />
                   <DatePicker fx:id="ToChooseDate" layoutX="275.0" layoutY="115.0" />
                   <Label layoutX="275.0" layoutY="91.0" text="To:" textFill="#f8f6f6" />
+                  <Label fx:id="warningFrom" layoutX="48.0" layoutY="149.0" text="from is not before to" textFill="#fd0000" />
+                  <Label fx:id="warningTo" layoutX="275.0" layoutY="149.0" text="to is not after from" textFill="#fd0000" />
+                  <Label fx:id="enterYLabel" layoutX="311.0" layoutY="316.0" prefHeight="17.0" prefWidth="83.0" text="enter Y" textFill="#f60505" />
                </children>
             </AnchorPane>
          </children>

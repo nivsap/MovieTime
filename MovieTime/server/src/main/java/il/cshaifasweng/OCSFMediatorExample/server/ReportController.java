@@ -28,7 +28,7 @@ public class ReportController {
 	public static List<Purchase> statusComplaintsMonthly(int month , Cinema cinema) {
 		List<Purchase> toReturn = new ArrayList<>();
 		for(Purchase purchase : cinema.getCustomers()) {
-			if(purchase.getPurchaseDate().getDayOfMonth() == month && purchase.getComplaint().isStatus() == true) {
+			if(purchase.getPurchaseDate().getDayOfMonth() == month && purchase.getComplaint().getIsOpen() == true) {
 				toReturn.add(purchase);
 			}
 		}

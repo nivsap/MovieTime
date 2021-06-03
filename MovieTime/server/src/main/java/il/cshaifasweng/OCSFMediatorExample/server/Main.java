@@ -94,7 +94,7 @@ public class Main extends AbstractServer {
 			Worker shirWorker = new BranchManager("shir", "shir", "shir", "shir", false,null);
 			Worker nivWorker = new BranchManager("niv", "niv", "niv", "niv", false,null);
 			Worker lielWorker = new ContentManager("liel", "liel", "liel", "liel", null,false);
-			Worker asafWorker = new CustomerService("asaf", "asaf", "asaf", "asaf", null, false,true,new Pair<LocalDateTime, LocalDateTime>(getTime(2021,1, 1), getTime(2021,3, 4)),40);
+			Worker asafWorker = new CustomerService("asaf", "asaf", "asaf", "asaf", null, false,false,new Pair<LocalDateTime, LocalDateTime>(getTime(2021,1, 1), getTime(2021,3, 4)),40);
 			Worker hadarWorker = new NetworkAdministrator("hadar", "hadar", "hadar", "hadar", null,false);
 			PriceRequest priceRequest = new PriceRequest(null, null, false, null, 10, false);
 			//lielWorker.getPriceRequests().add(priceRequest);
@@ -254,8 +254,9 @@ public class Main extends AbstractServer {
 			telAvivCinema.getScreeningArray().add(screeningOfFilm_11);
 			telAvivCinema.getScreeningArray().add(screeningOfFilm_12);
 			telAvivCinema.setHallArray(new ArrayList<Hall>(Arrays.asList(hall3,hall4)));
-			Purchase customer = new Purchase("Shir", "Avneri", "shiravneri@gmail.com", "Some details", "0523456789",
-					new Pair<Boolean, Integer>(true, 20), false, getTime(2021, 2, 3), haifaCinema, hall1, new ArrayList<>(), 10, null,screeningOfFilm_1,false);
+			ViewingPackage viewingPackage = new ViewingPackage(null, getExacTime(2021, 6,3,17,58), new ArrayList<>(),"www.sirtiya.co.il");
+			Purchase customer = new Purchase("Shir", "Avneri", "nivsap@gmail.com", "Some details", "0523456789",
+					new Pair<Boolean, Integer>(true, 20), false, getTime(2021, 2, 3), haifaCinema, hall1, new ArrayList<>(), 10, null,screeningOfFilm_1,false,viewingPackage);
 			//screeningOfFilm_1.getPurchases().add(customer);
 			session.save(customer);
 			session.save(screeningOfFilm_1);
@@ -285,31 +286,31 @@ public class Main extends AbstractServer {
 			session.save(haifaCinema);
 			session.save(telAvivCinema);
 
-			ViewingPackage viewingPackage = new ViewingPackage(null, getTime(2021, 6,6), new ArrayList<>(),"www.sirtiya.co.il");
+			ViewingPackage viewingPackage2 = new ViewingPackage(null, getTime(2021, 6,6), new ArrayList<>(),"www.sirtiya.co.il");
 			session.save(viewingPackage);
 
 			Purchase customer2 = new Purchase("Alon", "Latman1", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(true, 20), false, getExacTime(2021, 5, 28, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_2,false);
+					new Pair<Boolean, Integer>(true, 20), false, getExacTime(2021, 5, 28, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_2,false,viewingPackage2);
 			Purchase customer1 = new Purchase("Alon", "Latman2", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 28, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_3,false);
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 28, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_3,false,viewingPackage2);
 			Purchase customer3 = new Purchase("Alon", "Latman3", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 30, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_4,false);
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 30, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_4,false,viewingPackage2);
 			Purchase customer4 = new Purchase("Alon", "Latman4", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_10,false);
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_10,false,viewingPackage2);
 			Purchase customer5 = new Purchase("Alon", "Latman5", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 6, 28, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_5,false);
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 6, 28, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_5,false,viewingPackage2);
 			Purchase customer6 = new Purchase("Alon", "Latman6", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 28, 10, 15), telAvivCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_6,false);
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 28, 10, 15), telAvivCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_6,false,viewingPackage2);
 			Purchase customer7 = new Purchase("Alon", "Latman7", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 6, 28, 10, 15), telAvivCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_7,false);
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 6, 28, 10, 15), telAvivCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_7,false,viewingPackage2);
 			Purchase customer8 = new Purchase("Alon", "Latman8", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 28, 10, 15), telAvivCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_8,false);
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 28, 10, 15), telAvivCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_8,false,viewingPackage2);
 			Purchase customer9 = new Purchase("Alon", "Latman9", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 4, 28, 10, 15), telAvivCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_8,false);
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 4, 28, 10, 15), telAvivCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_8,false,viewingPackage2);
 			Purchase customer10 = new Purchase("Alon", "Latman22", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_1,false);
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_1,false,viewingPackage2);
 			Purchase customer11 = new Purchase("Alon", "Latman33", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_3,false);
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_3,false,viewingPackage2);
 
 			//session.save(customer);
 			session.save(customer2);
@@ -325,11 +326,9 @@ public class Main extends AbstractServer {
 			session.save(customer11);
 			System.out.println(customer11.getId());
 
-			LocalDate date = LocalDate.of(2021, 1, 13);  
-
-			Complaint someComplaint1 = new Complaint("Shir", "Avneri", "I'm very upset", "I want to finish this project", true,date,true,Complaint.getComplaintTypes()[0],haifaCinema);
-			Complaint someComplaint2 = new Complaint("Niv", "Sapir", "I want to complain", "I am very upset", true,date,true,Complaint.getComplaintTypes()[1],telAvivCinema);
-			Complaint someComplaint3 = new Complaint("Hadar", "Manor", "Some title", "Some details" ,false,date,true,Complaint.getComplaintTypes()[2],haifaCinema);
+			Complaint someComplaint1 = new Complaint("Shir", "Avneri", "shiravneri@gmail.com", "0523456789", Complaint.getComplaintTypes()[0], "I'm very upset", "I want to finish this project", true, customer1, haifaCinema);
+			Complaint someComplaint2 = new Complaint("Niv", "Sapir", "shiravneri@gmail.com", "0523456789", Complaint.getComplaintTypes()[1], "I want to complain", "I am very upset", true, customer1, telAvivCinema);
+			Complaint someComplaint3 = new Complaint("Hadar", "Manor", "shiravneri@gmail.com", "0523456789", Complaint.getComplaintTypes()[2], "Some title", "Some details", false, customer1, haifaCinema);
 			//Purchase customer = new Purchase("Hadar", "Manor", "Some title", "Some details" , "12312312",new Pair<Boolean, Integer>(true, 20),false,null,null,null,new ArrayList<>(),10,null);
 			//session.save(customer);
 			session.save(someComplaint1);
@@ -366,7 +365,58 @@ public class Main extends AbstractServer {
 			System.out.println("hello server");
 		}
 		addDataToDB();
+		List<Purchase> list = getAllOfType(Purchase.class);
+		System.out.println( LocalDateTime.now());
+    	Thread timerThread = new Thread(() -> {
+    		//SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    		while (true) {
+    			for (Purchase i : list) {
+    				if(i.getViewingPackage().getDateTime().getDayOfYear() == LocalDateTime.now().getDayOfYear() && i.getViewingPackage().getDateTime().getHour() - 1 == LocalDateTime.now().getHour() && i.getViewingPackage().getDateTime().getMinute() == LocalDateTime.now().getMinute()) {
+                    	JavaMailUtil.sendMessage(i.getEmailOrder(), "hadye", "hadye");
+                    }
+    			}
+    			//final String time = simpleDateFormat.format(new Date());
+    				//time_text.setText(time);
+    				//System.out.println(time);
+    			try {
+    				Thread.sleep(35000); //35 second
+    			} catch (InterruptedException e) {
+    				e.printStackTrace();
+    			}
+    		}
+    	});   
+    	timerThread.start();
+    
 
+		//Iterator<Purchase> iter = list.iterator();
+//		while(true) {
+//		while(iter.hasNext()){
+//			Purchase  purchase = iter.next();
+//            Thread th = new Thread() {
+//                @Override
+//                public void run() {
+//                    if(purchase.getViewingPackage().getDateTime().getDayOfYear() == LocalDateTime.now().getDayOfYear() && purchase.getViewingPackage().getDateTime().getHour() - 1 == LocalDateTime.now().getHour() && purchase.getViewingPackage().getDateTime().getMinute() < LocalDateTime.now().getMinute()) {
+//                    	JavaMailUtil.sendMessage(purchase.getEmailOrder(), "hadye", "hadye");
+//                    }
+//                }
+//            };
+//            th.start();
+//		}}
+//		while(true) {
+//		   for (Purchase i : list) {
+//            Thread th = new Thread() {
+//            
+//                @Override
+//                public void run() {
+//                    if(i.getViewingPackage().getDateTime().getDayOfYear() == LocalDateTime.now().getDayOfYear() && i.getViewingPackage().getDateTime().getHour() - 1 == LocalDateTime.now().getHour() && i.getViewingPackage().getDateTime().getMinute() < LocalDateTime.now().getMinute()) {
+//                    	JavaMailUtil.sendMessage(i.getEmailOrder(), "hadye", "hadye");
+//                    	
+//                    }
+//                }
+//            };
+//            th.start();
+//        }
+//		}
 		//	Purchase purchase = CustomerController.getID(10);
 		//	ArrayList<Worker> lol= getAllOfType(Worker.class);
 		//		for(Worker worker : lol) {
@@ -819,14 +869,9 @@ public class Main extends AbstractServer {
 		if(currentMsg.getAction().equals("pull current complaint")) {
 			try {
 				serverMsg = currentMsg;
-				System.out.println("in pull current complaint");
 				serverMsg.setComplaints((ArrayList<Complaint>) CustomerController.getAllCurrentComplaints());
-				System.out.println("in the func handleMessageFromClient");
 				serverMsg.setAction("got complaints");
 				System.out.println(serverMsg.getComplaints().toString());
-				for (Complaint model : serverMsg.getComplaints()) {
-					System.out.println(model.getFirstName());
-				}
 				client.sendToClient(serverMsg);
 			}
 			catch (IOException e) {
@@ -1044,9 +1089,9 @@ public class Main extends AbstractServer {
 			try {
 				serverMsg = currentMsg;
 				((CustomerService)serverMsg.getWorker()).setPurpleLimit(true);
-				updateRowDB(serverMsg.getWorker());
 				Worker worker = serverMsg.getWorker();
 				PurpleLimitController.SetPurpleLimit(((CustomerService) worker).getDatesOfPurpleLimit().getKey(), ((CustomerService) worker).getDatesOfPurpleLimit().getValue());
+				updateRowDB(serverMsg.getWorker());
 				serverMsg.setAction("got purple limit");
 				client.sendToClient(serverMsg);
 			}
@@ -1237,6 +1282,19 @@ public class Main extends AbstractServer {
 			}
 			catch (IOException e) {
 				System.out.println("cant save price request");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("close complaint")) {
+			try {
+				serverMsg = currentMsg;
+				updateRowDB(serverMsg.getComplaint());
+				serverMsg.setAction("done close complaint");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant close complaint");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

@@ -2,9 +2,11 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
+import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.ImageView;
@@ -17,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
 public class SubscriptionCardInfoPageController {
+
     @FXML
     private VBox slideShowContainer;
 
@@ -36,6 +39,9 @@ public class SubscriptionCardInfoPageController {
     private Button checkRemainingBtn;
 
     @FXML
+    private Label remainingTitleLabel;
+
+    @FXML
     private Label remainingLabel;
     
     public SubscriptionCardInfoPageController() {
@@ -44,14 +50,21 @@ public class SubscriptionCardInfoPageController {
     
     @FXML
     void initialize() throws IOException {
-        assert slideShowContainer != null : "fx:id=\"slideShowContainer\" was not injected: check your FXML file 'SubscriptionCardInfoPage.fxml'.";
+    	assert slideShowContainer != null : "fx:id=\"slideShowContainer\" was not injected: check your FXML file 'SubscriptionCardInfoPage.fxml'.";
         assert buySubscriptionCardsBtn != null : "fx:id=\"buySubscriptionCardsBtn\" was not injected: check your FXML file 'SubscriptionCardInfoPage.fxml'.";
         assert checkRemainingContainer != null : "fx:id=\"checkRemainingContainer\" was not injected: check your FXML file 'SubscriptionCardInfoPage.fxml'.";
         assert subscriptionCardNumberTextField != null : "fx:id=\"subscriptionCardNumberTextField\" was not injected: check your FXML file 'SubscriptionCardInfoPage.fxml'.";
         assert subscriptionCardNumberWarningLabel != null : "fx:id=\"subscriptionCardNumberWarningLabel\" was not injected: check your FXML file 'SubscriptionCardInfoPage.fxml'.";
         assert checkRemainingBtn != null : "fx:id=\"checkRemainingBtn\" was not injected: check your FXML file 'SubscriptionCardInfoPage.fxml'.";
+        assert remainingTitleLabel != null : "fx:id=\"remainingTitleLabel\" was not injected: check your FXML file 'SubscriptionCardInfoPage.fxml'.";
         assert remainingLabel != null : "fx:id=\"remainingLabel\" was not injected: check your FXML file 'SubscriptionCardInfoPage.fxml'.";
-        
+
+        hideLabels();
+    }
+    
+    void hideLabels() {
+        remainingTitleLabel.setVisible(false);
+        remainingLabel.setVisible(false);
         subscriptionCardNumberWarningLabel.setVisible(false);
     }
 
@@ -74,13 +87,46 @@ public class SubscriptionCardInfoPageController {
 
     @FXML
     void checkRemaining(ActionEvent event) {
-    	subscriptionCardNumberWarningLabel.setVisible(false);
-    	String remaining = subscriptionCardNumberTextField.getText();
-    	if(remaining.equals("")) {
+    	hideLabels();
+    	String subscriptionCardNumber = subscriptionCardNumberTextField.getText();
+    	if(subscriptionCardNumber.equals("")) {
+    		subscriptionCardNumberWarningLabel.setText("Subscription card number must be filled");
     		subscriptionCardNumberWarningLabel.setVisible(true);
+    		return;
     	}
-    	else {
-    		// Check remaining
+    	
+    	Message msg = new Message();
+    	msg.setAction("get purchase by id");
+    	msg.setId(Integer.parseInt(subscriptionCardNumber));
+    	EventBus.getDefault().register(this);
+    	try {
+    		AppClient.getClient().sendToServer(msg);
+    	} catch (IOException e) {
+    		System.out.println("failed to send msg to server from SubscriptionCardInfoPage");
+    		e.printStackTrace();
     	}
+    }
+    
+    void setRemaining(Purchase purchase) {
+    	hideLabels();
+    	if(purchase == null || purchase.getCinemaTab().getKey() == false) {
+    		subscriptionCardNumberWarningLabel.setText("Subscription card number not found");
+    		subscriptionCardNumberWarningLabel.setVisible(true);
+    		return;
+    	}
+        remainingTitleLabel.setVisible(true);
+        remainingLabel.setText(purchase.getCinemaTab().getValue().toString());
+        remainingLabel.setVisible(true);
+    }
+
+    
+    @Subscribe
+    public void onMessageEvent(Message msg){
+    	if(msg.getAction().equals("got purchase by id")) {
+    		Platform.runLater(() -> {
+    			EventBus.getDefault().unregister(this);
+    			setRemaining(msg.getPurchase());
+    		});
+    	} 	
     }
 }

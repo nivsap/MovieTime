@@ -15,16 +15,12 @@ public class CustomerController{
 	public static ArrayList<Complaint> getAllCurrentComplaints() {
 		ArrayList<Complaint> ComplaintArrayList = new ArrayList<>();
 		ArrayList<Complaint> toReturnArrayList = new ArrayList<>();
-        System.out.println("I am here in getAllCurrentComplaints ");
 		ComplaintArrayList = Main.getAllOfType(Complaint.class);
-        System.out.println("in getAllCurrentComplaints");
 		for(Complaint complaint : ComplaintArrayList) {
-	         System.out.println(complaint.getFirstName());
 			if(complaint.getIsOpen() == true) {
 				toReturnArrayList.add(complaint);
 			}
 		}
-        System.out.println("end getAllCurrentComplaints ");
 
 		return toReturnArrayList;
 	}

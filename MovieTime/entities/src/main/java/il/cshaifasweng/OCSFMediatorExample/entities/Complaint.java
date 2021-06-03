@@ -3,6 +3,7 @@ package il.cshaifasweng.OCSFMediatorExample.entities;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -28,14 +29,16 @@ public class Complaint implements  Serializable {
 	private String email;
 	private String phoneNumber;
 	private String complaintType;
-	private LocalDate incidentDate;
+	private LocalDate complaintDate;
+	private LocalTime complaintTime;
+	
 	private String complaintTitle;
 	private String complaintDetails;
 	private Boolean isOpen;
 	private static String[] complaintTypes = { "Movie screening issues", "Viewing package issues", "Subscription card issues", "Payment issues" };
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Purchase purchase;
-	private boolean status;
+
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "cinema_id")
 	private Cinema cinema;
@@ -43,40 +46,40 @@ public class Complaint implements  Serializable {
 	public Complaint() {
 		super();
 	}
-	public Complaint(String firstName, String lastName, String complaintTitle, String complaintDetails, boolean isOpen,Purchase purchase , boolean status,Cinema cinema) {
+	public Complaint(String firstName, String lastName, String complaintTitle, String complaintDetails, boolean isOpen, Purchase purchase, Cinema cinema) {
 		super();
-		incidentDate = LocalDate.now();
+		complaintDate = LocalDate.now();
+		complaintTime = LocalTime.now();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.complaintTitle = complaintTitle;
 		this.complaintDetails = complaintDetails;
 		this.isOpen = isOpen;
 		this.purchase = purchase;
-		this.status = status;
-		email="hadarmanor12@gmail.com";
-		phoneNumber=null;
-		incidentDate = LocalDate.now();
+		email = "thesirtiya@gmail.com";
+		phoneNumber = null;
 		this.cinema = cinema;						
 	}
-	public Complaint(String firstName, String lastName, String complaintTitle, String complaintDetails, boolean isOpen, LocalDate incidentDate , boolean status,String complaintType,Cinema cinema) {
+	public Complaint(String firstName, String lastName, String complaintType, String complaintTitle, String complaintDetails, boolean isOpen, Cinema cinema) {
 		super();
-		incidentDate = LocalDate.now();
+		complaintDate = LocalDate.now();
+		complaintTime = LocalTime.now();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.complaintTitle = complaintTitle;
 		this.complaintDetails = complaintDetails;
 		this.isOpen = isOpen;
-		this.status = status;
 		this.complaintType=complaintType;
 		this.purchase = null;
-		email="hadarmanor12@gmail.com";
+		email = "thesirtiya@gmail.com";
 		phoneNumber=null;
 		this.cinema = cinema;
 	}
-	public Complaint(String firstName, String lastName, String email, String phoneNumber, String complaintType, LocalDate incidentDate, 
-					 String complaintTitle, String complaintDetails, boolean isOpen,Purchase purchase, boolean status,Cinema cinema) {
+	public Complaint(String firstName, String lastName, String email, String phoneNumber, String complaintType,
+					 String complaintTitle, String complaintDetails, boolean isOpen, Purchase purchase, Cinema cinema) {
 		super();
-		incidentDate = LocalDate.now();
+		complaintDate = LocalDate.now();
+		complaintTime = LocalTime.now();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -86,7 +89,6 @@ public class Complaint implements  Serializable {
 		this.complaintDetails = complaintDetails;
 		this.isOpen = isOpen;
 		this.purchase = purchase;
-		this.status = status;
 		this.cinema = cinema;
 	}
 	
@@ -98,20 +100,13 @@ public class Complaint implements  Serializable {
 		this.id = id;
 	}
 
-	public boolean isStatus() {
-		return status;
-	}
-
 	public Cinema getCinema() {
 		return cinema;
 	}
 	public void setCinema(Cinema cinema) {
 		this.cinema = cinema;
 	}
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
-
+	
 	public Purchase getPurchase() {
 		return purchase;
 	}
@@ -144,8 +139,12 @@ public class Complaint implements  Serializable {
 		this.complaintTitle = complaintTitle;
 	}
 	
-	public void setIncidentDate(LocalDate incidentDate) {
-		this.incidentDate = LocalDate.now();
+	public void setComplaintDate() {
+		this.complaintDate = LocalDate.now();
+	}
+	
+	public void setComplaintTime() {
+		this.complaintTime = LocalTime.now();
 	}
 	
 	public void setComplaintDetails(String complaintDetails) {
@@ -184,8 +183,12 @@ public class Complaint implements  Serializable {
 		return complaintTitle;
 	}
 	
-	public LocalDate getIncidentDate() {
-		return incidentDate;
+	public LocalDate getComplaintDate() {
+		return complaintDate;
+	}
+	
+	public LocalTime getComplaintTime() {
+		return complaintTime;
 	}
 	
 	public String getComplaintDetails() {
@@ -234,10 +237,15 @@ public class Complaint implements  Serializable {
 				return false;
 		} else if (!complaintType.equals(other.complaintType))
 			return false;
-		if (incidentDate == null) {
-			if (other.incidentDate != null)
+		if (complaintDate == null) {
+			if (other.complaintDate != null)
 				return false;
-		} else if (!incidentDate.equals(other.incidentDate))
+		} else if (!complaintDate.equals(other.complaintDate))
+			return false;
+		if (complaintTime == null) {
+			if (other.complaintTime != null)
+				return false;
+		} else if (!complaintTime.equals(other.complaintTime))
 			return false;
 		if (complaintTitle == null) {
 			if (other.complaintTitle != null)
@@ -260,7 +268,7 @@ public class Complaint implements  Serializable {
 	@Override
 	public String toString() {
 		return "Complaint number " + id +": [first name= " + firstName + ", last name = " + lastName + ", email= " + email + ", phone number =" + phoneNumber
-				+ ", complaint type= " + complaintType + ", incident date =" + incidentDate + ", complaint title=" 
+				+ ", complaint type= " + complaintType + ", complaint date =" + complaintDate + ", complaint time =" + complaintTime + ", complaint title=" 
 				+ complaintTitle + ", complaint details=" + complaintDetails + "is open=" + isOpen + "]";
 	}
 

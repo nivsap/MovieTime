@@ -47,8 +47,8 @@ public class PurpleLimitPageController {
     
     @Subscribe
     public void OnMessageEvent(Message msg) { 
-        EventBus.getDefault().unregister(this);
-        System.out.println("I AM HEREEEE");
+       // EventBus.getDefault().unregister(this);
+        //System.out.println("I AM HEREEEE");
     	if(msg.getAction().equals("got purple limit")) {
     		JOptionPane.showMessageDialog(null, "Thank you for your purple limit update.");
     	} 

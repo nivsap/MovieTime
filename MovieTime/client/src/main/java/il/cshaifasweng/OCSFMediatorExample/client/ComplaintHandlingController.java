@@ -2,209 +2,241 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.util.ArrayList;
-
-import javax.swing.JOptionPane;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
-import il.cshaifasweng.OCSFMediatorExample.entities.Hall;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
-import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
-import javafx.event.ActionEvent;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.util.Pair;
 
 public class ComplaintHandlingController {
 	
 	private Complaint complaint;
-
 	
     @FXML
-    private TextArea orderSummeryTextArea;
+    private Label complaintInfoLabel;
 
     @FXML
-    private TextField phoneNumberTextField;
+    private Label orderInfoLabel;
 
     @FXML
-    private TextField cardCVVTextField;
+    private TextArea responseTextArea;
 
     @FXML
-    private Button payNowBtn;
-    
+    private TextField compensationTextField;
+
+    @FXML
+    private Button closeComplaintBtn;
+
+    @FXML
+    private Label warningLabel;
+
    public ComplaintHandlingController() {
-	   complaint=new Complaint();
+	   complaint = new Complaint();
    }
+   
     @FXML
     void initialize() {
-    EventBus.getDefault().register(this);
-System.out.println("in the initialize of complaint hanglinsg");
-      
-       // hideWarningLabels();
-       // System.out.println("before setinfo");
-    	if(this.complaint==null) {
-    		System.out.println("nulllllllllllllll !!!!!!!!!!!!!!##");
-    		    	}
-       // setInfo(complaint);
-        System.out.println("ens setinfo");
-
-        
+    	EventBus.getDefault().register(this);
+    	warningLabel.setVisible(false);
     }
-    void setInfoComplaint(Complaint complaint) {
-    	this.complaint=new Complaint();
-    	this.complaint=complaint;
-    	if(this.complaint==null) {
-System.out.println("nulllllllllllllll ###");
-    	}
-    	setInfo(this.complaint);
-    }
-    public void setInfo(Complaint complaint) {
-        System.out.println(" setinfo");
+    
+    public void setComplaintInfo(Complaint currentComplaint) {
+    	complaint = currentComplaint;
+    	
+    	if(complaint == null)
+    		return;
 
-    	String order = "Complaint date: ";
-    	if(complaint==null)
-        System.out.println(" after order");
-
-    	if(complaint.getIncidentDate()!=null) {
-            System.out.println("before setinfo");
-    		order+=complaint.getIncidentDate().toString();
-            System.out.println("enddddddddddd setinfo");
-
-    	}
-    	else
-    		order+="Unknown";
-    	 order+= " Complaint from: ";
+    	String complaintInfo = "Customer Name: ";
     	if(complaint.getFirstName()!=null)
-    		order+=complaint.getFirstName();
+    		complaintInfo += complaint.getFirstName() + " ";
     	else
-    		order+="Unknown";
-
-        System.out.println("enddddddddddd getLastName");
+    		complaintInfo += "Unknown ";
     	if(complaint.getLastName()!=null)
-    		order+=complaint.getLastName();
+    		complaintInfo+=complaint.getLastName();
     	else
-    		order+="Unknown";
-		order+="\n";
-		
-        System.out.println("enddddddddddd Email");
-		order+="Email: ";
+    		complaintInfo+="Unknown";
+    	
+    	complaintInfo += "\n";
+    	complaintInfo += "Customer Email: ";
 		if(complaint.getEmail()!=null)
-    		order+=complaint.getEmail();
+			complaintInfo += complaint.getEmail();
     	else
-    		order+="Unknown";
+    		complaintInfo += "Unknown";
 
-        System.out.println("enddddddddddd Phone");
-		order+=" Phone number: ";
+		complaintInfo += "\n";
+		complaintInfo += "Customer Phone Number: ";
     	if(complaint.getPhoneNumber()!=null)
-    		order+=complaint.getPhoneNumber();
+    		complaintInfo += complaint.getPhoneNumber();
     	else
-    		order+="Unknown";
-		order+="\n";
-		
-        System.out.println("enddddddddddd type");
-		order+="Complaint type: ";
+    		complaintInfo += "Unknown";
+    	
+    	
+    	complaintInfo += "\n\n";
+    	complaintInfo += "Complaint Type: ";
 		if(complaint.getComplaintType()!=null)
-    		order+=complaint.getComplaintType();
+			complaintInfo+=complaint.getComplaintType();
     	else
-    		order+="Unknown";
-		order+="\n";
-        System.out.println("enddddddddddd title");
-		order+="Complaint title: ";
+    		complaintInfo += "Unknown";
+		
+		complaintInfo += "\n";
+		complaintInfo += "Complaint Title: ";
     	if(complaint.getComplaintTitle()!=null)
-    		order+=complaint.getComplaintTitle();
+    		complaintInfo += complaint.getComplaintTitle();
     	else
-    		order+="Unknown";
-		order+="\n";
-		order+="Complaint details: ";
+    		complaintInfo += "Unknown";
+    	
+    	complaintInfo += "\n";
+    	complaintInfo += "Complaint Details:\n";
     	if(complaint.getComplaintDetails()!=null)
-    		order+=complaint.getComplaintDetails();
+    		complaintInfo += complaint.getComplaintDetails();
     	else
-    		order+="Unknown";
-        System.out.println("bodore orderSummeryTextArea");
-        orderSummeryTextArea.setText(order);
-        System.out.println("after orderSummeryTextArea");
+    		complaintInfo += "Unknown";
+    	
+    	
+    	complaintInfoLabel.setText(complaintInfo);
+    	setPurchaseInfo();
+    }
+    
+    void setPurchaseInfo() {
+    	if(complaint == null)
+    		return;
+    	
+    	Purchase complaintPurchase = complaint.getPurchase();
+    	String purchaseInfo = "";
+    	
+    	if(complaintPurchase == null) {
+    		orderInfoLabel.setText("Unknown Order Info :(");
+    		return;
+    	}
+    	
+    	purchaseInfo += "Purchaser Name: ";
+    	if(!complaintPurchase.getFirstName().equals("")) 
+    		purchaseInfo += complaintPurchase.getFirstName() + " ";
+    	else 
+    		purchaseInfo += "Unknown ";
+    	if(!complaintPurchase.getLastName().equals("")) 
+    		purchaseInfo += complaintPurchase.getLastName();
+    	else 
+    		purchaseInfo += "Unknown";
+    	
+    	purchaseInfo += "\n";
+    	purchaseInfo += "Purchaser Email: ";
+    	if(!complaintPurchase.getEmailOrder().equals("")) 
+    		purchaseInfo += complaintPurchase.getEmailOrder();
+    	else 
+    		purchaseInfo += "Unknown";
+    	
+    	purchaseInfo += "\n";
+    	purchaseInfo += "Purchaser Phone: ";
+    	if(!complaintPurchase.getPhoneString().equals("")) 
+    		purchaseInfo += complaintPurchase.getPhoneString();
+    	else 
+    		purchaseInfo += "Unknown";
+    	
+    	purchaseInfo += "\n";
 
-        
-       // paymentLabel.setText(Double.toString(seats.size() * screening.getCinema().getMoviePrice()));
+    	
+    	String date = complaintPurchase.getPurchaseDate().toString();
+    	if(date.equals("")) 
+        	purchaseInfo += "Order Date: Unknown\nOrder Time: Unknown";
+    	
+    	else {
+    		purchaseInfo += "Order Date: " + date.substring(0,10) + "\n";
+    		purchaseInfo += "Order Time: " + date.substring(11,16);
+    	}
+
+    	purchaseInfo += "\n";
+    	purchaseInfo += "Paid Amount: ";
+    	if(!String.valueOf(complaintPurchase.getPayment()).equals(""))
+    		purchaseInfo += String.valueOf(complaintPurchase.getPayment());
+    	else 
+    		purchaseInfo += "Unknown";
     	
     	
+    	purchaseInfo += "\n";
+    	purchaseInfo += "Canceled Order: ";
+    	if(complaintPurchase.isCanceled()) 
+    		purchaseInfo += "Yes";
+    	else 
+    		purchaseInfo += "No";
+
+    	orderInfoLabel.setText(purchaseInfo);
     }
-    @Subscribe
-    public void OnMessageEvent(Message msg) {  	
-    	if(msg.getAction().equals("sent successful purchase mail")) {
-    		JOptionPane.showMessageDialog(null, "Thank you for your response, an email has been sent to the customer with the details");
-    	} 	
-    }
- 
+    
+    
     @FXML
-    void padNow(ActionEvent event) {
-    	System.out.println("begingn of paynow ");
-    	//hideWarningLabels();
-    	boolean emptyField = true;
-    	String phoneNumber = phoneNumberTextField.getText();
-    	 String cardCVV = cardCVVTextField.getText();
-    	 String successfulPurchaseString;
- 		successfulPurchaseString = "Dear ";
+    void closeComplaint() {
+    	warningLabel.setVisible(false);
+    	String response = responseTextArea.getText();
+    	if(response.equals("")) {
+    		warningLabel.setText("Please fill a response first");
+    		warningLabel.setVisible(true);
+    		return;
+    	}
+    	
+    	String compensationString = compensationTextField.getText();
+    	if(compensationString.equals("")) {
+    		warningLabel.setText("Please fill a compensation first");
+    		warningLabel.setVisible(true);
+    		return;
+    	}
+    	
+    	float compensation = Float.parseFloat(compensationString);
+    	String closedComplaintString;
+    	closedComplaintString = "Dear ";
     	if(complaint.getFirstName()!=null)
-    		successfulPurchaseString+=complaint.getFirstName();
+    		closedComplaintString += complaint.getFirstName();
     	else
-    		successfulPurchaseString+="Unknown";
-    	successfulPurchaseString+= " ";
+    		closedComplaintString+="Unknown";
+    	closedComplaintString+= " ";
     	if(complaint.getLastName()!=null)
-    		successfulPurchaseString+=complaint.getLastName();
+    		closedComplaintString+=complaint.getLastName();
     	else
-    		successfulPurchaseString+="Unknown";
-		successfulPurchaseString+=" we have carefully considered your complaint about ";
-		if(complaint.getComplaintTitle()!=null)
-    		successfulPurchaseString+=complaint.getComplaintTitle();
-    	else
-    		successfulPurchaseString+="Unknown";
-		successfulPurchaseString+=" from ";
-		if(complaint.getIncidentDate()!=null)
-    		successfulPurchaseString+=complaint.getIncidentDate();
-    	else
-    		successfulPurchaseString+="Unknown";
-		successfulPurchaseString+=".";
-		successfulPurchaseString+="\n Your complaint: ";
-		if(complaint.getComplaintDetails()!=null)
-    		successfulPurchaseString+=complaint.getComplaintDetails();
-    	else
-    		successfulPurchaseString+="Unknown";
-    	 
-		successfulPurchaseString+=".\n Our answer: ";
-    		successfulPurchaseString+=phoneNumberTextField.getText();
-    		successfulPurchaseString+=".\n";    	 
+    		closedComplaintString+="Unknown";
 
-		if(cardCVVTextField.getText().equals("")||cardCVVTextField.getText().equals("0")) {
- 			successfulPurchaseString += "Sorry, You did not receive monetary compensation.";}
-		else {
-			successfulPurchaseString +="Your compensation is:"+cardCVVTextField.getText();}
+    	closedComplaintString += ",\nWe have carefully considered your complaint.";
+    	closedComplaintString += "\nCustomer service response to your complaint is as follows.\n\n";  	 
+    	closedComplaintString += response;
+    	if(compensation == 0f) {
+    		closedComplaintString += "\nAfter much thought, we have decided no compensation is required.";
+    	}
+    	else {
+    		closedComplaintString += "\nWe have sent a compensation of " + String.valueOf(compensation) + "₪ to the credit card you paid with";
+    	}
+    	closedComplaintString += "\n\nMany thanks,\nThe Sirtiya";
+		
     	Message msg = new Message();
-    	System.out.println("before send successful purchase mail");
 		msg.setAction("send successful purchase mail");
- 			msg.setCustomerEmail(complaint.getEmail());
- 			msg.setEmailMessage(successfulPurchaseString);
- 			try {
-					AppClient.getClient().sendToServer(msg);
+ 		msg.setCustomerEmail(complaint.getEmail());
+ 		msg.setEmailMessage(closedComplaintString);
+ 		try {
+ 			AppClient.getClient().sendToServer(msg);
+		} 
+ 		catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    @Subscribe
+    public void OnMessageEvent(Message msg) throws IOException {  	
+    	if(msg.getAction().equals("sent successful purchase mail")) {
+    		Platform.runLater(()-> {
+	        	App.setWindowTitle(PageTitles.OpenComplaintsPage);
+	        	try {
+					App.setContent("OpenComplaints");
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
- 	
-}
-
-   
-
-   
+    		});
+    	} 	
+    }
 }
 

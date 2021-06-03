@@ -131,8 +131,8 @@ public class ReportsPageController {
 			    	for(Complaint complaint : complaints) {
 			    		if(complaint.getCinema().getName().equals(cinema.getName()))
 			    		{
-				    		if(complaint.getIncidentDate().getMonthValue() == Integer.parseInt(monthComboBox.getValue())) {
-				    			count.set(complaint.getIncidentDate().getDayOfMonth(), (Integer)count.get((complaint.getIncidentDate().getDayOfMonth())) + 1 );
+				    		if(complaint.getComplaintDate().getMonthValue() == Integer.parseInt(monthComboBox.getValue())) {
+				    			count.set(complaint.getComplaintDate().getDayOfMonth(), (Integer)count.get((complaint.getComplaintDate().getDayOfMonth())) + 1 );
 							}
 			    		}
 			    	}

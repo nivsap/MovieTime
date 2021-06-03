@@ -53,7 +53,7 @@ public class Purchase implements  Serializable{
 
 
 	public Purchase(String firstName, String lastName, String emailOrder, String cityString, String phoneString,
-			Pair<Boolean, Integer> cinemaTab , boolean watchFromHome , LocalDateTime purchaseDate,Cinema cinema , Hall hall ,List<Pair<Integer , Integer>> sitsList ,double payment,Complaint complaint, Screening screening,boolean isCanceled) {
+			Pair<Boolean, Integer> cinemaTab , boolean watchFromHome , LocalDateTime purchaseDate,Cinema cinema , Hall hall ,List<Pair<Integer , Integer>> sitsList ,double payment,Complaint complaint, Screening screening,boolean isCanceled,ViewingPackage viewingPackage) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -70,9 +70,15 @@ public class Purchase implements  Serializable{
 		this.complaint = complaint;
 		this.screening = screening;
 		this.isCanceled = isCanceled;
+		this.viewingPackage = viewingPackage;
 	}
 	public Purchase() {}
-	
+	public ViewingPackage getViewingPackage() {
+		return viewingPackage;
+	}
+	public void setViewingPackage(ViewingPackage viewingPackage) {
+		this.viewingPackage = viewingPackage;
+	}
 	public boolean isCanceled() {
 		return isCanceled;
 	}

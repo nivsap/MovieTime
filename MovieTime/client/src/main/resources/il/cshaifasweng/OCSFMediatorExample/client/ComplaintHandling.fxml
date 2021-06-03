@@ -11,20 +11,31 @@
 
 <VBox prefHeight="700.0" prefWidth="700.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.ComplaintHandlingController">
    <children>
-      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #343537;">
+      <AnchorPane prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #343537;">
          <children>
-            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="700.0" style="-fx-background-color: #141518;">
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="290.0" prefWidth="700.0" style="-fx-background-color: #141518;">
                <children>
-                  <Label layoutX="15.0" layoutY="15.0" style="-fx-font-weight: bold;" text="Complaint Summary" textFill="WHITE">
+                  <Label layoutX="15.0" layoutY="10.0" style="-fx-font-weight: bold;" text="Complaint Summary" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Line endX="670.0" endY="-7.62939453125E-6" layoutX="15.0" layoutY="45.0" stroke="WHITE" />
-                  <Label fx:id="complaintInfoTextField" alignment="CENTER" contentDisplay="CENTER" layoutX="100.0" layoutY="50.0" prefHeight="230.0" prefWidth="500.0" text="Complaint Info" textAlignment="CENTER" textFill="WHITE" wrapText="true" />
+                  <Line endX="670.0" endY="-7.62939453125E-6" layoutX="15.0" layoutY="40.0" stroke="WHITE" />
+                  <Label fx:id="complaintInfoLabel" alignment="TOP_CENTER" contentDisplay="CENTER" layoutY="70.0" prefHeight="220.0" prefWidth="345.0" text="Complaint Info" textAlignment="CENTER" textFill="WHITE" wrapText="true" />
+                  <Label fx:id="orderInfoLabel" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="355.0" layoutY="70.0" prefHeight="220.0" prefWidth="345.0" text="Order Info" textAlignment="CENTER" textFill="WHITE" wrapText="true" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutY="50.0" prefWidth="345.0" text="Complaint Info" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="355.0" layoutY="50.0" prefWidth="345.0" text="Order Info" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
-            <AnchorPane layoutY="290.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="410.0" prefWidth="700.0" style="-fx-background-color: #141518;">
+            <AnchorPane layoutY="300.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: #141518;">
                <children>
                   <Label layoutX="15.0" layoutY="10.0" style="-fx-font-weight: bold;" text="Customer Service Response" textFill="WHITE">
                      <font>

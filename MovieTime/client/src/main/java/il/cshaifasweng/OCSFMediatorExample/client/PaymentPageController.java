@@ -209,10 +209,10 @@ public class PaymentPageController {
     	
     	if(purchaseType == PurchaseTypes.TICKET) {
     		purchase = new Purchase(firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), cityTextField.getText(), phoneNumberTextField.getText(),
-    			subscriptionCard, watchFromHome, LocalDateTime.now(), screening.getCinema(), screening.getHall(), seats, 0 , null,screening,false);
+    			subscriptionCard, watchFromHome, LocalDateTime.now(), screening.getCinema(), screening.getHall(), seats, 0 , null,screening,false,null);
     	}
     	purchase = new Purchase(firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), cityTextField.getText(), phoneNumberTextField.getText(),
-    			subscriptionCard, watchFromHome, LocalDateTime.now(), screening.getCinema(), screening.getHall(), seats, Double.parseDouble(paymentLabel.getText()) , null,screening,false);
+    			subscriptionCard, watchFromHome, LocalDateTime.now(), screening.getCinema(), screening.getHall(), seats, Double.parseDouble(paymentLabel.getText()) , null,screening,false,null);
     	//complaint.setPurchase(purchase);
     	
     	Message msg = new Message();

@@ -3,13 +3,12 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
 
-import javax.swing.JOptionPane;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
+import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -22,7 +21,10 @@ public class ComplaintHandlingController {
 	private Complaint complaint;
 	
     @FXML
-    private Label complaintInfoTextField;
+    private Label complaintInfoLabel;
+
+    @FXML
+    private Label orderInfoLabel;
 
     @FXML
     private TextArea responseTextArea;
@@ -32,11 +34,10 @@ public class ComplaintHandlingController {
 
     @FXML
     private Button closeComplaintBtn;
-    
+
     @FXML
     private Label warningLabel;
 
-    
    public ComplaintHandlingController() {
 	   complaint = new Complaint();
    }
@@ -52,22 +53,8 @@ public class ComplaintHandlingController {
     	
     	if(complaint == null)
     		return;
-    	
-    	String complaintInfo = "Complaint Date: ";
-    	if(complaint.getComplaintDate() != null ) 
-    		complaintInfo += complaint.getComplaintDate().toString();
-    	else
-    		complaintInfo += "Unknown";
-    	
-    	complaintInfo += "\n";
-    	complaintInfo += "Complaint Time: ";
-    	if(complaint.getComplaintTime() != null ) 
-    		complaintInfo += complaint.getComplaintTime().toString();
-    	else
-    		complaintInfo += "Unknown";
-    	
-    	complaintInfo += "\n";
-    	complaintInfo += " Customer Name: ";
+
+    	String complaintInfo = "Customer Name: ";
     	if(complaint.getFirstName()!=null)
     		complaintInfo += complaint.getFirstName() + " ";
     	else
@@ -112,9 +99,79 @@ public class ComplaintHandlingController {
     		complaintInfo += complaint.getComplaintDetails();
     	else
     		complaintInfo += "Unknown";
-
-    	complaintInfoTextField.setText(complaintInfo);
+    	
+    	
+    	complaintInfoLabel.setText(complaintInfo);
+    	setPurchaseInfo();
     }
+    
+    void setPurchaseInfo() {
+    	if(complaint == null)
+    		return;
+    	
+    	Purchase complaintPurchase = complaint.getPurchase();
+    	String purchaseInfo = "";
+    	
+    	if(complaintPurchase == null) {
+    		orderInfoLabel.setText("Unknown Order Info :(");
+    		return;
+    	}
+    	
+    	purchaseInfo += "Purchaser Name: ";
+    	if(!complaintPurchase.getFirstName().equals("")) 
+    		purchaseInfo += complaintPurchase.getFirstName() + " ";
+    	else 
+    		purchaseInfo += "Unknown ";
+    	if(!complaintPurchase.getLastName().equals("")) 
+    		purchaseInfo += complaintPurchase.getLastName();
+    	else 
+    		purchaseInfo += "Unknown";
+    	
+    	purchaseInfo += "\n";
+    	purchaseInfo += "Purchaser Email: ";
+    	if(!complaintPurchase.getEmailOrder().equals("")) 
+    		purchaseInfo += complaintPurchase.getEmailOrder();
+    	else 
+    		purchaseInfo += "Unknown";
+    	
+    	purchaseInfo += "\n";
+    	purchaseInfo += "Purchaser Phone: ";
+    	if(!complaintPurchase.getPhoneString().equals("")) 
+    		purchaseInfo += complaintPurchase.getPhoneString();
+    	else 
+    		purchaseInfo += "Unknown";
+    	
+    	purchaseInfo += "\n";
+
+    	
+    	String date = complaintPurchase.getPurchaseDate().toString();
+    	if(date.equals("")) 
+        	purchaseInfo += "Order Date: Unknown\nOrder Time: Unknown";
+    	
+    	else {
+    		purchaseInfo += "Order Date: " + date.substring(0,10) + "\n";
+    		purchaseInfo += "Order Time: " + date.substring(11,16);
+    	}
+
+    	purchaseInfo += "\n";
+    	purchaseInfo += "Paid Amount: ";
+    	if(!String.valueOf(complaintPurchase.getPayment()).equals(""))
+    		purchaseInfo += String.valueOf(complaintPurchase.getPayment());
+    	else 
+    		purchaseInfo += "Unknown";
+    	
+    	
+    	purchaseInfo += "\n";
+    	purchaseInfo += "Canceled Order: ";
+    	if(complaintPurchase.isCanceled()) 
+    		purchaseInfo += "Yes";
+    	else 
+    		purchaseInfo += "No";
+
+    	orderInfoLabel.setText(purchaseInfo);
+    }
+    
+    
     @FXML
     void closeComplaint() {
     	warningLabel.setVisible(false);
@@ -146,7 +203,7 @@ public class ComplaintHandlingController {
     		closedComplaintString+="Unknown";
 
     	closedComplaintString += ",\nWe have carefully considered your complaint.";
-    	closedComplaintString += "Customer service response to you complaint is as followed.\n\n";  	 
+    	closedComplaintString += "\nCustomer service response to your complaint is as follows.\n\n";  	 
     	closedComplaintString += response;
     	if(compensation == 0f) {
     		closedComplaintString += "\nAfter much thought, we have decided no compensation is required.";

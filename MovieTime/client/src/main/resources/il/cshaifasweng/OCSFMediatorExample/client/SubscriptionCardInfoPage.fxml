@@ -33,9 +33,9 @@
                   </Label>
                   <Label layoutX="10.0" layoutY="90.0" prefWidth="300.0" text="Please enter a subscription card number" textAlignment="CENTER" textFill="WHITE" wrapText="true" />
                   <TextField fx:id="subscriptionCardNumberTextField" layoutX="10.0" layoutY="110.0" prefHeight="25.0" prefWidth="280.0" promptText="Subscription Card Number" />
-                  <Label fx:id="subscriptionCardNumberWarningLabel" alignment="TOP_LEFT" layoutX="10.0" layoutY="135.0" prefWidth="300.0" text="Subscription card number must be filled" textAlignment="CENTER" textFill="RED" wrapText="true" />
+                  <Label fx:id="subscriptionCardNumberWarningLabel" alignment="TOP_LEFT" layoutX="10.0" layoutY="140.0" prefWidth="300.0" text="Subscription card number must be filled" textAlignment="CENTER" textFill="RED" wrapText="true" />
                   <Button fx:id="checkRemainingBtn" alignment="CENTER" layoutX="35.0" layoutY="170.0" mnemonicParsing="false" onAction="#checkRemaining" prefHeight="30.0" prefWidth="250.0" styleClass="orangeButton" text="Check Remaining" />
-                  <Label alignment="CENTER" layoutY="230.0" prefWidth="320.0" text="Your Remaining" textFill="WHITE">
+                  <Label fx:id="remainingTitleLabel" alignment="CENTER" layoutY="230.0" prefWidth="320.0" text="Your Remaining" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>

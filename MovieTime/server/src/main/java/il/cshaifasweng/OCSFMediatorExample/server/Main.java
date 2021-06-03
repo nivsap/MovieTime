@@ -325,11 +325,9 @@ public class Main extends AbstractServer {
 			session.save(customer11);
 			System.out.println(customer11.getId());
 
-			LocalDate date = LocalDate.of(2021, 1, 13);  
-
-			Complaint someComplaint1 = new Complaint("Shir", "Avneri", "I'm very upset", "I want to finish this project", true,date,true,Complaint.getComplaintTypes()[0],haifaCinema);
-			Complaint someComplaint2 = new Complaint("Niv", "Sapir", "I want to complain", "I am very upset", true,date,true,Complaint.getComplaintTypes()[1],telAvivCinema);
-			Complaint someComplaint3 = new Complaint("Hadar", "Manor", "Some title", "Some details" ,false,date,true,Complaint.getComplaintTypes()[2],haifaCinema);
+			Complaint someComplaint1 = new Complaint("Shir", "Avneri", "shiravneri@gmail.com", "0523456789", Complaint.getComplaintTypes()[0], "I'm very upset", "I want to finish this project", true, customer1, haifaCinema);
+			Complaint someComplaint2 = new Complaint("Niv", "Sapir", "shiravneri@gmail.com", "0523456789", Complaint.getComplaintTypes()[1], "I want to complain", "I am very upset", true, customer1, telAvivCinema);
+			Complaint someComplaint3 = new Complaint("Hadar", "Manor", "shiravneri@gmail.com", "0523456789", Complaint.getComplaintTypes()[2], "Some title", "Some details", false, customer1, haifaCinema);
 			//Purchase customer = new Purchase("Hadar", "Manor", "Some title", "Some details" , "12312312",new Pair<Boolean, Integer>(true, 20),false,null,null,null,new ArrayList<>(),10,null);
 			//session.save(customer);
 			session.save(someComplaint1);
@@ -819,14 +817,9 @@ public class Main extends AbstractServer {
 		if(currentMsg.getAction().equals("pull current complaint")) {
 			try {
 				serverMsg = currentMsg;
-				System.out.println("in pull current complaint");
 				serverMsg.setComplaints((ArrayList<Complaint>) CustomerController.getAllCurrentComplaints());
-				System.out.println("in the func handleMessageFromClient");
 				serverMsg.setAction("got complaints");
 				System.out.println(serverMsg.getComplaints().toString());
-				for (Complaint model : serverMsg.getComplaints()) {
-					System.out.println(model.getFirstName());
-				}
 				client.sendToClient(serverMsg);
 			}
 			catch (IOException e) {

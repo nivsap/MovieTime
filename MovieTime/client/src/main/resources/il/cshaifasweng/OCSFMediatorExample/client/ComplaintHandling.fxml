@@ -9,36 +9,39 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="415.0" prefWidth="605.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.ComplaintHandlingController">
+<VBox prefHeight="700.0" prefWidth="700.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.ComplaintHandlingController">
    <children>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #343537;">
          <children>
-            <AnchorPane layoutX="25.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="220.0" prefWidth="650.0" style="-fx-background-color: #141518;">
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="700.0" style="-fx-background-color: #141518;">
                <children>
                   <Label layoutX="15.0" layoutY="15.0" style="-fx-font-weight: bold;" text="Complaint Summary" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <TextArea fx:id="orderSummeryTextArea" layoutY="43.0" prefHeight="178.0" prefWidth="650.0" style="-fx-background-color: transparent;" text="Screening info, number of tickets, seats info&#10;will be diaplayed here later on..." />
+                  <Line endX="670.0" endY="-7.62939453125E-6" layoutX="15.0" layoutY="45.0" stroke="WHITE" />
+                  <Label fx:id="complaintInfoTextField" alignment="CENTER" contentDisplay="CENTER" layoutX="100.0" layoutY="50.0" prefHeight="230.0" prefWidth="500.0" text="Complaint Info" textAlignment="CENTER" textFill="WHITE" wrapText="true" />
                </children>
             </AnchorPane>
-            <AnchorPane layoutY="240.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="700.0" style="-fx-background-color: #141518;">
+            <AnchorPane layoutY="290.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="410.0" prefWidth="700.0" style="-fx-background-color: #141518;">
                <children>
-                  <Label layoutX="15.0" layoutY="5.0" style="-fx-font-weight: bold;" text="customer service" textFill="WHITE">
+                  <Label layoutX="15.0" layoutY="10.0" style="-fx-font-weight: bold;" text="Customer Service Response" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label layoutX="15.0" layoutY="40.0" style="-fx-font-weight: bold;" text="Response" textFill="WHITE" />
-                  <Line endX="575.0" endY="-7.62939453125E-6" layoutX="115.0" layoutY="60.0" startX="-100.0" stroke="WHITE" />
-                  <TextField fx:id="phoneNumberTextField" alignment="TOP_LEFT" layoutX="39.0" layoutY="84.0" prefHeight="103.0" prefWidth="579.0" promptText="Response" />
-                  <Label layoutX="15.0" layoutY="205.0" style="-fx-font-weight: bold;" text="Monetary credit" textFill="WHITE" />
-                  <Line endX="575.0" endY="-7.62939453125E-6" layoutX="115.0" layoutY="225.0" startX="-100.0" stroke="WHITE" />
-                  <TextField fx:id="cardCVVTextField" layoutX="254.0" layoutY="285.0" prefWidth="150.0" promptText="Compensation" />
-                  <Label layoutX="15.0" layoutY="370.0" style="-fx-font-weight: bold;" text="Close Complaint" textFill="WHITE" />
-                  <Line endX="575.0" endY="-7.62939453125E-6" layoutX="115.0" layoutY="390.0" startX="-100.0" stroke="WHITE" />
-                  <Button fx:id="payNowBtn" alignment="CENTER" layoutX="275.0" layoutY="412.0" mnemonicParsing="false" onAction="#padNow" prefWidth="150.0" styleClass="orangeButton" text="Approval" />
+                  <Line endX="670.0" endY="-7.62939453125E-6" layoutX="15.0" layoutY="40.0" stroke="WHITE" />
+                  <Label layoutX="50.0" layoutY="55.0" text="Customer Service Response *" textFill="WHITE" />
+                  <TextArea fx:id="responseTextArea" layoutX="50.0" layoutY="75.0" prefHeight="240.0" prefWidth="600.0" promptText="Customer Service Response..." />
+                  <Label layoutX="50.0" layoutY="325.0" text="Compensation *" textFill="WHITE" />
+                  <TextField fx:id="compensationTextField" layoutX="50.0" layoutY="345.0" prefHeight="30.0" prefWidth="275.0" promptText="Compensation" />
+                  <Button fx:id="closeComplaintBtn" alignment="CENTER" layoutX="375.0" layoutY="345.0" mnemonicParsing="false" onAction="#closeComplaint" prefHeight="30.0" prefWidth="275.0" styleClass="orangeButton" text="Close Complaint" />
+                  <Label fx:id="warningLabel" alignment="CENTER" layoutX="375.0" layoutY="380.0" prefWidth="275.0" text="Warning Label" textAlignment="CENTER" textFill="RED">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
          </children>

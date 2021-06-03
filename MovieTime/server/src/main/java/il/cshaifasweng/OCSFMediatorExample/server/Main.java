@@ -94,7 +94,7 @@ public class Main extends AbstractServer {
 			Worker shirWorker = new BranchManager("shir", "shir", "shir", "shir", false,null);
 			Worker nivWorker = new BranchManager("niv", "niv", "niv", "niv", false,null);
 			Worker lielWorker = new ContentManager("liel", "liel", "liel", "liel", null,false);
-			Worker asafWorker = new CustomerService("asaf", "asaf", "asaf", "asaf", null, false,true,new Pair<LocalDateTime, LocalDateTime>(getTime(2021,1, 1), getTime(2021,3, 4)),40);
+			Worker asafWorker = new CustomerService("asaf", "asaf", "asaf", "asaf", null, false,false,new Pair<LocalDateTime, LocalDateTime>(getTime(2021,1, 1), getTime(2021,3, 4)),40);
 			Worker hadarWorker = new NetworkAdministrator("hadar", "hadar", "hadar", "hadar", null,false);
 			PriceRequest priceRequest = new PriceRequest(null, null, false, null, 10, false);
 			//lielWorker.getPriceRequests().add(priceRequest);
@@ -1044,9 +1044,9 @@ public class Main extends AbstractServer {
 			try {
 				serverMsg = currentMsg;
 				((CustomerService)serverMsg.getWorker()).setPurpleLimit(true);
-				updateRowDB(serverMsg.getWorker());
 				Worker worker = serverMsg.getWorker();
 				PurpleLimitController.SetPurpleLimit(((CustomerService) worker).getDatesOfPurpleLimit().getKey(), ((CustomerService) worker).getDatesOfPurpleLimit().getValue());
+				updateRowDB(serverMsg.getWorker());
 				serverMsg.setAction("got purple limit");
 				client.sendToClient(serverMsg);
 			}

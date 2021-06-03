@@ -16,27 +16,28 @@ public class CustomerServiceMenuController {
     private Button regulationsUpdateMenuBtn;
 
     @FXML
-    private Button ComplaintsHandlingMenuBtn;
+    private Button complaintsHandlingMenuBtn;
 
     @FXML
     private Button logoutMenuBtn;
     
+    
     @FXML
     void logout(ActionEvent event) throws IOException {
+    	App.logout(true);
     	App.setWindowTitle(PageTitles.MainPage);
     	App.setBarAndGridLayout("MainPage");
     	App.setMenu("SystemMenu");
     }
+    
     @FXML
-    void loadComplaint(ActionEvent event) throws IOException {
+    void loadComplaintHandling(ActionEvent event) throws IOException {
     	App.setWindowTitle(PageTitles.OpenComplaintsPage);
     	App.setContent("OpenComplaints");
     }
     @FXML
     void loadPurpleLimit(ActionEvent event) throws IOException {
-    	System.out.println("in the loadPurpleLimit1");
     	App.setWindowTitle(PageTitles.PurpleLimitPage);
-    	System.out.println("in the loadPurpleLimit");
     	App.setContent("PurpleLimitPage");
     }
 }

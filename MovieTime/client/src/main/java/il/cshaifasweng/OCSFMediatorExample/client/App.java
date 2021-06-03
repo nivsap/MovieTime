@@ -3,11 +3,14 @@ package il.cshaifasweng.OCSFMediatorExample.client; // should be View package
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import antlr.collections.List;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
+import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -24,6 +27,7 @@ import javafx.util.Pair;
 
 public class App extends Application {
 
+	private static Object currentController;
     private static Scene scene;
     private static String userName;
     private static String password;
@@ -34,11 +38,16 @@ public class App extends Application {
     private static VBox menu;
     @FXML
     private static VBox content;
+    
+    
     private AppClient client;
+    private static Boolean isLogoutClicked = false;
     public static Worker currentWorker;
+    
+    
     @Override
     public void start(Stage primaryStage) throws IOException {
-    	
+    	EventBus.getDefault().register(this);
     	stage = primaryStage;
     	client = AppClient.getClient();
     	client.openConnection();
@@ -78,24 +87,29 @@ public class App extends Application {
     @Override
     public void stop(){
         System.out.println("Stage is closing");
-        EventBus.getDefault().register(this);
-       
-        if(userName != null) {
-        	System.out.println(userName);
-        	System.out.println(password);
-        	
+        if(currentController.getClass().equals(PaymentPageController.class)) {
         	Message msg = new Message();
-            msg.setAction("log out");
-	        msg.setUsername(userName);
-	        msg.setPassword(password);
-	        try {
-				AppClient.getClient().sendToServer(msg);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	        
-	        //Message msg = new Message();
+        	msg.setAction("cancel current order");
+        	ArrayList<Pair<Integer,Integer>> seats = new ArrayList<Pair<Integer,Integer>>();
+        	Screening screening = ((PaymentPageController) currentController).getScreening();
+        	if(screening != null) {
+	        	seats = (ArrayList)((PaymentPageController) currentController).getSeats();
+	
+	        	for(Pair<Integer,Integer> seat : seats) {
+	        		screening.getSeats()[seat.getKey()][seat.getValue()] = 0;
+	        	}
+	        	msg.setScreening(screening);
+	        	try {
+					AppClient.getClient().sendToServer(msg);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        	}
+        }
+       	
+        if(userName != null) {
+        	App.logout(false);
         }
         else {
         	Platform.exit();
@@ -104,12 +118,38 @@ public class App extends Application {
     }
     
     
+    public static void logout(Boolean logoutClicked) {
+    	if(userName == null || password == null) {
+    		Platform.exit();
+    		System.exit(0);
+    	}
+    	isLogoutClicked = logoutClicked;
+    	Message msg = new Message();
+        msg.setAction("log out");
+        msg.setUsername(userName);
+        msg.setPassword(password);
+        try {
+			AppClient.getClient().sendToServer(msg);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    
     @Subscribe
     void OnMessageEvent(Message msg) {
     	if(msg.getAction().equals("logged out")) {
-    		EventBus.getDefault().unregister(this);
-    		Platform.exit();
-            System.exit(0);
+    		if(App.isLogoutClicked) {
+    			userName = null;
+    			password = null;
+    			isLogoutClicked = false;
+    		}
+    		
+    		else {
+    			EventBus.getDefault().unregister(this);
+    			Platform.exit();
+    			System.exit(0);
+    		} 
     	}
     }
     
@@ -123,6 +163,7 @@ public class App extends Application {
     	pageLayout.setCenter(content);
         stage.setScene(scene);
         stage.show();
+        currentController = (pair.getValue());
         return pair.getValue();
     }
     
@@ -136,6 +177,7 @@ public class App extends Application {
     	pageLayout.setLeft(menu);
         stage.setScene(scene);
         stage.show();
+        
         return pair.getValue();
     }
     
@@ -200,6 +242,12 @@ public class App extends Application {
 	public static void setUserName(String userName) {
 		App.userName = userName;
 	}
+
+	public static Object getCurrentController() {
+		return currentController;
+	}
+
+
 }
 
 

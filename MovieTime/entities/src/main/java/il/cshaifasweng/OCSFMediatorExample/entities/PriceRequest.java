@@ -1,5 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
@@ -18,7 +19,7 @@ public class PriceRequest {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private LocalDateTime requestDate;
+	private LocalDate requestDate;
 	@OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	private Cinema cinema;
 	private boolean isMovie;
@@ -28,7 +29,7 @@ public class PriceRequest {
 //	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //	@JoinColumn(name = "worker_id")
 //	private Worker worker;
-	public PriceRequest(LocalDateTime requestDate, Cinema cinema, boolean isMovie, String commentString,
+	public PriceRequest(LocalDate requestDate, Cinema cinema, boolean isMovie, String commentString,
 			double newPrice, boolean isOpen) {
 		super();
 		this.requestDate = requestDate;
@@ -44,10 +45,10 @@ public class PriceRequest {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public LocalDateTime getRequestDate() {
+	public LocalDate getRequestDate() {
 		return requestDate;
 	}
-	public void setRequestDate(LocalDateTime requestDate) {
+	public void setRequestDate(LocalDate requestDate) {
 		this.requestDate = requestDate;
 	}
 	public Cinema getCinema() {

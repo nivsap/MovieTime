@@ -2,9 +2,20 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.awt.TextArea;
 import java.awt.TextField;
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import il.cshaifasweng.OCSFMediatorExample.entities.Cinema;
+import il.cshaifasweng.OCSFMediatorExample.entities.Message;
+import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
+import il.cshaifasweng.OCSFMediatorExample.entities.PriceRequest;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,10 +27,14 @@ import javafx.scene.control.Label;
 
 public class OpenPriceChangeRequestsController {
 	private String textCollector;
-	private Double price;
-
+	private int price;
+	private LocalDate date;
 	ObservableList<String> list = FXCollections.observableArrayList("Movie", "Viewing Package", "Card");
-
+	private ArrayList<Cinema> cinemas;
+	private Cinema theCinema;
+	private PriceRequest prices;
+	private Message msg2 = new Message();
+	
 	@FXML
 	private ResourceBundle resources;
 
@@ -61,21 +76,39 @@ public class OpenPriceChangeRequestsController {
 
 	@FXML
 	private DatePicker DateBox;
+	
 
+	@SuppressWarnings("unlikely-arg-type")
 	@FXML
-	void CinemaSelect(ActionEvent event) {
-
+	void CinemaSelect(ActionEvent event) throws IOException {
+		Message msg = new Message();
+		EventBus.getDefault().register(this);
+		msg.setAction("get all cinemas");
+		AppClient.getClient().sendToServer(msg);
+		for (int i = 0; i < cinemas.size(); i++) {
+			if (cinemas.equals(CinemaBox.getValue())) {
+				theCinema = cinemas.get(i);
+			}
+		}
 	}
 
 	@FXML
 	void DateBoxShow(ActionEvent event) {
-		LocalDate date = DateBox.getValue();
+		date = DateBox.getValue();
 		System.out.println(date);
 	}
 
 	@FXML
-	void RequestHandlBtn(ActionEvent event) {
-
+	void RequestHandlBtn(ActionEvent event) throws IOException {
+		Message msg = new Message();
+		if (textCollector.equals("Movie")) {
+			prices = new PriceRequest(date, theCinema, true, textCollector, 50, true);
+			msg.setPriceRequestmsg(prices);
+		} else {
+			prices = new PriceRequest(date, theCinema, false, textCollector, 50, true);
+			msg.setPriceRequestmsg(prices);
+		}
+		AppClient.getClient().sendToServer(msg);
 	}
 
 	@FXML
@@ -85,7 +118,7 @@ public class OpenPriceChangeRequestsController {
 
 	@FXML
 	void enterNewPrice(ActionEvent event) {
-		price = Double.parseDouble(NewPriceField.getText());
+		price = (int) Double.parseDouble(NewPriceField.getText());
 	}
 
 	@FXML
@@ -116,8 +149,31 @@ public class OpenPriceChangeRequestsController {
 				: "fx:id=\"CinemaBox\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
 		assert DateBox != null
 				: "fx:id=\"DateBox\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
-		
+
 		DateBox.setPromptText("Please enter a date");
 		RequestBox.setPromptText("Select Type");
+		OldPriceShow.setText("20");
+		
+	}
+
+	@Subscribe
+	public void onMessageEvent(Message msg) {
+		if (msg.getAction().equals("got all cinemas")) {
+			Platform.runLater(() -> {
+				CinemaBox.getItems().clear();
+				cinemas = msg.getCinemasArrayList();
+				for (Cinema cinema : msg.getCinemasArrayList()) {
+					if (!CinemaBox.getItems().contains(cinema.getName()))
+						;
+					CinemaBox.getItems().add(cinema.getName());
+				}
+			});
+
+			if (msg.getAction().equals("got all price request")) {
+				Platform.runLater(() -> {
+				
+				});
+			}
+		}
 	}
 }

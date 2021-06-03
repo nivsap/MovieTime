@@ -130,7 +130,6 @@ public class AppClient extends AbstractClient {
     	}
     	
     	if(currentMsg.getAction().equals("got purchase cancelation by id")) {
-//
     		EventBus.getDefault().post(((Message) msg));
     	}
     	if(currentMsg.getAction().equals("added movie")) {
@@ -186,6 +185,11 @@ public class AppClient extends AbstractClient {
     	}
     	
     	if(currentMsg.getAction().equals("got all cinemas")) {
+
+    		EventBus.getDefault().post(((Message) msg));
+    	}
+    	
+    	if(currentMsg.getAction().equals("done to save price request")) {
 
     		EventBus.getDefault().post(((Message) msg));
     	}

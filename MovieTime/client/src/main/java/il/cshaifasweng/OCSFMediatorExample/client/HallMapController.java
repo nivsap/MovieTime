@@ -16,6 +16,7 @@ import javafx.util.Pair;
 
 public class HallMapController {
 
+	private boolean tavSagol = false;
     @FXML
     private VBox hallMapContainer;
     private List<SeatController> cont = new ArrayList<SeatController>();
@@ -24,7 +25,9 @@ public class HallMapController {
     	hallMapContainer.setAlignment(Pos.TOP_CENTER);
     }
     
-    
+    public void setTavSagol(boolean val) {
+    	tavSagol = val;
+    }
 
     public VBox setMap(int[][] ks, Hall hall) throws IOException {
     	for(int i=0; i<hall.getRows(); i++) {
@@ -42,6 +45,7 @@ public class HallMapController {
 				if(ks[i][j] == 2) {
 					seatController.setIsTChosen();
 				}
+				seatController.setTavSagol(tavSagol);
     		}
     		newRow.setAlignment(Pos.TOP_CENTER);
     		hallMapContainer.getChildren().add(newRow);

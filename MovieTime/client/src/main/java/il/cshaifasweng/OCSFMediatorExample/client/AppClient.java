@@ -57,10 +57,7 @@ public class AppClient extends AbstractClient {
 		{
 			EventBus.getDefault().post(((Message) msg));
 		}
-		if (currentMsg.getAction().equals("screening for movie done"))
-		{
-			EventBus.getDefault().post(((Message) msg));
-		}
+
 		if (currentMsg.getAction().equals("got soon movies"))
 		{
 			EventBus.getDefault().post(((Message) msg));
@@ -168,6 +165,22 @@ public class AppClient extends AbstractClient {
     		EventBus.getDefault().post(((Message) msg));
     	}
     	if(currentMsg.getAction().equals("got purple limit")) {
+
+    		EventBus.getDefault().post(((Message) msg));
+    	}
+    	if(currentMsg.getAction().equals("logged out")) {
+
+    		EventBus.getDefault().post(((Message) msg));
+    	}
+    	if(currentMsg.getAction().equals("added viewing package")) {
+
+    		EventBus.getDefault().post(((Message) msg));
+    	}
+    	if(currentMsg.getAction().equals("done check purple limit")) {
+
+    		EventBus.getDefault().post(((Message) msg));
+    	}
+    	if(currentMsg.getAction().equals("canceled current order")) {
 
     		EventBus.getDefault().post(((Message) msg));
     	}

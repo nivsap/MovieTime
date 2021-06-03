@@ -38,6 +38,7 @@ public class Message implements Serializable {
 	int movieId;            				//clientSide need to fill/set is field when send msg to server
 	int cinemaId;           				//clientSide need to fill/set is field when send msg to server
 	ArrayList<Cinema> cinemasArrayList;
+	ArrayList<PriceRequest> priceRequestsArrayList;
 	ArrayList<Screening> screeningArrayList;
 	List<Pair<Integer,Integer>> chairsHall;
 	Hall hall;              				//clientSide need to fill/set is field when send msg to server
@@ -79,13 +80,31 @@ public class Message implements Serializable {
 	int month;
 	Cinema cinema;
 	List<Purchase> purchasesList;
+	ViewingPackage viewingPackage;
+	PriceRequest priceRequestmsg;
 	public Message() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
+	public PriceRequest getPriceRequestmsg() {
+		return priceRequestmsg;
+	}
+
+	public void setPriceRequestmsg(PriceRequest priceRequestmsg) {
+		this.priceRequestmsg = priceRequestmsg;
+	}
+
 	public Cinema getCinema() {
 		return cinema;
+	}
+
+	public ViewingPackage getViewingPackage() {
+		return viewingPackage;
+	}
+
+	public void setViewingPackage(ViewingPackage viewingPackage) {
+		this.viewingPackage = viewingPackage;
 	}
 
 	public void setCinema(Cinema cinema) {
@@ -550,6 +569,14 @@ public class Message implements Serializable {
 
 	public void setPayment(double payment) {
 		this.payment = payment;
+	}
+
+	public ArrayList<PriceRequest> getPriceRequestsArrayList() {
+		return priceRequestsArrayList;
+	}
+
+	public void setPriceRequestsArrayList(ArrayList<PriceRequest> priceRequestsArrayList) {
+		this.priceRequestsArrayList = priceRequestsArrayList;
 	}
 
 	public int getTavSagolLimit() {

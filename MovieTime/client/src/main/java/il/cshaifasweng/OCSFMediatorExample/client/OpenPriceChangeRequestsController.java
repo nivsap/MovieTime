@@ -35,7 +35,7 @@ public class OpenPriceChangeRequestsController {
 	private Cinema theCinema;
 	private PriceRequest prices;
 	private Message msg2 = new Message();
-	
+
 	@FXML
 	private ResourceBundle resources;
 
@@ -77,28 +77,19 @@ public class OpenPriceChangeRequestsController {
 
 	@FXML
 	private DatePicker DateBox;
-	
 
 	@SuppressWarnings("unlikely-arg-type")
 	@FXML
 	void CinemaSelect(ActionEvent event) throws IOException {
-		Message msg = new Message();
-		EventBus.getDefault().register(this);
-		msg.setAction("get all cinemas");
-		AppClient.getClient().sendToServer(msg);
-		for (Cinema cine : cinemas) {
-			if (cine.getName().equals(CinemaBox.getValue())) {
-				theCinema.setName(CinemaBox.getValue());
-				break;
-			}
-		}
-		if(!theCinema.getName().isEmpty())
-		{
-			double p = theCinema.getMoviePrice();
-			OldPriceShow.setText(String.valueOf(p));
-			OldPriceShow.setVisible(true);
-			OldPriceLeble.setVisible(true);		
-		}
+
+		/*
+		 * for (Cinema cine : cinemas) { if
+		 * (cine.getName().equals(CinemaBox.getValue())) {
+		 * theCinema.setName(CinemaBox.getValue()); break; } }
+		 * if(!theCinema.getName().isEmpty()) { double p = theCinema.getMoviePrice();
+		 * OldPriceShow.setText(String.valueOf(p)); OldPriceShow.setVisible(true);
+		 * OldPriceLeble.setVisible(true); }
+		 */
 	}
 
 	@FXML
@@ -123,15 +114,18 @@ public class OpenPriceChangeRequestsController {
 	@FXML
 	void RequestTypeBox(ActionEvent event) {
 		textCollector = RequestBox.getValue();
+		System.out.println(textCollector);
 	}
 
 	@FXML
 	void enterNewPrice(ActionEvent event) {
 		price = (int) Double.parseDouble(NewPriceField.getText());
+		System.out.println(price);
 	}
 
 	@FXML
 	void initialize() {
+		EventBus.getDefault().register(this);
 		assert RqstHandlBtn != null
 				: "fx:id=\"RqstHandlBtn\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
 		assert DateLabel != null
@@ -158,12 +152,21 @@ public class OpenPriceChangeRequestsController {
 				: "fx:id=\"CinemaBox\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
 		assert DateBox != null
 				: "fx:id=\"DateBox\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
+		
+		Message msg = new Message();
+		msg.setAction("get all cinemas");
+		try {
+			AppClient.getClient().sendToServer(msg);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		DateBox.setPromptText("Please enter a date");
 		RequestBox.setPromptText("Select Type");
 		RequestBox.setItems(list);
 		hideLabels();
-		
+
 	}
 
 	private void hideLabels() {
@@ -174,14 +177,17 @@ public class OpenPriceChangeRequestsController {
 
 	@Subscribe
 	public void onMessageEvent(Message msg) {
+		EventBus.getDefault().unregister(this);
 		if (msg.getAction().equals("got all cinemas")) {
 			Platform.runLater(() -> {
 				CinemaBox.getItems().clear();
 				cinemas = msg.getCinemasArrayList();
+				System.out.println(cinemas.size());
+				System.out.println(cinemas);
 				for (Cinema cinema : msg.getCinemasArrayList()) {
-					if (!CinemaBox.getItems().contains(cinema.getName()))
-						;
-					CinemaBox.getItems().add(cinema.getName());
+					if (!CinemaBox.getItems().contains(cinema.getName())) {
+						CinemaBox.getItems().add(cinema.getName());
+					}
 				}
 			});
 

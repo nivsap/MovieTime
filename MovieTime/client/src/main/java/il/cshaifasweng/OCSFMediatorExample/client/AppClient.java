@@ -184,6 +184,12 @@ public class AppClient extends AbstractClient {
 
     		EventBus.getDefault().post(((Message) msg));
     	}
+    	
+    	if(currentMsg.getAction().equals("got all cinemas")) {
+
+    		EventBus.getDefault().post(((Message) msg));
+    	}
+  
   
 	}
 	@Override

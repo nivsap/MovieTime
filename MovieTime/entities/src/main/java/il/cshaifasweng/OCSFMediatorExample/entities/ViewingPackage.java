@@ -40,6 +40,7 @@ public class ViewingPackage implements  Serializable{
 		this.startDateTime = dateTime;
 		this.datesAvailables = new ArrayList<>();
 	}
+	public ViewingPackage() {}
 	public int getId() {
 		return id;
 	}

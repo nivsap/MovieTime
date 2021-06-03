@@ -81,15 +81,16 @@ public class OpenPriceChangeRequestsController {
 	@SuppressWarnings("unlikely-arg-type")
 	@FXML
 	void CinemaSelect(ActionEvent event) throws IOException {
+		
+		for(Cinema cinema : cinemas)
+		{
+			if(cinema.getName().equals(CinemaBox.getValue()))
+			{
+				theCinema = cinema;
+			}
+		}
 
-		/*
-		 * for (Cinema cine : cinemas) { if
-		 * (cine.getName().equals(CinemaBox.getValue())) {
-		 * theCinema.setName(CinemaBox.getValue()); break; } }
-		 * if(!theCinema.getName().isEmpty()) { double p = theCinema.getMoviePrice();
-		 * OldPriceShow.setText(String.valueOf(p)); OldPriceShow.setVisible(true);
-		 * OldPriceLeble.setVisible(true); }
-		 */
+		System.out.println(CinemaBox.getValue());
 	}
 
 	@FXML

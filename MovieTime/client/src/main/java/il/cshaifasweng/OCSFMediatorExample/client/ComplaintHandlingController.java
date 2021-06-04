@@ -223,6 +223,15 @@ public class ComplaintHandlingController {
  		catch (IOException e) {
 			e.printStackTrace();
 		}
+ 		msg.setAction("close complaint");
+ 		complaint.setIsOpen(false);
+ 		msg.setComplaint(complaint);
+ 		try {
+ 			AppClient.getClient().sendToServer(msg);
+		} 
+ 		catch (IOException e) {
+			e.printStackTrace();
+		}
     }
     
     @Subscribe

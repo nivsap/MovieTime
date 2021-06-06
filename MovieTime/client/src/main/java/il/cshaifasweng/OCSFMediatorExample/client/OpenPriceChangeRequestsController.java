@@ -102,6 +102,7 @@ public class OpenPriceChangeRequestsController {
 	@FXML
 	void RequestHandlBtn(ActionEvent event) throws IOException {
 		Message msg = new Message();
+		msg.setAction("save price request");
 		if (textCollector.equals("Movie")) {
 			prices = new PriceRequest(date, theCinema, true, textCollector, price, true);
 			msg.setPriceRequestmsg(prices);
@@ -109,7 +110,14 @@ public class OpenPriceChangeRequestsController {
 			prices = new PriceRequest(date, theCinema, false, textCollector, price, true);
 			msg.setPriceRequestmsg(prices);
 		}
-		AppClient.getClient().sendToServer(msg);
+		
+		try {
+			System.out.println("hi");
+			AppClient.getClient().sendToServer(msg);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
@@ -192,7 +200,7 @@ public class OpenPriceChangeRequestsController {
 				}
 			});
 
-			if (msg.getAction().equals("got all price request")) {
+			if (msg.getAction().equals("done to save price request")) {
 				Platform.runLater(() -> {
 					try {
 						App.setContent("OpenPriceChangeRequests");

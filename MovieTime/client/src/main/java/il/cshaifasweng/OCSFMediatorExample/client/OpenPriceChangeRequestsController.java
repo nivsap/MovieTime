@@ -87,6 +87,9 @@ public class OpenPriceChangeRequestsController {
 			if(cinema.getName().equals(CinemaBox.getValue()))
 			{
 				theCinema = cinema;
+				OldPriceShow.setText(String.valueOf(cinema.getMoviePrice()));
+				OldPriceLeble.setVisible(true);
+				OldPriceShow.setVisible(true);
 			}
 		}
 

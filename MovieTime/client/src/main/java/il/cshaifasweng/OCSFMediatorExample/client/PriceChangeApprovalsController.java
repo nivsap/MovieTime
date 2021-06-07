@@ -2,6 +2,10 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.util.ResourceBundle;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.Message;
+import il.cshaifasweng.OCSFMediatorExample.entities.PriceRequest;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,6 +15,8 @@ import javafx.scene.control.TextArea;
 
 public class PriceChangeApprovalsController {
 
+	private PriceRequest request;
+	ObservableList<String> list = FXCollections.observableArrayList("Approve", "Denied");
 	@FXML
 	private ResourceBundle resources;
 
@@ -36,7 +42,7 @@ public class PriceChangeApprovalsController {
 	private Label CommentTitle;
 
 	@FXML
-	private ComboBox<?> decisionBox;
+	private ComboBox<String> decisionBox;
 
 	@FXML
 	private Button PendingBtn1;
@@ -112,7 +118,8 @@ public class PriceChangeApprovalsController {
 		assert numRequestShow != null
 				: "fx:id=\"numRequestShow\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
 		
-		Massage msg = new Message();
+		Message msg = new Message();
+		decisionBox.setItems(list);
 
 	}
 }

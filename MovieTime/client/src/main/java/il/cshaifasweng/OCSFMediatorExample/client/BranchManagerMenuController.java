@@ -22,6 +22,15 @@ public class BranchManagerMenuController {
     private Button logoutMenuBtn;
     
     @FXML
+    private Button PriceRequestBtn;
+
+    @FXML
+    void PriceRequest(ActionEvent event) throws IOException {
+    	App.setWindowTitle(PageTitles.PriceChangePage);
+    	App.setContent("Price Change Page");
+    }
+    
+    @FXML
     void logout(ActionEvent event) throws IOException {
     	App.logout(true);
     	App.setWindowTitle(PageTitles.MainPage);

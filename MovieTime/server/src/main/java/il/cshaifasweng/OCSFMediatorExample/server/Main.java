@@ -1093,7 +1093,7 @@ public class Main extends AbstractServer {
 		if(currentMsg.getAction().equals("search bar update")) {
 			try {
 				ArrayList<Movie> movies = new ArrayList<Movie>();
-				if(!currentMsg.getActionType().equals("pull movies from home")) {
+				if(currentMsg.getActionType().equals("pull screening movies")) {
 					List<Screening> screenings = getAllOfType(Screening.class);
 	
 					if(currentMsg.getTheater() != null) {
@@ -1112,14 +1112,28 @@ public class Main extends AbstractServer {
 						}
 					}else {
 						movies = getAllOfType(Movie.class);
+						Iterator<Movie> iter = movies.iterator();
+						while(iter.hasNext()) {
+							Movie movie = iter.next();
+							if(movie.isSoonInCinema()) {
+								iter.remove();
+							}
+						}
+						
+						iter = movies.iterator();
+						while(iter.hasNext()) {
+							Movie movie = iter.next();
+							if(movie.isStreamOnline() && !movie.isScreening()) {
+								iter.remove();
+							}
+						}
 					}
 				}else if(currentMsg.getActionType().equals("pull soon movies")) {
-					
 					movies = getAllOfType(Movie.class);
 					Iterator<Movie> iter = movies.iterator();
 					while(iter.hasNext()) {
 						Movie movie = iter.next();
-						if(!movie.isScreening()) {
+						if(!movie.isSoonInCinema()) {
 							iter.remove();
 						}
 					}

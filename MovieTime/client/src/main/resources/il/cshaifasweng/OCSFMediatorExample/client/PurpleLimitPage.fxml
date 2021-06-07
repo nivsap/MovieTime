@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="415.0" prefWidth="605.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.PurpleLimitPageController">
+<VBox prefHeight="700.0" prefWidth="700.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.PurpleLimitPageController">
    <children>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #343537;">
          <children>
@@ -24,28 +24,26 @@
                   <Label fx:id="currentFrom" layoutX="74.0" layoutY="136.0" />
                </children>
             </AnchorPane>
-            <AnchorPane layoutY="240.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="700.0" style="-fx-background-color: #141518;">
+            <AnchorPane layoutY="240.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="700.0" style="-fx-background-color: #141518;">
                <children>
-                  <Label layoutX="15.0" layoutY="5.0" style="-fx-font-weight: bold;" text="Range" textFill="WHITE">
+                  <Label layoutX="15.0" layoutY="15.0" style="-fx-font-weight: bold;" text="Regulation Information" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label layoutX="15.0" layoutY="40.0" style="-fx-font-weight: bold;" textFill="WHITE" />
-                  <Line endX="575.0" endY="-7.62939453125E-6" layoutX="115.0" layoutY="60.0" startX="-100.0" stroke="WHITE" />
-                  <Label layoutX="15.0" layoutY="205.0" style="-fx-font-weight: bold;" text="Y:" textFill="WHITE" />
-                  <Line endX="575.0" endY="-7.62939453125E-6" layoutX="115.0" layoutY="225.0" startX="-100.0" stroke="WHITE" />
-                  <TextField fx:id="YChoose" layoutX="275.0" layoutY="284.0" prefWidth="150.0" promptText="Y" />
-                  <Label layoutX="15.0" layoutY="370.0" style="-fx-font-weight: bold;" text="Close Update" textFill="WHITE" />
-                  <Line endX="575.0" endY="-7.62939453125E-6" layoutX="115.0" layoutY="390.0" startX="-100.0" stroke="WHITE" />
-                  <Button fx:id="update" alignment="CENTER" layoutX="275.0" layoutY="412.0" mnemonicParsing="false" onAction="#PurpleLimit" prefWidth="150.0" styleClass="orangeButton" text="Update" />
-                  <DatePicker fx:id="FromChooseDate" layoutX="32.0" layoutY="115.0" />
-                  <Label layoutX="32.0" layoutY="91.0" text="From:" textFill="#f8f6f6" />
-                  <DatePicker fx:id="ToChooseDate" layoutX="275.0" layoutY="115.0" />
-                  <Label layoutX="275.0" layoutY="91.0" text="To:" textFill="#f8f6f6" />
-                  <Label fx:id="warningFrom" layoutX="48.0" layoutY="149.0" text="from is not before to" textFill="#fd0000" />
-                  <Label fx:id="warningTo" layoutX="275.0" layoutY="149.0" text="to is not after from" textFill="#fd0000" />
-                  <Label fx:id="enterYLabel" layoutX="311.0" layoutY="316.0" prefHeight="17.0" prefWidth="83.0" text="enter Y" textFill="#f60505" />
+                  <Label layoutX="15.0" layoutY="50.0" style="-fx-font-weight: bold;" text="Necessary Information" textFill="WHITE" />
+                  <Line endX="685.0" endY="-7.62939453125E-6" layoutY="70.0" startX="15.0" stroke="WHITE" />
+                  <Label layoutX="100.0" layoutY="110.0" text="From Date *" textFill="WHITE" />
+                  <DatePicker fx:id="FromChooseDate" layoutX="100.0" layoutY="130.0" prefHeight="30.0" prefWidth="200.0" promptText="From" />
+                  <Label layoutX="400.0" layoutY="110.0" text="To Date *" textFill="WHITE" />
+                  <DatePicker fx:id="ToChooseDate" layoutX="400.0" layoutY="130.0" prefHeight="30.0" prefWidth="200.0" promptText="To" />
+                  <Label layoutX="100.0" layoutY="200.0" text="Y Factor *" textFill="WHITE" />
+                  <TextField fx:id="YChoose" layoutX="100.0" layoutY="220.0" prefHeight="30.0" prefWidth="200.0" promptText="Y Factor" />
+                  <Button fx:id="update" alignment="CENTER" layoutX="400.0" layoutY="220.0" mnemonicParsing="false" onAction="#PurpleLimit" prefHeight="30.0" prefWidth="200.0" styleClass="orangeButton" text="Update" />
+                  <Label fx:id="toDateWarningLabel" alignment="CENTER" layoutX="400.0" layoutY="165.0" prefWidth="200.0" text="To Date must be greater than &#10;From date" textAlignment="CENTER" textFill="#fd0000" />
+                  <Label fx:id="warningTo" layoutX="75.0" layoutY="343.0" textFill="#fd0000" />
+                  <Label fx:id="fromDateWarningLabel" alignment="CENTER" layoutX="100.0" layoutY="165.0" prefWidth="200.0" text="From Date has passed" textAlignment="CENTER" textFill="#fd0000" />
+                  <Label fx:id="yFactorWarningLabel" alignment="CENTER" layoutX="100.0" layoutY="255.0" prefWidth="200.0" text="Y Factor must be filled" textAlignment="CENTER" textFill="#fd0000" />
                </children>
             </AnchorPane>
          </children>

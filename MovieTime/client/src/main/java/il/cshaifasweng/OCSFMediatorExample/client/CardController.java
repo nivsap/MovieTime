@@ -21,8 +21,7 @@ public class CardController {
 	private Button movie_name;
 	    
 	public void SetData(Movie movie, Boolean isDisabled) {
-		Image image = new  Image(getClass().getResourceAsStream("images/MoviesPosters/" + movie.getImageSrc()));
-		movie_img.setImage(image);
+		movie_img.setImage(movie.getImage());
 		movie_name.setText(movie.getName());
 		cardMovie = movie;
 		this.isDisabled = isDisabled;

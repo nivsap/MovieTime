@@ -27,7 +27,6 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
-
 import il.cshaifasweng.OCSFMediatorExample.entities.BranchManager;
 import il.cshaifasweng.OCSFMediatorExample.entities.Cinema;
 import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
@@ -52,12 +51,11 @@ public class Main extends AbstractServer {
 	public static SessionFactory sessionFactory = getSessionFactory();
 	Message serverMsg;
 	private ArrayList<String> genres = new ArrayList<String>();
+
 	public Main(int port) {
 
-		
-		
 		super(port);
-		
+
 		genres.add("Action");
 		genres.add("Drama");
 		genres.add("Adventure");
@@ -105,56 +103,82 @@ public class Main extends AbstractServer {
 			session = sessionFactory.openSession();
 			session.beginTransaction();
 
-			Worker shirWorker = new BranchManager("shir", "shir", "shir", "shir", false,null);
-			Worker nivWorker = new BranchManager("niv", "niv", "niv", "niv", false,null);
-			Worker lielWorker = new ContentManager("liel", "liel", "liel", "liel", null,false);
-			Worker asafWorker = new CustomerService("asaf", "asaf", "asaf", "asaf", null, false,false,new Pair<LocalDateTime, LocalDateTime>(getTime(2021,1, 1), getTime(2021,3, 4)),40);
-			Worker hadarWorker = new NetworkAdministrator("hadar", "hadar", "hadar", "hadar", null,false);
+			Worker shirWorker = new BranchManager("shir", "shir", "shir", "shir", false, null);
+			Worker nivWorker = new BranchManager("niv", "niv", "niv", "niv", false, null);
+			Worker lielWorker = new ContentManager("liel", "liel", "liel", "liel", null, false);
+			Worker asafWorker = new CustomerService("asaf", "asaf", "asaf", "asaf", null, false, false,
+					new Pair<LocalDateTime, LocalDateTime>(getTime(2021, 1, 1), getTime(2021, 3, 4)), 40);
+			Worker hadarWorker = new NetworkAdministrator("hadar", "hadar", "hadar", "hadar", null, false);
 			PriceRequest priceRequest = new PriceRequest(null, null, false, null, 10, false);
-			//lielWorker.getPriceRequests().add(priceRequest);
-			//System.out.println(lielWorker.getPriceRequests().get(0).getNewPrice());
+			// lielWorker.getPriceRequests().add(priceRequest);
+			// System.out.println(lielWorker.getPriceRequests().get(0).getNewPrice());
 			session.save(priceRequest);
-			
+
 			// create movie
-			
+
 			String absPath = Paths.get("").toAbsolutePath().toString();
 			String picPath = absPath.substring(0, absPath.length() - 6);
 			ArrayList<String> movieStartTimes = new ArrayList<String>(
 					Arrays.asList("10:00", "12:00", "16:00", "18:00", "20:00", "22:00", "00:00"));
 			Movie avengersEndgame = new Movie("Avengers: Endgame", "3h 1min", 5.00,
-					"Action   •   Adventure   •   Drama", picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/AvengersEndgame.jpg", picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/AvengersEndgame.png", movieStartTimes,
-					true, false,
+					"Action   •   Adventure   •   Drama",
+					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/AvengersEndgame.jpg",
+					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/AvengersEndgame.png",
+					movieStartTimes, true, false,
 					"After the devastating events of Avengers: Infinity War (2018), the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe.",
-					"Robert Downey Jr., Chris Evans, Mark Ruffalo", getTime(2019, 4, 26), 50, "Anthony Russo, Joe Russo", null, false, new ArrayList<>(), true);
+					"Robert Downey Jr., Chris Evans, Mark Ruffalo", getTime(2019, 4, 26), 50,
+					"Anthony Russo, Joe Russo", null, false, new ArrayList<>(), true);
 
 			Movie sherlockHolmes = new Movie("Sherlock Holmes", "2h 8min", 4.5, "Action   •   Adventure   •   Mystery",
-					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/SherlockHolmes.jpg", picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/SherlockHolmes.png", movieStartTimes, true, false,
+					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/SherlockHolmes.jpg",
+					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/SherlockHolmes.png",
+					movieStartTimes, true, false,
 					"Detective Sherlock Holmes and his stalwart partner Watson engage in a battle of wits and brawn with a nemesis whose plot is a threat to all of England.",
-					"Robert Downey Jr., Jude Law, Rachel McAdams", getTime(2009, 12, 25), 50, "Guy Ritchie", null, false, new ArrayList<>(), true);
-			Movie babyDriver = new Movie("Baby Driver", "1h 53min", 4.00, "Action   •   Crime   •   Drama ",
-					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/BabyDriver.jpg", picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/BabyDriver.png", movieStartTimes, true, false,
+					"Robert Downey Jr., Jude Law, Rachel McAdams", getTime(2009, 12, 25), 50, "Guy Ritchie", null,
+					false, new ArrayList<>(), true);
+			Movie babyDriver = new Movie("Baby Driver", "1h 53min", 4.00, "Action   •   Crime   •   Drama ", picPath
+					+ "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/BabyDriver.jpg",
+					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/BabyDriver.png",
+					movieStartTimes, true, false,
 					"After being coerced into working for a crime boss, a young getaway driver finds himself taking part in a heist doomed to fail.",
-					"Ansel Elgort, Jon Bernthal, Jon Hamm", getTime(2017, 6, 28), 50, "Edgar Wright", null, false, new ArrayList<>(), true);
+					"Ansel Elgort, Jon Bernthal, Jon Hamm", getTime(2017, 6, 28), 50, "Edgar Wright", null, false,
+					new ArrayList<>(), true);
 			Movie wonderWoman1984 = new Movie("Wonder Woman 1984", "2h 31min", 5.00,
-					"Action   •   Adventure   •   Fantasy", picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/WonderWoman1984.jpg", picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/WonderWoman1984.png",
+					"Action   •   Adventure   •   Fantasy",
+					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/WonderWoman1984.jpg",
+					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/WonderWoman1984.png",
 					movieStartTimes, true, false,
 					"Diana must contend with a work colleague and businessman, whose desire for extreme wealth sends the world down a path of destruction, after an ancient artifact that grants wishes goes missing.",
-					"Gal Gadot, Chris Pine, Kristen Wiig", getTime(2020, 12, 21), 50, "Patty Jenkins", null, false, new ArrayList<>(), false);
-			Movie it = new Movie("IT", "2h 15min", 5.00, "Horror", picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/It.jpg", picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/It.png", movieStartTimes, true, false,
+					"Gal Gadot, Chris Pine, Kristen Wiig", getTime(2020, 12, 21), 50, "Patty Jenkins", null, false,
+					new ArrayList<>(), false);
+			Movie it = new Movie("IT", "2h 15min", 5.00, "Horror", picPath
+					+ "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/It.jpg",
+					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/It.png",
+					movieStartTimes, true, false,
 					"In the summer of 1989, a group of bullied kids band together to destroy a shape-shifting monster, which disguises itself as a clown and preys on the children of Derry, their small Maine town.",
-					"Bill Skarsgard, Jaeden Martell, Finn Wolfhard", getTime(2017, 9, 8), 50, "Andy Muschietti", null, false, new ArrayList<>(), true);
-			Movie toyStory = new Movie("Toy Story", "1h 40min", 5.00, "Animation   •   Adventure   •   Comedy",
-					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/ToyStory.jpg", picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/ToyStory.png", movieStartTimes, true, false,
+					"Bill Skarsgard, Jaeden Martell, Finn Wolfhard", getTime(2017, 9, 8), 50, "Andy Muschietti", null,
+					false, new ArrayList<>(), true);
+			Movie toyStory = new Movie("Toy Story", "1h 40min", 5.00, "Animation   •   Adventure   •   Comedy", picPath
+					+ "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/ToyStory.jpg",
+					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/ToyStory.png",
+					movieStartTimes, true, false,
 					"When a new toy called 'Forky' joins Woody and the gang, a road trip alongside old and new friends reveals how big the world can be for a toy.",
-					"Tom Hanks, Tim Allen, Annie Potts", getTime(2017, 6, 21), 50, "Josh Cooley", null, false, new ArrayList<>(), true);
-			Movie minions = new Movie("Minions", "1h 31min", 4.50, "Animation   •   Adventure   •   Comedy",
-					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/Minions.jpg", picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/Minions.png", movieStartTimes, false, false,
+					"Tom Hanks, Tim Allen, Annie Potts", getTime(2017, 6, 21), 50, "Josh Cooley", null, false,
+					new ArrayList<>(), true);
+			Movie minions = new Movie("Minions", "1h 31min", 4.50, "Animation   •   Adventure   •   Comedy", picPath
+					+ "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/Minions.jpg",
+					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/Minions.png",
+					movieStartTimes, false, false,
 					"Minions Stuart, Kevin, and Bob are recruited by Scarlet Overkill, a supervillain who, alongside her inventor husband Herb, hatches a plot to take over the world.",
-					"Sandra Bullock, Jon Hamm, Michael Keaton", getTime(2015, 7, 10), 50, "Kyle Balda, Pierre Coffin", null, false, new ArrayList<>(), true);
-			Movie starWars = new Movie("Star Wars", "2h 21min", 5.00, "Action   •   Adventure   •   Fantasy",
-					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/StarWars.jpg", picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/StarWars.png", movieStartTimes, false, true,
+					"Sandra Bullock, Jon Hamm, Michael Keaton", getTime(2015, 7, 10), 50, "Kyle Balda, Pierre Coffin",
+					null, false, new ArrayList<>(), true);
+			Movie starWars = new Movie("Star Wars", "2h 21min", 5.00, "Action   •   Adventure   •   Fantasy", picPath
+					+ "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/StarWars.jpg",
+					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/StarWars.png",
+					movieStartTimes, false, true,
 					"The surviving members of the Resistance face the First Order once again, and the legendary conflict between the Jedi and the Sith reaches its peak, bringing the Skywalker saga to its end.",
-					"Daisy Ridley, John Boyega, Oscar Isaac", getTime(2019, 12, 20), 50, "J.J. Abrams", null, false, new ArrayList<>(), false);
+					"Daisy Ridley, John Boyega, Oscar Isaac", getTime(2019, 12, 20), 50, "J.J. Abrams", null, false,
+					new ArrayList<>(), false);
 
 			avengersEndgame.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("10:00", "12:00")));
 			sherlockHolmes.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("16:00", "18:00")));
@@ -171,12 +195,17 @@ public class Main extends AbstractServer {
 			session.save(minions);
 			session.save(starWars);
 			session.flush();
-			//ViewingPackage viewingPackage = new ViewingPackage(babyDriver, getTime(2021, 6,6), new ArrayList<>());
-			//session.save(viewingPackage);
+			// ViewingPackage viewingPackage = new ViewingPackage(babyDriver, getTime(2021,
+			// 6,6), new ArrayList<>());
+			// session.save(viewingPackage);
 
-			//creating whole data base to cinema,screening,Hall
-			Cinema haifaCinema = new Cinema("Haifa", "Haifa,Carmel st", (BranchManager)shirWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>(),40,20,0.8,new ArrayList<>(),new ArrayList<>());
-			Cinema telAvivCinema = new Cinema("Tel-Aviv", "Tel-Aviv,Wieztman st", (BranchManager)nivWorker, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>(),45,20,0.9,new ArrayList<>(),new ArrayList<>());
+			// creating whole data base to cinema,screening,Hall
+			Cinema haifaCinema = new Cinema("Haifa", "Haifa,Carmel st", (BranchManager) shirWorker, new ArrayList<>(),
+					new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), 40, 20, 0.8, new ArrayList<>(),
+					new ArrayList<>());
+			Cinema telAvivCinema = new Cinema("Tel-Aviv", "Tel-Aviv,Wieztman st", (BranchManager) nivWorker,
+					new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), 45, 20, 0.9,
+					new ArrayList<>(), new ArrayList<>());
 			shirWorker.setCinema(haifaCinema);
 			nivWorker.setCinema(telAvivCinema);
 			haifaCinema.getWorkerArray().add(asafWorker);
@@ -191,28 +220,30 @@ public class Main extends AbstractServer {
 			Hall hall3 = new Hall(7, 5, new ArrayList<>(), telAvivCinema, new ArrayList<>());
 			Hall hall4 = new Hall(2, 5, new ArrayList<>(), telAvivCinema, new ArrayList<>());
 
-			Screening screeningOfFilm_1 = new Screening(getTime(2021, 2, 3), hall1, avengersEndgame,
-					haifaCinema,new ArrayList<>());
+			Screening screeningOfFilm_1 = new Screening(getTime(2021, 2, 3), hall1, avengersEndgame, haifaCinema,
+					new ArrayList<>());
 			Screening screeningOfFilm_2 = new Screening(getExacTime(2021, 6, 25, 20, 00), hall1, sherlockHolmes,
-					haifaCinema,new ArrayList<>());
+					haifaCinema, new ArrayList<>());
 			Screening screeningOfFilm_3 = new Screening(getExacTime(2021, 6, 26, 20, 00), hall2, sherlockHolmes,
-					haifaCinema,new ArrayList<>());
+					haifaCinema, new ArrayList<>());
 			Screening screeningOfFilm_4 = new Screening(getExacTime(2021, 6, 27, 20, 00), hall2, babyDriver,
-					haifaCinema,new ArrayList<>());
+					haifaCinema, new ArrayList<>());
 			Screening screeningOfFilm_9 = new Screening(getExacTime(2021, 6, 27, 20, 30), hall2, sherlockHolmes,
-					haifaCinema,new ArrayList<>());
+					haifaCinema, new ArrayList<>());
 			Screening screeningOfFilm_10 = new Screening(getExacTime(2021, 6, 27, 20, 30), hall1, wonderWoman1984,
-					haifaCinema,new ArrayList<>());
+					haifaCinema, new ArrayList<>());
 			Screening screeningOfFilm_5 = new Screening(getExacTime(2021, 6, 26, 20, 00), hall3, wonderWoman1984,
-					telAvivCinema,new ArrayList<>());
-			Screening screeningOfFilm_6 = new Screening(getExacTime(2021, 6, 27, 20, 00), hall3, it, telAvivCinema,new ArrayList<>());
+					telAvivCinema, new ArrayList<>());
+			Screening screeningOfFilm_6 = new Screening(getExacTime(2021, 6, 27, 20, 00), hall3, it, telAvivCinema,
+					new ArrayList<>());
 			Screening screeningOfFilm_7 = new Screening(getExacTime(2021, 6, 28, 13, 30), hall4, toyStory,
-					telAvivCinema,new ArrayList<>());
-			Screening screeningOfFilm_8 = new Screening(getExacTime(2021, 6, 28, 20, 00), hall4, minions,
-					telAvivCinema,new ArrayList<>());
+					telAvivCinema, new ArrayList<>());
+			Screening screeningOfFilm_8 = new Screening(getExacTime(2021, 6, 28, 20, 00), hall4, minions, telAvivCinema,
+					new ArrayList<>());
 			Screening screeningOfFilm_11 = new Screening(getExacTime(2021, 6, 28, 10, 15), hall4, minions,
-					telAvivCinema,new ArrayList<>());
-			Screening screeningOfFilm_12 = new Screening(getExacTime(2021, 6, 28, 10, 15), hall3, it, telAvivCinema,new ArrayList<>());
+					telAvivCinema, new ArrayList<>());
+			Screening screeningOfFilm_12 = new Screening(getExacTime(2021, 6, 28, 10, 15), hall3, it, telAvivCinema,
+					new ArrayList<>());
 
 			hall1.getScreeningArray().add(screeningOfFilm_1);
 			hall1.getScreeningArray().add(screeningOfFilm_2);
@@ -233,7 +264,7 @@ public class Main extends AbstractServer {
 			haifaCinema.getScreeningArray().add(screeningOfFilm_4);
 			haifaCinema.getScreeningArray().add(screeningOfFilm_9);
 			haifaCinema.getScreeningArray().add(screeningOfFilm_10);
-			haifaCinema.setHallArray(new ArrayList<Hall>(Arrays.asList(hall1,hall2)));
+			haifaCinema.setHallArray(new ArrayList<Hall>(Arrays.asList(hall1, hall2)));
 
 			telAvivCinema.getScreeningArray().add(screeningOfFilm_5);
 			telAvivCinema.getScreeningArray().add(screeningOfFilm_6);
@@ -241,11 +272,13 @@ public class Main extends AbstractServer {
 			telAvivCinema.getScreeningArray().add(screeningOfFilm_8);
 			telAvivCinema.getScreeningArray().add(screeningOfFilm_11);
 			telAvivCinema.getScreeningArray().add(screeningOfFilm_12);
-			telAvivCinema.setHallArray(new ArrayList<Hall>(Arrays.asList(hall3,hall4)));
-			ViewingPackage viewingPackage = new ViewingPackage(null, getExacTime(2021, 6,3,17,58), new ArrayList<>(),"www.sirtiya.co.il");
+			telAvivCinema.setHallArray(new ArrayList<Hall>(Arrays.asList(hall3, hall4)));
+			ViewingPackage viewingPackage = new ViewingPackage(null, getExacTime(2021, 6, 3, 17, 58), new ArrayList<>(),
+					"www.sirtiya.co.il");
 			Purchase customer = new Purchase("Shir", "Avneri", "nivsap@gmail.com", "Some details", "0523456789",
-					new Pair<Boolean, Integer>(true, 20), false, getTime(2021, 2, 3), haifaCinema, hall1, new ArrayList<>(), 10, null,screeningOfFilm_1,false,viewingPackage);
-			//screeningOfFilm_1.getPurchases().add(customer);
+					new Pair<Boolean, Integer>(true, 20), false, getTime(2021, 2, 3), haifaCinema, hall1,
+					new ArrayList<>(), 10, null, screeningOfFilm_1, false, viewingPackage);
+			// screeningOfFilm_1.getPurchases().add(customer);
 			session.save(customer);
 			session.save(screeningOfFilm_1);
 			session.save(screeningOfFilm_2);
@@ -274,33 +307,45 @@ public class Main extends AbstractServer {
 			session.save(haifaCinema);
 			session.save(telAvivCinema);
 
-			ViewingPackage viewingPackage2 = new ViewingPackage(null, getTime(2021, 6,6), new ArrayList<>(),"www.sirtiya.co.il");
+			ViewingPackage viewingPackage2 = new ViewingPackage(null, getTime(2021, 6, 6), new ArrayList<>(),
+					"www.sirtiya.co.il");
 			session.save(viewingPackage);
 
 			Purchase customer2 = new Purchase("Alon", "Latman1", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(true, 20), false, getExacTime(2021, 5, 28, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_2,false,viewingPackage2);
+					new Pair<Boolean, Integer>(true, 20), false, getExacTime(2021, 5, 28, 10, 15), haifaCinema, null,
+					new ArrayList<>(), 10, null, screeningOfFilm_2, false, viewingPackage2);
 			Purchase customer1 = new Purchase("Alon", "Latman2", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 28, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_3,false,viewingPackage2);
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 28, 10, 15), haifaCinema, null,
+					new ArrayList<>(), 10, null, screeningOfFilm_3, false, viewingPackage2);
 			Purchase customer3 = new Purchase("Alon", "Latman3", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 30, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_4,false,viewingPackage2);
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 30, 10, 15), haifaCinema, null,
+					new ArrayList<>(), 10, null, screeningOfFilm_4, false, viewingPackage2);
 			Purchase customer4 = new Purchase("Alon", "Latman4", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_10,false,viewingPackage2);
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null,
+					new ArrayList<>(), 10, null, screeningOfFilm_10, false, viewingPackage2);
 			Purchase customer5 = new Purchase("Alon", "Latman5", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 6, 28, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_5,false,viewingPackage2);
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 6, 28, 10, 15), haifaCinema, null,
+					new ArrayList<>(), 10, null, screeningOfFilm_5, false, viewingPackage2);
 			Purchase customer6 = new Purchase("Alon", "Latman6", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 28, 10, 15), telAvivCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_6,false,viewingPackage2);
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 28, 10, 15), telAvivCinema, null,
+					new ArrayList<>(), 10, null, screeningOfFilm_6, false, viewingPackage2);
 			Purchase customer7 = new Purchase("Alon", "Latman7", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 6, 28, 10, 15), telAvivCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_7,false,viewingPackage2);
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 6, 28, 10, 15), telAvivCinema, null,
+					new ArrayList<>(), 10, null, screeningOfFilm_7, false, viewingPackage2);
 			Purchase customer8 = new Purchase("Alon", "Latman8", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 28, 10, 15), telAvivCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_8,false,viewingPackage2);
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 28, 10, 15), telAvivCinema, null,
+					new ArrayList<>(), 10, null, screeningOfFilm_8, false, viewingPackage2);
 			Purchase customer9 = new Purchase("Alon", "Latman9", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 4, 28, 10, 15), telAvivCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_8,false,viewingPackage2);
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 4, 28, 10, 15), telAvivCinema, null,
+					new ArrayList<>(), 10, null, screeningOfFilm_8, false, viewingPackage2);
 			Purchase customer10 = new Purchase("Alon", "Latman22", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_1,false,viewingPackage2);
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null,
+					new ArrayList<>(), 10, null, screeningOfFilm_1, false, viewingPackage2);
 			Purchase customer11 = new Purchase("Alon", "Latman33", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null, new ArrayList<>(), 10, null,screeningOfFilm_3,false,viewingPackage2);
+					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null,
+					new ArrayList<>(), 10, null, screeningOfFilm_3, false, viewingPackage2);
 
-			//session.save(customer);
+			// session.save(customer);
 			session.save(customer2);
 			session.save(customer1);
 			session.save(customer3);
@@ -314,12 +359,19 @@ public class Main extends AbstractServer {
 			session.save(customer11);
 			System.out.println(customer11.getId());
 
-			Complaint someComplaint1 = new Complaint("Shir", "Avneri", "shiravneri@gmail.com", "0523456789", Complaint.getComplaintTypes()[0], "I'm very upset", "I want to finish this project", true, customer1, haifaCinema);
-			Complaint someComplaint2 = new Complaint("Niv", "Sapir", "shiravneri@gmail.com", "0523456789", Complaint.getComplaintTypes()[1], "I want to complain", "I am very upset", true, customer1, telAvivCinema);
-			Complaint someComplaint3 = new Complaint("Hadar", "Manor", "shiravneri@gmail.com", "0523456789", Complaint.getComplaintTypes()[2], "Some title", "Some details", false, customer1, haifaCinema);
-			//Purchase customer = new Purchase("Hadar", "Manor", "Some title", "Some details" , "12312312",new Pair<Boolean, Integer>(true, 20),false,null,null,null,new ArrayList<>(),10,null);
-			PriceRequest request = new PriceRequest(null, telAvivCinema, true, "becasue", 80, true);
-			//session.save(customer);
+			Complaint someComplaint1 = new Complaint("Shir", "Avneri", "shiravneri@gmail.com", "0523456789",
+					Complaint.getComplaintTypes()[0], "I'm very upset", "I want to finish this project", true,
+					customer1, haifaCinema);
+			Complaint someComplaint2 = new Complaint("Niv", "Sapir", "shiravneri@gmail.com", "0523456789",
+					Complaint.getComplaintTypes()[1], "I want to complain", "I am very upset", true, customer1,
+					telAvivCinema);
+			Complaint someComplaint3 = new Complaint("Hadar", "Manor", "shiravneri@gmail.com", "0523456789",
+					Complaint.getComplaintTypes()[2], "Some title", "Some details", false, customer1, haifaCinema);
+			// Purchase customer = new Purchase("Hadar", "Manor", "Some title", "Some
+			// details" , "12312312",new Pair<Boolean, Integer>(true,
+			// 20),false,null,null,null,new ArrayList<>(),10,null);
+			PriceRequest request = new PriceRequest(LocalDate.now(), telAvivCinema, true, "becasue", 80, true);
+			// session.save(customer);
 			session.save(request);
 			session.save(someComplaint1);
 			session.save(someComplaint2);
@@ -356,29 +408,31 @@ public class Main extends AbstractServer {
 		}
 		addDataToDB();
 		List<Purchase> list = getAllOfType(Purchase.class);
-		System.out.println( LocalDateTime.now());
-    	Thread timerThread = new Thread(() -> {
-    		//SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-    		while (true) {
-    			for (Purchase i : list) {
-    				if(i.getViewingPackage().getDateTime().getDayOfYear() == LocalDateTime.now().getDayOfYear() && i.getViewingPackage().getDateTime().getHour() - 1 == LocalDateTime.now().getHour() && i.getViewingPackage().getDateTime().getMinute() == LocalDateTime.now().getMinute()) {
-                    	JavaMailUtil.sendMessage(i.getEmailOrder(), "hadye", "hadye");
-                    }
-    			}
-    			//final String time = simpleDateFormat.format(new Date());
-    				//time_text.setText(time);
-    				//System.out.println(time);
-    			try {
-    				Thread.sleep(35000); //35 second
-    			} catch (InterruptedException e) {
-    				e.printStackTrace();
-    			}
-    		}
-    	});   
-    	timerThread.start();
-    
+		System.out.println(LocalDateTime.now());
+		Thread timerThread = new Thread(() -> {
+			// SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy
+			// HH:mm:ss");
+			while (true) {
+				for (Purchase i : list) {
+					if (i.getViewingPackage().getDateTime().getDayOfYear() == LocalDateTime.now().getDayOfYear()
+							&& i.getViewingPackage().getDateTime().getHour() - 1 == LocalDateTime.now().getHour()
+							&& i.getViewingPackage().getDateTime().getMinute() == LocalDateTime.now().getMinute()) {
+						JavaMailUtil.sendMessage(i.getEmailOrder(), "hadye", "hadye");
+					}
+				}
+				// final String time = simpleDateFormat.format(new Date());
+				// time_text.setText(time);
+				// System.out.println(time);
+				try {
+					Thread.sleep(35000); // 35 second
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		timerThread.start();
 
-		//Iterator<Purchase> iter = list.iterator();
+		// Iterator<Purchase> iter = list.iterator();
 //		while(true) {
 //		while(iter.hasNext()){
 //			Purchase  purchase = iter.next();
@@ -407,19 +461,22 @@ public class Main extends AbstractServer {
 //            th.start();
 //        }
 //		}
-		//	Purchase purchase = CustomerController.getID(10);
-		//	ArrayList<Worker> lol= getAllOfType(Worker.class);
-		//		for(Worker worker : lol) {
-		//			if(worker instanceof ContentManager) {
-		//				//worker.getPriceRequests().add(new PriceRequest(null, null, false, null, 10, false));
-		//				//saveRowInDB(worker);
-		//				System.out.println(worker.getPriceRequests().get(0).getNewPrice());
-		//			}
-		//		}
-		//		PurpleLimitController.SetPurpleLimit(getTime(2021,1, 1), getTime(2021,3, 4));
-		//saveRowInDB(new Screening(LocalDateTime.now(), new Hall(), new Movie(), new Cinema()));
+		// Purchase purchase = CustomerController.getID(10);
+		// ArrayList<Worker> lol= getAllOfType(Worker.class);
+		// for(Worker worker : lol) {
+		// if(worker instanceof ContentManager) {
+		// //worker.getPriceRequests().add(new PriceRequest(null, null, false, null, 10,
+		// false));
+		// //saveRowInDB(worker);
+		// System.out.println(worker.getPriceRequests().get(0).getNewPrice());
+		// }
+		// }
+		// PurpleLimitController.SetPurpleLimit(getTime(2021,1, 1), getTime(2021,3, 4));
+		// saveRowInDB(new Screening(LocalDateTime.now(), new Hall(), new Movie(), new
+		// Cinema()));
 
 	}
+
 	public static <T> void saveRowInDB(T objectType) {
 		try {
 			session = sessionFactory.openSession();
@@ -506,8 +563,6 @@ public class Main extends AbstractServer {
 		}
 	}
 
-
-
 	public static <T> ArrayList<T> getAllOfType(Class<T> objectType) {
 		session = sessionFactory.openSession();
 		session.beginTransaction();
@@ -545,17 +600,17 @@ public class Main extends AbstractServer {
 
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
-		System.out.println("message recieved " +  ((Message)msg).getAction());
+		System.out.println("message recieved " + ((Message) msg).getAction());
 
-		Message currentMsg = ((Message)msg);
+		Message currentMsg = ((Message) msg);
 
 		serverMsg = new Message();
-		if(currentMsg.getAction().equals("pull movies")) {
+		if (currentMsg.getAction().equals("pull movies")) {
 			ArrayList<Movie> screeningMoviesArrayList = new ArrayList<>();
 			ArrayList<Movie> toReturnArrayList = new ArrayList<>();
 			screeningMoviesArrayList = Main.getAllOfType(Movie.class);
-			for(Movie movie : screeningMoviesArrayList) {
-				if(movie.isDeleted() == false && (movie.isScreening() == true || movie.isSoonInCinema()==true)) {
+			for (Movie movie : screeningMoviesArrayList) {
+				if (movie.isDeleted() == false && (movie.isScreening() == true || movie.isSoonInCinema() == true)) {
 					toReturnArrayList.add(movie);
 				}
 			}
@@ -570,14 +625,15 @@ public class Main extends AbstractServer {
 			}
 		}
 
-		if(currentMsg.getAction().equals("update movie time")) {
+		if (currentMsg.getAction().equals("update movie time")) {
 
 			System.out.println("about to update movie time");
-			Screening newScreening = new Screening(currentMsg.getDateMovie(),ScreeningController.getHallById(currentMsg.getHallId()),
-					MovieController.getMovieByName(currentMsg.getMovieName()), MovieController.getCinemaByName(currentMsg.getCinemaName()),null);
+			Screening newScreening = new Screening(currentMsg.getDateMovie(),
+					ScreeningController.getHallById(currentMsg.getHallId()),
+					MovieController.getMovieByName(currentMsg.getMovieName()),
+					MovieController.getCinemaByName(currentMsg.getCinemaName()), null);
 
-
-			if(currentMsg.getDbAction().equals("removal")) {
+			if (currentMsg.getDbAction().equals("removal")) {
 				deleteRowInDB(currentMsg.getScreening());
 				serverMsg = new Message();
 				currentMsg.setAction("updated movie time");
@@ -593,29 +649,25 @@ public class Main extends AbstractServer {
 
 			List<Screening> screenings = getAllOfType(Screening.class);
 
-
-
-			for(Screening screening : screenings) { 
-				if(screening.getDate_screen().equals(newScreening.getDate_screen()) && 
-						screening.getCinema().getName().equals(newScreening.getCinema().getName())&&
-						screening.getMovie().getName().equals(newScreening.getMovie().getName())&&
-						screening.getHall().getHallId() == (newScreening.getHall().getHallId())) {
+			for (Screening screening : screenings) {
+				if (screening.getDate_screen().equals(newScreening.getDate_screen())
+						&& screening.getCinema().getName().equals(newScreening.getCinema().getName())
+						&& screening.getMovie().getName().equals(newScreening.getMovie().getName())
+						&& screening.getHall().getHallId() == (newScreening.getHall().getHallId())) {
 					System.out.println("screening == newScreening");
-					if(currentMsg.getDbAction().equals("addition"))
-					{ 
-						Message serverMsg = new
-								Message(); serverMsg.setAction("update movie time error");
-								serverMsg.setError("screening already exists");
-								try {
-									client.sendToClient(serverMsg); 
-									return; 
-								} catch (IOException e){
-									// TODOAuto-generated catch block 
-									e.printStackTrace(); 
-								} 
+					if (currentMsg.getDbAction().equals("addition")) {
+						Message serverMsg = new Message();
+						serverMsg.setAction("update movie time error");
+						serverMsg.setError("screening already exists");
+						try {
+							client.sendToClient(serverMsg);
+							return;
+						} catch (IOException e) {
+							// TODOAuto-generated catch block
+							e.printStackTrace();
+						}
 					}
-					if(currentMsg.getDbAction().equals("removal")) 
-					{ 
+					if (currentMsg.getDbAction().equals("removal")) {
 						deleteRowInDB(screening);
 						break;
 					}
@@ -635,11 +687,11 @@ public class Main extends AbstractServer {
 			}
 		}
 
-		if(currentMsg.getAction().equals("login")) {
+		if (currentMsg.getAction().equals("login")) {
 			try {
-				if(currentMsg.getUsername().equals(null) || ((Message) msg).getPassword().equals(null)) {
+				if (currentMsg.getUsername().equals(null) || ((Message) msg).getPassword().equals(null)) {
 					System.out.println("user or password is null");
-				}else {
+				} else {
 					UserController.getUser((Message) msg);
 					serverMsg = (Message) msg;
 					serverMsg.setAction("login done");
@@ -652,14 +704,14 @@ public class Main extends AbstractServer {
 			}
 		}
 
-		if(currentMsg.getAction().equals("add a complaint")) {
+		if (currentMsg.getAction().equals("add a complaint")) {
 			serverMsg.setAction("added a complaint");
 			System.out.println("about to add a complaint");
 
 			try {
-				if(currentMsg.getComplaint() == null) {
+				if (currentMsg.getComplaint() == null) {
 					System.out.println("complaint is null in add a complaint");
-				}else {
+				} else {
 					System.out.println(((Message) msg).getComplaint().getComplaintTitle());
 					saveRowInDB(((Message) msg).getComplaint());
 					client.sendToClient(serverMsg);
@@ -670,51 +722,50 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		if(currentMsg.getAction().equals("cinema contained movies")) {
+		if (currentMsg.getAction().equals("cinema contained movies")) {
 			try {
 				serverMsg = currentMsg;
 				System.out.println("about to pull cinemas according to movie id");
-				System.out.println("movie id is: " + currentMsg.getMovieId()) ;
-				serverMsg.setCinemasArrayList((ArrayList<Cinema>) ScreeningController.getCinemas(currentMsg.getMovieId()));
+				System.out.println("movie id is: " + currentMsg.getMovieId());
+				serverMsg.setCinemasArrayList(
+						(ArrayList<Cinema>) ScreeningController.getCinemas(currentMsg.getMovieId()));
 				System.out.println("finished pulling cinemas according to movie id");
 				serverMsg.setAction("cinema contained movies done");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant cinema contained movies");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 
 			}
 		}
-		if(currentMsg.getAction().equals("screening for movie")) {
+		if (currentMsg.getAction().equals("screening for movie")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.setScreeningArrayList((ArrayList<Screening>) ScreeningController.getAllDateOfMovie(serverMsg.getMovieId(), serverMsg.getCinemaId()));
+				serverMsg.setScreeningArrayList((ArrayList<Screening>) ScreeningController
+						.getAllDateOfMovie(serverMsg.getMovieId(), serverMsg.getCinemaId()));
 				serverMsg.setAction("screening for movie done");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant screening for movie");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		if(currentMsg.getAction().equals("pull soon movies")) {
+		if (currentMsg.getAction().equals("pull soon movies")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.setMovies((ArrayList<Movie>) MovieController.getSoonMovies()); 
+				serverMsg.setMovies((ArrayList<Movie>) MovieController.getSoonMovies());
 				serverMsg.setAction("got soon movies");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant pull soon movies");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 
 			}
 		}
-		if(currentMsg.getAction().equals("pull screening movies")) {
+		if (currentMsg.getAction().equals("pull screening movies")) {
 			try {
 				serverMsg = currentMsg;
 				System.out.println("in Main pull screeening movies msg");
@@ -723,14 +774,13 @@ public class Main extends AbstractServer {
 				System.out.println("in the func handleMessageFromClient");
 				serverMsg.setAction("got screening movies");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant pull screening movies");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		if(currentMsg.getAction().equals("pull soon movies genre")) {
+		if (currentMsg.getAction().equals("pull soon movies genre")) {
 			try {
 				System.out.println("in Main genre pull screeening movies msg");
 				serverMsg = (Message) msg;
@@ -738,75 +788,71 @@ public class Main extends AbstractServer {
 				System.out.println("in the func handleMessageFromClient");
 				serverMsg.setAction("got screening movies");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant pull screening movies");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 
-		if(currentMsg.getAction().equals("sort movies by genre")) {     //from here *********
+		if (currentMsg.getAction().equals("sort movies by genre")) { // from here *********
 			try {
 				serverMsg = (Message) msg;
-				serverMsg.setMovies((ArrayList<Movie>) MovieController.MoviesByGener(serverMsg.getGenre())); 
+				serverMsg.setMovies((ArrayList<Movie>) MovieController.MoviesByGener(serverMsg.getGenre()));
 				serverMsg.setAction("sorted movies by genre");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant pull screening movies");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		if(currentMsg.getAction().equals("sort movies by date")) {
+		if (currentMsg.getAction().equals("sort movies by date")) {
 			try {
 				serverMsg = (Message) msg;
-				serverMsg.setMovies((ArrayList<Movie>) MovieController.MoviesByDate(serverMsg.getDateMovie())); 
+				serverMsg.setMovies((ArrayList<Movie>) MovieController.MoviesByDate(serverMsg.getDateMovie()));
 				serverMsg.setAction("done to sort by date");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant pull screening movies");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		if(currentMsg.getAction().equals("sort movies by popular")) {
+		if (currentMsg.getAction().equals("sort movies by popular")) {
 			try {
 				serverMsg = (Message) msg;
-				serverMsg.setMovies((ArrayList<Movie>) MovieController.MoviesByPopularty()); 
+				serverMsg.setMovies((ArrayList<Movie>) MovieController.MoviesByPopularty());
 				serverMsg.setAction("done to sort by popular");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant pull screening movies");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		if(currentMsg.getAction().equals("pull movies from home")) {
+		if (currentMsg.getAction().equals("pull movies from home")) {
 			try {
-				ArrayList<Movie> movies = ((ArrayList<Movie>) MovieController.WatchingFromHome()); 
-				if(currentMsg.getRate() != null) {
+				ArrayList<Movie> movies = ((ArrayList<Movie>) MovieController.WatchingFromHome());
+				if (currentMsg.getRate() != null) {
 
 					Iterator<Movie> iter = movies.iterator();
 
-					while(iter.hasNext()) {
+					while (iter.hasNext()) {
 						Movie movie = iter.next();
-						if(Double.parseDouble(currentMsg.getRate()) != movie.getPopular()) {
+						if (Double.parseDouble(currentMsg.getRate()) != movie.getPopular()) {
 							iter.remove();
 						}
 					}
 				}
 
-				if(currentMsg.getSearch() != null) {
+				if (currentMsg.getSearch() != null) {
 
 					Iterator<Movie> iter = movies.iterator();
 
-					while(iter.hasNext()) {
+					while (iter.hasNext()) {
 						Movie movie = iter.next();
-						if(!movie.getName().contains(currentMsg.getSearch())) {
+						if (!movie.getName().contains(currentMsg.getSearch())) {
 							iter.remove();
 						}
 					}
@@ -817,108 +863,102 @@ public class Main extends AbstractServer {
 				serverMsg.setMovies(movies);
 				client.sendToClient(serverMsg);
 
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant add movie");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 
-
-		if(currentMsg.getAction().equals("picking chair")) {
+		if (currentMsg.getAction().equals("picking chair")) {
 			try {
 				serverMsg = currentMsg;
 				Screening clientScreening = serverMsg.getScreening();
 				Screening serverScreening = ScreeningController.getScreening(clientScreening.getId());
-				if(ScreeningController.pickChair(clientScreening.getSeats(), serverScreening)) {
+				if (ScreeningController.pickChair(clientScreening.getSeats(), serverScreening)) {
 					serverMsg.setAction("picking seats success");
-					for(int i = 0 ; i < clientScreening.getHall().getRows() ; i++) {
-						for(int j = 0 ; j < clientScreening.getHall().getCols() ; j++) {
-							if(clientScreening.getSeats()[i][j] == 2) {
+					for (int i = 0; i < clientScreening.getHall().getRows(); i++) {
+						for (int j = 0; j < clientScreening.getHall().getCols(); j++) {
+							if (clientScreening.getSeats()[i][j] == 2) {
 								clientScreening.getSeats()[i][j] = 1;
 							}
 						}
 					}
 					serverMsg.setScreening(clientScreening);
 					updateRowDB(clientScreening);
-				}else {
+				} else {
 					serverMsg.setAction("picking seats error");
 					serverMsg.setError("Seats have already been chosen by another customer, please choose again");
 					serverMsg.setScreening(serverScreening);
 
 				}
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant picking chair");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		if(currentMsg.getAction().equals("pull current complaint")) {
+		if (currentMsg.getAction().equals("pull current complaint")) {
 			try {
 				serverMsg = currentMsg;
 				serverMsg.setComplaints((ArrayList<Complaint>) CustomerController.getAllCurrentComplaints());
 				serverMsg.setAction("got complaints");
 				System.out.println(serverMsg.getComplaints().toString());
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant pull complaints");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 
-		if(currentMsg.getAction().equals("save customer")) { // save ticket // save customer
+		if (currentMsg.getAction().equals("save customer")) { // save ticket // save customer
 			try {
 
 				serverMsg = currentMsg;
 				saveRowInDB(serverMsg.getPurchase());
 				serverMsg.setAction("save customer done");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant save customer");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 
-		if(currentMsg.getAction().equals("get purchase by id")) {
+		if (currentMsg.getAction().equals("get purchase by id")) {
 			try {
 				serverMsg = currentMsg;
 				serverMsg.setPurchase(CustomerController.getID(serverMsg.getId()));
-				if(serverMsg.getPurchase()!=null) {
-					serverMsg.setPayment(CustomerController.ReturnOnPurchase(serverMsg.getPurchase(), LocalDateTime.now()));}
+				if (serverMsg.getPurchase() != null) {
+					serverMsg.setPayment(
+							CustomerController.ReturnOnPurchase(serverMsg.getPurchase(), LocalDateTime.now()));
+				}
 				serverMsg.setAction("got purchase by id");
-				if(serverMsg.getPurchase()!= null && serverMsg.getPurchase().isCanceled())
+				if (serverMsg.getPurchase() != null && serverMsg.getPurchase().isCanceled())
 					serverMsg.setPurchase(null);
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant get purchase by id");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		if(currentMsg.getAction().equals("get purchases")) {
+		if (currentMsg.getAction().equals("get purchases")) {
 			try {
 				serverMsg = currentMsg;
 				serverMsg.setPurchasesList(getAllOfType(Purchase.class));
 				serverMsg.setAction("got purchases");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant get purchase by id");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 
-
-		if(currentMsg.getAction().equals("get cinemas and purchases and complaints")) {
+		if (currentMsg.getAction().equals("get cinemas and purchases and complaints")) {
 			try {
 				serverMsg = currentMsg;
 				serverMsg.setPurchasesList(getAllOfType(Purchase.class));
@@ -926,251 +966,244 @@ public class Main extends AbstractServer {
 				serverMsg.setComplaints(getAllOfType(Complaint.class));
 				serverMsg.setAction("got cinemas and purchases and complaints");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant get purchase by id");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 
-		if(currentMsg.getAction().equals("get report ticket")) {
+		if (currentMsg.getAction().equals("get report ticket")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.setPurchasesList(ReportController.getTicketReportMonthly(serverMsg.getMonth(), serverMsg.getCinema()));
+				serverMsg.setPurchasesList(
+						ReportController.getTicketReportMonthly(serverMsg.getMonth(), serverMsg.getCinema()));
 				serverMsg.setAction("got report ticket");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant get report ticket");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 
-		if(currentMsg.getAction().equals("get report special ticket")) {
+		if (currentMsg.getAction().equals("get report special ticket")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.setPurchasesList(ReportController.getSpecialTicketReportMonthly(serverMsg.getMonth(), serverMsg.getCinema()));
+				serverMsg.setPurchasesList(
+						ReportController.getSpecialTicketReportMonthly(serverMsg.getMonth(), serverMsg.getCinema()));
 				serverMsg.setAction("got report special ticket");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant get report special ticket");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		if(currentMsg.getAction().equals("get status complaints monthly")) {
+		if (currentMsg.getAction().equals("get status complaints monthly")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.setPurchasesList(ReportController.statusComplaintsMonthly(serverMsg.getMonth(), serverMsg.getCinema()));
+				serverMsg.setPurchasesList(
+						ReportController.statusComplaintsMonthly(serverMsg.getMonth(), serverMsg.getCinema()));
 				serverMsg.setAction("got status complaints monthly");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant get status complaints monthly");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		if(((Message) msg).getAction().equals("pull genre screening movies")) {
+		if (((Message) msg).getAction().equals("pull genre screening movies")) {
 			try {
 				System.out.println("in Main pull screeening movies msg");
 				serverMsg = (Message) msg;
-				serverMsg.genreArray=MovieController.getAllGenreScreeningMovies().toArray(new String[0]); 
+				serverMsg.genreArray = MovieController.getAllGenreScreeningMovies().toArray(new String[0]);
 				System.out.println("in the func handleMessageFromClient");
 				serverMsg.setAction("got genre screening movies");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant pull screening movies");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 
-		if(currentMsg.getAction().equals("send successful purchase mail")) {
+		if (currentMsg.getAction().equals("send successful purchase mail")) {
 			try {
 				serverMsg = currentMsg;
-				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Customer Of The Sirtiya, Order Number :" , serverMsg.getEmailMessage());
+				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Customer Of The Sirtiya, Order Number :",
+						serverMsg.getEmailMessage());
 				serverMsg.setAction("sent successful purchase mail");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant get status complaints monthly");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 
-		if(currentMsg.getAction().equals("send purchase cancellation mail")) {
+		if (currentMsg.getAction().equals("send purchase cancellation mail")) {
 			try {
 				serverMsg = currentMsg;
 
-				JavaMailUtil.sendPurchaseCancellationMessage(serverMsg.getPurchase().getEmailOrder(), serverMsg.getPurchase().getFirstName() + " " + serverMsg.getPurchase().getLastName(), String.valueOf(serverMsg.getPurchase().getId()), serverMsg.getPayment());
+				JavaMailUtil.sendPurchaseCancellationMessage(serverMsg.getPurchase().getEmailOrder(),
+						serverMsg.getPurchase().getFirstName() + " " + serverMsg.getPurchase().getLastName(),
+						String.valueOf(serverMsg.getPurchase().getId()), serverMsg.getPayment());
 				serverMsg.setAction("sent purchase cancellation mail");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant send purchase cancellation mail");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 
-
-		if(currentMsg.getAction().equals("get all screenings")) {
+		if (currentMsg.getAction().equals("get all screenings")) {
 			try {
 				serverMsg = currentMsg;
 				serverMsg.setScreeningArrayList(getAllOfType(Screening.class));
 				serverMsg.setAction("got all screenings");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant get status complaints monthly");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		if(currentMsg.getAction().equals("add movie")) {
+		if (currentMsg.getAction().equals("add movie")) {
 			try {
 				serverMsg = currentMsg;
 				saveRowInDB(serverMsg.getMovie());
 				serverMsg.setAction("added movie");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant add movie");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		if(currentMsg.getAction().equals("delete movie")) {
+		if (currentMsg.getAction().equals("delete movie")) {
 			try {
 				serverMsg = currentMsg;
 				serverMsg.getMovie().setDeleted(true);
 				updateRowDB(serverMsg.getMovie());
 				serverMsg.setAction("deleted movie");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant deleted movie");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		if(currentMsg.getAction().equals("delete a viewing package")) {
+		if (currentMsg.getAction().equals("delete a viewing package")) {
 			try {
 				serverMsg = currentMsg;
 				serverMsg.getMovie().setStreamOnline(false);
 				updateRowDB(serverMsg.getMovie());
 				serverMsg.setAction("deleted a viewing package");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant deleted movie");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 
-		if(currentMsg.getAction().equals("set purple limit")) {
+		if (currentMsg.getAction().equals("set purple limit")) {
 			try {
 				serverMsg = currentMsg;
-				((CustomerService)serverMsg.getWorker()).setPurpleLimit(true);
+				((CustomerService) serverMsg.getWorker()).setPurpleLimit(true);
 				Worker worker = serverMsg.getWorker();
-				PurpleLimitController.SetPurpleLimit(((CustomerService) worker).getDatesOfPurpleLimit().getKey(), ((CustomerService) worker).getDatesOfPurpleLimit().getValue());
+				PurpleLimitController.SetPurpleLimit(((CustomerService) worker).getDatesOfPurpleLimit().getKey(),
+						((CustomerService) worker).getDatesOfPurpleLimit().getValue());
 				updateRowDB(serverMsg.getWorker());
 				serverMsg.setAction("got purple limit");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant add movie");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 
-		if(currentMsg.getAction().equals("search bar update")) {
+		if (currentMsg.getAction().equals("search bar update")) {
 			try {
 				ArrayList<Movie> movies = new ArrayList<Movie>();
-				if(!currentMsg.getActionType().equals("pull movies from home")) {
+				if (!currentMsg.getActionType().equals("pull movies from home")) {
 					List<Screening> screenings = getAllOfType(Screening.class);
-	
-					if(currentMsg.getTheater() != null) {
+
+					if (currentMsg.getTheater() != null) {
 						Iterator<Screening> iters = screenings.iterator();
-						while(iters.hasNext()) {
+						while (iters.hasNext()) {
 							Screening s = iters.next();
-							if(!s.getCinema().getName().equals(currentMsg.getTheater())) {
+							if (!s.getCinema().getName().equals(currentMsg.getTheater())) {
 								iters.remove();
 							}
 						}
-	
-						for(Screening screening : screenings) {
-							if(!movies.contains(screening.getMovie())){
+
+						for (Screening screening : screenings) {
+							if (!movies.contains(screening.getMovie())) {
 								movies.add(screening.getMovie());
 							}
 						}
-					}else {
+					} else {
 						movies = getAllOfType(Movie.class);
 					}
-				}else if(currentMsg.getActionType().equals("pull soon movies")) {
-					
+				} else if (currentMsg.getActionType().equals("pull soon movies")) {
+
 					movies = getAllOfType(Movie.class);
 					Iterator<Movie> iter = movies.iterator();
-					while(iter.hasNext()) {
+					while (iter.hasNext()) {
 						Movie movie = iter.next();
-						if(!movie.isScreening()) {
+						if (!movie.isScreening()) {
 							iter.remove();
 						}
 					}
 
-				}else{
-					
+				} else {
+
 					movies = getAllOfType(Movie.class);
 					Iterator<Movie> iter = movies.iterator();
-					while(iter.hasNext()) {
+					while (iter.hasNext()) {
 						Movie movie = iter.next();
-						if(!movie.isStreamOnline()) {
+						if (!movie.isStreamOnline()) {
 							iter.remove();
 						}
 					}
-					
+
 				}
 
-
-				if(currentMsg.getRate() != null) {
+				if (currentMsg.getRate() != null) {
 
 					Iterator<Movie> iter = movies.iterator();
 
-					while(iter.hasNext()) {
+					while (iter.hasNext()) {
 						Movie movie = iter.next();
-						if(Double.parseDouble(currentMsg.getRate()) != movie.getPopular()) {
-							iter.remove();
-						}
-					}
-				}
-				
-				if(currentMsg.getGenere() != null) {
-
-					Iterator<Movie> iter = movies.iterator();
-
-					while(iter.hasNext()) {
-						Movie movie = iter.next();
-						if(!movie.getGenre().contains(currentMsg.getGenere())) {
+						if (Double.parseDouble(currentMsg.getRate()) != movie.getPopular()) {
 							iter.remove();
 						}
 					}
 				}
 
-				if(currentMsg.getSearch() != null) {
+				if (currentMsg.getGenere() != null) {
 
 					Iterator<Movie> iter = movies.iterator();
 
-					while(iter.hasNext()) {
+					while (iter.hasNext()) {
 						Movie movie = iter.next();
-						if(!movie.getName().contains(currentMsg.getSearch())) {
+						if (!movie.getGenre().contains(currentMsg.getGenere())) {
+							iter.remove();
+						}
+					}
+				}
+
+				if (currentMsg.getSearch() != null) {
+
+					Iterator<Movie> iter = movies.iterator();
+
+					while (iter.hasNext()) {
+						Movie movie = iter.next();
+						if (!movie.getName().contains(currentMsg.getSearch())) {
 							iter.remove();
 						}
 					}
@@ -1181,13 +1214,12 @@ public class Main extends AbstractServer {
 				serverMsg.setMovies(movies);
 				client.sendToClient(serverMsg);
 
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant add movie");
 			}
 		}
 
-		if(currentMsg.getAction().equals("cancellation of purchase")) {
+		if (currentMsg.getAction().equals("cancellation of purchase")) {
 			try {
 				serverMsg = currentMsg;
 				serverMsg.getPurchase().getCinema().getCancelPurchases().add(serverMsg.getPurchase());
@@ -1196,142 +1228,133 @@ public class Main extends AbstractServer {
 				updateRowDB(serverMsg.getPurchase().getCinema());
 				serverMsg.setAction("got purchase cancelation by id");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant cancellation of purchase");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		if(currentMsg.getAction().equals("check purple limit")) {
+		if (currentMsg.getAction().equals("check purple limit")) {
 			try {
 				serverMsg = currentMsg;
-				Pair<Boolean,Integer> tavSagol = (PurpleLimitController.CheckPurpleLimit(serverMsg.getDateMovie()));
+				Pair<Boolean, Integer> tavSagol = (PurpleLimitController.CheckPurpleLimit(serverMsg.getDateMovie()));
 				serverMsg.setStatus(tavSagol.getKey());
 				serverMsg.setTavSagolLimit(tavSagol.getValue());
 				serverMsg.setAction("done check purple limit");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant check purple limit");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 
-		if(currentMsg.getAction().equals("selection of seats under restrictions")) {
+		if (currentMsg.getAction().equals("selection of seats under restrictions")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.setSeats(PurpleLimitController.SetSeatsPurpleLimit(serverMsg.getScreening(), serverMsg.getNumOfSeats()));
+				serverMsg.setSeats(
+						PurpleLimitController.SetSeatsPurpleLimit(serverMsg.getScreening(), serverMsg.getNumOfSeats()));
 				serverMsg.setAction("done selection of seats under restrictions");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant selection of seats under restrictions");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
-
 		}
-		if(currentMsg.getAction().equals("log out")) {
+		if (currentMsg.getAction().equals("log out")) {
 			try {
 				UserController.logUserOut(currentMsg);
 				serverMsg = new Message();
 				serverMsg.setAction("logged out");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant selection of seats under restrictions");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		if(currentMsg.getAction().equals("add viewing package")) {
+		if (currentMsg.getAction().equals("add viewing package")) {
 			try {
 				serverMsg = currentMsg;
 				saveRowInDB(serverMsg.getViewingPackage());
 				serverMsg.setAction("added viewing package");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant selection of seats under restrictions");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 
-		if(currentMsg.getAction().equals("cancel current order")) {
+		if (currentMsg.getAction().equals("cancel current order")) {
 			try {
 				serverMsg = currentMsg;
 				Screening screening = serverMsg.getScreening();
 				updateRowDB(screening);
 				serverMsg.setAction("canceled current order");
 				client.sendToClient(serverMsg);
+			} catch (IOException e) {
+				System.out.println("cant selection of seats under restrictions");
 			}
-			catch (IOException e) {
-				System.out.println("cant selection of seats under restrictions");}}
+		}
 
-		if(currentMsg.getAction().equals("get all cinemas")) {
+		if (currentMsg.getAction().equals("get all cinemas")) {
 			try {
 				serverMsg = currentMsg;
 				serverMsg.setCinemasArrayList(getAllOfType(Cinema.class));
 				serverMsg.setAction("got all cinemas");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant get all cinemas");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		if(currentMsg.getAction().equals("get all price request")) {
+		if (currentMsg.getAction().equals("get all price request")) {
 			try {
 				serverMsg = currentMsg;
 				serverMsg.setPriceRequestsArrayList(getAllOfType(PriceRequest.class));
 				serverMsg.setAction("got all price request");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant get all price request");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		if(currentMsg.getAction().equals("save price request")) {
+		if (currentMsg.getAction().equals("save price request")) {
 			try {
 				serverMsg = currentMsg;
 				saveRowInDB(serverMsg.getPriceRequestmsg());
 				serverMsg.setAction("done to save price request");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant save price request");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		if(currentMsg.getAction().equals("close complaint")) {
+		if (currentMsg.getAction().equals("close complaint")) {
 			try {
 				serverMsg = currentMsg;
 				updateRowDB(serverMsg.getComplaint());
 				serverMsg.setAction("done close complaint");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant close complaint");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		if(currentMsg.getAction().equals("get genres")) {
+		if (currentMsg.getAction().equals("get genres")) {
 			try {
 				serverMsg = new Message();
 				serverMsg.setGenres(genres);
 				serverMsg.setAction("got genres");
 				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				System.out.println("cant close complaint");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -1425,29 +1448,28 @@ public class Main extends AbstractServer {
 
 	}
 
-
-	//	public static <T> T getExacRow(Class<T> objectType , int id) {
-	//		T t = null;
-	//		try {
-	//			session = sessionFactory.openSession();
-	//			session.beginTransaction();
-	//			
-	//			//System.out.println(12);
-	//			t = session.load(objectType , id);
-	//			System.out.println(((Cinema)t).getName());
-	//		}catch (Exception e) {
-	//			e.printStackTrace();
-	//			if (session != null) {
-	//				session.getTransaction().rollback();
-	//			}
-	//			System.out.println("exan row loader");
-	//		}
-	//		finally {
-	//			session.close();
-	//		}
-	//		
-	//		return t;
-	//		
-	//	}
+	// public static <T> T getExacRow(Class<T> objectType , int id) {
+	// T t = null;
+	// try {
+	// session = sessionFactory.openSession();
+	// session.beginTransaction();
+	//
+	// //System.out.println(12);
+	// t = session.load(objectType , id);
+	// System.out.println(((Cinema)t).getName());
+	// }catch (Exception e) {
+	// e.printStackTrace();
+	// if (session != null) {
+	// session.getTransaction().rollback();
+	// }
+	// System.out.println("exan row loader");
+	// }
+	// finally {
+	// session.close();
+	// }
+	//
+	// return t;
+	//
+	// }
 
 }

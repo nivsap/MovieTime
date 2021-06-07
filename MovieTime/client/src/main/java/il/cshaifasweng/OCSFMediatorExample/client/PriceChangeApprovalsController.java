@@ -1,6 +1,7 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -24,7 +25,10 @@ public class PriceChangeApprovalsController {
 
 	private PriceRequest request;
 	private String Text;
+	private Double price;
 	private ArrayList<PriceRequest> requests;
+	private LocalDate date;
+	
 	ObservableList<String> list = FXCollections.observableArrayList("Approve", "Denied");
 	@FXML
 	private ResourceBundle resources;
@@ -87,7 +91,28 @@ public class PriceChangeApprovalsController {
 
 	@FXML
 	void SubBtn(ActionEvent event) {
+		if(Text.equals("Approve"))
+		{
+			request.setOpen(false);
+			request.getCinema().setMoviePrice(request.getNewPrice());
+			try {
+				App.setContent("PriceChangeApprovals");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
+		if(Text.equals("Denied"))
+		{
+			request.setOpen(false);
+			try {
+				App.setContent("PriceChangeApprovals");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@FXML
@@ -143,6 +168,21 @@ public class PriceChangeApprovalsController {
 	void textSetter()
 	{
 		numRequestShow.setText(String.valueOf(requests.size()));
+		date = request.getRequestDate();
+		price = request.getNewPrice();
+		ShowTheNewPrice.setText(String.valueOf(price));
+		if(request.isMovie())
+		{
+			RequestTypeShow.setText("Movie");
+		}
+		else
+		{
+			RequestTypeShow.setText("not Movie");
+		}
+		ReasonShow.setText(request.getCommentString());
+		DateShow.setText(date.toString());
+		ShowTheOldPrice.setText(String.valueOf(request.getCinema().getMoviePrice()));
+		
 	}
 
 	@Subscribe
@@ -150,9 +190,14 @@ public class PriceChangeApprovalsController {
 		EventBus.getDefault().unregister(this);
 		if (msg.getAction().equals("got all price request")) {
 			Platform.runLater(() -> {
-				System.out.println(msg);
 				requests = msg.getPriceRequestsArrayList();
-				System.out.println(requests.size());
+				for(PriceRequest priceReq : requests)
+				{
+					if(priceReq.isOpen())
+					{
+						request = priceReq;
+					}
+				}
 				textSetter();
 				
 			});

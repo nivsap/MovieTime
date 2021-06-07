@@ -51,10 +51,22 @@ public class Main extends AbstractServer {
 	private static Session session;
 	public static SessionFactory sessionFactory = getSessionFactory();
 	Message serverMsg;
-
+	private ArrayList<String> genres = new ArrayList<String>();
 	public Main(int port) {
 
+		
+		
 		super(port);
+		
+		genres.add("Action");
+		genres.add("Drama");
+		genres.add("Adventure");
+		genres.add("Mystery");
+		genres.add("Crime");
+		genres.add("Fantasy");
+		genres.add("Horror");
+		genres.add("Comedy");
+		genres.add("Animation");
 	}
 
 	public static SessionFactory getSessionFactory() throws HibernateException {
@@ -114,6 +126,7 @@ public class Main extends AbstractServer {
 					true, false,
 					"After the devastating events of Avengers: Infinity War (2018), the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe.",
 					"Robert Downey Jr., Chris Evans, Mark Ruffalo", getTime(2019, 4, 26), 50, "Anthony Russo, Joe Russo", null, false, new ArrayList<>(), true);
+
 			Movie sherlockHolmes = new Movie("Sherlock Holmes", "2h 8min", 4.5, "Action   •   Adventure   •   Mystery",
 					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/SherlockHolmes.jpg", picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/SherlockHolmes.png", movieStartTimes, true, false,
 					"Detective Sherlock Holmes and his stalwart partner Watson engage in a battle of wits and brawn with a nemesis whose plot is a threat to all of England.",
@@ -1080,25 +1093,48 @@ public class Main extends AbstractServer {
 		if(currentMsg.getAction().equals("search bar update")) {
 			try {
 				ArrayList<Movie> movies = new ArrayList<Movie>();
-				List<Screening> screenings = getAllOfType(Screening.class);
-
-				if(currentMsg.getTheater() != null) {
-					Iterator<Screening> iters = screenings.iterator();
-					while(iters.hasNext()) {
-						Screening s = iters.next();
-						if(!s.getCinema().getName().equals(currentMsg.getTheater())) {
-							System.out.println("removed screening in search bar update");
-							iters.remove();
+				if(!currentMsg.getActionType().equals("pull movies from home")) {
+					List<Screening> screenings = getAllOfType(Screening.class);
+	
+					if(currentMsg.getTheater() != null) {
+						Iterator<Screening> iters = screenings.iterator();
+						while(iters.hasNext()) {
+							Screening s = iters.next();
+							if(!s.getCinema().getName().equals(currentMsg.getTheater())) {
+								iters.remove();
+							}
 						}
-					}
-
-					for(Screening screening : screenings) {
-						if(!movies.contains(screening.getMovie())){
-							movies.add(screening.getMovie());
+	
+						for(Screening screening : screenings) {
+							if(!movies.contains(screening.getMovie())){
+								movies.add(screening.getMovie());
+							}
 						}
+					}else {
+						movies = getAllOfType(Movie.class);
 					}
-				}else {
+				}else if(currentMsg.getActionType().equals("pull soon movies")) {
+					
 					movies = getAllOfType(Movie.class);
+					Iterator<Movie> iter = movies.iterator();
+					while(iter.hasNext()) {
+						Movie movie = iter.next();
+						if(!movie.isScreening()) {
+							iter.remove();
+						}
+					}
+
+				}else{
+					
+					movies = getAllOfType(Movie.class);
+					Iterator<Movie> iter = movies.iterator();
+					while(iter.hasNext()) {
+						Movie movie = iter.next();
+						if(!movie.isStreamOnline()) {
+							iter.remove();
+						}
+					}
+					
 				}
 
 
@@ -1109,6 +1145,18 @@ public class Main extends AbstractServer {
 					while(iter.hasNext()) {
 						Movie movie = iter.next();
 						if(Double.parseDouble(currentMsg.getRate()) != movie.getPopular()) {
+							iter.remove();
+						}
+					}
+				}
+				
+				if(currentMsg.getGenere() != null) {
+
+					Iterator<Movie> iter = movies.iterator();
+
+					while(iter.hasNext()) {
+						Movie movie = iter.next();
+						if(!movie.getGenre().contains(currentMsg.getGenere())) {
 							iter.remove();
 						}
 					}
@@ -1127,7 +1175,7 @@ public class Main extends AbstractServer {
 				}
 
 				Message serverMsg = new Message();
-				serverMsg.setAction("got screening movies");
+				serverMsg.setAction(currentMsg.getMoviesType());
 				serverMsg.setMovies(movies);
 				client.sendToClient(serverMsg);
 
@@ -1266,6 +1314,19 @@ public class Main extends AbstractServer {
 				serverMsg = currentMsg;
 				updateRowDB(serverMsg.getComplaint());
 				serverMsg.setAction("done close complaint");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant close complaint");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("get genres")) {
+			try {
+				serverMsg = new Message();
+				serverMsg.setGenres(genres);
+				serverMsg.setAction("got genres");
 				client.sendToClient(serverMsg);
 			}
 			catch (IOException e) {

@@ -1,5 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
@@ -14,7 +15,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 @Entity
 @Table(name = "PriceRequest")
-public class PriceRequest {
+public class PriceRequest implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;

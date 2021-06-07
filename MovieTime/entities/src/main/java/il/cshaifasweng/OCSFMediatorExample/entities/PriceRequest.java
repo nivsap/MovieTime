@@ -41,6 +41,7 @@ public class PriceRequest implements Serializable {
 		this.newPrice = newPrice;
 		this.isOpen = isOpen;
 	}
+	public PriceRequest() {}
 	public int getId() {
 		return id;
 	}

@@ -126,7 +126,8 @@ public class PriceChangeApprovalsController {
 				: "fx:id=\"DateShow\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
 		assert numRequestShow != null
 				: "fx:id=\"numRequestShow\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
-
+		
+		EventBus.getDefault().register(this);
 		Message msg = new Message();
 		msg.setAction("get all price request");
 		try {
@@ -149,7 +150,9 @@ public class PriceChangeApprovalsController {
 		EventBus.getDefault().unregister(this);
 		if (msg.getAction().equals("got all price request")) {
 			Platform.runLater(() -> {
+				System.out.println(msg);
 				requests = msg.getPriceRequestsArrayList();
+				System.out.println(requests.size());
 				textSetter();
 				
 			});

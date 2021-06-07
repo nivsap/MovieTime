@@ -318,7 +318,9 @@ public class Main extends AbstractServer {
 			Complaint someComplaint2 = new Complaint("Niv", "Sapir", "shiravneri@gmail.com", "0523456789", Complaint.getComplaintTypes()[1], "I want to complain", "I am very upset", true, customer1, telAvivCinema);
 			Complaint someComplaint3 = new Complaint("Hadar", "Manor", "shiravneri@gmail.com", "0523456789", Complaint.getComplaintTypes()[2], "Some title", "Some details", false, customer1, haifaCinema);
 			//Purchase customer = new Purchase("Hadar", "Manor", "Some title", "Some details" , "12312312",new Pair<Boolean, Integer>(true, 20),false,null,null,null,new ArrayList<>(),10,null);
+			PriceRequest request = new PriceRequest(null, telAvivCinema, true, "becasue", 80, true);
 			//session.save(customer);
+			session.save(request);
 			session.save(someComplaint1);
 			session.save(someComplaint2);
 			session.save(someComplaint3);

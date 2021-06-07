@@ -4,7 +4,6 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -23,29 +22,28 @@
          </AnchorPane>
          <AnchorPane layoutY="240.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="700.0" style="-fx-background-color: #141518;">
             <children>
-               <Label layoutX="15.0" layoutY="5.0" style="-fx-font-weight: bold;" text="Price Change Info" textFill="WHITE">
+               <Label layoutX="15.0" layoutY="5.0" style="-fx-font-weight: bold;" text="Price Change Request Info" textFill="WHITE">
                   <font>
                      <Font size="18.0" />
                   </font>
                </Label>
-               <Label fx:id="PendintAlert" layoutX="282.0" layoutY="91.0" text="No pending requests" textFill="#eb0000" />
-               <Button fx:id="PendingBtn" alignment="CENTER" layoutX="263.0" layoutY="58.0" mnemonicParsing="false" onAction="#PendReq" prefWidth="150.0" styleClass="orangeBtn" text="Pending Request" />
-               <Label fx:id="DateTitle" layoutX="47.0" layoutY="135.0" text="Date Of Request" textFill="WHITE" />
-               <Label fx:id="RequestTitle" layoutX="207.0" layoutY="135.0" text="Request Type" textFill="#f8f8f8" />
-               <Label fx:id="OldPriceTitle" layoutX="366.0" layoutY="135.0" text="Previous Price" textFill="WHITE" />
-               <Label fx:id="NewPriceTitle" layoutX="522.0" layoutY="135.0" text="New Price" textFill="WHITE" />
-               <Label fx:id="ReasonTitle" layoutX="38.0" layoutY="207.0" text="Reason For Request" textFill="#fcfcfc" />
-               <TextArea fx:id="CommentBox" layoutX="38.0" layoutY="299.0" prefHeight="103.0" prefWidth="276.0" />
-               <Label fx:id="CommentTitle" layoutX="38.0" layoutY="276.0" text="Comments" textFill="WHITE" />
-               <TextField fx:id="DateOfRequest" layoutX="22.0" layoutY="152.0" />
-               <TextField fx:id="RequestType" layoutX="182.0" layoutY="152.0" />
-               <TextField fx:id="ReasonField" layoutX="22.0" layoutY="230.0" />
-               <ComboBox fx:id="decisionBox" layoutX="188.0" layoutY="230.0" onAction="#ShowApproveDenied" prefWidth="150.0" promptText="Approved/Denied" />
-               <Button fx:id="PendingBtn1" alignment="CENTER" layoutX="350.0" layoutY="338.0" mnemonicParsing="false" onAction="#SubBtn" prefWidth="150.0" styleClass="orangeBtn" text="Submit " />
-               <Label fx:id="SubmitAlert" layoutX="369.0" layoutY="373.0" text="Nothing To Submit" textFill="#eb0000" />
-               <Label fx:id="ShowTheOldPrice" layoutX="366.0" layoutY="156.0" text="Previous Price" textFill="WHITE" />
-               <Label fx:id="ShowTheNewPrice" layoutX="522.0" layoutY="156.0" text="New Price" textFill="WHITE" />
-               <Label fx:id="DecisionTitle" layoutX="197.0" layoutY="207.0" text="Decision" textFill="#fcfcfc" />
+               <Label fx:id="DateTitle" layoutX="47.0" layoutY="97.0" text="Date Of Request" textFill="WHITE" />
+               <Label fx:id="RequestTitle" layoutX="206.0" layoutY="97.0" text="Request Type" textFill="#f8f8f8" />
+               <Label fx:id="OldPriceTitle" layoutX="322.0" layoutY="97.0" text="Previous Price" textFill="WHITE" />
+               <Label fx:id="NewPriceTitle" layoutX="445.0" layoutY="97.0" text="New Price" textFill="WHITE" />
+               <Label fx:id="ReasonTitle" layoutX="44.0" layoutY="159.0" text="Reason For Request" textFill="#fcfcfc" />
+               <TextArea fx:id="CommentBox" layoutX="38.0" layoutY="230.0" prefHeight="103.0" prefWidth="276.0" />
+               <Label fx:id="CommentTitle" layoutX="38.0" layoutY="213.0" text="Comments" textFill="WHITE" />
+               <ComboBox fx:id="decisionBox" layoutX="536.0" layoutY="123.0" onAction="#ShowApproveDenied" prefWidth="150.0" promptText="Approved/Denied" />
+               <Button fx:id="PendingBtn1" alignment="CENTER" layoutX="248.0" layoutY="378.0" mnemonicParsing="false" onAction="#SubBtn" prefWidth="150.0" styleClass="orangeBtn" text="Submit " />
+               <Label fx:id="ShowTheOldPrice" layoutX="322.0" layoutY="127.0" text="Previous Price" textFill="WHITE" />
+               <Label fx:id="ShowTheNewPrice" layoutX="445.0" layoutY="127.0" text="New Price" textFill="WHITE" />
+               <Label fx:id="DecisionTitle" layoutX="589.0" layoutY="97.0" text="Decision" textFill="#fcfcfc" />
+               <Label fx:id="numRequestLabel" layoutX="242.0" layoutY="51.0" text="Num of Requests" textFill="#f8f8f8" />
+               <Label fx:id="ReasonShow" layoutX="44.0" layoutY="182.0" prefHeight="17.0" prefWidth="289.0" text="Reason For Request" textFill="#fcfcfc" />
+               <Label fx:id="RequestTypeShow" layoutX="206.0" layoutY="127.0" text="Request Type" textFill="#f8f8f8" />
+               <Label fx:id="DateShow" layoutX="47.0" layoutY="127.0" text="Date Of Request" textFill="WHITE" />
+               <Label fx:id="numRequestShow" layoutX="350.0" layoutY="51.0" prefHeight="17.0" prefWidth="45.0" text="Num" textFill="#f8f8f8" />
             </children>
          </AnchorPane>
       </children>

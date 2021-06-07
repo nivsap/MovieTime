@@ -93,6 +93,7 @@ public class PriceChangeApprovalsController {
 	@FXML
 	void SubBtn(ActionEvent event) {
 		Message msg = new Message();
+		
 		if (Text.equals("Approve")) {
 			request.setOpen(false);
 			request.getCinema().setMoviePrice(request.getNewPrice());

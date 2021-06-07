@@ -96,7 +96,8 @@ public class PriceChangeApprovalsController {
 			request.setOpen(false);
 			request.getCinema().setMoviePrice(request.getNewPrice());
 			try {
-				App.setContent("PriceChangeApprovals");
+		    	App.setWindowTitle(PageTitles.PriceChangePage);
+		    	App.setContent("PriceChangeApprovals");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -107,7 +108,8 @@ public class PriceChangeApprovalsController {
 		{
 			request.setOpen(false);
 			try {
-				App.setContent("PriceChangeApprovals");
+		    	App.setWindowTitle(PageTitles.PriceChangePage);
+		    	App.setContent("PriceChangeApprovals");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -196,9 +198,10 @@ public class PriceChangeApprovalsController {
 					if(priceReq.isOpen())
 					{
 						request = priceReq;
+						textSetter();
 					}
 				}
-				textSetter();
+				
 				
 			});
 

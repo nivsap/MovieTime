@@ -109,10 +109,10 @@ public class Main extends AbstractServer {
 			Worker asafWorker = new CustomerService("asaf", "asaf", "asaf", "asaf", null, false, false,
 					new Pair<LocalDateTime, LocalDateTime>(getTime(2021, 1, 1), getTime(2021, 3, 4)), 40);
 			Worker hadarWorker = new NetworkAdministrator("hadar", "hadar", "hadar", "hadar", null, false);
-			PriceRequest priceRequest = new PriceRequest(null, null, false, null, 10, false);
+			//PriceRequest priceRequest = new PriceRequest(null, null, false, null, 10, false);
 			// lielWorker.getPriceRequests().add(priceRequest);
 			// System.out.println(lielWorker.getPriceRequests().get(0).getNewPrice());
-			session.save(priceRequest);
+			//session.save(priceRequest);
 
 			// create movie
 

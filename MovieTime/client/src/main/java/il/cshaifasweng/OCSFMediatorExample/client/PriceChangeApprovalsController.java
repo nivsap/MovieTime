@@ -1,9 +1,16 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import il.cshaifasweng.OCSFMediatorExample.entities.Cinema;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.PriceRequest;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,6 +23,8 @@ import javafx.scene.control.TextArea;
 public class PriceChangeApprovalsController {
 
 	private PriceRequest request;
+	private String Text;
+	private ArrayList<PriceRequest> requests;
 	ObservableList<String> list = FXCollections.observableArrayList("Approve", "Denied");
 	@FXML
 	private ResourceBundle resources;
@@ -73,12 +82,12 @@ public class PriceChangeApprovalsController {
 
 	@FXML
 	void ShowApproveDenied(ActionEvent event) {
-
+		Text = decisionBox.getValue();
 	}
 
 	@FXML
 	void SubBtn(ActionEvent event) {
-
+		
 	}
 
 	@FXML
@@ -117,9 +126,30 @@ public class PriceChangeApprovalsController {
 				: "fx:id=\"DateShow\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
 		assert numRequestShow != null
 				: "fx:id=\"numRequestShow\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
-		
+
 		Message msg = new Message();
+		msg.setAction("get all price request");
+		try {
+			AppClient.getClient().sendToServer(msg);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		decisionBox.setItems(list);
 
 	}
+
+	@Subscribe
+	public void onMessageEvent(Message msg) {
+		EventBus.getDefault().unregister(this);
+		if (msg.getAction().equals("got all price request")) {
+			Platform.runLater(() -> {
+				requests = msg.getPriceRequestsArrayList();
+				numRequestShow.setText(String.valueOf(requests.size()));
+				
+			});
+
+		}
+	}
+
 }

@@ -36,19 +36,20 @@
             <children>
                <AnchorPane layoutX="190.0" layoutY="25.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="320.0" style="-fx-background-color: #141518;">
                   <children>
-                     <Rectangle arcHeight="5.0" arcWidth="5.0" height="300.0" opacity="0.3" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="320.0" />
-                     <Label fx:id="movieDescription" alignment="TOP_LEFT" layoutX="10.0" layoutY="105.0" prefHeight="95.0" prefWidth="300.0" text="Movie Description" textFill="WHITE" />
-                     <Label fx:id="movieDuration" contentDisplay="CENTER" layoutX="10.0" layoutY="260.0" prefHeight="30.0" prefWidth="140.0" text="Movie Duration" textAlignment="CENTER" textFill="WHITE" />
-                     <Label fx:id="movieLaunchDate" alignment="CENTER_RIGHT" layoutX="170.0" layoutY="260.0" prefHeight="30.0" prefWidth="140.0" text="Movie Launch Date" textFill="WHITE" />
-                     <Label fx:id="movieMainActors" alignment="TOP_LEFT" layoutX="10.0" layoutY="230.0" prefHeight="30.0" prefWidth="300.0" text="Movie Main Actors" textFill="WHITE" />
-                     <Label fx:id="movieNameSecond" alignment="BOTTOM_CENTER" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="300.0" style="-fx-font-weight: bold;" text="Movie Name" textFill="WHITE">
+                     <Label fx:id="movieNameSecond" alignment="BOTTOM_CENTER" layoutX="10.0" layoutY="10.0" prefWidth="300.0" style="-fx-font-weight: bold;" text="Movie Name" textFill="WHITE">
                         <font>
                            <Font size="18.0" />
                         </font>
                      </Label>
-                     <Label fx:id="movieGenreSecond" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="40.0" prefHeight="25.0" prefWidth="300.0" style="-fx-font-weight: bold;" text="Movie Genre" textFill="WHITE" />
-                     <Label layoutX="10.0" layoutY="85.0" style="-fx-font-weight: bold;" text="Movie Description" textFill="WHITE" />
-                     <Label layoutX="10.0" layoutY="210.0" style="-fx-font-weight: bold;" text="Main Actors" textFill="WHITE" />
+                     <Label fx:id="movieGenreSecond" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="35.0" prefWidth="300.0" style="-fx-font-weight: bold;" text="Movie Genre" textFill="WHITE" />
+                     <Label layoutX="10.0" layoutY="60.0" style="-fx-font-weight: bold;" text="Movie Description" textFill="WHITE" />
+                     <Label fx:id="movieDescription" alignment="TOP_LEFT" layoutX="10.0" layoutY="80.0" prefHeight="85.0" prefWidth="300.0" text="Movie Description" textFill="WHITE" wrapText="true" />
+                     <Label layoutX="10.0" layoutY="175.0" style="-fx-font-weight: bold;" text="Producers" textFill="WHITE" />
+                     <Label fx:id="movieProducers" alignment="TOP_LEFT" layoutX="10.0" layoutY="195.0" prefWidth="300.0" text="Movie Producers" textFill="WHITE" />
+                     <Label layoutX="10.0" layoutY="225.0" style="-fx-font-weight: bold;" text="Main Actors" textFill="WHITE" />
+                     <Label fx:id="movieMainActors" alignment="TOP_LEFT" layoutX="10.0" layoutY="245.0" prefWidth="300.0" text="Movie Main Actors" textFill="WHITE" />
+                     <Label fx:id="movieDuration" contentDisplay="CENTER" layoutX="10.0" layoutY="275.0" prefHeight="10.0" prefWidth="140.0" text="Movie Duration" textAlignment="CENTER" textFill="WHITE" />
+                     <Label fx:id="movieLaunchDate" alignment="CENTER_RIGHT" layoutX="170.0" layoutY="275.0" prefHeight="10.0" prefWidth="140.0" text="Movie Launch Date" textFill="WHITE" />
                   </children>
                </AnchorPane>
             </children>

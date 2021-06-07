@@ -16,78 +16,133 @@ import javafx.scene.layout.VBox;
 
 public class SearchBarController {
 
-    @FXML
-    private VBox SearchBarContainer;
+	private int purchaseType;
+	private String moviesType;
+	private Boolean disableCards;
+	private String actionType;
+	private CardContainerController cardController;
+	@FXML
+	private VBox SearchBarContainer;
 
-    @FXML
-    private TextField mainSearchBar;
+	@FXML
+	private TextField mainSearchBar;
 
-    @FXML
-    private ComboBox<String> genreComboBox;
+	@FXML
+	private ComboBox<String> genreComboBox;
 
-    @FXML
-    private ComboBox<String> theaterComboBox;
+	@FXML
+	private ComboBox<String> theaterComboBox;
 
-    @FXML
-    private ComboBox<String> rateComboBox;
-    
-    
-    
-    @FXML
+	@FXML
+	private ComboBox<String> rateComboBox;
+
+
+
+	@FXML
 	public void initialize() {
-		//EventBus.getDefault().register(this);
-    	genreComboBox.getItems().clear();
-    	theaterComboBox.getItems().clear();
-    	rateComboBox.getItems().clear();
-    	theaterComboBox.getItems().addAll("Haifa","Tel-Aviv");
-    	rateComboBox.getItems().addAll("5.0","4.5","4.0","3.5","3.0","2.5");
-    	
-    	
-    	
-	}
-    
-	/*
-	 * @Subscribe public void onMessageEvent(Message msg) {
-	 * 
-	 * 
-	 * if(msg.getAction().equals("got screening movies")) {
-	 * EventBus.getDefault().unregister(this); Platform.runLater(()-> {
-	 * ArrayList<Movie> movies = msg.getMovies();
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * }); } }
-	 */
-    
-    
-    
-    @FXML
-    void onComboBoxEvent() {
-    	Message msg = new Message();
-    	msg.setAction("search bar update");
-    	msg.setGenere(genreComboBox.getValue());
-    	msg.setTheater(theaterComboBox.getValue());
-    	msg.setRate(rateComboBox.getValue());
-    	msg.setSearch(mainSearchBar.getText());
-    	try {
+		EventBus.getDefault().register(this);
+		genreComboBox.getItems().clear();
+		theaterComboBox.getItems().clear();
+		rateComboBox.getItems().clear();
+		theaterComboBox.getItems().addAll("Haifa","Tel-Aviv");
+		rateComboBox.getItems().addAll("5.0","4.5","4.0","3.5","3.0","2.5");
+		Message msg = new Message();
+		msg.setAction("get genres");
+		try {
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+	}
+
+	
+	public void SetPageType(String namePage) {
+		System.out.println("3.55");
+		if(namePage.equals("MainPage")) {
+			System.out.println("3.6");
+    		disableCards = false;
+    		actionType = "pull screening movies";
+    		moviesType = "got screening movies";
+    		purchaseType = PurchaseTypes.TICKET;
+    		System.out.println("3.7");
+		}
+
+		if(namePage.equals("ViewingPackagesPage")) {
+			disableCards = false;
+			actionType = "pull movies from home";
+			moviesType = "got movies from home";
+			purchaseType = PurchaseTypes.VIEWING_PACKAGE;
+		}
+		if(namePage.equals("NetworkAdministratorMainPage")) {
+			disableCards = true;
+			actionType = "pull screening movies";
+			moviesType = "got screening movies";
+			purchaseType = PurchaseTypes.NOT_AVAILABLE;
+		}
+		if(namePage.equals("BranchManagerMainPage")) {
+			disableCards = true;
+			actionType = "pull screening movies";
+			moviesType = "got screening movies";
+			purchaseType = PurchaseTypes.NOT_AVAILABLE;
+		}
+		System.out.println("3.8");
+	}
+	
+	@Subscribe
+	public void OnMessageEvent(Message msg) {
+		if(msg.getAction().equals("got genres")) {
+			genreComboBox.getItems().clear();
+			EventBus.getDefault().unregister(this);
+			for(String genre : msg.getGenres()) {
+				genreComboBox.getItems().add(genre);
+			}
+		}
+		if(msg.getAction().equals(moviesType)) {
+			Platform.runLater(()-> {
+			EventBus.getDefault().unregister(this);
+			cardController.setMoviesBySearchBar(msg.getMovies());
+			});
+		}
+	}
+
+
+	public void setCardController(CardContainerController controller) {
+		this.cardController = controller;
+	}
+
+
+	@FXML
+	void onComboBoxEvent() {
+		Message msg = new Message();
+		msg.setAction("search bar update");
+		msg.setActionType(actionType);
+		msg.setMoviesType(moviesType);
+		msg.setGenere(genreComboBox.getValue());
+		msg.setTheater(theaterComboBox.getValue());
+		msg.setRate(rateComboBox.getValue());
+		msg.setSearch(mainSearchBar.getText());
+		try {
+			EventBus.getDefault().register(this);
+			AppClient.getClient().sendToServer(msg);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
 
 }

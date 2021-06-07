@@ -57,133 +57,139 @@ public class AppClient extends AbstractClient {
 		}
 		if (currentMsg.getAction().equals("got screening movies")) {
 			System.out.println("AppClient got screening movies");
-			EventBus.getDefault().post(currentMsg);
+			EventBus.getDefault().post(((Message) msg));
 		}
-		if (currentMsg.getAction().equals("sorted movies by genre")) {
-			EventBus.getDefault().post(currentMsg);
+		if (currentMsg.getAction().equals("sorted movies by genre"))
+		{
+			EventBus.getDefault().post(((Message) msg));
 		}
-		if (currentMsg.getAction().equals("done to sort by date")) {
-			EventBus.getDefault().post(currentMsg);
+		if (currentMsg.getAction().equals("done to sort by date"))
+		{
+			EventBus.getDefault().post(((Message) msg));
 		}
-		if (currentMsg.getAction().equals("done to sort by popular")) {
-			EventBus.getDefault().post(currentMsg);
+		if (currentMsg.getAction().equals("done to sort by popular"))
+		{
+			EventBus.getDefault().post(((Message) msg));
 		}
-		if (currentMsg.getAction().equals("got movies from home")) {
-			EventBus.getDefault().post(currentMsg);
+		if (currentMsg.getAction().equals("got movies from home"))
+		{
+			EventBus.getDefault().post(((Message) msg));
 		}
-		if (currentMsg.getAction().equals("picking chair is done")) {
-			EventBus.getDefault().post(currentMsg);
+		if (currentMsg.getAction().equals("picking chair is done"))
+		{
+			EventBus.getDefault().post(((Message) msg));
 		}
-		if (currentMsg.getAction().equals("set client")) {
-			EventBus.getDefault().post(currentMsg);
+		if (currentMsg.getAction().equals("set client"))
+		{
+			EventBus.getDefault().post(((Message) msg));
 		}
-		if (currentMsg.getAction().equals("update movie error")) {
-			EventBus.getDefault().post(currentMsg);
-		}
-
-		if (currentMsg.getAction().equals("got genre screening movies")) {
-			EventBus.getDefault().post(currentMsg);
-		}
-		if (currentMsg.getAction().equals("got movies from home")) {
-			EventBus.getDefault().post(currentMsg);
-		}
-		if (currentMsg.getAction().equals("picking seats success")) {
-			EventBus.getDefault().post(currentMsg);
-		}
-		if (currentMsg.getAction().equals("picking seats error")) {
-			EventBus.getDefault().post(currentMsg);
-		}
-		if (currentMsg.getAction().equals("save customer done")) {
-			EventBus.getDefault().post(currentMsg);
-
-		}
-		if (currentMsg.getAction().equals("sent successful purchase mail")) {
-			EventBus.getDefault().post(currentMsg);
-		}
-		if (currentMsg.getAction().equals("sent purchase cancellation mail")) {
-			EventBus.getDefault().post(currentMsg);
-		}
-		if (currentMsg.getAction().equals("got all screenings")) {
-			EventBus.getDefault().post(currentMsg);
-		}
-		if (currentMsg.getAction().equals("got purchase by id")) {
-			EventBus.getDefault().post(currentMsg);
+		if (currentMsg.getAction().equals("update movie error"))
+		{
+			EventBus.getDefault().post(((Message) msg));
 		}
 
-		if (currentMsg.getAction().equals("got purchase cancelation by id")) {
-			EventBus.getDefault().post(currentMsg);
+		if (currentMsg.getAction().equals("got genre screening movies"))
+		{
+			EventBus.getDefault().post(((Message) msg));
 		}
-		if (currentMsg.getAction().equals("added movie")) {
-			EventBus.getDefault().post(currentMsg);
+		if (currentMsg.getAction().equals("got movies from home"))
+		{
+			EventBus.getDefault().post(((Message) msg));
 		}
-		if (currentMsg.getAction().equals("deleted movie")) {
-			EventBus.getDefault().post(currentMsg);
+		if (currentMsg.getAction().equals("picking seats success"))
+		{
+			EventBus.getDefault().post(((Message) msg));
 		}
-		if (currentMsg.getAction().equals("done selection of seats under restrictions")) {
-			EventBus.getDefault().post(currentMsg);
+		if (currentMsg.getAction().equals("picking seats error"))
+		{
+			EventBus.getDefault().post(((Message) msg));
 		}
-		if (currentMsg.getAction().equals("check purple limit")) {
-			EventBus.getDefault().post(currentMsg);
-		}
-		if (currentMsg.getAction().equals("delete a viewing package")) {
-			EventBus.getDefault().post(currentMsg);
-		}
-		if (currentMsg.getAction().equals("set purple limit")) {
-			EventBus.getDefault().post(currentMsg);
-		}
-		if (currentMsg.getAction().equals("cancellation of purchase")) {
-			EventBus.getDefault().post(currentMsg);
-		}
-		if (currentMsg.getAction().equals("got purchases")) {
-			EventBus.getDefault().post(currentMsg);
-		}
-		if (currentMsg.getAction().equals("got cinemas and purchases and complaints")) {
-			EventBus.getDefault().post(currentMsg);
-		}
-		if (currentMsg.getAction().equals("got complaints")) {
+		if(currentMsg.getAction().equals("save customer done")) {
+			EventBus.getDefault().post(((Message) msg));
 
-			EventBus.getDefault().post(currentMsg);
 		}
-		if (currentMsg.getAction().equals("got purple limit")) {
+	    if(currentMsg.getAction().equals("sent successful purchase mail")) {
+	    		EventBus.getDefault().post(((Message) msg));
+	    }
+	    if(currentMsg.getAction().equals("sent purchase cancellation mail")) {
+    		EventBus.getDefault().post(((Message) msg));
+	    } 
+	    if(currentMsg.getAction().equals("got all screenings")) {
+    		EventBus.getDefault().post(((Message) msg));
+	    }
+		if(currentMsg.getAction().equals("got purchase by id")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	}
+    	
+    	if(currentMsg.getAction().equals("got purchase cancelation by id")) {
+//
+    		EventBus.getDefault().post(((Message) msg));
+    	}
+    	if(currentMsg.getAction().equals("added movie")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	} 	
+     	if(currentMsg.getAction().equals("deleted movie")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	}
+     	if(currentMsg.getAction().equals("done selection of seats under restrictions")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	} 	
+    	if(currentMsg.getAction().equals("check purple limit")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	} 	
+    	if(currentMsg.getAction().equals("delete a viewing package")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	} 	
+    	if(currentMsg.getAction().equals("set purple limit")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	} 
+    	if(currentMsg.getAction().equals("cancellation of purchase")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	} 
+    	if(currentMsg.getAction().equals("got purchases")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	} 
+    	if(currentMsg.getAction().equals("got cinemas and purchases and complaints")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	} 
+    	if(currentMsg.getAction().equals("got complaints")) {
 
-			EventBus.getDefault().post(currentMsg);
-		}
-		if (currentMsg.getAction().equals("logged out")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	}
+    	if(currentMsg.getAction().equals("got purple limit")) {
 
-			EventBus.getDefault().post(currentMsg);
-		}
-		if (currentMsg.getAction().equals("added viewing package")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	}
+    	if(currentMsg.getAction().equals("logged out")) {
 
-			EventBus.getDefault().post(currentMsg);
-		}
-		if (currentMsg.getAction().equals("done check purple limit")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	}
+    	if(currentMsg.getAction().equals("added viewing package")) {
 
-			EventBus.getDefault().post(currentMsg);
-		}
-		if (currentMsg.getAction().equals("canceled current order")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	}
+    	if(currentMsg.getAction().equals("done check purple limit")) {
 
-			EventBus.getDefault().post(currentMsg);
-		}
+    		EventBus.getDefault().post(((Message) msg));
+    	}
+    	if(currentMsg.getAction().equals("canceled current order")) {
 
-		if (currentMsg.getAction().equals("got all cinemas")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	}
+    	if(currentMsg.getAction().equals("got genres")) {
 
-			EventBus.getDefault().post(currentMsg);
-		}
+    		EventBus.getDefault().post(((Message) msg));
+    	}if(currentMsg.getAction().equals("done to save price request")) {
 
-		if (currentMsg.getAction().equals("done to save price request")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	}if(currentMsg.getAction().equals("got all price request")) {
 
-			EventBus.getDefault().post(currentMsg);
-		}
+    		EventBus.getDefault().post(((Message) msg));
+    	}if(currentMsg.getAction().equals("got all cinemas")) {
 
-		if (currentMsg.getAction().equals("got genres")) {
-
-			EventBus.getDefault().post(currentMsg);
-		}
-
-		if (currentMsg.getAction().equals("got all price request")) {
-
-			EventBus.getDefault().post(currentMsg);
-		}
+    		EventBus.getDefault().post(((Message) msg));
+    	}
+  
 
 	}
 

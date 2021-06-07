@@ -33,7 +33,6 @@ public class ComingSoonSearchBarController {
 	public void initialize() {
 		// TODO Auto-generated method stub
 		EventBus.getDefault().register(this);
-		genreComboBox.getItems().clear();
 		disableCards = false;
 		actionType = "pull soon movies";
 		moviesType = "got soon movies";
@@ -70,17 +69,15 @@ public class ComingSoonSearchBarController {
 	@Subscribe
 	public void onMessageEvent(Message msg) {
 		if(msg.getAction().equals("got genres")) {
-			EventBus.getDefault().register(this);
-			genreComboBox.getItems().clear();
 			EventBus.getDefault().unregister(this);
+			genreComboBox.getItems().clear();
 			for(String genre : msg.getGenres()) {
 				genreComboBox.getItems().add(genre);
 			}
 		}
 		if(msg.getAction().equals(moviesType)) {
-			EventBus.getDefault().register(this);
-			Platform.runLater(()-> {
 			EventBus.getDefault().unregister(this);
+			Platform.runLater(()-> {
 			cardController.setMoviesBySearchBar(msg.getMovies());
 			});
 		}

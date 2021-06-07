@@ -408,73 +408,22 @@ public class Main extends AbstractServer {
 		}
 		addDataToDB();
 		List<Purchase> list = getAllOfType(Purchase.class);
-		System.out.println(LocalDateTime.now());
-		Thread timerThread = new Thread(() -> {
-			// SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy
-			// HH:mm:ss");
-			while (true) {
-				for (Purchase i : list) {
-					if (i.getViewingPackage().getDateTime().getDayOfYear() == LocalDateTime.now().getDayOfYear()
-							&& i.getViewingPackage().getDateTime().getHour() - 1 == LocalDateTime.now().getHour()
-							&& i.getViewingPackage().getDateTime().getMinute() == LocalDateTime.now().getMinute()) {
-						JavaMailUtil.sendMessage(i.getEmailOrder(), "hadye", "hadye");
-					}
-				}
-				// final String time = simpleDateFormat.format(new Date());
-				// time_text.setText(time);
-				// System.out.println(time);
-				try {
-					Thread.sleep(35000); // 35 second
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		timerThread.start();
-
-		// Iterator<Purchase> iter = list.iterator();
-//		while(true) {
-//		while(iter.hasNext()){
-//			Purchase  purchase = iter.next();
-//            Thread th = new Thread() {
-//                @Override
-//                public void run() {
-//                    if(purchase.getViewingPackage().getDateTime().getDayOfYear() == LocalDateTime.now().getDayOfYear() && purchase.getViewingPackage().getDateTime().getHour() - 1 == LocalDateTime.now().getHour() && purchase.getViewingPackage().getDateTime().getMinute() < LocalDateTime.now().getMinute()) {
-//                    	JavaMailUtil.sendMessage(purchase.getEmailOrder(), "hadye", "hadye");
-//                    }
-//                }
-//            };
-//            th.start();
-//		}}
-//		while(true) {
-//		   for (Purchase i : list) {
-//            Thread th = new Thread() {
-//            
-//                @Override
-//                public void run() {
-//                    if(i.getViewingPackage().getDateTime().getDayOfYear() == LocalDateTime.now().getDayOfYear() && i.getViewingPackage().getDateTime().getHour() - 1 == LocalDateTime.now().getHour() && i.getViewingPackage().getDateTime().getMinute() < LocalDateTime.now().getMinute()) {
-//                    	JavaMailUtil.sendMessage(i.getEmailOrder(), "hadye", "hadye");
-//                    	
-//                    }
-//                }
-//            };
-//            th.start();
-//        }
-//		}
-		// Purchase purchase = CustomerController.getID(10);
-		// ArrayList<Worker> lol= getAllOfType(Worker.class);
-		// for(Worker worker : lol) {
-		// if(worker instanceof ContentManager) {
-		// //worker.getPriceRequests().add(new PriceRequest(null, null, false, null, 10,
-		// false));
-		// //saveRowInDB(worker);
-		// System.out.println(worker.getPriceRequests().get(0).getNewPrice());
-		// }
-		// }
-		// PurpleLimitController.SetPurpleLimit(getTime(2021,1, 1), getTime(2021,3, 4));
-		// saveRowInDB(new Screening(LocalDateTime.now(), new Hall(), new Movie(), new
-		// Cinema()));
-
+		System.out.println( LocalDateTime.now());
+    	Thread timerThread = new Thread(() -> {
+    		while (true) {
+    			for (Purchase i : list) {
+    				if(i.getViewingPackage().getDateTime().getDayOfYear() == LocalDateTime.now().getDayOfYear() && i.getViewingPackage().getDateTime().getHour() - 1 == LocalDateTime.now().getHour() && i.getViewingPackage().getDateTime().getMinute() == LocalDateTime.now().getMinute()) {
+                    	JavaMailUtil.sendMessage(i.getEmailOrder(), "hadye", "hadye");
+                    }
+    			}
+    			try {
+    				Thread.sleep(35000); //35 second
+    			} catch (InterruptedException e) {
+    				e.printStackTrace();
+    			}
+    		}
+    	});   
+    	timerThread.start();
 	}
 
 	public static <T> void saveRowInDB(T objectType) {
@@ -1129,7 +1078,9 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("search bar update")) {
 			try {
 				ArrayList<Movie> movies = new ArrayList<Movie>();
-				if (!currentMsg.getActionType().equals("pull movies from home")) {
+
+				if(currentMsg.getActionType().equals("pull screening movies")) {
+
 					List<Screening> screenings = getAllOfType(Screening.class);
 
 					if (currentMsg.getTheater() != null) {
@@ -1148,14 +1099,31 @@ public class Main extends AbstractServer {
 						}
 					} else {
 						movies = getAllOfType(Movie.class);
+						Iterator<Movie> iter = movies.iterator();
+						while(iter.hasNext()) {
+							Movie movie = iter.next();
+							if(movie.isSoonInCinema()) {
+								iter.remove();
+							}
+						}
+						
+						iter = movies.iterator();
+						while(iter.hasNext()) {
+							Movie movie = iter.next();
+							if(movie.isStreamOnline() && !movie.isScreening()) {
+								iter.remove();
+							}
+						}
 					}
-				} else if (currentMsg.getActionType().equals("pull soon movies")) {
+
+				}else if(currentMsg.getActionType().equals("pull soon movies")) {
 
 					movies = getAllOfType(Movie.class);
 					Iterator<Movie> iter = movies.iterator();
 					while (iter.hasNext()) {
 						Movie movie = iter.next();
-						if (!movie.isScreening()) {
+
+						if(!movie.isSoonInCinema()) {
 							iter.remove();
 						}
 					}

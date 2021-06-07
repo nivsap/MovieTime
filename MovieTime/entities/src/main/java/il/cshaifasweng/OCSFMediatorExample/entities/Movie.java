@@ -58,7 +58,7 @@ public class Movie implements  Serializable
 
     public Movie(String name, String duration, Double popular, String genre, String imageSrc, String largeImageSrc,
 			ArrayList<String> movie_Begining_Time, boolean streamOnline, boolean soonInCinema, String description,
-			String mainActors, LocalDateTime launchDate ,int priceMovie, String producersMovie,Screening screening,boolean isDeleted , List<ViewingPackage> viewingPackages,boolean isScreening) throws IOException {
+			String mainActors, LocalDateTime launchDate ,int priceMovie, String producersMovie,Screening screening, boolean isDeleted , List<ViewingPackage> viewingPackages,boolean isScreening) throws IOException {
 		Name = name;
 		this.duration = duration;
 		this.popular = popular;

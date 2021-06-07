@@ -184,6 +184,10 @@ public class AppClient extends AbstractClient {
 
     		EventBus.getDefault().post(((Message) msg));
     	}
+    	if(currentMsg.getAction().equals("got genres")) {
+
+    		EventBus.getDefault().post(((Message) msg));
+    	}
   
 	}
 	@Override

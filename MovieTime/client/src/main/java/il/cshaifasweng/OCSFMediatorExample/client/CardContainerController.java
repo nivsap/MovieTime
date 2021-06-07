@@ -61,6 +61,8 @@ public class CardContainerController {
     
     public void setGridContent(String namePage) {
 		String actionType = null;
+		EventBus.getDefault().register(this);
+
     	if(namePage.equals("MainPage")) {
     		disableCards = false;
     		actionType = "pull screening movies";
@@ -99,7 +101,6 @@ public class CardContainerController {
     public void sendMessageToServer(Message msg) {
     	try {
     		if(!isRegistered) {
-				EventBus.getDefault().register(this);
 				isRegistered = true;
 			}
 			AppClient.getClient().sendToServer(msg);
@@ -116,12 +117,9 @@ public class CardContainerController {
 	public void onMessageEvent(Message msg) {
 		System.out.println(msg.getAction());
     	if(msg.getAction().equals(moviesType)) {
+    		EventBus.getDefault().unregister(this);
     		Platform.runLater(()-> {
-        		waitingForMessageCounter--;
-            	if(waitingForMessageCounter == 0 && isRegistered) {
-            		EventBus.getDefault().unregister(this);
-            		isRegistered = false;
-            	}
+        		
     			movieContainer.getChildren().clear();
     			recentlyAdded = msg.getMovies();
     			moviesNumber = recentlyAdded.size();
@@ -129,6 +127,15 @@ public class CardContainerController {
     			SetMovies(currentlyDisplayedFrom);
     		});
     	}
+    }
+    
+    
+    public void setMoviesBySearchBar(ArrayList<Movie> movies) {
+    	movieContainer.getChildren().clear();
+		recentlyAdded = movies;
+		moviesNumber = recentlyAdded.size();
+		currentlyDisplayedFrom = 0;
+		SetMovies(currentlyDisplayedFrom);
     }
     
     public void setPurchaseType(int type) {
@@ -181,6 +188,8 @@ public class CardContainerController {
     		currentlyDisplayedFrom = nextIndex;
     	SetMovies(currentlyDisplayedFrom);
     }
+
+	
     
 
 }

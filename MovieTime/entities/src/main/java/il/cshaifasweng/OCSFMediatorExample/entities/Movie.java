@@ -1,21 +1,24 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.Serializable;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.Lob;
 import javax.persistence.Table;
+
+import javafx.scene.image.Image;
 @Entity
 @Table(name = "Movies")
 public class Movie implements  Serializable
@@ -28,8 +31,10 @@ public class Movie implements  Serializable
     private String duration;
     private Double popular;
     private String genre;
-    private String imageSrc;
-    private String largeImageSrc;
+    @Lob
+    private byte[] image;
+    @Lob
+    private byte[] largeImage;
     private ArrayList<String> MovieBeginingTime;
     private boolean streamOnline;
     private boolean soonInCinema;
@@ -53,13 +58,11 @@ public class Movie implements  Serializable
 
     public Movie(String name, String duration, Double popular, String genre, String imageSrc, String largeImageSrc,
 			ArrayList<String> movie_Begining_Time, boolean streamOnline, boolean soonInCinema, String description,
-			String mainActors, LocalDateTime launchDate ,int priceMovie, String producersMovie,Screening screening,boolean isDeleted , List<ViewingPackage> viewingPackages,boolean isScreening) {
+			String mainActors, LocalDateTime launchDate ,int priceMovie, String producersMovie,Screening screening,boolean isDeleted , List<ViewingPackage> viewingPackages,boolean isScreening) throws IOException {
 		Name = name;
 		this.duration = duration;
 		this.popular = popular;
 		this.genre = genre;
-		this.imageSrc = imageSrc;
-		this.largeImageSrc = largeImageSrc;
 		this.MovieBeginingTime = new ArrayList<>();
 		this.streamOnline = streamOnline;
 		this.soonInCinema = soonInCinema;
@@ -70,40 +73,10 @@ public class Movie implements  Serializable
 		this.producersMovie = producersMovie;
 		this.isDeleted = isDeleted;
 		this.isScreening = isScreening;
-	//	this.viewingPackages = new ArrayList<ViewingPackage>();
-	//	this.screening = screening;
+		setImage(imageSrc);
+		setLargeImage(largeImageSrc);
 	}
-    
-    
-    
-	public Movie(String name, String imageSrc, String duration, Double popular, String genre) {
-		
-		super();
-		Name = name;
-		this.duration = duration;
-		this.imageSrc = imageSrc;
-		this.popular = popular;
-		this.genre = genre;
-	}
-	
-	
-	
-//	public Screening getScreening() {
-//		return screening;
-//	}
-//
-//	public void setScreening(Screening screening) {
-//		this.screening = screening;
-//	}
-//
-//	public List<ViewingPackage> getViewingPackages() {
-//		return viewingPackages;
-//	}
-//
-//	public void setViewingPackages(List<ViewingPackage> viewingPackages) {
-//		this.viewingPackages = viewingPackages;
-//	}
-
+  
 	public boolean isScreening() {
 		return isScreening;
 	}
@@ -223,19 +196,60 @@ public class Movie implements  Serializable
 		this.genre = genre;
 	}
     
-	public String getImageSrc() {
-		return imageSrc;
+	public Image getImage() {
+		if(image == null)
+			return null;
+		Image img = new Image(new ByteArrayInputStream(image));
+		return img;
 	}
 
-	public void setImageSrc(String imageSrc) {
-		this.imageSrc = imageSrc;
+	public void setImage(String imageSrc) throws IOException {
+		if(imageSrc == null || imageSrc.equals("")) {
+			this.image = null;
+			return;
+		}
+		
+		File imageFile = new File(imageSrc);
+        byte[] binaryImage = new byte[(int) imageFile.length()];
+        try {
+        	FileInputStream inputStream = new FileInputStream(imageFile);
+        	inputStream.read(binaryImage);
+        	inputStream.close();
+        } 
+        catch (Exception e) {
+        	e.printStackTrace();
+        	this.image = null;
+        	return;
+        }
+        this.image = binaryImage;
 	}
-	public String getLargeImageSrc() {
-		return largeImageSrc;
+	
+	public Image getLargeImage() {
+		if(largeImage == null) 
+			return null;
+		Image img = new Image(new ByteArrayInputStream(largeImage));
+		return img;
 	}
 
-	public void setLargeImageSrc(String largeImageSrc) {
-		this.largeImageSrc = largeImageSrc;
+	public void setLargeImage(String largeImageSrc) throws IOException {
+		if(largeImageSrc == null || largeImageSrc.equals("")) {
+			this.largeImage = null;
+			return;
+		}
+		
+		File imageFile = new File(largeImageSrc);
+        byte[] binaryImage = new byte[(int) imageFile.length()];
+        try {
+        	FileInputStream inputStream = new FileInputStream(imageFile);
+        	inputStream.read(binaryImage);
+        	inputStream.close();
+        } 
+        catch (Exception e) {
+        	e.printStackTrace();
+        	this.largeImage = null;
+        	return;
+        }
+        this.largeImage = binaryImage;
 	}
 
 	@Override
@@ -247,8 +261,8 @@ public class Movie implements  Serializable
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((duration == null) ? 0 : duration.hashCode());
 		result = prime * result + ((genre == null) ? 0 : genre.hashCode());
-		result = prime * result + ((imageSrc == null) ? 0 : imageSrc.hashCode());
-		result = prime * result + ((largeImageSrc == null) ? 0 : largeImageSrc.hashCode());
+		result = prime * result + ((image == null) ? 0 : image.hashCode());
+		result = prime * result + ((largeImage == null) ? 0 : largeImage.hashCode());
 		result = prime * result + ((launchDate == null) ? 0 : launchDate.hashCode());
 		result = prime * result + ((mainActors == null) ? 0 : mainActors.hashCode());
 		result = prime * result + ((popular == null) ? 0 : popular.hashCode());
@@ -291,15 +305,15 @@ public class Movie implements  Serializable
 				return false;
 		} else if (!genre.equals(other.genre))
 			return false;
-		if (imageSrc == null) {
-			if (other.imageSrc != null)
+		if (image == null) {
+			if (other.image != null)
 				return false;
-		} else if (!imageSrc.equals(other.imageSrc))
+		} else if (!image.equals(other.image))
 			return false;
-		if (largeImageSrc == null) {
-			if (other.largeImageSrc != null)
+		if (largeImage == null) {
+			if (other.largeImage != null)
 				return false;
-		} else if (!largeImageSrc.equals(other.largeImageSrc))
+		} else if (!largeImage.equals(other.largeImage))
 			return false;
 		if (launchDate == null) {
 			if (other.launchDate != null)
@@ -326,17 +340,7 @@ public class Movie implements  Serializable
 	@Override
 	public String toString() {
 		return "Movie [Name=" + Name + ", duration=" + duration + ", popular=" + popular + ", genre=" + genre
-				+ ", imageSrc=" + imageSrc + ", largeImageSrc=" + largeImageSrc + ", MovieBeginingTime=" 
-				+ MovieBeginingTime + ", streamOnline=" + streamOnline + ", soonInCinema=" + soonInCinema
+				+ ", MovieBeginingTime=" + MovieBeginingTime + ", streamOnline=" + streamOnline + ", soonInCinema=" + soonInCinema
 				+ ", description=" + description + ", mainActors=" + mainActors + ", launchDate=" + launchDate + "]";
 	}
-	//not needed for now
-
-//to compare our obj
-
-
-
-
-
-
 }

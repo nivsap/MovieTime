@@ -41,8 +41,7 @@ public class DeleteCardController {
     }
     
 	public void setData(Movie movie, DeleteMoviePageController controller) {
-		Image image = new  Image(getClass().getResourceAsStream("images/MoviesPosters/" + movie.getImageSrc()));
-		movieImage.setImage(image);
+		movieImage.setImage(movie.getImage());
 		movieNameLabel.setText(movie.getName());
 		this.movie = movie;
 		this.controller = controller;

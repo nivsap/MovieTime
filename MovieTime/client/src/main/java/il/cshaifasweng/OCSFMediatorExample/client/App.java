@@ -58,19 +58,15 @@ public class App extends Application {
     	pageLayout = new BorderPane();
     	menu = (VBox) loadFXML("SystemMenu").getKey();
     	content = new VBox();
-    	System.out.println("0");
     	setBarAndGridLayout("MainPage");
-    	System.out.println("0.5");
     	pageLayout.setLeft(menu);
     	pageLayout.setCenter(content);
     	
-    	System.out.println("1");
     	// Setting App's Window
     	setWindowTitle(PageTitles.MainPage);
         scene = new Scene(pageLayout, 900, 700);
         stage.setScene(scene);
         stage.show();
-    	System.out.println("2");
 
     	} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -164,7 +160,7 @@ public class App extends Application {
     		} 
     	}
     }
-    
+   //5 
     static Object setContent(String pageName) throws IOException {
     	// setContent() loads page/FXML into App's content container and returns page's controller.
     	if(content != null)

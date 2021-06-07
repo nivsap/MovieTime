@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="700.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.ComingSoonSearchBarController">
    <children>
       <AnchorPane prefHeight="100.0" prefWidth="700.0">
@@ -18,7 +17,7 @@
                </image>
             </ImageView>
             <Label alignment="BASELINE_LEFT" layoutX="450.0" layoutY="55.0" prefHeight="20.0" prefWidth="125.0" text="Filter by..." textFill="WHITE" />
-            <ComboBox layoutX="530.0" layoutY="50.0" prefHeight="20.0" prefWidth="125.0" promptText="Genre" styleClass="searchBarComboBox" />
+            <ComboBox fx:id="genreComboBox" layoutX="530.0" layoutY="50.0" onAction="#onComboBoxEvent" prefHeight="20.0" prefWidth="125.0" promptText="Genre" styleClass="searchBarComboBox" />
          </children>
       </AnchorPane>
    </children>

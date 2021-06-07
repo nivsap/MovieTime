@@ -532,7 +532,6 @@ public class Message implements Serializable {
 	}
 
 
-
 	public String getRate() {
 		return rate;
 	}

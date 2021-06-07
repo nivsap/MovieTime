@@ -13,13 +13,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "PriceRequest")
 public class PriceRequest implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private LocalDateTime requestDate;
+	private LocalDate requestDate;
 	@OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	private Cinema cinema;
 	private boolean isMovie;
@@ -29,7 +30,7 @@ public class PriceRequest implements Serializable{
 //	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //	@JoinColumn(name = "worker_id")
 //	private Worker worker;
-	public PriceRequest(LocalDateTime requestDate, Cinema cinema, boolean isMovie, String commentString,
+	public PriceRequest(LocalDate requestDate, Cinema cinema, boolean isMovie, String commentString,
 			double newPrice, boolean isOpen) {
 		super();
 		this.requestDate = requestDate;
@@ -39,16 +40,17 @@ public class PriceRequest implements Serializable{
 		this.newPrice = newPrice;
 		this.isOpen = isOpen;
 	}
+	public PriceRequest() {}
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public LocalDateTime getRequestDate() {
+	public LocalDate getRequestDate() {
 		return requestDate;
 	}
-	public void setRequestDate(LocalDateTime requestDate) {
+	public void setRequestDate(LocalDate requestDate) {
 		this.requestDate = requestDate;
 	}
 	public Cinema getCinema() {

@@ -138,6 +138,11 @@ public class PriceChangeApprovalsController {
 		decisionBox.setItems(list);
 
 	}
+	
+	void textSetter()
+	{
+		numRequestShow.setText(String.valueOf(requests.size()));
+	}
 
 	@Subscribe
 	public void onMessageEvent(Message msg) {
@@ -145,7 +150,7 @@ public class PriceChangeApprovalsController {
 		if (msg.getAction().equals("got all price request")) {
 			Platform.runLater(() -> {
 				requests = msg.getPriceRequestsArrayList();
-				numRequestShow.setText(String.valueOf(requests.size()));
+				textSetter();
 				
 			});
 

@@ -198,6 +198,12 @@ public class AppClient extends AbstractClient {
 
     		EventBus.getDefault().post(((Message) msg));
     	}
+    	
+    	if(currentMsg.getAction().equals("got all price request")) {
+
+    		EventBus.getDefault().post(((Message) msg));
+    	}
+    	
 
   
 	}

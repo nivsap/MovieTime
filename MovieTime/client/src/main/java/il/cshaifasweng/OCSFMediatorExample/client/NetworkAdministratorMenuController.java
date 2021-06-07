@@ -24,7 +24,7 @@ public class NetworkAdministratorMenuController {
     @FXML
     void ShowPriceRequest(ActionEvent event) throws IOException {
     	App.setWindowTitle(PageTitles.PriceChangePage);
-    	App.setContent("Price Change Page");
+    	App.setContent("PriceChangeApprovals");
     }
     
     @FXML

@@ -17,7 +17,7 @@ public final class PageTitles {
     static final String OpenPriceChangeRequests = "OpenPriceChangeRequests";
 	static final String ReportsPage = "Reports";
 	static final String PurpleLimitPage = "Purple Limit Page";
-	static final String PriceChangePage = "Price Change Page";
+	static final String PriceChangePage = "PriceChangeApprovals";
 
 	static final String ComplaintHandling = "Complaint Handeling";
 }

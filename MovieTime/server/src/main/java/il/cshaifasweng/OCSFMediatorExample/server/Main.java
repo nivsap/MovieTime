@@ -1,7 +1,9 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
+import java.io.File;
 import java.io.IOException;
-
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 
 import java.time.LocalDateTime;
@@ -49,10 +51,22 @@ public class Main extends AbstractServer {
 	private static Session session;
 	public static SessionFactory sessionFactory = getSessionFactory();
 	Message serverMsg;
-
+	private ArrayList<String> genres = new ArrayList<String>();
 	public Main(int port) {
 
+		
+		
 		super(port);
+		
+		genres.add("Action");
+		genres.add("Drama");
+		genres.add("Adventure");
+		genres.add("Mystery");
+		genres.add("Crime");
+		genres.add("Fantasy");
+		genres.add("Horror");
+		genres.add("Comedy");
+		genres.add("Animation");
 	}
 
 	public static SessionFactory getSessionFactory() throws HibernateException {
@@ -100,77 +114,51 @@ public class Main extends AbstractServer {
 			//lielWorker.getPriceRequests().add(priceRequest);
 			//System.out.println(lielWorker.getPriceRequests().get(0).getNewPrice());
 			session.save(priceRequest);
-
+			
 			// create movie
+			
+			String absPath = Paths.get("").toAbsolutePath().toString();
+			String picPath = absPath.substring(0, absPath.length() - 6);
 			ArrayList<String> movieStartTimes = new ArrayList<String>(
 					Arrays.asList("10:00", "12:00", "16:00", "18:00", "20:00", "22:00", "00:00"));
 			Movie avengersEndgame = new Movie("Avengers: Endgame", "3h 1min", 5.00,
-					"Action   •   Adventure   •   Drama", "AvengersEndgame.jpg", "AvengersEndgame.png", movieStartTimes,
+					"Action   •   Adventure   •   Drama", picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/AvengersEndgame.jpg", picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/AvengersEndgame.png", movieStartTimes,
 					true, false,
-					"After the devastating events of Avengers: Infinity War (2018), the \nuniverse is in ruins. With the help of remaining allies, \nthe Avengers assemble once more in order to reverse Thanos' \nactions and restore balance to the universe.",
-					"Robert Downey Jr., Chris Evans, Mark Ruffalo", getTime(2019, 4, 26), 50, "Producers",null,false,new ArrayList<>(),true);
+					"After the devastating events of Avengers: Infinity War (2018), the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe.",
+					"Robert Downey Jr., Chris Evans, Mark Ruffalo", getTime(2019, 4, 26), 50, "Anthony Russo, Joe Russo", null, false, new ArrayList<>(), true);
+
 			Movie sherlockHolmes = new Movie("Sherlock Holmes", "2h 8min", 4.5, "Action   •   Adventure   •   Mystery",
-					"SherlockHolmes.jpg", "SherlockHolmes.png", movieStartTimes, true, false,
-					"Detective Sherlock Holmes and his stalwart partner Watson engage in \na battle of wits and brawn with a nemesis whose plot \nis a threat to all of England.",
-					"Robert Downey Jr., Jude Law, Rachel McAdams", getTime(2009, 12, 25), 50, "Producers",null,false,new ArrayList<>(),true);
+					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/SherlockHolmes.jpg", picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/SherlockHolmes.png", movieStartTimes, true, false,
+					"Detective Sherlock Holmes and his stalwart partner Watson engage in a battle of wits and brawn with a nemesis whose plot is a threat to all of England.",
+					"Robert Downey Jr., Jude Law, Rachel McAdams", getTime(2009, 12, 25), 50, "Guy Ritchie", null, false, new ArrayList<>(), true);
 			Movie babyDriver = new Movie("Baby Driver", "1h 53min", 4.00, "Action   •   Crime   •   Drama ",
-					"BabyDriver.jpg", "BabyDriver.png", movieStartTimes, true, false,
-					"After being coerced into working for a crime boss, a young getaway \ndriver finds himself taking part in a heist doomed to fail.",
-					"Ansel Elgort, Jon Bernthal, Jon Hamm", getTime(2017, 6, 28), 50, "Producers",null,false,new ArrayList<>(),true);
+					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/BabyDriver.jpg", picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/BabyDriver.png", movieStartTimes, true, false,
+					"After being coerced into working for a crime boss, a young getaway driver finds himself taking part in a heist doomed to fail.",
+					"Ansel Elgort, Jon Bernthal, Jon Hamm", getTime(2017, 6, 28), 50, "Edgar Wright", null, false, new ArrayList<>(), true);
 			Movie wonderWoman1984 = new Movie("Wonder Woman 1984", "2h 31min", 5.00,
-					"Action   •   Adventure   •   Fantasy", "WonderWoman1984.jpg", "WonderWoman1984.png",
+					"Action   •   Adventure   •   Fantasy", picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/WonderWoman1984.jpg", picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/WonderWoman1984.png",
 					movieStartTimes, true, false,
-					"Diana must contend with a work colleague and businessman, whose desire \nfor extreme wealth sends the world down a path of destruction, \nafter an ancient artifact that grants wishes goes missing.",
-					"Gal Gadot, Chris Pine, Kristen Wiig", getTime(2020, 12, 21), 50, "Producers",null,false,new ArrayList<>(),false);
-			Movie it = new Movie("IT", "2h 15min", 5.00, "Horror", "It.jpg", "It.png", movieStartTimes, true, false,
-					"In the summer of 1989, a group of bullied kids band together\n to destroy a shape-shifting monster, which disguises itself \nas a clown and preys on the children of Derry, \ntheir small Maine town.",
-					"Bill Skarsgard, Jaeden Martell, Finn Wolfhard", getTime(2017, 9, 8), 50, "Producers",null,false,new ArrayList<>(),true);
+					"Diana must contend with a work colleague and businessman, whose desire for extreme wealth sends the world down a path of destruction, after an ancient artifact that grants wishes goes missing.",
+					"Gal Gadot, Chris Pine, Kristen Wiig", getTime(2020, 12, 21), 50, "Patty Jenkins", null, false, new ArrayList<>(), false);
+			Movie it = new Movie("IT", "2h 15min", 5.00, "Horror", picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/It.jpg", picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/It.png", movieStartTimes, true, false,
+					"In the summer of 1989, a group of bullied kids band together to destroy a shape-shifting monster, which disguises itself as a clown and preys on the children of Derry, their small Maine town.",
+					"Bill Skarsgard, Jaeden Martell, Finn Wolfhard", getTime(2017, 9, 8), 50, "Andy Muschietti", null, false, new ArrayList<>(), true);
 			Movie toyStory = new Movie("Toy Story", "1h 40min", 5.00, "Animation   •   Adventure   •   Comedy",
-					"ToyStory.jpg", "ToyStory.png", movieStartTimes, true, false,
-					"When a new toy called 'Forky' joins Woody and the gang, \na road trip alongside old and new friends reveals how \nbig the world can be for a toy.",
-					"Tom Hanks, Tim Allen, Annie Potts", getTime(2017, 6, 21), 50, "Producers",null,false,new ArrayList<>(),true);
-			Movie Minions = new Movie("Minions", "1h 31min", 4.50, "Animation   •   Adventure   •   Comedy",
-					"Minions.jpg", "Minions.png", movieStartTimes, false, false,
-					"Minions Stuart, Kevin, and Bob are recruited by Scarlet Overkill, \na supervillain who, alongside her inventor husband Herb, \nhatches a plot to take over the world.",
-					"Sandra Bullock, Jon Hamm, Michael Keaton", getTime(2015, 7, 10), 50, "Producers",null,false,new ArrayList<>(),true);
-			Movie StarWars = new Movie("Star Wars", "2h 21min", 5.00, "Action   •   Adventure   •   Fantasy",
-					"StarWars.jpg", "StarWars.png", movieStartTimes, false, true,
-					"The surviving members of the Resistance face the First Order once \nagain, and the legendary conflict between the Jedi and the Sith reaches \nits peak, bringing the Skywalker saga to its end.",
-					"Daisy Ridley, John Boyega, Oscar Isaac", getTime(2019, 12, 20), 50, "Producers",null,false,new ArrayList<>(),false);
+					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/ToyStory.jpg", picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/ToyStory.png", movieStartTimes, true, false,
+					"When a new toy called 'Forky' joins Woody and the gang, a road trip alongside old and new friends reveals how big the world can be for a toy.",
+					"Tom Hanks, Tim Allen, Annie Potts", getTime(2017, 6, 21), 50, "Josh Cooley", null, false, new ArrayList<>(), true);
+			Movie minions = new Movie("Minions", "1h 31min", 4.50, "Animation   •   Adventure   •   Comedy",
+					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/Minions.jpg", picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/Minions.png", movieStartTimes, false, false,
+					"Minions Stuart, Kevin, and Bob are recruited by Scarlet Overkill, a supervillain who, alongside her inventor husband Herb, hatches a plot to take over the world.",
+					"Sandra Bullock, Jon Hamm, Michael Keaton", getTime(2015, 7, 10), 50, "Kyle Balda, Pierre Coffin", null, false, new ArrayList<>(), true);
+			Movie starWars = new Movie("Star Wars", "2h 21min", 5.00, "Action   •   Adventure   •   Fantasy",
+					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/StarWars.jpg", picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/StarWars.png", movieStartTimes, false, true,
+					"The surviving members of the Resistance face the First Order once again, and the legendary conflict between the Jedi and the Sith reaches its peak, bringing the Skywalker saga to its end.",
+					"Daisy Ridley, John Boyega, Oscar Isaac", getTime(2019, 12, 20), 50, "J.J. Abrams", null, false, new ArrayList<>(), false);
 
 			avengersEndgame.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("10:00", "12:00")));
 			sherlockHolmes.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("16:00", "18:00")));
 			babyDriver.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("20:00", "22:00")));
-
-			// Worker shirWorker = new BranchManager("shir", "shir", "shir", "shir",null);
-			// Worker nivWorker = new BranchManager("niv", "niv", "niv", "niv",null);
-			// Worker lielWorker = new ContentManager("liel", "liel", "liel", "liel",null);
-			// Worker asafWorker = new CustomerService("asaf", "asaf", "asaf", "asaf",null,false);
-			// Worker hadarWorker = new NetworkAdministrator("hadar", "hadar", "hadar", "hadar",null);
-
-
-			// //create movie 
-			// ArrayList<String> movieStartTimes = new ArrayList<String>(Arrays.asList("10:00" , "12:00" , "16:00" , "18:00" , "20:00" , "22:00" , "00:00"));
-			// Movie avengersEndgame = new Movie("Avengers: Endgame","3h 1min", 5.00, "Action   •   Adventure   •   Drama", "AvengersEndgame.jpg",  "AvengersEndgame.png", movieStartTimes, true, false, "After the devastating events of Avengers: Infinity War (2018), the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe.",
-			// 		"Robert Downey Jr., Chris Evans, Mark Ruffalo", getTime(2019, 4, 26), 50 , "Producers");
-			// Movie sherlockHolmes = new Movie("Sherlock Holmes", "2h 8min", 4.5, "Action   •   Adventure   •   Mystery", "SherlockHolmes.jpg", "SherlockHolmes.png", movieStartTimes, true, false, "Detective Sherlock Holmes and his stalwart partner Watson engage in a battle of wits and brawn with a nemesis whose plot is a threat to all of England.",
-			// 		"Robert Downey Jr., Jude Law, Rachel McAdams", getTime(2009, 12, 25), 50 , "Producers");
-			// Movie babyDriver = new Movie("Baby Driver", "1h 53min", 4.00, "Action   •   Crime   •   Drama ", "BabyDriver.jpg", "BabyDriver.png", movieStartTimes, true, false, "After being coerced into working for a crime boss, a young getaway driver finds himself taking part in a heist doomed to fail.",
-			// 		"Ansel Elgort, Jon Bernthal, Jon Hamm", getTime(2017, 6, 28), 50 , "Producers");
-			// Movie wonderWoman1984  = new Movie("Wonder Woman 1984", "2h 31min", 5.00, "Action   •   Adventure   •   Fantasy", "WonderWoman1984.jpg", "WonderWoman1984.png", movieStartTimes, true, false, "Diana must contend with a work colleague and businessman, whose desire for extreme wealth sends the world down a path of destruction, after an ancient artifact that grants wishes goes missing.",
-			// 		"Gal Gadot, Chris Pine, Kristen Wiig", getTime(2020, 12, 21), 50 , "Producers");
-			// Movie it  = new Movie("IT", "2h 15min", 5.00, "Horror", "It.jpg", "It.png", movieStartTimes, true, false, "In the summer of 1989, a group of bullied kids band together to destroy a shape-shifting monster, which disguises itself as a clown and preys on the children of Derry, their small Maine town.",
-			// 		"Bill Skarsgard, Jaeden Martell, Finn Wolfhard", getTime(2017, 9, 8), 50 , "Producers");
-			// Movie toyStory = new Movie("Toy Story", "1h 40min", 5.00, "Animation   •   Adventure   •   Comedy", "ToyStory.jpg", "ToyStory.png", movieStartTimes, true, false, "When a new toy called 'Forky' joins Woody and the gang, a road trip alongside old and new friends reveals how big the world can be for a toy.",
-			// 		"Tom Hanks, Tim Allen, Annie Potts", getTime(2017, 6, 21), 50 , "Producers");
-			// Movie Minions = new Movie("Minions", "1h 31min", 4.50, "Animation   •   Adventure   •   Comedy", "Minions.jpg", "Minions.png", movieStartTimes, false, false, "Minions Stuart, Kevin, and Bob are recruited by Scarlet Overkill, a supervillain who, alongside her inventor husband Herb, hatches a plot to take over the world.",
-			// 		"Sandra Bullock, Jon Hamm, Michael Keaton", getTime(2015, 7, 10), 50 , "Producers");
-			// Movie StarWars = new Movie("Star Wars", "2h 21min", 5.00, "Action   •   Adventure   •   Fantasy", "StarWars.jpg", "StarWars.png", movieStartTimes, false, true, "The surviving members of the Resistance face the First Order once again, and the legendary conflict between the Jedi and the Sith reaches its peak, bringing the Skywalker saga to its end.",
-			// 		"Daisy Ridley, John Boyega, Oscar Isaac", getTime(2019, 12, 20) , 50 , "Producers");
-
-			// avengersEndgame.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("10:00" , "12:00")));
-			// sherlockHolmes.setMovieBeginingTime(new ArrayList<String>(Arrays.asList( "16:00" , "18:00")));
-			// babyDriver.setMovieBeginingTime(new ArrayList<String>(Arrays.asList( "20:00" , "22:00")));
 			wonderWoman1984.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("00:00")));
 			it.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("11:00", "13:00")));
 			toyStory.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("15:00", "17:00")));
@@ -180,8 +168,8 @@ public class Main extends AbstractServer {
 			session.save(wonderWoman1984);
 			session.save(it);
 			session.save(toyStory);
-			session.save(Minions);
-			session.save(StarWars);
+			session.save(minions);
+			session.save(starWars);
 			session.flush();
 			//ViewingPackage viewingPackage = new ViewingPackage(babyDriver, getTime(2021, 6,6), new ArrayList<>());
 			//session.save(viewingPackage);
@@ -220,9 +208,9 @@ public class Main extends AbstractServer {
 			Screening screeningOfFilm_6 = new Screening(getExacTime(2021, 6, 27, 20, 00), hall3, it, telAvivCinema,new ArrayList<>());
 			Screening screeningOfFilm_7 = new Screening(getExacTime(2021, 6, 28, 13, 30), hall4, toyStory,
 					telAvivCinema,new ArrayList<>());
-			Screening screeningOfFilm_8 = new Screening(getExacTime(2021, 6, 28, 20, 00), hall4, Minions,
+			Screening screeningOfFilm_8 = new Screening(getExacTime(2021, 6, 28, 20, 00), hall4, minions,
 					telAvivCinema,new ArrayList<>());
-			Screening screeningOfFilm_11 = new Screening(getExacTime(2021, 6, 28, 10, 15), hall4, Minions,
+			Screening screeningOfFilm_11 = new Screening(getExacTime(2021, 6, 28, 10, 15), hall4, minions,
 					telAvivCinema,new ArrayList<>());
 			Screening screeningOfFilm_12 = new Screening(getExacTime(2021, 6, 28, 10, 15), hall3, it, telAvivCinema,new ArrayList<>());
 
@@ -1105,25 +1093,48 @@ public class Main extends AbstractServer {
 		if(currentMsg.getAction().equals("search bar update")) {
 			try {
 				ArrayList<Movie> movies = new ArrayList<Movie>();
-				List<Screening> screenings = getAllOfType(Screening.class);
-
-				if(currentMsg.getTheater() != null) {
-					Iterator<Screening> iters = screenings.iterator();
-					while(iters.hasNext()) {
-						Screening s = iters.next();
-						if(!s.getCinema().getName().equals(currentMsg.getTheater())) {
-							System.out.println("removed screening in search bar update");
-							iters.remove();
+				if(!currentMsg.getActionType().equals("pull movies from home")) {
+					List<Screening> screenings = getAllOfType(Screening.class);
+	
+					if(currentMsg.getTheater() != null) {
+						Iterator<Screening> iters = screenings.iterator();
+						while(iters.hasNext()) {
+							Screening s = iters.next();
+							if(!s.getCinema().getName().equals(currentMsg.getTheater())) {
+								iters.remove();
+							}
 						}
-					}
-
-					for(Screening screening : screenings) {
-						if(!movies.contains(screening.getMovie())){
-							movies.add(screening.getMovie());
+	
+						for(Screening screening : screenings) {
+							if(!movies.contains(screening.getMovie())){
+								movies.add(screening.getMovie());
+							}
 						}
+					}else {
+						movies = getAllOfType(Movie.class);
 					}
-				}else {
+				}else if(currentMsg.getActionType().equals("pull soon movies")) {
+					
 					movies = getAllOfType(Movie.class);
+					Iterator<Movie> iter = movies.iterator();
+					while(iter.hasNext()) {
+						Movie movie = iter.next();
+						if(!movie.isScreening()) {
+							iter.remove();
+						}
+					}
+
+				}else{
+					
+					movies = getAllOfType(Movie.class);
+					Iterator<Movie> iter = movies.iterator();
+					while(iter.hasNext()) {
+						Movie movie = iter.next();
+						if(!movie.isStreamOnline()) {
+							iter.remove();
+						}
+					}
+					
 				}
 
 
@@ -1134,6 +1145,18 @@ public class Main extends AbstractServer {
 					while(iter.hasNext()) {
 						Movie movie = iter.next();
 						if(Double.parseDouble(currentMsg.getRate()) != movie.getPopular()) {
+							iter.remove();
+						}
+					}
+				}
+				
+				if(currentMsg.getGenere() != null) {
+
+					Iterator<Movie> iter = movies.iterator();
+
+					while(iter.hasNext()) {
+						Movie movie = iter.next();
+						if(!movie.getGenre().contains(currentMsg.getGenere())) {
 							iter.remove();
 						}
 					}
@@ -1152,7 +1175,7 @@ public class Main extends AbstractServer {
 				}
 
 				Message serverMsg = new Message();
-				serverMsg.setAction("got screening movies");
+				serverMsg.setAction(currentMsg.getMoviesType());
 				serverMsg.setMovies(movies);
 				client.sendToClient(serverMsg);
 
@@ -1291,6 +1314,19 @@ public class Main extends AbstractServer {
 				serverMsg = currentMsg;
 				updateRowDB(serverMsg.getComplaint());
 				serverMsg.setAction("done close complaint");
+				client.sendToClient(serverMsg);
+			}
+			catch (IOException e) {
+				System.out.println("cant close complaint");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(currentMsg.getAction().equals("get genres")) {
+			try {
+				serverMsg = new Message();
+				serverMsg.setGenres(genres);
+				serverMsg.setAction("got genres");
 				client.sendToClient(serverMsg);
 			}
 			catch (IOException e) {

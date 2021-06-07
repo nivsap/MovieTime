@@ -186,7 +186,7 @@ public class AddContentPageController {
     }
     
     @FXML
-    void addMovie(ActionEvent event) throws NumberFormatException, MalformedURLException {
+    void addMovie(ActionEvent event) throws NumberFormatException, IOException {
     	movieWarningLabel.setAlignment(Pos.TOP_CENTER);
     	movieWarningLabel.setVisible(false);
     	
@@ -263,13 +263,13 @@ public class AddContentPageController {
     		return;
     	}
     	
-    	if(imagePickerController.getLoadedFileString().equals("")) {
+    	if(imagePickerController.getLoadedFile().equals(null)) {
     		movieWarningLabel.setText("Please pick poster image first");
     		movieWarningLabel.setVisible(true);
     		return;
     	}
     		
-    	if(largeImagePickerController.getLoadedFileString().equals("")) {
+    	if(largeImagePickerController.getLoadedFile().equals(null)) {
     		movieWarningLabel.setText("Please pick cover image first");
     		movieWarningLabel.setVisible(true);
     		return;
@@ -282,8 +282,8 @@ public class AddContentPageController {
     							   duration, 
     							   Double.parseDouble(rate),
     							   selectedGenres.toString(),
-    							   imagePickerController.getLoadedFileString(), 
-    							   largeImagePickerController.getLoadedFileString(),
+    							   imagePickerController.getLoadedFile().getAbsolutePath().toString(), 
+    							   largeImagePickerController.getLoadedFile().getAbsolutePath().toString(),
     							   null,
     							   false,
     							   isYes,
@@ -291,7 +291,7 @@ public class AddContentPageController {
     							   mainActors,
     							   launchDateTime,
     							   0,
-    							   producers,null,false,new ArrayList<>(),true);
+    							   producers, null, false, new ArrayList<>(), true);
     	sendMovieToServer(newMovie);
     }
     

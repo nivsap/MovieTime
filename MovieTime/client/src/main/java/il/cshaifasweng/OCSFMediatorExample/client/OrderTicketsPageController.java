@@ -76,18 +76,6 @@ public class OrderTicketsPageController {
     	hallMapContainer = new VBox();
     }
     
-    @FXML
-    void initialize() {
-    	
-        assert movieLargeImageSrc != null : "fx:id=\"movieLargeImageSrc\" was not injected: check your FXML file 'OrderTicketsPage.fxml'.";
-        assert movieImageSrc != null : "fx:id=\"movieImageSrc\" was not injected: check your FXML file 'OrderTicketsPage.fxml'.";
-        assert moviePopularity != null : "fx:id=\"moviePopularity\" was not injected: check your FXML file 'OrderTicketsPage.fxml'.";
-        assert movieName != null : "fx:id=\"movieName\" was not injected: check your FXML file 'OrderTicketsPage.fxml'.";
-        assert movieGenre != null : "fx:id=\"movieGenre\" was not injected: check your FXML file 'OrderTicketsPage.fxml'.";
-        assert hallMapContainer != null : "fx:id=\"hallMapContainer\" was not injected: check your FXML file 'OrderTicketsPage.fxml'.";
-        assert orderTicketsBtn != null : "fx:id=\"orderTicketsBtn\" was not injected: check your FXML file 'OrderTicketsPage.fxml'.";
-    }
-    
     public void setPurchaseInfo(int type, Screening screening, boolean isTavSagol, int numOfSeats, double limit , int taken) {
     	purchaseType = type;
     	screeningChosen = screening;
@@ -123,10 +111,8 @@ public class OrderTicketsPageController {
     	movieName.setText(movie.getName());
     	movieGenre.setText(movie.getGenre());
     	moviePopularity.setText(movie.getPopular().toString());
-    	Image image = new  Image(getClass().getResourceAsStream("images/MoviesPosters/" + movie.getImageSrc()));
-    	Image largeImage = new  Image(getClass().getResourceAsStream("images/MoviesPosters/LargeImages/" + movie.getLargeImageSrc()));
-    	movieLargeImageSrc.setImage(largeImage);
-    	movieImageSrc.setImage(image);
+    	movieImageSrc.setImage(movie.getImage());
+    	movieLargeImageSrc.setImage(movie.getLargeImage());
     }
     
     public void loadScreeningInfo() {

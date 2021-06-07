@@ -15,44 +15,74 @@ import javafx.scene.control.ComboBox;
 
 public class ComingSoonSearchBarController {
 	@FXML
-    private ComboBox<String> genreID;
+    private ComboBox<String> genreComboBox;
+	private int purchaseType;
+	private String moviesType;
+	private Boolean disableCards;
+	private String actionType;
+	private CardContainerController cardController;
 	
 	String [] currentType;
-	public ComingSoonSearchBarController() {
+
+
+	
+	public void setCardController(CardContainerController controller) {
+		this.cardController = controller;
+	}
+	@FXML
+	public void initialize() {
+		// TODO Auto-generated method stub
 		EventBus.getDefault().register(this);
-		ObservableList<String> options = FXCollections.observableArrayList("Option 1", "Option 2", "Option 3");
-		genreID = new ComboBox<String>(options);
-		genreID.getItems().addAll("Drama","Action");
+		genreComboBox.getItems().clear();
+		disableCards = false;
+		actionType = "pull soon movies";
+		moviesType = "got soon movies";
+		purchaseType = PurchaseTypes.NOT_AVAILABLE;
 		Message msg = new Message();
-		msg.setAction("pull genre screening movies");
+		msg.setAction("get genres");
 		try {
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			System.out.println("failed to send msg to server from ComingSoonSearchBar");
 			e.printStackTrace();
 		}
 
 	}
+
+	
 	
 	@FXML
-	public void initialize() {
-		// TODO Auto-generated method stub
-		genreID.getItems().clear();
-		genreID.getItems().addAll("Drama");
-
+	void onComboBoxEvent() {
+		Message msg = new Message();
+		msg.setAction("search bar update");
+		msg.setActionType(actionType);
+		msg.setMoviesType(moviesType);
+		msg.setGenere(genreComboBox.getValue());
+		try {
+			EventBus.getDefault().register(this);
+			AppClient.getClient().sendToServer(msg);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-	public void setCurrentType(String [] newArray,int size) {
-		
-
-	}
+	
 	@Subscribe
 	public void onMessageEvent(Message msg) {
-    	if(msg.getAction().equals("got genre screening movies")) {
-		Platform.runLater(()-> {
-			System.out.println(Arrays.toString(msg.genreArray));
-			currentType=new String[msg.genreArray.length];
-			currentType=msg.genreArray; });	
+		if(msg.getAction().equals("got genres")) {
+			EventBus.getDefault().register(this);
+			genreComboBox.getItems().clear();
+			EventBus.getDefault().unregister(this);
+			for(String genre : msg.getGenres()) {
+				genreComboBox.getItems().add(genre);
+			}
+		}
+		if(msg.getAction().equals(moviesType)) {
+			EventBus.getDefault().register(this);
+			Platform.runLater(()-> {
+			EventBus.getDefault().unregister(this);
+			cardController.setMoviesBySearchBar(msg.getMovies());
+			});
 		}
 	}
 }

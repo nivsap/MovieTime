@@ -28,7 +28,8 @@ public class PriceChangeApprovalsController {
 	private Double price;
 	private ArrayList<PriceRequest> requests;
 	private LocalDate date;
-	
+	private Cinema cinema;
+
 	ObservableList<String> list = FXCollections.observableArrayList("Approve", "Denied");
 	@FXML
 	private ResourceBundle resources;
@@ -91,25 +92,24 @@ public class PriceChangeApprovalsController {
 
 	@FXML
 	void SubBtn(ActionEvent event) {
-		if(Text.equals("Approve"))
-		{
+		Message msg = new Message();
+		if (Text.equals("Approve")) {
 			request.setOpen(false);
 			request.getCinema().setMoviePrice(request.getNewPrice());
 			try {
-		    	App.setWindowTitle(PageTitles.PriceChangePage);
-		    	App.setContent("PriceChangeApprovals");
+				App.setWindowTitle(PageTitles.PriceChangePage);
+				App.setContent("PriceChangeApprovals");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		
-		if(Text.equals("Denied"))
-		{
+
+		if (Text.equals("Denied")) {
 			request.setOpen(false);
 			try {
-		    	App.setWindowTitle(PageTitles.PriceChangePage);
-		    	App.setContent("PriceChangeApprovals");
+				App.setWindowTitle(PageTitles.PriceChangePage);
+				App.setContent("PriceChangeApprovals");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -153,7 +153,7 @@ public class PriceChangeApprovalsController {
 				: "fx:id=\"DateShow\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
 		assert numRequestShow != null
 				: "fx:id=\"numRequestShow\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
-		
+
 		EventBus.getDefault().register(this);
 		Message msg = new Message();
 		msg.setAction("get all price request");
@@ -166,25 +166,32 @@ public class PriceChangeApprovalsController {
 		decisionBox.setItems(list);
 
 	}
-	
-	void textSetter()
-	{
+
+	void textSetter() {
 		numRequestShow.setText(String.valueOf(requests.size()));
 		date = request.getRequestDate();
 		price = request.getNewPrice();
 		ShowTheNewPrice.setText(String.valueOf(price));
-		if(request.isMovie())
-		{
+		if (request.isMovie()) {
 			RequestTypeShow.setText("Movie");
-		}
-		else
-		{
+		} else {
 			RequestTypeShow.setText("not Movie");
 		}
 		ReasonShow.setText(request.getCommentString());
 		DateShow.setText(date.toString());
 		ShowTheOldPrice.setText(String.valueOf(request.getCinema().getMoviePrice()));
-		
+
+	}
+
+	void hidePlease() {
+		numRequestShow.setVisible(false);
+		DateShow.setVisible(false);
+		ShowTheNewPrice.setVisible(false);
+		ShowTheOldPrice.setVisible(false);
+		RequestTypeShow.setVisible(false);
+		decisionBox.setVisible(false);
+		ReasonShow.setVisible(false);
+		CommentBox.setVisible(false);
 	}
 
 	@Subscribe
@@ -193,16 +200,16 @@ public class PriceChangeApprovalsController {
 		if (msg.getAction().equals("got all price request")) {
 			Platform.runLater(() -> {
 				requests = msg.getPriceRequestsArrayList();
-				for(PriceRequest priceReq : requests)
-				{
-					if(priceReq.isOpen())
-					{
+				for (PriceRequest priceReq : requests) {
+					if (priceReq.isOpen()) {
 						request = priceReq;
 						textSetter();
 					}
+					if (!priceReq.isOpen()) {
+						hidePlease();
+					}
 				}
-				
-				
+
 			});
 
 		}

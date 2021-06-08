@@ -182,7 +182,8 @@ public class PriceChangeApprovalsController {
 	}
 
 	void hidePlease() {
-		numRequestShow.setVisible(false);
+		numRequestShow.setText("0");
+		//numRequestShow.setVisible(false);
 		DateShow.setVisible(false);
 		ShowTheNewPrice.setVisible(false);
 		ShowTheOldPrice.setVisible(false);
@@ -205,8 +206,7 @@ public class PriceChangeApprovalsController {
 						textSetter();
 					}
 					if (!priceReq.isOpen()) {
-						hidePlease();
-						numRequestShow.setText(String.valueOf("0"));
+						hidePlease();				
 					}
 				}
 
@@ -223,18 +223,6 @@ public class PriceChangeApprovalsController {
 					}
 				});
 
-				if (msg.getAction().equals("done update price")) {
-					Platform.runLater(() -> {
-						EventBus.getDefault().unregister(this);
-						try {
-							App.setContent("PriceChangeApprovals");
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					});
-
-				}
 			}
 
 		}

@@ -97,6 +97,7 @@ public class PriceChangeApprovalsController {
 		if (Text.equals("Approve")) {
 			request.setOpen(false);
 			request.getCinema().setMoviePrice(request.getNewPrice());
+			msg.setPriceRequestmsg(request);
 			msg.setAction("update price");
 			try {
 				AppClient.getClient().sendToServer(msg);
@@ -104,12 +105,13 @@ public class PriceChangeApprovalsController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 		}
 
 		if (Text.equals("Denied")) {
 			request.setOpen(false);
-			
+			msg.setPriceRequestmsg(request);
+			msg.setAction("");
 		}
 	}
 
@@ -192,9 +194,10 @@ public class PriceChangeApprovalsController {
 
 	@Subscribe
 	public void onMessageEvent(Message msg) {
-		EventBus.getDefault().unregister(this);
+
 		if (msg.getAction().equals("got all price request")) {
 			Platform.runLater(() -> {
+				EventBus.getDefault().unregister(this);
 				requests = msg.getPriceRequestsArrayList();
 				for (PriceRequest priceReq : requests) {
 					if (priceReq.isOpen()) {
@@ -203,14 +206,16 @@ public class PriceChangeApprovalsController {
 					}
 					if (!priceReq.isOpen()) {
 						hidePlease();
+						numRequestShow.setText(String.valueOf("0"));
 					}
 				}
 
 			});
+
 			if (msg.getAction().equals("done update price")) {
 				Platform.runLater(() -> {
+					EventBus.getDefault().unregister(this);
 					try {
-						App.setWindowTitle(PageTitles.PriceChangePage);
 						App.setContent("PriceChangeApprovals");
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
@@ -218,8 +223,20 @@ public class PriceChangeApprovalsController {
 					}
 				});
 
-			}
-		}
+				if (msg.getAction().equals("done update price")) {
+					Platform.runLater(() -> {
+						EventBus.getDefault().unregister(this);
+						try {
+							App.setContent("PriceChangeApprovals");
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					});
 
+				}
+			}
+
+		}
 	}
 }

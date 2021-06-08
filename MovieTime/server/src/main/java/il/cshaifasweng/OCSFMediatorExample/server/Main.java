@@ -370,7 +370,7 @@ public class Main extends AbstractServer {
 			// Purchase customer = new Purchase("Hadar", "Manor", "Some title", "Some
 			// details" , "12312312",new Pair<Boolean, Integer>(true,
 			// 20),false,null,null,null,new ArrayList<>(),10,null);
-			PriceRequest request = new PriceRequest(LocalDate.now(), telAvivCinema, true, "becasue", 80, true);
+			PriceRequest request = new PriceRequest(LocalDateTime.now(), telAvivCinema, true, "becasue", 80, true);
 			// session.save(customer);
 			session.save(request);
 			session.save(someComplaint1);
@@ -1324,6 +1324,17 @@ public class Main extends AbstractServer {
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant close complaint");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	if (currentMsg.getAction().equals("update price")) {
+			try {
+				serverMsg = currentMsg;
+				updateRowDB(currentMsg.getPriceRequestmsg().getCinema());
+				serverMsg.setAction("done update price");
+				client.sendToClient(serverMsg);
+			} catch (IOException e) {
+				System.out.println("cant update price");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

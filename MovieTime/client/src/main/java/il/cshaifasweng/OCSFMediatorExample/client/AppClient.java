@@ -179,13 +179,20 @@ public class AppClient extends AbstractClient {
     	if(currentMsg.getAction().equals("got genres")) {
 
     		EventBus.getDefault().post(((Message) msg));
-    	}if(currentMsg.getAction().equals("done to save price request")) {
+    	}
+    	if(currentMsg.getAction().equals("done to save price request")) {
 
     		EventBus.getDefault().post(((Message) msg));
-    	}if(currentMsg.getAction().equals("got all price request")) {
+    	}
+    	if(currentMsg.getAction().equals("got all price request")) {
 
     		EventBus.getDefault().post(((Message) msg));
-    	}if(currentMsg.getAction().equals("got all cinemas")) {
+    	}
+    	if(currentMsg.getAction().equals("got all cinemas")) {
+
+    		EventBus.getDefault().post(((Message) msg));
+    	}
+    	if(currentMsg.getAction().equals("done update price")) {
 
     		EventBus.getDefault().post(((Message) msg));
     	}

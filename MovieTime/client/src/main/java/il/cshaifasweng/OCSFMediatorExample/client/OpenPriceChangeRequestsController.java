@@ -99,6 +99,7 @@ public class OpenPriceChangeRequestsController {
 	@FXML
 	void DateBoxShow(ActionEvent event) {
 		date = DateBox.getValue();
+		
 		System.out.println(date);
 	}
 
@@ -107,10 +108,10 @@ public class OpenPriceChangeRequestsController {
 		Message msg = new Message();
 		msg.setAction("save price request");
 		if (textCollector.equals("Movie")) {
-			prices = new PriceRequest(date, theCinema, true, textCollector, price, true);
+			prices = new PriceRequest(date.atStartOfDay(), theCinema, true, textCollector, price, true);
 			msg.setPriceRequestmsg(prices);
 		} else {
-			prices = new PriceRequest(date, theCinema, false, textCollector, price, true);
+			prices = new PriceRequest(date.atStartOfDay(), theCinema, false, textCollector, price, true);
 			msg.setPriceRequestmsg(prices);
 		}
 		

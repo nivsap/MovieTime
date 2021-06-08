@@ -20,7 +20,7 @@ public class PriceRequest implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private LocalDate requestDate;
+	private LocalDateTime requestDate;
 	@OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	private Cinema cinema;
 	private boolean isMovie;
@@ -30,7 +30,7 @@ public class PriceRequest implements Serializable{
 //	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //	@JoinColumn(name = "worker_id")
 //	private Worker worker;
-	public PriceRequest(LocalDate requestDate, Cinema cinema, boolean isMovie, String commentString,
+	public PriceRequest(LocalDateTime requestDate, Cinema cinema, boolean isMovie, String commentString,
 			double newPrice, boolean isOpen) {
 		super();
 		this.requestDate = requestDate;
@@ -47,10 +47,10 @@ public class PriceRequest implements Serializable{
 	public void setId(int id) {
 		this.id = id;
 	}
-	public LocalDate getRequestDate() {
+	public LocalDateTime getRequestDate() {
 		return requestDate;
 	}
-	public void setRequestDate(LocalDate requestDate) {
+	public void setRequestDate(LocalDateTime requestDate) {
 		this.requestDate = requestDate;
 	}
 	public Cinema getCinema() {

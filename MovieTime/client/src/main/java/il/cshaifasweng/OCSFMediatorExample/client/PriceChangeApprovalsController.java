@@ -170,7 +170,7 @@ public class PriceChangeApprovalsController {
 
 	void textSetter() {
 		numRequestShow.setText(String.valueOf(requests.size()));
-		date = request.getRequestDate();
+		date = request.getRequestDate().toLocalDate();
 		price = request.getNewPrice();
 		ShowTheNewPrice.setText(String.valueOf(price));
 		if (request.isMovie()) {

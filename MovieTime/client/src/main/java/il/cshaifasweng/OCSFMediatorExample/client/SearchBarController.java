@@ -61,14 +61,11 @@ public class SearchBarController {
 
 	
 	public void SetPageType(String namePage) {
-		System.out.println("3.55");
 		if(namePage.equals("MainPage")) {
-			System.out.println("3.6");
     		disableCards = false;
     		actionType = "pull screening movies";
     		moviesType = "got screening movies";
     		purchaseType = PurchaseTypes.TICKET;
-    		System.out.println("3.7");
 		}
 
 		if(namePage.equals("ViewingPackagesPage")) {
@@ -89,7 +86,6 @@ public class SearchBarController {
 			moviesType = "got screening movies";
 			purchaseType = PurchaseTypes.NOT_AVAILABLE;
 		}
-		System.out.println("3.8");
 	}
 	
 	@Subscribe

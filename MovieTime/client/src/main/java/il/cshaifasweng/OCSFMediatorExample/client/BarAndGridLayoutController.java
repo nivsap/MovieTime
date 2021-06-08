@@ -47,7 +47,6 @@ public class BarAndGridLayoutController {
 		if(namePage.equals("BranchManagerMainPage")) {
 	    	barFXMLLoader.setLocation(getClass().getResource("SearchBar.fxml"));
 		}
-    	System.out.println("5");
 		barContainer = barFXMLLoader.load();
 		gridFXMLLoader.setLocation(getClass().getResource("CardContainer.fxml"));
 		gridContainer = gridFXMLLoader.load();
@@ -55,20 +54,14 @@ public class BarAndGridLayoutController {
 		gridController.setPurchaseType(PurchaseTypes.getType(namePage));
 		gridController.setGridContent(namePage);
 		CardContainerController ctrl = gridController;
-		System.out.println("6");
 		if(!namePage.equals("ComingSoonPage")) {
 			SearchBarController Sctrl = barFXMLLoader.getController();
-			System.out.println("6.5");
-			System.out.println("7");
 			Sctrl.SetPageType(namePage);
 			Sctrl.setCardController(ctrl);
-			System.out.println("8");
 		}
 		else {
 			ComingSoonSearchBarController Sctrl = barFXMLLoader.getController();
-			System.out.println("9");
 			Sctrl.setCardController(ctrl);
-			System.out.println("10");
 		}
 		
 		

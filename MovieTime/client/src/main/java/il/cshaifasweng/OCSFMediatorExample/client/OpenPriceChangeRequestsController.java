@@ -81,11 +81,9 @@ public class OpenPriceChangeRequestsController {
 	@SuppressWarnings("unlikely-arg-type")
 	@FXML
 	void CinemaSelect(ActionEvent event) throws IOException {
-		
-		for(Cinema cinema : cinemas)
-		{
-			if(cinema.getName().equals(CinemaBox.getValue()))
-			{
+
+		for (Cinema cinema : cinemas) {
+			if (cinema.getName().equals(CinemaBox.getValue())) {
 				theCinema = cinema;
 				OldPriceShow.setText(String.valueOf(cinema.getMoviePrice()));
 				OldPriceLeble.setVisible(true);
@@ -99,7 +97,7 @@ public class OpenPriceChangeRequestsController {
 	@FXML
 	void DateBoxShow(ActionEvent event) {
 		date = DateBox.getValue();
-		
+
 		System.out.println(date);
 	}
 
@@ -114,7 +112,7 @@ public class OpenPriceChangeRequestsController {
 			prices = new PriceRequest(date.atStartOfDay(), theCinema, false, textCollector, price, true);
 			msg.setPriceRequestmsg(prices);
 		}
-		
+
 		try {
 			System.out.println("hi");
 			AppClient.getClient().sendToServer(msg);
@@ -165,7 +163,7 @@ public class OpenPriceChangeRequestsController {
 				: "fx:id=\"CinemaBox\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
 		assert DateBox != null
 				: "fx:id=\"DateBox\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
-		
+
 		Message msg = new Message();
 		msg.setAction("get all cinemas");
 		try {
@@ -204,16 +202,16 @@ public class OpenPriceChangeRequestsController {
 				}
 			});
 
-			if (msg.getAction().equals("done to save price request")) {
-				Platform.runLater(() -> {
-					try {
-						App.setContent("OpenPriceChangeRequests");
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				});
-			}
+		}
+		if (msg.getAction().equals("done to save price request")) {
+			Platform.runLater(() -> {
+				try {
+					App.setContent("OpenPriceChangeRequests");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
 		}
 	}
 }

@@ -109,10 +109,11 @@ public class Main extends AbstractServer {
 			Worker asafWorker = new CustomerService("asaf", "asaf", "asaf", "asaf", null, false, false,
 					new Pair<LocalDateTime, LocalDateTime>(getTime(2021, 1, 1), getTime(2021, 3, 4)), 40);
 			Worker hadarWorker = new NetworkAdministrator("hadar", "hadar", "hadar", "hadar", null, false);
-			//PriceRequest priceRequest = new PriceRequest(null, null, false, null, 10, false);
+			// PriceRequest priceRequest = new PriceRequest(null, null, false, null, 10,
+			// false);
 			// lielWorker.getPriceRequests().add(priceRequest);
 			// System.out.println(lielWorker.getPriceRequests().get(0).getNewPrice());
-			//session.save(priceRequest);
+			// session.save(priceRequest);
 
 			// create movie
 
@@ -292,7 +293,7 @@ public class Main extends AbstractServer {
 			session.save(screeningOfFilm_10);
 			session.save(screeningOfFilm_11);
 			session.save(screeningOfFilm_12);
-	
+
 			session.save(hall1);
 			session.save(hall2);
 			session.save(hall3);
@@ -408,22 +409,24 @@ public class Main extends AbstractServer {
 		}
 		addDataToDB();
 		List<Purchase> list = getAllOfType(Purchase.class);
-		System.out.println( LocalDateTime.now());
-    	Thread timerThread = new Thread(() -> {
-    		while (true) {
-    			for (Purchase i : list) {
-    				if(i.getViewingPackage().getDateTime().getDayOfYear() == LocalDateTime.now().getDayOfYear() && i.getViewingPackage().getDateTime().getHour() - 1 == LocalDateTime.now().getHour() && i.getViewingPackage().getDateTime().getMinute() == LocalDateTime.now().getMinute()) {
-                    	JavaMailUtil.sendMessage(i.getEmailOrder(), "hadye", "hadye");
-                    }
-    			}
-    			try {
-    				Thread.sleep(35000); //35 second
-    			} catch (InterruptedException e) {
-    				e.printStackTrace();
-    			}
-    		}
-    	});   
-    	timerThread.start();
+		System.out.println(LocalDateTime.now());
+		Thread timerThread = new Thread(() -> {
+			while (true) {
+				for (Purchase i : list) {
+					if (i.getViewingPackage().getDateTime().getDayOfYear() == LocalDateTime.now().getDayOfYear()
+							&& i.getViewingPackage().getDateTime().getHour() - 1 == LocalDateTime.now().getHour()
+							&& i.getViewingPackage().getDateTime().getMinute() == LocalDateTime.now().getMinute()) {
+						JavaMailUtil.sendMessage(i.getEmailOrder(), "hadye", "hadye");
+					}
+				}
+				try {
+					Thread.sleep(35000); // 35 second
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		timerThread.start();
 	}
 
 	public static <T> void saveRowInDB(T objectType) {
@@ -1079,7 +1082,7 @@ public class Main extends AbstractServer {
 			try {
 				ArrayList<Movie> movies = new ArrayList<Movie>();
 
-				if(currentMsg.getActionType().equals("pull screening movies")) {
+				if (currentMsg.getActionType().equals("pull screening movies")) {
 
 					List<Screening> screenings = getAllOfType(Screening.class);
 
@@ -1100,30 +1103,30 @@ public class Main extends AbstractServer {
 					} else {
 						movies = getAllOfType(Movie.class);
 						Iterator<Movie> iter = movies.iterator();
-						while(iter.hasNext()) {
+						while (iter.hasNext()) {
 							Movie movie = iter.next();
-							if(movie.isSoonInCinema()) {
+							if (movie.isSoonInCinema()) {
 								iter.remove();
 							}
 						}
-						
+
 						iter = movies.iterator();
-						while(iter.hasNext()) {
+						while (iter.hasNext()) {
 							Movie movie = iter.next();
-							if(movie.isStreamOnline() && !movie.isScreening()) {
+							if (movie.isStreamOnline() && !movie.isScreening()) {
 								iter.remove();
 							}
 						}
 					}
 
-				}else if(currentMsg.getActionType().equals("pull soon movies")) {
+				} else if (currentMsg.getActionType().equals("pull soon movies")) {
 
 					movies = getAllOfType(Movie.class);
 					Iterator<Movie> iter = movies.iterator();
 					while (iter.hasNext()) {
 						Movie movie = iter.next();
 
-						if(!movie.isSoonInCinema()) {
+						if (!movie.isSoonInCinema()) {
 							iter.remove();
 						}
 					}
@@ -1255,7 +1258,7 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		
+
 		if (currentMsg.getAction().equals("cancel current order")) {
 			try {
 				serverMsg = currentMsg;
@@ -1327,7 +1330,8 @@ public class Main extends AbstractServer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}	if (currentMsg.getAction().equals("update price")) {
+		}
+		if (currentMsg.getAction().equals("update price")) {
 			try {
 				serverMsg = currentMsg;
 				currentMsg.getPriceRequestmsg().setOpen(false);
@@ -1337,6 +1341,19 @@ public class Main extends AbstractServer {
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant update price");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if (currentMsg.getAction().equals("cancel update price")) {
+			try {
+				serverMsg = currentMsg;
+				currentMsg.getPriceRequestmsg().setOpen(false);
+				updateRowDB(currentMsg.getPriceRequestmsg());
+				serverMsg.setAction("done canceling update price");
+				client.sendToClient(serverMsg);
+			} catch (IOException e) {
+				System.out.println("cant cancel update price");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

@@ -109,9 +109,14 @@ public class PriceChangeApprovalsController {
 		}
 
 		if (Text.equals("Denied")) {
-			request.setOpen(false);
 			msg.setPriceRequestmsg(request);
-			msg.setAction("");
+			msg.setAction("cancel update price");
+			try {
+				AppClient.getClient().sendToServer(msg);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -183,7 +188,6 @@ public class PriceChangeApprovalsController {
 
 	void hidePlease() {
 		numRequestShow.setText("0");
-		//numRequestShow.setVisible(false);
 		DateShow.setVisible(false);
 		ShowTheNewPrice.setVisible(false);
 		ShowTheOldPrice.setVisible(false);
@@ -195,10 +199,8 @@ public class PriceChangeApprovalsController {
 
 	@Subscribe
 	public void onMessageEvent(Message msg) {
-
 		if (msg.getAction().equals("got all price request")) {
 			Platform.runLater(() -> {
-				EventBus.getDefault().unregister(this);
 				requests = msg.getPriceRequestsArrayList();
 				for (PriceRequest priceReq : requests) {
 					if (priceReq.isOpen()) {
@@ -206,24 +208,36 @@ public class PriceChangeApprovalsController {
 						textSetter();
 					}
 					if (!priceReq.isOpen()) {
-						hidePlease();				
+						hidePlease();
 					}
 				}
 
 			});
+		}
+		if (msg.getAction().equals("done update price")) {
+			Platform.runLater(() -> {
+				EventBus.getDefault().unregister(this);
+				App.setWindowTitle(PageTitles.PriceChangePage);
+				try {
+					App.setContent("PriceChangeApprovals");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
 
-			if (msg.getAction().equals("done update price")) {
-				Platform.runLater(() -> {
-					EventBus.getDefault().unregister(this);
-					try {
-						App.setContent("PriceChangeApprovals");
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				});
-
-			}
+		}
+		if (msg.getAction().equals("done canceling update price")) {
+			Platform.runLater(() -> {
+				EventBus.getDefault().unregister(this);
+				App.setWindowTitle(PageTitles.PriceChangePage);
+				try {
+					App.setContent("PriceChangeApprovals");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
 
 		}
 	}

@@ -201,6 +201,14 @@ public class AppClient extends AbstractClient {
 
     		EventBus.getDefault().post(((Message) msg));
     	}
+    	if(currentMsg.getAction().equals("cancel update price")) {
+
+    		EventBus.getDefault().post(((Message) msg));
+    	}
+    	if(currentMsg.getAction().equals("done canceling update price")) {
+
+    		EventBus.getDefault().post(((Message) msg));
+    	}
   
 
 	}

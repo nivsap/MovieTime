@@ -46,11 +46,13 @@ public class App extends Application {
     
     
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage)  {
     	EventBus.getDefault().register(this);
     	stage = primaryStage;
     	client = AppClient.getClient();
-    	client.openConnection();
+    	try {
+			client.openConnection();
+		
     	
     	// Setting Layout's Content
     	pageLayout = new BorderPane();
@@ -66,6 +68,10 @@ public class App extends Application {
         stage.setScene(scene);
         stage.show();
 
+    	} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
         
 		 /* For Connection Page:
@@ -86,27 +92,29 @@ public class App extends Application {
     
     @Override
     public void stop(){
-        System.out.println("Stage is closing");
-        if(currentController.getClass().equals(PaymentPageController.class)) {
-        	Message msg = new Message();
-        	msg.setAction("cancel current order");
-        	ArrayList<Pair<Integer,Integer>> seats = new ArrayList<Pair<Integer,Integer>>();
-        	Screening screening = ((PaymentPageController) currentController).getScreening();
-        	if(screening != null) {
-	        	seats = (ArrayList)((PaymentPageController) currentController).getSeats();
-	
-	        	for(Pair<Integer,Integer> seat : seats) {
-	        		screening.getSeats()[seat.getKey()][seat.getValue()] = 0;
+    	if(currentController!= null) {
+	        System.out.println("Stage is closing");
+	        if(currentController.getClass().equals(PaymentPageController.class)) {
+	        	Message msg = new Message();
+	        	msg.setAction("cancel current order");
+	        	ArrayList<Pair<Integer,Integer>> seats = new ArrayList<Pair<Integer,Integer>>();
+	        	Screening screening = ((PaymentPageController) currentController).getScreening();
+	        	if(screening != null) {
+		        	seats = (ArrayList)((PaymentPageController) currentController).getSeats();
+		
+		        	for(Pair<Integer,Integer> seat : seats) {
+		        		screening.getSeats()[seat.getKey()][seat.getValue()] = 0;
+		        	}
+		        	msg.setScreening(screening);
+		        	try {
+						AppClient.getClient().sendToServer(msg);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 	        	}
-	        	msg.setScreening(screening);
-	        	try {
-					AppClient.getClient().sendToServer(msg);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-        	}
-        }
+	        }
+    	}
        	
         if(userName != null) {
         	App.logout(false);
@@ -152,7 +160,7 @@ public class App extends Application {
     		} 
     	}
     }
-    
+   //5 
     static Object setContent(String pageName) throws IOException {
     	// setContent() loads page/FXML into App's content container and returns page's controller.
     	if(content != null)

@@ -22,6 +22,12 @@ public class NetworkAdministratorMenuController {
     private Button logoutMenuBtn;
     
     @FXML
+    void ShowPriceRequest(ActionEvent event) throws IOException {
+    	App.setWindowTitle(PageTitles.PriceChangePage);
+    	App.setContent("PriceChangeApprovals");
+    }
+    
+    @FXML
     void logout(ActionEvent event) throws IOException {
     	App.logout(true);
     	App.setWindowTitle(PageTitles.MainPage);

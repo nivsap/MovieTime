@@ -13,6 +13,8 @@ public class Message implements Serializable {
 	String action;
 	String username; 
 	String password;
+	String actionType;
+	String moviesType;
 	String typeOfWorkerString;
 	Movie movie;
 	Screening screening;
@@ -32,7 +34,7 @@ public class Message implements Serializable {
 	int tavSagolLimit;
 	int numOfSeats;
 	double payment;
-	
+	ArrayList<String> genres;
 	
 	
 	int movieId;            				//clientSide need to fill/set is field when send msg to server
@@ -530,7 +532,6 @@ public class Message implements Serializable {
 	}
 
 
-
 	public String getRate() {
 		return rate;
 	}
@@ -585,6 +586,30 @@ public class Message implements Serializable {
 
 	public void setTavSagolLimit(int tavSagolLimit) {
 		this.tavSagolLimit = tavSagolLimit;
+	}
+
+	public ArrayList<String> getGenres() {
+		return genres;
+	}
+
+	public void setGenres(ArrayList<String> genres) {
+		this.genres = genres;
+	}
+
+	public String getActionType() {
+		return actionType;
+	}
+
+	public void setActionType(String actionType) {
+		this.actionType = actionType;
+	}
+
+	public String getMoviesType() {
+		return moviesType;
+	}
+
+	public void setMoviesType(String moviesType) {
+		this.moviesType = moviesType;
 	}
 }
 

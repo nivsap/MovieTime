@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #1d1e22;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.OpenPriceChangeRequestsController">
+   <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #343537;">
+      <children>
+         <AnchorPane layoutX="25.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="220.0" prefWidth="650.0" style="-fx-background-color: #141518;">
+            <children>
+               <Label layoutX="15.0" layoutY="15.0" style="-fx-font-weight: bold;" text="Open Price Changing Requests Page" textFill="WHITE">
+                  <font>
+                     <Font size="18.0" />
+                  </font>
+               </Label>
+            </children>
+         </AnchorPane>
+         <AnchorPane layoutY="240.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="700.0" style="-fx-background-color: #141518;">
+            <children>
+               <Label layoutX="15.0" layoutY="5.0" style="-fx-font-weight: bold;" text="Open Requests Info" textFill="WHITE">
+                  <font>
+                     <Font size="18.0" />
+                  </font>
+               </Label>
+               <Button fx:id="RqstHandlBtn" alignment="CENTER" layoutX="410.0" layoutY="145.0" mnemonicParsing="false" onAction="#RequestHandlBtn" prefHeight="41.0" prefWidth="150.0" styleClass="orangeBtn" text="Request" />
+               <Label fx:id="DateLabel" layoutX="23.0" layoutY="52.0" prefHeight="17.0" prefWidth="126.0" text="Date" textFill="WHITE" />
+               <Label fx:id="RqstTitle" layoutX="200.0" layoutY="52.0" prefHeight="17.0" prefWidth="126.0" text="Request Type" textFill="WHITE" />
+               <ComboBox fx:id="RequestBox" layoutX="200.0" layoutY="69.0" onAction="#RequestTypeBox" prefWidth="150.0" />
+               <Label fx:id="NewPriceLabel" layoutX="379.0" layoutY="52.0" prefHeight="17.0" prefWidth="126.0" text="New price" textFill="WHITE" />
+               <TextField fx:id="NewPriceField" layoutX="379.0" layoutY="69.0" onAction="#enterNewPrice" />
+               <Label fx:id="OldPriceLeble" layoutX="542.0" layoutY="52.0" prefHeight="17.0" prefWidth="126.0" text="Old price" textFill="WHITE" />
+               <Label fx:id="OldPriceShow" layoutX="542.0" layoutY="73.0" prefHeight="17.0" prefWidth="126.0" text="Change me" textFill="WHITE" />
+               <TextArea fx:id="textFiller" layoutX="200.0" layoutY="137.0" prefHeight="56.0" prefWidth="200.0" />
+               <Label fx:id="ReasonLabel" layoutX="200.0" layoutY="120.0" prefHeight="17.0" prefWidth="126.0" text="Reason" textFill="WHITE" />
+               <Label fx:id="CinemaLable" layoutX="23.0" layoutY="120.0" prefHeight="17.0" prefWidth="126.0" text="Cinema" textFill="WHITE" />
+               <ComboBox fx:id="CinemaBox" layoutX="23.0" layoutY="140.0" onAction="#CinemaSelect" prefWidth="150.0" />
+               <DatePicker fx:id="DateBox" layoutX="15.0" layoutY="69.0" onAction="#DateBoxShow" />
+            </children>
+         </AnchorPane>
+      </children>
+   </AnchorPane>
+</VBox>

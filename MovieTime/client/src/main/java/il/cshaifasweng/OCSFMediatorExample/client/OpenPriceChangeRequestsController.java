@@ -28,6 +28,7 @@ import javafx.scene.control.TextArea;
 
 public class OpenPriceChangeRequestsController {
 	private String textCollector;
+	private String textfields;
 	private int price;
 	private LocalDate date;
 	ObservableList<String> list = FXCollections.observableArrayList("Movie", "Viewing Package", "Card");
@@ -105,11 +106,12 @@ public class OpenPriceChangeRequestsController {
 	void RequestHandlBtn(ActionEvent event) throws IOException {
 		Message msg = new Message();
 		msg.setAction("save price request");
+		textfields = textFiller.getText();
 		if (textCollector.equals("Movie")) {
-			prices = new PriceRequest(date.atStartOfDay(), theCinema, true, textCollector, price, true);
+			prices = new PriceRequest(date.atStartOfDay(), theCinema, true, textfields, price, true);
 			msg.setPriceRequestmsg(prices);
 		} else {
-			prices = new PriceRequest(date.atStartOfDay(), theCinema, false, textCollector, price, true);
+			prices = new PriceRequest(date.atStartOfDay(), theCinema, false, textfields, price, true);
 			msg.setPriceRequestmsg(prices);
 		}
 

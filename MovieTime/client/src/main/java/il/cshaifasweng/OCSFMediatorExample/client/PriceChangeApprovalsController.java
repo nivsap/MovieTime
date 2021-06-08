@@ -93,28 +93,23 @@ public class PriceChangeApprovalsController {
 	@FXML
 	void SubBtn(ActionEvent event) {
 		Message msg = new Message();
-		
+
 		if (Text.equals("Approve")) {
 			request.setOpen(false);
 			request.getCinema().setMoviePrice(request.getNewPrice());
+			msg.setAction("update price");
 			try {
-				App.setWindowTitle(PageTitles.PriceChangePage);
-				App.setContent("PriceChangeApprovals");
+				AppClient.getClient().sendToServer(msg);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
 		}
 
 		if (Text.equals("Denied")) {
 			request.setOpen(false);
-			try {
-				App.setWindowTitle(PageTitles.PriceChangePage);
-				App.setContent("PriceChangeApprovals");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			
 		}
 	}
 
@@ -212,8 +207,19 @@ public class PriceChangeApprovalsController {
 				}
 
 			});
+			if (msg.getAction().equals("done update price")) {
+				Platform.runLater(() -> {
+					try {
+						App.setWindowTitle(PageTitles.PriceChangePage);
+						App.setContent("PriceChangeApprovals");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				});
 
+			}
 		}
-	}
 
+	}
 }

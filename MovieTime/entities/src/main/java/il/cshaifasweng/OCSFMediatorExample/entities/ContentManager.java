@@ -16,9 +16,6 @@ public class ContentManager extends Worker implements  Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-//	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "worker" )
-//	private List<PriceRequest> priceRequests;
-	//private ArrayList<Movie> allMoviesInCinema;
 	public ContentManager() {}
 	public ContentManager(String firstName, String lastName, String userName, String password , Cinema cinema,boolean isLoggedIn 
 			) {

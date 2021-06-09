@@ -107,13 +107,15 @@ public class Main extends AbstractServer {
 			
 			Worker shirWorker = new BranchManager("shir", "shir", "shir", "shir", false, null);
 			Worker nivWorker = new BranchManager("niv", "niv", "niv", "niv", false, null);
+
 			Worker lielWorker = new ContentManager("liel", "liel", "liel", "liel", false, null);
 			Worker asafWorker = new CustomerService("asaf", "asaf", "asaf", "asaf", false, null);
 			Worker hadarWorker = new NetworkAdministrator("hadar", "hadar", "hadar", "hadar", false, null);
 			//PriceRequest priceRequest = new PriceRequest(null, null, false, null, 10, false);
+
 			// lielWorker.getPriceRequests().add(priceRequest);
 			// System.out.println(lielWorker.getPriceRequests().get(0).getNewPrice());
-			//session.save(priceRequest);
+			// session.save(priceRequest);
 
 			// create movie
 			
@@ -298,7 +300,7 @@ public class Main extends AbstractServer {
 			session.save(screeningOfFilm_10);
 			session.save(screeningOfFilm_11);
 			session.save(screeningOfFilm_12);
-	
+
 			session.save(hall1);
 			session.save(hall2);
 			session.save(hall3);
@@ -414,22 +416,24 @@ public class Main extends AbstractServer {
 		}
 		addDataToDB();
 		List<Purchase> list = getAllOfType(Purchase.class);
-		System.out.println( LocalDateTime.now());
-    	Thread timerThread = new Thread(() -> {
-    		while (true) {
-    			for (Purchase i : list) {
-    				if(i.getViewingPackage().getDateTime().getDayOfYear() == LocalDateTime.now().getDayOfYear() && i.getViewingPackage().getDateTime().getHour() - 1 == LocalDateTime.now().getHour() && i.getViewingPackage().getDateTime().getMinute() == LocalDateTime.now().getMinute()) {
-                    	JavaMailUtil.sendMessage(i.getEmailOrder(), "hadye", "hadye");
-                    }
-    			}
-    			try {
-    				Thread.sleep(35000); //35 second
-    			} catch (InterruptedException e) {
-    				e.printStackTrace();
-    			}
-    		}
-    	});   
-    	timerThread.start();
+		System.out.println(LocalDateTime.now());
+		Thread timerThread = new Thread(() -> {
+			while (true) {
+				for (Purchase i : list) {
+					if (i.getViewingPackage().getDateTime().getDayOfYear() == LocalDateTime.now().getDayOfYear()
+							&& i.getViewingPackage().getDateTime().getHour() - 1 == LocalDateTime.now().getHour()
+							&& i.getViewingPackage().getDateTime().getMinute() == LocalDateTime.now().getMinute()) {
+						JavaMailUtil.sendMessage(i.getEmailOrder(), "hadye", "hadye");
+					}
+				}
+				try {
+					Thread.sleep(35000); // 35 second
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		timerThread.start();
 	}
 
 	public static <T> void saveRowInDB(T objectType) {
@@ -1095,7 +1099,7 @@ public class Main extends AbstractServer {
 			try {
 				ArrayList<Movie> movies = new ArrayList<Movie>();
 
-				if(currentMsg.getActionType().equals("pull screening movies")) {
+				if (currentMsg.getActionType().equals("pull screening movies")) {
 
 					List<Screening> screenings = getAllOfType(Screening.class);
 
@@ -1116,30 +1120,30 @@ public class Main extends AbstractServer {
 					} else {
 						movies = getAllOfType(Movie.class);
 						Iterator<Movie> iter = movies.iterator();
-						while(iter.hasNext()) {
+						while (iter.hasNext()) {
 							Movie movie = iter.next();
-							if(movie.isSoonInCinema()) {
+							if (movie.isSoonInCinema()) {
 								iter.remove();
 							}
 						}
-						
+
 						iter = movies.iterator();
-						while(iter.hasNext()) {
+						while (iter.hasNext()) {
 							Movie movie = iter.next();
-							if(movie.isStreamOnline() && !movie.isScreening()) {
+							if (movie.isStreamOnline() && !movie.isScreening()) {
 								iter.remove();
 							}
 						}
 					}
 
-				}else if(currentMsg.getActionType().equals("pull soon movies")) {
+				} else if (currentMsg.getActionType().equals("pull soon movies")) {
 
 					movies = getAllOfType(Movie.class);
 					Iterator<Movie> iter = movies.iterator();
 					while (iter.hasNext()) {
 						Movie movie = iter.next();
 
-						if(!movie.isSoonInCinema()) {
+						if (!movie.isSoonInCinema()) {
 							iter.remove();
 						}
 					}
@@ -1271,7 +1275,7 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		
+
 		if (currentMsg.getAction().equals("cancel current order")) {
 			try {
 				serverMsg = currentMsg;
@@ -1343,7 +1347,8 @@ public class Main extends AbstractServer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}	if (currentMsg.getAction().equals("update price")) {
+		}
+		if (currentMsg.getAction().equals("update price")) {
 			try {
 				serverMsg = currentMsg;
 				currentMsg.getPriceRequestmsg().setOpen(false);
@@ -1353,6 +1358,19 @@ public class Main extends AbstractServer {
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant update price");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if (currentMsg.getAction().equals("cancel update price")) {
+			try {
+				serverMsg = currentMsg;
+				currentMsg.getPriceRequestmsg().setOpen(false);
+				updateRowDB(currentMsg.getPriceRequestmsg());
+				serverMsg.setAction("done canceling update price");
+				client.sendToClient(serverMsg);
+			} catch (IOException e) {
+				System.out.println("cant cancel update price");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -1377,6 +1395,24 @@ public class Main extends AbstractServer {
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant get all viewing package");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if (currentMsg.getAction().equals("get all movies from viewing packages")) {
+			try {
+				serverMsg = currentMsg;
+				ArrayList<Movie> moviesFromHome =new ArrayList<>();
+				for(ViewingPackage viewingPackage : getAllOfType(ViewingPackage.class)) {
+					if(!(moviesFromHome.contains(viewingPackage.getMovie()))) {
+						moviesFromHome.add(viewingPackage.getMovie());
+					}
+				}
+				serverMsg.setMovies(moviesFromHome);
+				serverMsg.setAction("got all movies from viewing packages");
+				client.sendToClient(serverMsg);
+			} catch (IOException e) {
+				System.out.println("cant get all movies from viewing packages");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

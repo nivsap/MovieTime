@@ -93,24 +93,26 @@ public class PriceChangeApprovalsController {
 	@FXML
 	void SubBtn(ActionEvent event) {
 		Message msg = new Message();
-		
+
 		if (Text.equals("Approve")) {
 			request.setOpen(false);
 			request.getCinema().setMoviePrice(request.getNewPrice());
+			msg.setPriceRequestmsg(request);
+			msg.setAction("update price");
 			try {
-				App.setWindowTitle(PageTitles.PriceChangePage);
-				App.setContent("PriceChangeApprovals");
+				AppClient.getClient().sendToServer(msg);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
 		}
 
 		if (Text.equals("Denied")) {
-			request.setOpen(false);
+			msg.setPriceRequestmsg(request);
+			msg.setAction("cancel update price");
 			try {
-				App.setWindowTitle(PageTitles.PriceChangePage);
-				App.setContent("PriceChangeApprovals");
+				AppClient.getClient().sendToServer(msg);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -185,7 +187,7 @@ public class PriceChangeApprovalsController {
 	}
 
 	void hidePlease() {
-		numRequestShow.setVisible(false);
+		numRequestShow.setText("0");
 		DateShow.setVisible(false);
 		ShowTheNewPrice.setVisible(false);
 		ShowTheOldPrice.setVisible(false);
@@ -197,7 +199,6 @@ public class PriceChangeApprovalsController {
 
 	@Subscribe
 	public void onMessageEvent(Message msg) {
-		EventBus.getDefault().unregister(this);
 		if (msg.getAction().equals("got all price request")) {
 			Platform.runLater(() -> {
 				requests = msg.getPriceRequestsArrayList();
@@ -212,8 +213,32 @@ public class PriceChangeApprovalsController {
 				}
 
 			});
+		}
+		if (msg.getAction().equals("done update price")) {
+			Platform.runLater(() -> {
+				EventBus.getDefault().unregister(this);
+				App.setWindowTitle(PageTitles.PriceChangePage);
+				try {
+					App.setContent("PriceChangeApprovals");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
+
+		}
+		if (msg.getAction().equals("done canceling update price")) {
+			Platform.runLater(() -> {
+				EventBus.getDefault().unregister(this);
+				App.setWindowTitle(PageTitles.PriceChangePage);
+				try {
+					App.setContent("PriceChangeApprovals");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
 
 		}
 	}
-
 }

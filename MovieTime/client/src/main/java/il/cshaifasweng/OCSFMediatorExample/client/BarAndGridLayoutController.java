@@ -26,25 +26,27 @@ public class BarAndGridLayoutController {
 		if(namePage.equals("MainPage")) {
 			barFXMLLoader.setLocation(getClass().getResource("SearchBar.fxml"));
 		}
+		
 		if(namePage.equals("ComingSoonPage")) {
 			barFXMLLoader.setLocation(getClass().getResource("ComingSoonBar.fxml"));
 		}
+		
 		if(namePage.equals("ViewingPackagesPage")) {
 	    	barFXMLLoader.setLocation(getClass().getResource("SearchBar.fxml"));
 		}
 
 		if(namePage.equals("NetworkAdministratorMainPage")) {
 	    	barFXMLLoader.setLocation(getClass().getResource("SearchBar.fxml"));
-
 		}
+		
 		if(namePage.equals("BranchManagerMainPage")) {
 	    	barFXMLLoader.setLocation(getClass().getResource("SearchBar.fxml"));
 		}
+		
 		barContainer = barFXMLLoader.load();
 		gridFXMLLoader.setLocation(getClass().getResource("CardContainer.fxml"));
 		gridContainer = gridFXMLLoader.load();
 		gridController = gridFXMLLoader.getController();
-		gridController.setPurchaseType(PurchaseTypes.getType(namePage));
 		gridController.setGridContent(namePage);
 		CardContainerController ctrl = gridController;
 		if(!namePage.equals("ComingSoonPage")) {

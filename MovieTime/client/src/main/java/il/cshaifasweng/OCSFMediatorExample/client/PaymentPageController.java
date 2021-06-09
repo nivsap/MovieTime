@@ -253,6 +253,11 @@ public class PaymentPageController {
         		}	
     		}
     		
+    		if(purchase.isLink()) {
+    			successfulPurchaseString += "\nViewing Package Movie: " + purchase.getViewingPackage().getMovie().getName() + "\nLink: " + purchase.getViewingPackage().getLink() +
+    										"\nA reminder will be sent to you an hour before your link becomes available";
+    		}
+    		
     		if(purchase.isCard()) {
     			subscriptionCard = msg.getSubscriptionCard();
     			successfulPurchaseString += "\nYour subscription card number: " +  subscriptionCard.getId() + "\nSubscription card remaining: " + subscriptionCard.getRemaining();

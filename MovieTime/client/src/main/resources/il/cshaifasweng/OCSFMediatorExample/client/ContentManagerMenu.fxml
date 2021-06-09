@@ -23,7 +23,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="updateViewingPackagesMenuBtn" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutY="270.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="200.0" styleClass="menuButton" text="Remove Viewing Packages" textFill="WHITE">
+            <Button fx:id="updateViewingPackagesMenuBtn" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutY="270.0" mnemonicParsing="false" onAction="#loadDeleteViewingPackagePage" prefHeight="52.0" prefWidth="200.0" styleClass="menuButton" text="Remove Viewing Packages" textFill="WHITE">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
                      <image>

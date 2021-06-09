@@ -1391,7 +1391,7 @@ public class Main extends AbstractServer {
 			try {
 				serverMsg = currentMsg;
 				serverMsg.setViewingPackageList(getAllOfType(ViewingPackage.class));
-				serverMsg.setAction("got all viewing packagee");
+				serverMsg.setAction("got all viewing package");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant get all viewing package");

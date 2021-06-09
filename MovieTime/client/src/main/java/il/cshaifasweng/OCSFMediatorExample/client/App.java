@@ -26,24 +26,19 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 
 public class App extends Application {
-
-	private static Object currentController;
+	private AppClient client;
     private static Scene scene;
+    private static Stage stage;
+	private static Object currentController;
     private static String userName;
     private static String password;
-    private static Stage stage;
+    private static Boolean isLogoutClicked = false;
     @FXML
     private static BorderPane pageLayout;
     @FXML
     private static VBox menu;
     @FXML
     private static VBox content;
-    
-    
-    private AppClient client;
-    private static Boolean isLogoutClicked = false;
-    public static Worker currentWorker;
-    
     
     @Override
     public void start(Stage primaryStage)  {
@@ -226,14 +221,6 @@ public class App extends Application {
         Object controller =  fxmlLoader.getController();
         return new Pair<>(root, controller);
     }
-    
-    public static Worker getCurrentWorker() {
-		return currentWorker;
-	}
-
-	public static void setCurrentWorker(Worker worker) {
-		currentWorker = worker;
-	}
 
 	public static String getPassword() {
 		return password;

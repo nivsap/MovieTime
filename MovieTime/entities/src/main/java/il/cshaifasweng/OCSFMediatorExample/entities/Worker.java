@@ -32,12 +32,12 @@ public class Worker implements  Serializable{
 	private String password;
 	private boolean isLoggedIn;
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "worker_id")
+	@JoinColumn(name = "cinema_id")
 	private Cinema cinema;
 //	@OneToMany(cascade = CascadeType.MERGE,fetch = FetchType.EAGER,mappedBy = "worker")
 //	private List<PriceRequest> priceRequests;
 
-	public Worker(String firstName, String lastName, String userName, String password,Cinema cinema,boolean isLoggedIn) {
+	public Worker(String firstName, String lastName, String userName, String password, Cinema cinema, boolean isLoggedIn) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;

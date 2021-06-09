@@ -107,9 +107,9 @@ public class Main extends AbstractServer {
 			
 			Worker shirWorker = new BranchManager("shir", "shir", "shir", "shir", false, null);
 			Worker nivWorker = new BranchManager("niv", "niv", "niv", "niv", false, null);
-			Worker lielWorker = new ContentManager("liel", "liel", "liel", "liel", null, false);
-			Worker asafWorker = new CustomerService("asaf", "asaf", "asaf", "asaf", null, false);
-			Worker hadarWorker = new NetworkAdministrator("hadar", "hadar", "hadar", "hadar", null, false);
+			Worker lielWorker = new ContentManager("liel", "liel", "liel", "liel", false, null);
+			Worker asafWorker = new CustomerService("asaf", "asaf", "asaf", "asaf", false, null);
+			Worker hadarWorker = new NetworkAdministrator("hadar", "hadar", "hadar", "hadar", false, null);
 			//PriceRequest priceRequest = new PriceRequest(null, null, false, null, 10, false);
 			// lielWorker.getPriceRequests().add(priceRequest);
 			// System.out.println(lielWorker.getPriceRequests().get(0).getNewPrice());

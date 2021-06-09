@@ -111,7 +111,7 @@ public class LoginPageController {
 	    				}
 
 	    				if(workerType.equals("CustomerService")) {
-	    					App.setContent("OpenComplaints");
+	    					App.setContent("PurpleLimitPage");
 	    				}
 	    				
 	    				App.setWindowTitle(PageTitles.MainPage);

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
+import il.cshaifasweng.OCSFMediatorExample.entities.PurpleLimit;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -40,8 +41,16 @@ public class ScreeningCardController {
     @FXML
     private Label label_hall;
 
+    @FXML
+    private Label fromLabel;
+
+    @FXML
+    private Label toLabel;
+
+    @FXML
+    private Label yLabel;
+
 	private Complaint complaint;
-    
     
     public void SetData(String movie, String cinema, String date, String time, int hall) {
     	label_movie_name.setText(movie);
@@ -52,13 +61,19 @@ public class ScreeningCardController {
     	
     }
 
-    public void SetComplaintData(Complaint complaint) {;
+    public void SetComplaintData(Complaint complaint) {
 		label_title.setText(complaint.getComplaintTitle());
     	label_type.setText(complaint.getComplaintType());
     	label_sender.setText(complaint.getFirstName() + " " + complaint.getLastName());
     	label_date.setText(complaint.getComplaintDate().toString());
     	label_time.setText(complaint.getComplaintTime().toString());
     	this.complaint = complaint;
+    }
+    
+    public void SetPurpleLimitData(PurpleLimit purpleLimit) {
+    	fromLabel.setText(purpleLimit.getFromDate().toString());
+    	toLabel.setText(purpleLimit.getToDate().toString());
+    	yLabel.setText(String.valueOf(purpleLimit.getY()));
     }
    
     public void loadComplaintHandling() throws IOException {

@@ -35,8 +35,8 @@ public class Message implements Serializable {
 	int numOfSeats;
 	double payment;
 	ArrayList<String> genres;
-	
-	
+	ArrayList<PurpleLimit> activePurpleLimits;
+	PurpleLimit purpleLimit;
 	int movieId;            				//clientSide need to fill/set is field when send msg to server
 	int cinemaId;           				//clientSide need to fill/set is field when send msg to server
 	ArrayList<Cinema> cinemasArrayList;
@@ -47,19 +47,6 @@ public class Message implements Serializable {
 	boolean status;
 	//HANDLE TICKETS **for shir
 	boolean isTab;
-	/*
-	String firstName;
-	String lastName;
-	String emailOrder;
-	String cityString;
-	String phoneString;
-	public String genreString;
-	public String[] genreArray;
-
-	
-	
-	Pair<Boolean , Integer> cinemaTab;
-	*/
 	public String genreString;
 
 	public String[] genreArray;
@@ -211,6 +198,7 @@ public class Message implements Serializable {
 		return dateMovie;
 	}
 
+	
 
 
 	public void setDateMovie(LocalDateTime dateMovie) {
@@ -619,6 +607,22 @@ public class Message implements Serializable {
 
 	public void setMoviesType(String moviesType) {
 		this.moviesType = moviesType;
+	}
+	
+	public void setPurpleLimit(PurpleLimit p) {
+		this.purpleLimit = p;
+	}
+	
+	public PurpleLimit getPurpleLimit() {
+		return this.purpleLimit;
+	}
+	
+	public ArrayList<PurpleLimit> getActivePurpleLimit() {
+		return this.activePurpleLimits;
+	}
+	
+	public void setActivePurpleLimit(ArrayList<PurpleLimit> activePurpleLimits) {
+		this.activePurpleLimits = activePurpleLimits;
 	}
 }
 

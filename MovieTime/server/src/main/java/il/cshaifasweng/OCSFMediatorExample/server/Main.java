@@ -982,8 +982,7 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("send successful purchase mail")) {
 			try {
 				serverMsg = currentMsg;
-				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Customer Of The Sirtiya, Order Number :",
-						serverMsg.getEmailMessage());
+				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Customer Of The Sirtiya", serverMsg.getEmailMessage());
 				serverMsg.setAction("sent successful purchase mail");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {

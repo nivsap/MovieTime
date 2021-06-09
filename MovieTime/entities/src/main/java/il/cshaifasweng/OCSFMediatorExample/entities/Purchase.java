@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -48,6 +49,7 @@ public class Purchase implements  Serializable{
 	@JoinColumn(name = "cinema_id")
 	private Cinema cinema;
 	
+	@Lob
 	private ArrayList<Pair<Integer , Integer>> seatsList;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

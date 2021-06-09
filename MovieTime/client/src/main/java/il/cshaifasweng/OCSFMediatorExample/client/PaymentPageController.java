@@ -112,10 +112,19 @@ public class PaymentPageController {
 
     @FXML
     private Button payNowBtn;
+    
+    public PaymentPageController() {
+    	purchaseType = 4;
+    	screening = null;
+    	seats = null; 
+    	subscriptionCard = null;
+    	viewingPackage = null;
+    	purchase = null;
+    	price = 0.0;
+    }
 
     @FXML
     void initialize() {
-    	
         assert firstNameTextField != null : "fx:id=\"firstNameTextField\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         assert firstNameWarningLabel != null : "fx:id=\"firstNameWarningLabel\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         assert lastNameTextField != null : "fx:id=\"lastNameTextField\" was not injected: check your FXML file 'PaymentPage.fxml'.";
@@ -145,12 +154,11 @@ public class PaymentPageController {
         hideWarningLabels(); 
     }
 
-    public void setInfoTicket(int type, Screening screening, ArrayList<Pair<Integer, Integer>> seatsChosen) {
-    	this.purchaseType = type;
+    public void setInfoTicket(Screening screening, ArrayList<Pair<Integer, Integer>> seatsChosen) {
+    	this.purchaseType = PurchaseTypes.TICKET;
     	this.screening = screening;
     	this.seats = seatsChosen;
     	String order;
-    	
     	price = seats.size() * screening.getCinema().getMoviePrice();
 		paymentLabel.setText(Double.toString(price));
     	order = screening.getCinema().getName() + " Cinema, hall " + screening.getHall().getHallId() + "\n" +
@@ -164,7 +172,7 @@ public class PaymentPageController {
     }
     
     public void setInfoSubscription(int type, double price) {
-    	this.purchaseType = type;
+    	this.purchaseType = PurchaseTypes.SUBSCRIPTION_CARD;
     	String order;
     	this.price = price;
 		paymentLabel.setText(Double.toString(price));
@@ -174,7 +182,7 @@ public class PaymentPageController {
     }
 
     public void setInfoLink(int type, Screening screening) {
-    	this.purchaseType = type;
+    	this.purchaseType = PurchaseTypes.VIEWING_PACKAGE;
     	this.screening = screening;
     	String order;
 		paymentLabel.setText(Double.toString(screening.getCinema().getLinkPrice()));
@@ -236,10 +244,10 @@ public class PaymentPageController {
     	if(msg.getAction().equals("save customer done")) {
     		purchase = msg.getPurchase();
     		String successfulPurchaseString;
-    		successfulPurchaseString = "Dear " + purchase.getFirstName() +" " + purchase.getLastName() + ", Thank you for your purchase.\n"
-    									+ "the details of your order are:\n" + "Order Number: " + purchase.getId();
+    		successfulPurchaseString = "Dear " + this.purchase.getFirstName() +" " + this.purchase.getLastName() + "\nThank you for your order, number: " + purchase.getId() + "\n\nOrder details:\n"; 
     		if(purchase.isTicket()) {
-    			successfulPurchaseString += "\nCinema: " + purchase.getCinema().getName() + "\nHall number: " + purchase.getScreening().getHall().getHallId() + "\nOrdered seats:";
+    			successfulPurchaseString += "\nScreening Movie: " + purchase.getScreening().getMovie().getName() + "\nScreening Date: " + purchase.getScreening().getDate_screen().toString().substring(0,10) + ", Time: " +
+    										purchase.getScreening().getDate_screen().toString().toString().substring(11, 16) + "\nCinema: " + purchase.getCinema().getName() + "\nHall number: " + purchase.getScreening().getHall().getHallId() + "\nOrdered seats:";
         		for(Pair<Integer,Integer> seat : seats) {
         			successfulPurchaseString += "\n\tSeat " + seat.getKey() + "," + seat.getValue();
         		}	

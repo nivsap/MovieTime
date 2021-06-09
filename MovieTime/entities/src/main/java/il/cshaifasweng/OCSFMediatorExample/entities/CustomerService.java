@@ -31,7 +31,7 @@ public class CustomerService extends Worker implements  Serializable{
 		super();
 	}
 	
-	public CustomerService(String firstName, String lastName, String userName, String password , Cinema cinema, boolean isLoggedIn) {
+	public CustomerService(String firstName, String lastName, String userName, String password, boolean isLoggedIn, Cinema cinema) {
 		super(firstName, lastName, userName, password, cinema, isLoggedIn);
 	}
 }

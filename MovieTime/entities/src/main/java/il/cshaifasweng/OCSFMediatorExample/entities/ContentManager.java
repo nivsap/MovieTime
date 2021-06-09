@@ -17,8 +17,7 @@ public class ContentManager extends Worker implements  Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	public ContentManager() {}
-	public ContentManager(String firstName, String lastName, String userName, String password , Cinema cinema,boolean isLoggedIn 
-			) {
+	public ContentManager(String firstName, String lastName, String userName, String password , boolean isLoggedIn, Cinema cinema) {
 		super(firstName, lastName, userName, password,cinema, isLoggedIn);
 		//this.priceRequests = new ArrayList<>();
 		//this.allMoviesInCinema = new ArrayList<Movie>();

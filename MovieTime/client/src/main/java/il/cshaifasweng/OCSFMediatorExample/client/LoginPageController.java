@@ -16,6 +16,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 public class LoginPageController {
+	private Boolean isRegistered = false;
+	
 	@FXML
 	private TextField usernameTextField;
 
@@ -74,7 +76,10 @@ public class LoginPageController {
 	}
 	
 	public void sendMessageToServer(String username, String password) {
-		EventBus.getDefault().register(this);
+		if(!isRegistered) {
+			isRegistered = true;
+			EventBus.getDefault().register(this); 
+		}
 		Message msg = new Message();
 		msg.setUsername(username);
 		msg.setPassword(password);
@@ -93,8 +98,18 @@ public class LoginPageController {
     	if(msg.getAction().equals("login done")) {
     		Platform.runLater(()-> {
     			String workerType = msg.getTypeOfWorkerString();
-    			App.currentWorker=msg.getWorker();
     			if(workerType != null) {
+    				if(workerType.equals("you are already logged in")) {
+    					loginFailedLabel.setText("Login Failed- user is already logged in");
+    					loginFailedLabel.setVisible(true);
+    					return;
+    				}
+    				if(workerType.equals("This user does not exist")) {
+    					loginFailedLabel.setText("Login Failed- incorrect username or password");
+    					loginFailedLabel.setVisible(true);
+    					return;
+    				}
+    				
     				App.setUserName(msg.getUsername());
     				App.setPassword(msg.getPassword());
 	    			try {
@@ -111,7 +126,7 @@ public class LoginPageController {
 	    				}
 
 	    				if(workerType.equals("CustomerService")) {
-	    					App.setContent("OpenComplaints");
+	    					App.setContent("PurpleLimitPage");
 	    				}
 	    				
 	    				App.setWindowTitle(PageTitles.MainPage);
@@ -119,10 +134,6 @@ public class LoginPageController {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-    			}
-    			
-    			else {
-    				loginFailedLabel.setVisible(true);
     			}
     		});
     	}

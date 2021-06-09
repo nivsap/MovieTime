@@ -38,6 +38,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.NetworkAdministrator;
 import il.cshaifasweng.OCSFMediatorExample.entities.PriceRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
+import il.cshaifasweng.OCSFMediatorExample.entities.PurpleLimit;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.ViewingPackage;
 import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
@@ -73,6 +74,7 @@ public class Main extends AbstractServer {
 		Configuration configuration = new Configuration();
 		configuration.addAnnotatedClass(Movie.class);
 		configuration.addAnnotatedClass(Worker.class);
+		configuration.addAnnotatedClass(PurpleLimit.class);
 		configuration.addAnnotatedClass(NetworkAdministrator.class);
 		configuration.addAnnotatedClass(Cinema.class);
 		configuration.addAnnotatedClass(Hall.class);
@@ -102,21 +104,26 @@ public class Main extends AbstractServer {
 		try {
 			session = sessionFactory.openSession();
 			session.beginTransaction();
-
+			
 			Worker shirWorker = new BranchManager("shir", "shir", "shir", "shir", false, null);
 			Worker nivWorker = new BranchManager("niv", "niv", "niv", "niv", false, null);
-			Worker lielWorker = new ContentManager("liel", "liel", "liel", "liel", null, false);
-			Worker asafWorker = new CustomerService("asaf", "asaf", "asaf", "asaf", null, false, false,
-					new Pair<LocalDateTime, LocalDateTime>(getTime(2021, 1, 1), getTime(2021, 3, 4)), 40);
-			Worker hadarWorker = new NetworkAdministrator("hadar", "hadar", "hadar", "hadar", null, false);
-			// PriceRequest priceRequest = new PriceRequest(null, null, false, null, 10,
-			// false);
+
+			Worker lielWorker = new ContentManager("liel", "liel", "liel", "liel", false, null);
+			Worker asafWorker = new CustomerService("asaf", "asaf", "asaf", "asaf", false, null);
+			Worker hadarWorker = new NetworkAdministrator("hadar", "hadar", "hadar", "hadar", false, null);
+			//PriceRequest priceRequest = new PriceRequest(null, null, false, null, 10, false);
+
 			// lielWorker.getPriceRequests().add(priceRequest);
 			// System.out.println(lielWorker.getPriceRequests().get(0).getNewPrice());
 			// session.save(priceRequest);
 
 			// create movie
-
+			
+			PurpleLimit purpleLimit1 = new PurpleLimit(LocalDate.of(2021, 1, 1), LocalDate.of(2021, 3, 4), 40);
+			PurpleLimit purpleLimit2 = new PurpleLimit(LocalDate.of(2021, 5, 5), LocalDate.of(2021, 7, 5), 40);
+			session.save(purpleLimit1);
+			session.save(purpleLimit2);
+			
 			String absPath = Paths.get("").toAbsolutePath().toString();
 			String picPath = absPath.substring(0, absPath.length() - 6);
 			ArrayList<String> movieStartTimes = new ArrayList<String>(
@@ -1060,20 +1067,30 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-
-		if (currentMsg.getAction().equals("set purple limit")) {
+		
+		if (currentMsg.getAction().equals("get active purple limits")) {
 			try {
 				serverMsg = currentMsg;
-				((CustomerService) serverMsg.getWorker()).setPurpleLimit(true);
-				Worker worker = serverMsg.getWorker();
-				PurpleLimitController.SetPurpleLimit(((CustomerService) worker).getDatesOfPurpleLimit().getKey(),
-						((CustomerService) worker).getDatesOfPurpleLimit().getValue());
-				updateRowDB(serverMsg.getWorker());
-				serverMsg.setAction("got purple limit");
+				serverMsg.setActivePurpleLimit(PurpleLimitController.getActivePurpleLimits());
+				serverMsg.setAction("got active purple limits");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
-				System.out.println("cant add movie");
-				// TODO Auto-generated catch block
+				System.out.println("cant get active purple limits");
+				e.printStackTrace();
+			}
+		}
+
+		if (currentMsg.getAction().equals("add purple limit")) {
+			try {
+				serverMsg = currentMsg;
+				PurpleLimit newPurpleLimit = serverMsg.getPurpleLimit();
+				saveRowInDB(newPurpleLimit);
+				PurpleLimitController.cancelPurchases(newPurpleLimit.getFromDate(), newPurpleLimit.getToDate());
+				serverMsg.setActivePurpleLimit(PurpleLimitController.getActivePurpleLimits());
+				serverMsg.setAction("added purple limit");
+				client.sendToClient(serverMsg);
+			} catch (IOException e) {
+				System.out.println("can't add purple limit");
 				e.printStackTrace();
 			}
 		}
@@ -1205,17 +1222,17 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		
 		if (currentMsg.getAction().equals("check purple limit")) {
 			try {
 				serverMsg = currentMsg;
-				Pair<Boolean, Integer> tavSagol = (PurpleLimitController.CheckPurpleLimit(serverMsg.getDateMovie()));
+				Pair<Boolean, Integer> tavSagol = PurpleLimitController.checkPurpleLimit(serverMsg.getDateMovie().toLocalDate());
 				serverMsg.setStatus(tavSagol.getKey());
 				serverMsg.setTavSagolLimit(tavSagol.getValue());
 				serverMsg.setAction("done check purple limit");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant check purple limit");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -1224,7 +1241,7 @@ public class Main extends AbstractServer {
 			try {
 				serverMsg = currentMsg;
 				serverMsg.setSeats(
-						PurpleLimitController.SetSeatsPurpleLimit(serverMsg.getScreening(), serverMsg.getNumOfSeats()));
+						PurpleLimitController.setSeatsPurpleLimit(serverMsg.getScreening(), serverMsg.getNumOfSeats()));
 				serverMsg.setAction("done selection of seats under restrictions");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {

@@ -23,7 +23,7 @@ public class NetworkAdministrator extends Worker implements  Serializable{
 	
 	public NetworkAdministrator() {}
 
-	public NetworkAdministrator(String firstName, String lastName, String userName, String password,Cinema cinema,boolean isLoggedIn) {
+	public NetworkAdministrator(String firstName, String lastName, String userName, String password, boolean isLoggedIn, Cinema cinema) {
 		super(firstName, lastName, userName, password,cinema, isLoggedIn);
 	}
 	public int getId() {

@@ -140,7 +140,10 @@ public class AppClient extends AbstractClient {
     	if(currentMsg.getAction().equals("delete a viewing package")) {
     		EventBus.getDefault().post(((Message) msg));
     	} 	
-    	if(currentMsg.getAction().equals("set purple limit")) {
+    	if(currentMsg.getAction().equals("added purple limit")) {
+    		EventBus.getDefault().post(((Message) msg));
+    	} 
+    	if(currentMsg.getAction().equals("got active purple limits")) {
     		EventBus.getDefault().post(((Message) msg));
     	} 
     	if(currentMsg.getAction().equals("cancellation of purchase")) {

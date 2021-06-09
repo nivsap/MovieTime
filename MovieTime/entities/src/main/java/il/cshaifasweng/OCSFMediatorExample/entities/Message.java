@@ -71,9 +71,18 @@ public class Message implements Serializable {
 	List<Purchase> purchasesList;
 	ViewingPackage viewingPackage;
 	PriceRequest priceRequestmsg;
+	List<ViewingPackage> viewingPackageList;
 	public Message() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	public List<ViewingPackage> getViewingPackageList() {
+		return viewingPackageList;
+	}
+
+	public void setViewingPackageList(List<ViewingPackage> viewingPackageList) {
+		this.viewingPackageList = viewingPackageList;
 	}
 
 	public PriceRequest getPriceRequestmsg() {

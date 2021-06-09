@@ -1399,6 +1399,24 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		if (currentMsg.getAction().equals("get all movies from viewing packages")) {
+			try {
+				serverMsg = currentMsg;
+				ArrayList<Movie> moviesFromHome =new ArrayList<>();
+				for(ViewingPackage viewingPackage : getAllOfType(ViewingPackage.class)) {
+					if(!(moviesFromHome.contains(viewingPackage.getMovie()))) {
+						moviesFromHome.add(viewingPackage.getMovie());
+					}
+				}
+				serverMsg.setMovies(moviesFromHome);
+				serverMsg.setAction("got all movies from viewing packages");
+				client.sendToClient(serverMsg);
+			} catch (IOException e) {
+				System.out.println("cant get all movies from viewing packages");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 //	public static void updateMovie(String movieName, String time, String action, ConnectionToClient client) {

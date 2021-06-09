@@ -25,19 +25,12 @@ public class BarAndGridLayoutController {
 
 		if(namePage.equals("MainPage")) {
 			barFXMLLoader.setLocation(getClass().getResource("SearchBar.fxml"));
-			/*
-			 * System.out.println("3"); SearchBarController searchBar =
-			 * barFXMLLoader.getController(); System.out.println("3.5"); if(searchBar ==
-			 * null) { System.out.println("search bar is null"); }
-			 * searchBar.SetPageType(namePage); System.out.println("4");
-			 */
 		}
 		if(namePage.equals("ComingSoonPage")) {
 			barFXMLLoader.setLocation(getClass().getResource("ComingSoonBar.fxml"));
 		}
 		if(namePage.equals("ViewingPackagesPage")) {
 	    	barFXMLLoader.setLocation(getClass().getResource("SearchBar.fxml"));
-
 		}
 
 		if(namePage.equals("NetworkAdministratorMainPage")) {
@@ -63,8 +56,6 @@ public class BarAndGridLayoutController {
 			ComingSoonSearchBarController Sctrl = barFXMLLoader.getController();
 			Sctrl.setCardController(ctrl);
 		}
-		
-		
 	}
 	
 	public VBox getTopBar() {

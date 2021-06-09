@@ -1,24 +1,19 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
+
 import java.nio.file.Paths;
 import java.time.LocalDate;
-
 import java.time.LocalDateTime;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
-import javax.swing.JOptionPane;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -40,6 +35,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.PriceRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
 import il.cshaifasweng.OCSFMediatorExample.entities.PurpleLimit;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
+import il.cshaifasweng.OCSFMediatorExample.entities.SubscriptionCard;
 import il.cshaifasweng.OCSFMediatorExample.entities.ViewingPackage;
 import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
@@ -54,18 +50,22 @@ public class Main extends AbstractServer {
 	private ArrayList<String> genres = new ArrayList<String>();
 
 	public Main(int port) {
-
 		super(port);
 
 		genres.add("Action");
-		genres.add("Drama");
 		genres.add("Adventure");
-		genres.add("Mystery");
+		genres.add("Animation");
+		genres.add("Comedy");
 		genres.add("Crime");
+		genres.add("Drama");
+		genres.add("Fiction");
 		genres.add("Fantasy");
 		genres.add("Horror");
-		genres.add("Comedy");
-		genres.add("Animation");
+		genres.add("Mystery");
+		genres.add("Romance");
+		genres.add("Science");
+		genres.add("Thriller");
+		genres.add("Other");
 	}
 
 	public static SessionFactory getSessionFactory() throws HibernateException {
@@ -86,6 +86,7 @@ public class Main extends AbstractServer {
 		configuration.addAnnotatedClass(Purchase.class);
 		configuration.addAnnotatedClass(Complaint.class);
 		configuration.addAnnotatedClass(ViewingPackage.class);
+		configuration.addAnnotatedClass(SubscriptionCard.class);
 		configuration.addAnnotatedClass(PriceRequest.class);
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties()).build();
@@ -281,13 +282,9 @@ public class Main extends AbstractServer {
 			telAvivCinema.getScreeningArray().add(screeningOfFilm_11);
 			telAvivCinema.getScreeningArray().add(screeningOfFilm_12);
 			telAvivCinema.setHallArray(new ArrayList<Hall>(Arrays.asList(hall3, hall4)));
-			ViewingPackage viewingPackage = new ViewingPackage(null, getExacTime(2021, 6, 3, 17, 58), new ArrayList<>(),
-					"www.sirtiya.co.il");
-			Purchase customer = new Purchase("Shir", "Avneri", "nivsap@gmail.com", "Some details", "0523456789",
-					new Pair<Boolean, Integer>(true, 20), false, getTime(2021, 2, 3), haifaCinema, hall1,
-					new ArrayList<>(), 10, null, screeningOfFilm_1, false, viewingPackage);
-			// screeningOfFilm_1.getPurchases().add(customer);
-			session.save(customer);
+			
+			ViewingPackage viewingPackage = new ViewingPackage(null, getExacTime(2021, 6, 3, 17, 58), new ArrayList<>(), "www.sirtiya.co.il");
+			
 			session.save(screeningOfFilm_1);
 			session.save(screeningOfFilm_2);
 			session.save(screeningOfFilm_3);
@@ -319,53 +316,45 @@ public class Main extends AbstractServer {
 					"www.sirtiya.co.il");
 			session.save(viewingPackage);
 
-			Purchase customer2 = new Purchase("Alon", "Latman1", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(true, 20), false, getExacTime(2021, 5, 28, 10, 15), haifaCinema, null,
-					new ArrayList<>(), 10, null, screeningOfFilm_2, false, viewingPackage2);
-			Purchase customer1 = new Purchase("Alon", "Latman2", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 28, 10, 15), haifaCinema, null,
-					new ArrayList<>(), 10, null, screeningOfFilm_3, false, viewingPackage2);
-			Purchase customer3 = new Purchase("Alon", "Latman3", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 30, 10, 15), haifaCinema, null,
-					new ArrayList<>(), 10, null, screeningOfFilm_4, false, viewingPackage2);
-			Purchase customer4 = new Purchase("Alon", "Latman4", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null,
-					new ArrayList<>(), 10, null, screeningOfFilm_10, false, viewingPackage2);
-			Purchase customer5 = new Purchase("Alon", "Latman5", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 6, 28, 10, 15), haifaCinema, null,
-					new ArrayList<>(), 10, null, screeningOfFilm_5, false, viewingPackage2);
-			Purchase customer6 = new Purchase("Alon", "Latman6", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 28, 10, 15), telAvivCinema, null,
-					new ArrayList<>(), 10, null, screeningOfFilm_6, false, viewingPackage2);
-			Purchase customer7 = new Purchase("Alon", "Latman7", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 6, 28, 10, 15), telAvivCinema, null,
-					new ArrayList<>(), 10, null, screeningOfFilm_7, false, viewingPackage2);
-			Purchase customer8 = new Purchase("Alon", "Latman8", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 28, 10, 15), telAvivCinema, null,
-					new ArrayList<>(), 10, null, screeningOfFilm_8, false, viewingPackage2);
-			Purchase customer9 = new Purchase("Alon", "Latman9", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 4, 28, 10, 15), telAvivCinema, null,
-					new ArrayList<>(), 10, null, screeningOfFilm_8, false, viewingPackage2);
-			Purchase customer10 = new Purchase("Alon", "Latman22", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null,
-					new ArrayList<>(), 10, null, screeningOfFilm_1, false, viewingPackage2);
-			Purchase customer11 = new Purchase("Alon", "Latman33", "shiravneri@gmail.com", "Some details", "123456789",
-					new Pair<Boolean, Integer>(false, 0), false, getExacTime(2021, 5, 27, 10, 15), haifaCinema, null,
-					new ArrayList<>(), 10, null, screeningOfFilm_3, false, viewingPackage2);
+			SubscriptionCard card1 = new SubscriptionCard();
+			SubscriptionCard card2 = new SubscriptionCard();
+			// Tickets Purchases
+			Purchase customer1 = 
+					new Purchase("Shir", "Avneri", "shiravneri@gmail.com", "street 1, city", "0523456789", 40.0, 
+					getTime(2021, 2, 3), screeningOfFilm_1, new ArrayList<>(), null);
 
-			// session.save(customer);
-			session.save(customer2);
+			Purchase customer2 = 
+					new Purchase("Niv", "Sapir", "shiravneri@gmail.com", "street 2, city", "0523456789", 40.0, 
+					getTime(2021, 6, 5), screeningOfFilm_2, new ArrayList<>(), null);
+			
+			// Viewing Package Purchases
+			Purchase customer3 = 
+					new Purchase("Eitan", "Sharabi", "shiravneri@gmail.com", "street 3, city", "0523456789", 40.0, 
+					getTime(2021, 6, 5), telAvivCinema, viewingPackage, null);
+			Purchase customer4 = 
+					new Purchase("Hadar", "Manor", "shiravneri@gmail.com", "street 4, city", "0523456789", 40.0, 
+					getTime(2021, 6, 5), haifaCinema, viewingPackage2, null);
+			
+			// Subscription Cards Purchases
+			Purchase customer5 = 
+					new Purchase("Liel", "Fridman", "shiravneri@gmail.com", "street 5, city", "0523456789", 40.0, 
+					getTime(2021, 6, 5), telAvivCinema, card1, null);
+			Purchase customer6 = 
+					new Purchase("Alon", "Latman", "shiravneri@gmail.com", "street 6, city", "0523456789", 40.0, 
+					getTime(2021, 6, 5), haifaCinema, card2, null);
+			
+			card1.setPurchase(customer5); card1.setRemaining(7);
+			card2.setPurchase(customer6); card1.setRemaining(10);
+			
 			session.save(customer1);
+			session.save(customer2);
 			session.save(customer3);
 			session.save(customer4);
 			session.save(customer5);
 			session.save(customer6);
-			session.save(customer7);
-			session.save(customer8);
-			session.save(customer9);
-			session.save(customer10);
-			session.save(customer11);
-			System.out.println(customer11.getId());
+			
+			session.save(card1);
+			session.save(card2);
 
 			Complaint someComplaint1 = new Complaint("Shir", "Avneri", "shiravneri@gmail.com", "0523456789",
 					Complaint.getComplaintTypes()[0], "I'm very upset", "I want to finish this project", true,
@@ -374,12 +363,10 @@ public class Main extends AbstractServer {
 					Complaint.getComplaintTypes()[1], "I want to complain", "I am very upset", true, customer1,
 					telAvivCinema);
 			Complaint someComplaint3 = new Complaint("Hadar", "Manor", "shiravneri@gmail.com", "0523456789",
-					Complaint.getComplaintTypes()[2], "Some title", "Some details", false, customer1, haifaCinema);
-			// Purchase customer = new Purchase("Hadar", "Manor", "Some title", "Some
-			// details" , "12312312",new Pair<Boolean, Integer>(true,
-			// 20),false,null,null,null,new ArrayList<>(),10,null);
+					Complaint.getComplaintTypes()[2], "Some title", "Some details", false, customer2, haifaCinema);
+
 			PriceRequest request = new PriceRequest(LocalDateTime.now(), telAvivCinema, true, "becasue", 80, true);
-			// session.save(customer);
+
 			session.save(request);
 			session.save(someComplaint1);
 			session.save(someComplaint2);
@@ -420,10 +407,10 @@ public class Main extends AbstractServer {
 		Thread timerThread = new Thread(() -> {
 			while (true) {
 				for (Purchase i : list) {
-					if (i.getViewingPackage().getDateTime().getDayOfYear() == LocalDateTime.now().getDayOfYear()
+					if (i.isLink() && i.getViewingPackage().getDateTime().getDayOfYear() == LocalDateTime.now().getDayOfYear()
 							&& i.getViewingPackage().getDateTime().getHour() - 1 == LocalDateTime.now().getHour()
 							&& i.getViewingPackage().getDateTime().getMinute() == LocalDateTime.now().getMinute()) {
-						JavaMailUtil.sendMessage(i.getEmailOrder(), "hadye", "hadye");
+						JavaMailUtil.sendMessage(i.getEmail(), "hadye", "hadye");
 					}
 				}
 				try {
@@ -874,14 +861,19 @@ public class Main extends AbstractServer {
 
 		if (currentMsg.getAction().equals("save customer")) { // save ticket // save customer
 			try {
-
 				serverMsg = currentMsg;
-				saveRowInDB(serverMsg.getPurchase());
+				Purchase purchase = serverMsg.getPurchase();
+				saveRowInDB(purchase);
+				if(purchase.isCard()) {
+					SubscriptionCard subscriptionCard = new SubscriptionCard(purchase);
+					saveRowInDB(subscriptionCard);
+					serverMsg.setSubscriptionCard(subscriptionCard);
+				}
+				serverMsg.setPurchase(purchase);
 				serverMsg.setAction("save customer done");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
-				System.out.println("cant save customer");
-				// TODO Auto-generated catch block
+				System.out.println("can't save customer");
 				e.printStackTrace();
 			}
 		}
@@ -1005,7 +997,7 @@ public class Main extends AbstractServer {
 			try {
 				serverMsg = currentMsg;
 
-				JavaMailUtil.sendPurchaseCancellationMessage(serverMsg.getPurchase().getEmailOrder(),
+				JavaMailUtil.sendPurchaseCancellationMessage(serverMsg.getPurchase().getEmail(),
 						serverMsg.getPurchase().getFirstName() + " " + serverMsg.getPurchase().getLastName(),
 						String.valueOf(serverMsg.getPurchase().getId()), serverMsg.getPayment());
 				serverMsg.setAction("sent purchase cancellation mail");
@@ -1210,10 +1202,12 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("cancellation of purchase")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.getPurchase().getCinema().getCancelPurchases().add(serverMsg.getPurchase());
-				serverMsg.getPurchase().setCanceled(true);
+				serverMsg.getPurchase().getScreening().getCinema().getCancelPurchases().add(serverMsg.getPurchase());
+
+				Float refund = CustomerController.ReturnOnPurchase(serverMsg.getPurchase(), LocalDateTime.now());
+				serverMsg.getPurchase().setIsCanceled(new Pair<Boolean, Float> (true, refund));
 				updateRowDB(serverMsg.getPurchase());
-				updateRowDB(serverMsg.getPurchase().getCinema());
+				updateRowDB(serverMsg.getPurchase().getScreening().getCinema());
 				serverMsg.setAction("got purchase cancelation by id");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
@@ -1413,6 +1407,19 @@ public class Main extends AbstractServer {
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant get all movies from viewing packages");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		if (currentMsg.getAction().equals("get subscription card")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.setSubscriptionCard(SubscriptionCardController.getSubscriptionCard(serverMsg.getId()));
+				serverMsg.setAction("got subscription card");
+				client.sendToClient(serverMsg);
+			} catch (IOException e) {
+				System.out.println("can't get subscription card");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

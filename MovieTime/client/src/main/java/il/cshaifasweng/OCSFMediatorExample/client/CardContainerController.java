@@ -77,8 +77,8 @@ public class CardContainerController {
 		}
 		if(namePage.equals("ViewingPackagesPage")) {
 			disableCards = false;
-			actionType = "pull movies from home";
-			moviesType = "got movies from home";
+			actionType = "get all movies from viewing packages";
+			moviesType = "got all movies from viewing packages";
 			purchaseType = PurchaseTypes.VIEWING_PACKAGE;
 		}
 		if(namePage.equals("NetworkAdministratorMainPage")) {
@@ -119,12 +119,15 @@ public class CardContainerController {
     	if(msg.getAction().equals(moviesType)) {
     		EventBus.getDefault().unregister(this);
     		Platform.runLater(()-> {
-        		
-    			movieContainer.getChildren().clear();
-    			recentlyAdded = msg.getMovies();
-    			moviesNumber = recentlyAdded.size();
-    			currentlyDisplayedFrom = 0;
-    			SetMovies(currentlyDisplayedFrom);
+        		if(msg.getMovies() != null) {
+        			System.out.println(msg.getMovies());
+        			movieContainer.getChildren().clear();
+        			recentlyAdded = msg.getMovies();
+        			moviesNumber = recentlyAdded.size();
+        			currentlyDisplayedFrom = 0;
+        			SetMovies(currentlyDisplayedFrom);
+        		}
+
     		});
     	}
     }
@@ -188,8 +191,4 @@ public class CardContainerController {
     		currentlyDisplayedFrom = nextIndex;
     	SetMovies(currentlyDisplayedFrom);
     }
-
-	
-    
-
 }

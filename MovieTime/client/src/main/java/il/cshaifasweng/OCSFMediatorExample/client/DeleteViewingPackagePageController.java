@@ -64,9 +64,9 @@ public class DeleteViewingPackagePageController {
         assert cell5 != null : "fx:id=\"cell5\" was not injected: check your FXML file 'DeleteMoviePage.fxml'.";
         assert cell6 != null : "fx:id=\"cell6\" was not injected: check your FXML file 'DeleteMoviePage.fxml'.";
         assert loadMoreBtn != null : "fx:id=\"loadMoreBtn\" was not injected: check your FXML file 'DeleteMoviePage.fxml'.";
-        sendMessageToServer("pull movies from home", null);
+        sendMessageToServer("get all movies from viewing packages", null);
     }
-    
+
     public void setMovies(int displayFrom) {
 		movieContainer.getChildren().clear();
     	int index;
@@ -135,11 +135,11 @@ public class DeleteViewingPackagePageController {
 			e.printStackTrace();
 		}	
     }
-    
+
     @Subscribe
 	public void onMessageEvent(Message msg) {
 		System.out.println(msg.getAction());
-    	if(msg.getAction().equals("got movies from home")) {
+    	if(msg.getAction().equals("got all movies from viewing packages")) {
     		Platform.runLater(()-> {
     			movieContainer.getChildren().clear();
     			recentlyAdded = msg.getMovies();

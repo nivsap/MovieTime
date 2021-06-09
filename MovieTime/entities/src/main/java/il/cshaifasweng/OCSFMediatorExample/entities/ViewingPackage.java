@@ -17,8 +17,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 @Entity
-@Table(name = "ViewingPackage")
-public class ViewingPackage implements  Serializable{
+@Table(name = "ViewingPackages")
+public class ViewingPackage implements  Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -32,7 +32,7 @@ public class ViewingPackage implements  Serializable{
 	private ArrayList<LocalDateTime> datesAvailables;
 	
 	
-	public ViewingPackage(Movie movie, LocalDateTime dateTime, ArrayList<LocalDateTime> datesAvailables,String link) {
+	public ViewingPackage(Movie movie, LocalDateTime dateTime, ArrayList<LocalDateTime> datesAvailables, String link) {
 		super();
 	//	this.link = "www.sirtiya-" + this.movie.getName() + "." + this.id + "co.il";
 		this.link = link;

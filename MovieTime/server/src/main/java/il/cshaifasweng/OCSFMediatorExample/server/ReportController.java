@@ -10,7 +10,7 @@ public class ReportController {
 	public static List<Purchase> getTicketReportMonthly(int month , Cinema cinema) {
 		List<Purchase> toReturn = new ArrayList<>();
 		for(Purchase purchase : cinema.getCustomers()) {
-			if(purchase.getPurchaseDate().getDayOfMonth() == month && purchase.getCinemaTab().getKey() == false && purchase.isWatchFromHome() == false) {
+			if(purchase.getPurchaseTime().getDayOfMonth() == month && purchase.isCard() == false && purchase.isLink() == false) {
 				toReturn.add(purchase);
 			}
 		}
@@ -19,7 +19,7 @@ public class ReportController {
 	public static List<Purchase> getSpecialTicketReportMonthly(int month , Cinema cinema) {
 		List<Purchase> toReturn = new ArrayList<>();
 		for(Purchase purchase : cinema.getCustomers()) {
-			if(purchase.getPurchaseDate().getDayOfMonth() == month && (purchase.getCinemaTab().getKey() == true || purchase.isWatchFromHome() == true)) {
+			if(purchase.getPurchaseTime().getDayOfMonth() == month && (purchase.isCard() == true || purchase.isLink() == true)) {
 				toReturn.add(purchase);
 			}
 		}
@@ -28,7 +28,7 @@ public class ReportController {
 	public static List<Purchase> statusComplaintsMonthly(int month , Cinema cinema) {
 		List<Purchase> toReturn = new ArrayList<>();
 		for(Purchase purchase : cinema.getCustomers()) {
-			if(purchase.getPurchaseDate().getDayOfMonth() == month && purchase.getComplaint().getIsOpen() == true) {
+			if(purchase.getPurchaseTime().getDayOfMonth() == month && purchase.getComplaint().getIsOpen() == true) {
 				toReturn.add(purchase);
 			}
 		}

@@ -163,8 +163,10 @@ public class ComplaintHandlingController {
     	
     	purchaseInfo += "\n";
     	purchaseInfo += "Canceled Order: ";
-    	if(complaintPurchase.isCanceled()) 
-    		purchaseInfo += "Yes";
+    	if(complaintPurchase.isCanceled())  {
+    		purchaseInfo += "Yes\nRefund: " + complaintPurchase.getIsCanceled().getValue();
+    		
+    	}
     	else 
     		purchaseInfo += "No";
 

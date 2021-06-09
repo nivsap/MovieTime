@@ -16,7 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
-public class DeleteMoviePageController {
+public class DeleteViewingPackagePageController {
 	int NUM_ROWS = 2, NUM_COLS = 3, currentlyDisplayedFrom = 0, moviesNumber = 0;
 	private List<Movie> recentlyAdded;
 
@@ -64,7 +64,7 @@ public class DeleteMoviePageController {
         assert cell5 != null : "fx:id=\"cell5\" was not injected: check your FXML file 'DeleteMoviePage.fxml'.";
         assert cell6 != null : "fx:id=\"cell6\" was not injected: check your FXML file 'DeleteMoviePage.fxml'.";
         assert loadMoreBtn != null : "fx:id=\"loadMoreBtn\" was not injected: check your FXML file 'DeleteMoviePage.fxml'.";
-        sendMessageToServer("pull screening movies", null);
+        sendMessageToServer("pull movies from home", null);
     }
     
     public void setMovies(int displayFrom) {
@@ -87,7 +87,7 @@ public class DeleteMoviePageController {
 					fxmlLoader.setLocation(getClass().getResource("DeleteCard.fxml"));
 					VBox card = fxmlLoader.load();
 					DeleteCardController deleteCardController = fxmlLoader.getController();
-					deleteCardController.setData(recentlyAdded.get(index), this, "DeleteMovie");
+					deleteCardController.setData(recentlyAdded.get(index), this, "DeleteViewingPackage");
 					movieContainer.add(card, j, i);
 					index++;
                }
@@ -112,23 +112,23 @@ public class DeleteMoviePageController {
     	setMovies(currentlyDisplayedFrom);
     }
     
-    public void deleteMovie(Movie movie) {
+    public void deleteViewingPackage(Movie movie) {
     	recentlyAdded.remove(movie);
     	--moviesNumber;
-    	sendMessageToServer("delete movie", movie);
+    	sendMessageToServer("delete a viewing package", movie);
     }
     
     public void sendMessageToServer(String actionType, Movie movie) {
     	try {
 			Message msg = new Message();
-			if(actionType.equals("delete movie")) {
+			if(actionType.equals("delete a viewing package")) {
 				msg.setMovie(movie); 
 			}
 			msg.setAction(actionType);
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
-			System.out.println("failed to send msg to server from DeleteMoviePageController");
-			if(actionType.equals("delete movie")) {
+			System.out.println("failed to send msg to server from DeleteViewingPackagePageController");
+			if(actionType.equals("delete a viewing package")) {
 				recentlyAdded.add(movie);
 		    	++moviesNumber;
 			}
@@ -139,7 +139,7 @@ public class DeleteMoviePageController {
     @Subscribe
 	public void onMessageEvent(Message msg) {
 		System.out.println(msg.getAction());
-    	if(msg.getAction().equals("got screening movies")) {
+    	if(msg.getAction().equals("got movies from home")) {
     		Platform.runLater(()-> {
     			movieContainer.getChildren().clear();
     			recentlyAdded = msg.getMovies();
@@ -148,7 +148,7 @@ public class DeleteMoviePageController {
     			setMovies(currentlyDisplayedFrom);
     		});
     	}
-    	if(msg.getAction().equals("deleted movie")) {
+    	if(msg.getAction().equals("deleted a viewing package")) {
     		Platform.runLater(()-> {
     			movieContainer.getChildren().clear();
     			currentlyDisplayedFrom = 0;

@@ -6,12 +6,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
 public class DeleteCardController {
-	DeleteMoviePageController controller;
+	Object controller;
+	String controllerType;
+	
 	private Movie movie;
 
     @FXML
@@ -29,7 +30,10 @@ public class DeleteCardController {
     @FXML
     void deleteMovie(ActionEvent event) {
     	cardContainer.getChildren().clear();
-    	controller.deleteMovie(movie);
+    	if(controllerType == "DeleteMovie")
+    		((DeleteMoviePageController) controller).deleteMovie(movie);
+    	if(controllerType == "DeleteViewingPackage")
+    		((DeleteViewingPackagePageController) controller).deleteViewingPackage(movie);
     }
 
     @FXML
@@ -40,10 +44,11 @@ public class DeleteCardController {
         assert movieNameLabel != null : "fx:id=\"movieNameLabel\" was not injected: check your FXML file 'DeleteCard.fxml'.";
     }
     
-	public void setData(Movie movie, DeleteMoviePageController controller) {
+	public void setData(Movie movie, Object controller, String controllerType) {
 		movieImage.setImage(movie.getImage());
 		movieNameLabel.setText(movie.getName());
 		this.movie = movie;
 		this.controller = controller;
+		this.controllerType = controllerType;
 	}
 }

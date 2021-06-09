@@ -1,7 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -11,8 +10,6 @@ import javax.swing.JOptionPane;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
-
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
@@ -24,6 +21,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -35,16 +33,16 @@ import javafx.scene.layout.VBox;
 
 public class AddContentPageController {
 	private FilePickerController imagePickerController, largeImagePickerController;
-	//private Movie newMovie;
 	private Boolean isLaunchedMovie;
 	private final ToggleGroup comingSoonGroup = new ToggleGroup();
-	final List<String> selectedGenres = new ArrayList<String>();
+	private final List<String> selectedGenres = new ArrayList<String>();
 	private final CheckBox[] allGenres = { new CheckBox("Action"), new CheckBox("Adventure"), 
 			new CheckBox("Animation"), new CheckBox("Comedy"), new CheckBox("Crime"), 
 			new CheckBox("Drama"), new CheckBox("Fantasy"), new CheckBox("Fiction"),
 			new CheckBox("Horror"), new CheckBox("Mystery"), new CheckBox("Romance"), 
 			new CheckBox("Science"), new CheckBox("Thriller"), new CheckBox("Other") };
-
+	private List<Movie> moviesForViewingPackage;
+	private Movie selectedMovie;
 	private LocalDate launchDate;
 	
     @FXML
@@ -99,6 +97,12 @@ public class AddContentPageController {
     private Label movieWarningLabel;
 
     @FXML
+    private ComboBox<String> movieComboBox;
+
+    @FXML
+    private TextField linkTextField;
+
+    @FXML
     private Button addViewingPackageBtn;
 
     @FXML
@@ -129,6 +133,8 @@ public class AddContentPageController {
         assert largeImageLoaderBtnContainer != null : "fx:id=\"largeImageLoaderBtnContainer\" was not injected: check your FXML file 'AddContentPage.fxml'.";
         assert addMovieBtn != null : "fx:id=\"addMovieBtn\" was not injected: check your FXML file 'AddContentPage.fxml'.";
         assert movieWarningLabel != null : "fx:id=\"movieWarningLabel\" was not injected: check your FXML file 'AddContentPage.fxml'.";
+        assert movieComboBox != null : "fx:id=\"movieComboBox\" was not injected: check your FXML file 'AddContentPage.fxml'.";
+        assert linkTextField != null : "fx:id=\"linkTextField\" was not injected: check your FXML file 'AddContentPage.fxml'.";
         assert addViewingPackageBtn != null : "fx:id=\"addViewingPackageBtn\" was not injected: check your FXML file 'AddContentPage.fxml'.";
         assert viewingPackageWarningLabel != null : "fx:id=\"viewingPackageWarningLabel\" was not injected: check your FXML file 'AddContentPage.fxml'.";
 
@@ -309,8 +315,36 @@ public class AddContentPageController {
     }
     
     @FXML
+    void setSelectedMovie(ActionEvent event) {
+    	String movieName = movieComboBox.getValue();
+    	for(Movie m: moviesForViewingPackage) {
+    		if(m.getName().equals(movieName)) {
+    			selectedMovie = m;
+    			return;
+    		}
+    	}
+    	selectedMovie = null;
+    }
+    
+    @FXML
     void addViewingPackage(ActionEvent event) {
+    	viewingPackageWarningLabel.setVisible(false);
 
+    	if(selectedMovie == null) {
+    		viewingPackageWarningLabel.setText("Please pick movie first");
+    		viewingPackageWarningLabel.setVisible(true);
+    		return;
+    	}
+    	
+    	String link = linkTextField.getText();
+    	if(link.equals("")) {
+    		viewingPackageWarningLabel.setText("Please fill link first");
+    		viewingPackageWarningLabel.setVisible(true);
+    		return;
+    	}
+    	
+    	ViewingPackage newViewingPackage = new ViewingPackage(selectedMovie, LocalDateTime.now(), null, link);
+    	sendViewingPackageToServer(newViewingPackage);
     }
     
 

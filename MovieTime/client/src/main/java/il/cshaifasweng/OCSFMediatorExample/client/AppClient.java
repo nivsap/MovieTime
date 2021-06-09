@@ -211,12 +211,17 @@ public class AppClient extends AbstractClient {
     	if(currentMsg.getAction().equals("done canceling update price")) {
 
     		EventBus.getDefault().post(((Message) msg));
-    	}if(currentMsg.getAction().equals("got all movies from viewing packages")) {
+    	}
+    	if(currentMsg.getAction().equals("got all movies from viewing packages")) {
 
     		EventBus.getDefault().post(((Message) msg));
     	}
     	
-
+    	if(currentMsg.getAction().equals("got subscription card")) {
+    		EventBus.getDefault().post(((Message) msg));
+		}
+    	
+    	
 	}
 
 	@Override

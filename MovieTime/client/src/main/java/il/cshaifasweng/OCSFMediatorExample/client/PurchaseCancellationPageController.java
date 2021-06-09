@@ -125,19 +125,19 @@ public class PurchaseCancellationPageController {
     	else 
     		lastNameLabel.setText("Unknown");
     	
-    	String email = foundPurchase.getEmailOrder();
+    	String email = foundPurchase.getEmail();
     	if(!email.equals(""))
     		emailLabel.setText(email);
     	else 
     		emailLabel.setText("Unknown");
     	
-    	String phoneNumber = foundPurchase.getPhoneString();
+    	String phoneNumber = foundPurchase.getPhone();
     	if(!phoneNumber.equals(""))
     		phoneNumberLabel.setText(phoneNumber);
     	else 
     		phoneNumberLabel.setText("Unknown");
     	
-    	String date = foundPurchase.getPurchaseDate().toString();
+    	String date = foundPurchase.getPurchaseTime().toString();
     	if(!date.equals(""))
     		dateLabel.setText(date.substring(0,10));
     	else 
@@ -156,7 +156,7 @@ public class PurchaseCancellationPageController {
     
 	@FXML
 	void cancelPurchase(ActionEvent event) throws IOException {
-		if(foundPurchase == null || foundPurchase.getCinemaTab().getKey()) {
+		if(foundPurchase == null || foundPurchase.isCard()) {
 			weAreSorryLabel.setVisible(true);
 			return;
 		}

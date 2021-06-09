@@ -11,7 +11,7 @@ import javafx.scene.image.Image;
 public class CardController {
 	
 	private Movie cardMovie;
-	private Boolean isDisabled;
+	private Boolean isDisabled = false;
 	private int purchaseType;
 	
 	@FXML
@@ -21,10 +21,12 @@ public class CardController {
 	private Button movie_name;
 	    
 	public void SetData(Movie movie, Boolean isDisabled) {
-		movie_img.setImage(movie.getImage());
-		movie_name.setText(movie.getName());
-		cardMovie = movie;
-		this.isDisabled = isDisabled;
+		if(movie != null) {
+			movie_img.setImage(movie.getImage());
+			movie_name.setText(movie.getName());
+			cardMovie = movie;
+			this.isDisabled = isDisabled;
+		}
 	}
 	
 	@FXML

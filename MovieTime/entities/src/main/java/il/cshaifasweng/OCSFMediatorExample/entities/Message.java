@@ -35,7 +35,7 @@ public class Message implements Serializable {
 	int numOfSeats;
 	double payment;
 	ArrayList<String> genres;
-
+	SubscriptionCard subscriptionCard;
 	ArrayList<PurpleLimit> activePurpleLimits;
 	PurpleLimit purpleLimit;
 	int movieId;            				//clientSide need to fill/set is field when send msg to server
@@ -534,5 +534,13 @@ public class Message implements Serializable {
 	
 	public void setActivePurpleLimit(ArrayList<PurpleLimit> activePurpleLimits) {
 		this.activePurpleLimits = activePurpleLimits;
+	}
+	
+	public void setSubscriptionCard(SubscriptionCard subscriptionCard) {
+		this.subscriptionCard = subscriptionCard; 
+	}
+	
+	public SubscriptionCard getSubscriptionCard() {
+		return subscriptionCard;
 	}
 }

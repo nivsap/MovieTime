@@ -71,8 +71,8 @@ public class ReportsPageController {
 	    	for(Cinema cinema : cinemas) {
 	        	int count = 0;
 		    	for(Purchase purchase : purchases) {
-		    		if(purchase.getCinema().getName().equals(cinema.getName())) {
-			    		if(purchase.getPurchaseDate().getMonthValue() == Integer.parseInt(monthComboBox.getValue()) && purchase.getCinemaTab().getKey() == false && purchase.isWatchFromHome() == false) {
+		    		if(purchase.getScreening().getCinema().getName().equals(cinema.getName())) {
+			    		if(purchase.getPurchaseTime().getMonthValue() == Integer.parseInt(monthComboBox.getValue()) && purchase.isCard() == false && purchase.isLink() == false) {
 							count++;
 						}
 		    		}
@@ -88,7 +88,7 @@ public class ReportsPageController {
 	        	int count = 0;
 		    	for(Purchase purchase : purchases) {
 		    		if(purchase.getCinema().getName().equals(cinema.getName())) {
-			    		if(purchase.getPurchaseDate().getDayOfMonth() == Integer.parseInt(monthComboBox.getValue()) && (purchase.getCinemaTab().getKey() == true || purchase.isWatchFromHome() == true)) {
+			    		if(purchase.getPurchaseTime().getDayOfMonth() == Integer.parseInt(monthComboBox.getValue()) && (purchase.isCard() == true || purchase.isLink() == true)) {
 							count++;
 						}
 		    		}
@@ -104,7 +104,7 @@ public class ReportsPageController {
 	        	int count = 0;
 		    	for(Purchase purchase : purchases) {
 		    		if(purchase.getCinema().getName().equals(cinema.getName())) {
-			    		if(purchase.getPurchaseDate().getMonthValue() == Integer.parseInt(monthComboBox.getValue()) && purchase.getCinemaTab().getKey() == false && purchase.isWatchFromHome() == false) {
+			    		if(purchase.getPurchaseTime().getMonthValue() == Integer.parseInt(monthComboBox.getValue()) && purchase.isCard() == false && purchase.isLink() == false) {
 							count++;
 						}
 		    		}

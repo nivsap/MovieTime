@@ -11,8 +11,8 @@ import javafx.scene.image.Image;
 public class CardController {
 	
 	private Movie cardMovie;
+	private int cardType;
 	private Boolean isDisabled = false;
-	private int purchaseType;
 	
 	@FXML
 	private ImageView movie_img;
@@ -20,8 +20,9 @@ public class CardController {
 	@FXML
 	private Button movie_name;
 	    
-	public void SetData(Movie movie, Boolean isDisabled) {
+	public void SetData(Movie movie, Boolean isDisabled, int cardType) {
 		if(movie != null) {
+			this.cardType = cardType;
 			movie_img.setImage(movie.getImage());
 			movie_name.setText(movie.getName());
 			cardMovie = movie;
@@ -35,35 +36,21 @@ public class CardController {
 			return;
 		
 		App.setWindowTitle(cardMovie.getName());
-		if(cardMovie.isStreamOnline()&&purchaseType==PurchaseTypes.VIEWING_PACKAGE) {
+		if(cardType == PurchaseTypes.VIEWING_PACKAGE) {
     		System.out.println("in loadMovieInfoPage");
-    		
     		ViewingPackagesInfoPageController controller = (ViewingPackagesInfoPageController) App.setContent("LinkMovieInfoPage");
 	    	controller.InitPageInfo(cardMovie);
-	    	controller.setPurchaseType(purchaseType);
     	}
 
-		else if(!cardMovie.isSoonInCinema()) {
+		else {
+			if(cardType == PurchaseTypes.TICKET) {
 	    	MovieInfoPageController controller = (MovieInfoPageController) App.setContent("MovieInfoPage");
 		    controller.InitPageInfo(cardMovie);
-		    controller.setPurchaseType(purchaseType);
-	    }
-	    else {
-	    	ComingSoonInfoPageController controller = (ComingSoonInfoPageController) App.setContent("ComingSoonInfoPage");
-		    controller.setComingSoonInfo(cardMovie);
-		    controller.setPurchaseType(PurchaseTypes.NOT_AVAILABLE);
-	    }	
-	}
-	    
-	public void setPurchaseType(int type) {
-		if(isDisabled)
-			return;
-	    this.purchaseType = type;
-	}
-
-	public int getPurchaseType() {
-		if(isDisabled)
-			return PurchaseTypes.NOT_AVAILABLE;
-	    return this.purchaseType;
+		    }
+		    else {
+		    	ComingSoonInfoPageController controller = (ComingSoonInfoPageController) App.setContent("ComingSoonInfoPage");
+			    controller.setComingSoonInfo(cardMovie);
+		    }	
+		}
 	}
 }

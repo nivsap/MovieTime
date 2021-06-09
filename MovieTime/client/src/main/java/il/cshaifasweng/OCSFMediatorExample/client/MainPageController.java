@@ -113,7 +113,7 @@ public class MainPageController {
 					fxmlLoader.setLocation(getClass().getResource("card.fxml"));
 					Button cardBox = fxmlLoader.load();
 					CardController cardController = fxmlLoader.getController();
-					cardController.SetData(recentlyAdded.get(index), false);
+					cardController.SetData(recentlyAdded.get(index), false, PurchaseTypes.TICKET);
 
 					movieContainer.add(cardBox, j, i);
 					index++;

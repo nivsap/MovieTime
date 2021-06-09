@@ -283,7 +283,7 @@ public class Main extends AbstractServer {
 			telAvivCinema.getScreeningArray().add(screeningOfFilm_12);
 			telAvivCinema.setHallArray(new ArrayList<Hall>(Arrays.asList(hall3, hall4)));
 			
-			ViewingPackage viewingPackage = new ViewingPackage(null, getExacTime(2021, 6, 3, 17, 58), new ArrayList<>(), "www.sirtiya.co.il");
+			ViewingPackage viewingPackage = new ViewingPackage(wonderWoman1984, getExacTime(2021, 6, 3, 17, 58), new ArrayList<>(), "www.sirtiya.co.il");
 			
 			session.save(screeningOfFilm_1);
 			session.save(screeningOfFilm_2);
@@ -312,7 +312,7 @@ public class Main extends AbstractServer {
 			session.save(haifaCinema);
 			session.save(telAvivCinema);
 
-			ViewingPackage viewingPackage2 = new ViewingPackage(null, getTime(2021, 6, 6), new ArrayList<>(),
+			ViewingPackage viewingPackage2 = new ViewingPackage(babyDriver, getTime(2021, 6, 6), new ArrayList<>(),
 					"www.sirtiya.co.il");
 			session.save(viewingPackage);
 
@@ -1395,13 +1395,7 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("get all movies from viewing packages")) {
 			try {
 				serverMsg = currentMsg;
-				ArrayList<Movie> moviesFromHome =new ArrayList<>();
-				for(ViewingPackage viewingPackage : getAllOfType(ViewingPackage.class)) {
-					if(!(moviesFromHome.contains(viewingPackage.getMovie()))) {
-						moviesFromHome.add(viewingPackage.getMovie());
-					}
-				}
-				serverMsg.setMovies(moviesFromHome);
+				serverMsg.setMovies(ViewingPackageController.getViewingPackageMovies());
 				serverMsg.setAction("got all movies from viewing packages");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {

@@ -718,7 +718,6 @@ public class Main extends AbstractServer {
 				System.out.println("in Main pull screeening movies msg");
 
 				serverMsg.setMovies((ArrayList<Movie>) MovieController.getAllScreeningMovies());
-				System.out.println("in the func handleMessageFromClient");
 				serverMsg.setAction("got screening movies");
 				client.sendToClient(serverMsg);
 			}
@@ -733,7 +732,6 @@ public class Main extends AbstractServer {
 				System.out.println("in Main genre pull screeening movies msg");
 				serverMsg = (Message) msg;
 				serverMsg.setMovies((ArrayList<Movie>) MovieController.getGenreTypeMovies(serverMsg.getGenre()));
-				System.out.println("in the func handleMessageFromClient");
 				serverMsg.setAction("got screening movies");
 				client.sendToClient(serverMsg);
 			}
@@ -977,7 +975,6 @@ public class Main extends AbstractServer {
 				System.out.println("in Main pull screeening movies msg");
 				serverMsg = (Message) msg;
 				serverMsg.genreArray=MovieController.getAllGenreScreeningMovies().toArray(new String[0]); 
-				System.out.println("in the func handleMessageFromClient");
 				serverMsg.setAction("got genre screening movies");
 				client.sendToClient(serverMsg);
 			}
@@ -989,17 +986,8 @@ public class Main extends AbstractServer {
 		}
 
 		if(currentMsg.getAction().equals("send successful purchase mail")) {
-			try {
-				serverMsg = currentMsg;
 				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Customer Of The Sirtiya, Order Number :" , serverMsg.getEmailMessage());
-				serverMsg.setAction("sent successful purchase mail");
-				client.sendToClient(serverMsg);
-			}
-			catch (IOException e) {
-				System.out.println("cant get status complaints monthly");
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				
 		}
 
 		if(currentMsg.getAction().equals("send purchase cancellation mail")) {
@@ -1123,7 +1111,7 @@ public class Main extends AbstractServer {
 						iter = movies.iterator();
 						while(iter.hasNext()) {
 							Movie movie = iter.next();
-							if(movie.isStreamOnline() && !movie.isScreening()) {
+							if(!movie.isScreening()) {
 								iter.remove();
 							}
 						}

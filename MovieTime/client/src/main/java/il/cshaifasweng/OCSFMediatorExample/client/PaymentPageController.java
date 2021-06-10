@@ -14,6 +14,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.SubscriptionCard;
+
 import il.cshaifasweng.OCSFMediatorExample.entities.ViewingPackage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,6 +35,7 @@ public class PaymentPageController {
 	private ViewingPackage viewingPackage;
 	private Purchase purchase;
 	private double price;
+	private ViewingPackage viewingPackage;
 	  
     @FXML
     private TextArea orderSummeryTextArea;
@@ -87,7 +89,7 @@ public class PaymentPageController {
     private Label cardHoldersIDWarningLabel;
 
     @FXML
-    private ComboBox<?> paymentNumberComboBox;
+    private ComboBox<String> paymentNumberComboBox;
 
     @FXML
     private TextField cardNumberTextField;
@@ -113,7 +115,11 @@ public class PaymentPageController {
     @FXML
     private Button payNowBtn;
     
-    public PaymentPageController() {
+	
+    @FXML
+    private Label numberOfPaymentsWarningLabel;
+
+	public PaymentPageController() {
     	purchaseType = 4;
     	screening = null;
     	seats = null; 
@@ -122,7 +128,6 @@ public class PaymentPageController {
     	purchase = null;
     	price = 0.0;
     }
-
     @FXML
     void initialize() {
         assert firstNameTextField != null : "fx:id=\"firstNameTextField\" was not injected: check your FXML file 'PaymentPage.fxml'.";
@@ -146,12 +151,18 @@ public class PaymentPageController {
         assert cardNumberWarningLabel != null : "fx:id=\"cardNumberWarningLabel\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         assert cardExpirationDatePicker != null : "fx:id=\"cardExpirationDatePicker\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         assert cardExpirationDateWarningLabel != null : "fx:id=\"cardExpirationDateWarningLabel\" was not injected: check your FXML file 'PaymentPage.fxml'.";
+        assert numberOfPaymentsWarningLabel != null : "fx:id=\"numberOfPaymentsWarningLabel\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         assert cardCVVTextField != null : "fx:id=\"cardCVVTextField\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         assert cardCVVWarningLabel != null : "fx:id=\"cardCVVWarningLabel\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         assert paymentLabel != null : "fx:id=\"paymentLabel\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         assert payNowBtn != null : "fx:id=\"payNowBtn\" was not injected: check your FXML file 'PaymentPage.fxml'.";
+
+        paymentNumberComboBox.getItems().clear();
+        paymentNumberComboBox.getItems().add("1");
+        paymentNumberComboBox.getItems().add("2");
+        paymentNumberComboBox.getItems().add("3");
+        hideWarningLabels();
         
-        hideWarningLabels(); 
     }
 
     public void setInfoTicket(Screening screening, ArrayList<Pair<Integer, Integer>> seatsChosen) {
@@ -178,12 +189,16 @@ public class PaymentPageController {
 		paymentLabel.setText(Double.toString(price));
 		order = "With a subscription card, you can freely attend 20 screenings of your choice, in a cinema of your choice!\n";
 		order += "Total price: " + price;
+
         orderSummeryTextArea.setText(order);
     }
 
     public void setInfoLink(int type, Screening screening) {
     	this.purchaseType = PurchaseTypes.VIEWING_PACKAGE;
+
     	this.screening = screening;
+    	this.viewingPackage = viewingPackage;
+
     	String order;
 		paymentLabel.setText(Double.toString(screening.getCinema().getLinkPrice()));
     	order = screening.getMovie().getName() + " " + screening.getDate_screen();
@@ -230,14 +245,29 @@ public class PaymentPageController {
     	Message msg = new Message();
     	msg.setAction("save customer");
     	msg.setPurchase(purchase);
+    	
     	try {
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+    	
+    	try {
+			PaymentCompletionPageController controller= (PaymentCompletionPageController)App.setContent("PaymentCompletionPage");
+			controller.SetData("msg", firstNameTextField.getText(), lastNameTextField.getText(),
+					emailTextField.getText(), phoneNumberTextField.getText(),
+					cardHoldersNameTextField.getText(), cardHoldersIDTextField.getText(),
+					paymentNumberComboBox.getValue().toString(), cityTextField.getText(),
+					addressTextField.getText(), cardExpirationDatePicker.getValue().toString(),
+					paymentLabel.getText(), cardNumberTextField.getText());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
     }
     
-    
+    //in the func handleMessageFromClient
     @Subscribe
     public void OnMessageEvent(Message msg) {
     	
@@ -302,6 +332,7 @@ public class PaymentPageController {
 		cardNumberWarningLabel.setVisible(false);
 		cardExpirationDateWarningLabel.setVisible(false);
 		cardCVVWarningLabel.setVisible(false);
+		numberOfPaymentsWarningLabel.setVisible(false);
 	}
 
     @FXML
@@ -377,6 +408,14 @@ public class PaymentPageController {
     	
     	if(emptyField == false) {
     		return;
+    	}
+    	
+    	if(paymentNumberComboBox.getValue() == null) {
+    		numberOfPaymentsWarningLabel.setVisible(true);
+    		emptyField = false;
+    		if(emptyField == false) {
+        		return;
+        	}
     	}
     	
     	createPurchase();

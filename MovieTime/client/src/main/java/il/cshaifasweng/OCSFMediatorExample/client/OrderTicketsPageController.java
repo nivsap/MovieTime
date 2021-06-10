@@ -75,7 +75,6 @@ public class OrderTicketsPageController {
     public OrderTicketsPageController() {
     	hallMapContainer = new VBox();
     }
-    
     public void setPurchaseInfo(int type, Screening screening, boolean isTavSagol, int numOfSeats, double limit , int taken) {
     	purchaseType = type;
     	screeningChosen = screening;

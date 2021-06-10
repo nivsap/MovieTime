@@ -9,7 +9,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
 public class ReportController {
 	public static List<Purchase> getTicketReportMonthly(int month , Cinema cinema) {
 		List<Purchase> toReturn = new ArrayList<>();
-		for(Purchase purchase : cinema.getCustomers()) {
+		for(Purchase purchase : cinema.getPurchases()) {
 			if(purchase.getPurchaseTime().getDayOfMonth() == month && purchase.isCard() == false && purchase.isLink() == false) {
 				toReturn.add(purchase);
 			}
@@ -18,7 +18,7 @@ public class ReportController {
 	}
 	public static List<Purchase> getSpecialTicketReportMonthly(int month , Cinema cinema) {
 		List<Purchase> toReturn = new ArrayList<>();
-		for(Purchase purchase : cinema.getCustomers()) {
+		for(Purchase purchase : cinema.getPurchases()) {
 			if(purchase.getPurchaseTime().getDayOfMonth() == month && (purchase.isCard() == true || purchase.isLink() == true)) {
 				toReturn.add(purchase);
 			}
@@ -27,8 +27,8 @@ public class ReportController {
 	}
 	public static List<Purchase> statusComplaintsMonthly(int month , Cinema cinema) {
 		List<Purchase> toReturn = new ArrayList<>();
-		for(Purchase purchase : cinema.getCustomers()) {
-			if(purchase.getPurchaseTime().getDayOfMonth() == month && purchase.getComplaint().getIsOpen() == true) {
+		for(Purchase purchase : cinema.getPurchases()) {
+			if(purchase.getPurchaseTime().getDayOfMonth() == month && purchase.getComplaint().isOpen()) {
 				toReturn.add(purchase);
 			}
 		}

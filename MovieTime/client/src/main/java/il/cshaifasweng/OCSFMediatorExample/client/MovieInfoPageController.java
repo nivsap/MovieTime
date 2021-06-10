@@ -95,12 +95,12 @@ public class MovieInfoPageController {
     	movieLargeImageSrc.setImage(movie.getLargeImage());
     	movieName.setText(movie.getName());
     	movieGenre.setText(movie.getGenre());
-    	moviePopularity.setText(movie.getPopular().toString());
+    	moviePopularity.setText(movie.getRate().toString());
     	movieNameSecond.setText(movie.getName());
     	movieGenreSecond.setText(movie.getGenre());
     	movieDescription.setText(movie.getDescription());
     	movieDescription.setWrapText(true);
-    	movieProducers.setText(movie.getProducersMovie());
+    	movieProducers.setText(movie.getProducers());
     	movieMainActors.setText(movie.getMainActors());
     	movieDuration.setText(movie.getDuration());
     	movieLaunchDate.setText(movie.getLaunchDate().toString());
@@ -154,11 +154,9 @@ public class MovieInfoPageController {
     		Platform.runLater(()-> {
     	    	String onlyDate;
 	    		screenings = msg.getScreeningArrayList();
-	    		System.out.println("screening for movie done, arraylist size: " + screenings.size());
 	    		dateCombo.getItems().clear();
 	    		for(Screening screening : screenings) {
-	    			onlyDate = screening.getDate_screen().toString();
-	    			onlyDate = onlyDate.substring(0,10); 
+	    			onlyDate = screening.getDate().toString(); 
 	    			if(!dateCombo.getItems().contains(onlyDate))
 	    				dateCombo.getItems().add(onlyDate);
 	    		}
@@ -169,11 +167,7 @@ public class MovieInfoPageController {
     	if(msg.getAction().equals("done check purple limit")) {
     		EventBus.getDefault().unregister(this);
     		isTavSagol = msg.getStatus();
-    		System.out.println("tab saglo is" + isTavSagol);
-    		tavSagolLimit = msg.getTavSagolLimit();
-    		System.out.println("tav sagol limit is " + tavSagolLimit);
-
-    		
+    		tavSagolLimit = msg.getTavSagolLimit();	
     	}
     }
     
@@ -216,7 +210,7 @@ public class MovieInfoPageController {
     	EventBus.getDefault().register(this);
     	Message msg = new Message();
     	msg.setAction("check purple limit");
-    	msg.setDateMovie(screenings.get(0).getDate_screen());
+    	msg.setDateMovie(screenings.get(0).getDateAndTime());
     	try {
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
@@ -231,8 +225,8 @@ public class MovieInfoPageController {
     		return;
     	}
     	for(Screening screening : screenings) {
-    		if(screening.getDate_screen().toString().substring(0,10).equals(dateCombo.getValue())){
-    			onlyTime = screening.getDate_screen().toString().substring(11,16);
+    		if(screening.getDate().toString().equals(dateCombo.getValue())){
+    			onlyTime = screening.getTime().toString();
         		timeCombo.getItems().add(onlyTime);
     		}
     				
@@ -243,11 +237,12 @@ public class MovieInfoPageController {
     
     @FXML
     void timeChosen() {
-    	String LDT;
+    	String date, time;
     	for (Screening screening : screenings) {
     		if(screening.getCinema().getName().equals(cinemaCombo.getValue())) {
-    			LDT = screening.getDate_screen().toString();
-    			if(LDT.substring(0, 10).equals(dateCombo.getValue()) && LDT.substring(11, 16).equals(timeCombo.getValue())) {
+    			date = screening.getDate().toString();
+    			time = screening.getTime().toString();
+    			if(date.equals(dateCombo.getValue()) && time.equals(timeCombo.getValue())) {
     				screeningChosen = screening;
     				break;
     			}
@@ -261,7 +256,6 @@ public class MovieInfoPageController {
     	if(isTavSagol) {
 
     		seatsLimit = hall.getRows() * hall.getCols();
-    		System.out.println("seats limit is " + seatsLimit);
     		if((double)tavSagolLimit*1.2 < seatsLimit) {
     			seatsLimit = tavSagolLimit;
     		}
@@ -271,7 +265,6 @@ public class MovieInfoPageController {
     		if(seatsLimit <= 0.8* (double)tavSagolLimit) {
     			seatsLimit = seatsLimit/2;
     		}
-    		System.out.println("seats limit: " + seatsLimit);
     		seatsTaken = 0;
     		for(int i = 0 ; i < hall.getRows() ; i++) {
     			for(int j = 0 ; j < hall.getCols() ; j++) {
@@ -281,7 +274,6 @@ public class MovieInfoPageController {
     				}
     			}
     		}
-    		System.out.println("seats taken:" + seatsTaken);
     		for(int i = 1 ; i + seatsTaken <= seatsLimit ; i++) {
     			numberOfSeatsCombo.getItems().add(Integer.toString(i));
     			

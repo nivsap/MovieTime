@@ -17,7 +17,7 @@ public class CustomerController{
 		ArrayList<Complaint> toReturnArrayList = new ArrayList<>();
 		ComplaintArrayList = Main.getAllOfType(Complaint.class);
 		for(Complaint complaint : ComplaintArrayList) {
-			if(complaint.getIsOpen() == true) {
+			if(complaint.isOpen()) {
 				toReturnArrayList.add(complaint);
 			}
 		}
@@ -54,10 +54,10 @@ public class CustomerController{
 				else return 0f;
 			}
 		}
-		else if(time.getDayOfYear() < purchase.getScreening().getDate_screen().getDayOfYear()) {
+		else if(time.getDayOfYear() < purchase.getScreening().getDateAndTime().getDayOfYear()) {
 			return (float) purchase.getPayment();
 		}
-		else if(time.getDayOfYear() == purchase.getScreening().getDate_screen().getDayOfYear()) {
+		else if(time.getDayOfYear() == purchase.getScreening().getDateAndTime().getDayOfYear()) {
 			if(purchase.getPurchaseTime().getHour()  > time.getHour() + 3) {
 				return (float) (purchase.getPayment()/2);
 			}

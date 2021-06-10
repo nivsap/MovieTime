@@ -117,7 +117,7 @@ public class UpdateMoviesPageController{
 			Iterator<Screening> iter = filteredScreenings.iterator();
 			while (iter.hasNext()) {
 			  Screening s = iter.next();
-			  if (!s.getDate_screen().toString().substring(0,10).equals(dateCard.getValue().toString()))
+			  if (!s.getDate().toString().equals(dateCard.getValue().toString()))
 				  iter.remove();
 			}
 		}
@@ -126,20 +126,18 @@ public class UpdateMoviesPageController{
 			Iterator<Screening> iter = filteredScreenings.iterator();
 			while (iter.hasNext()) {
 			  Screening s = iter.next();
-			  if (!s.getDate_screen().toString().substring(11,16).equals(cb_time.getValue()))
+			  if (!s.getTime().toString().equals(cb_time.getValue()))
 				  iter.remove();
 			}
 		}
 			
-		String temp;
 		try {
 			for(Screening screening : filteredScreenings) {
 				FXMLLoader fxmlLoader = new FXMLLoader();
 				fxmlLoader.setLocation(getClass().getResource("ScreeningCard.fxml"));
 				HBox cardBox = fxmlLoader.load();				
 				ScreeningCardController ctrl = fxmlLoader.getController();
-				temp = screening.getDate_screen().toString();
-				ctrl.SetData(screening.getMovie().getName(), screening.getCinema().getName(),temp.substring(0,10), temp.substring(11,16), screening.getHall().getHallId());
+				ctrl.SetData(screening.getMovie().getName(), screening.getCinema().getName(), screening.getDate().toString(), screening.getTime().toString(), screening.getHall().getHallId());
 				screening_time_layout.getChildren().add(cardBox);
 			}
 		} catch (IOException e) {
@@ -165,15 +163,13 @@ public class UpdateMoviesPageController{
 	 
 	public void InitPage(){		
 	 System.out.println("in here");
-	 String temp;
 		try {
 			for(Screening screening : screenings) {
 				FXMLLoader fxmlLoader = new FXMLLoader();
 				fxmlLoader.setLocation(getClass().getResource("ScreeningCard.fxml"));
 				HBox cardBox = fxmlLoader.load();				
 				ScreeningCardController ctrl = fxmlLoader.getController();
-				temp = screening.getDate_screen().toString();
-				ctrl.SetData(screening.getMovie().getName(), screening.getCinema().getName(),temp.substring(0,10), temp.substring(11,16), screening.getHall().getHallId());
+				ctrl.SetData(screening.getMovie().getName(), screening.getCinema().getName(), screening.getDate().toString(), screening.getTime().toString(), screening.getHall().getHallId());
 				screening_time_layout.getChildren().add(cardBox);
 			}
 		} catch (IOException e) {

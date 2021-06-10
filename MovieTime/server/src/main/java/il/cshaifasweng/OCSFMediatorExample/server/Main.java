@@ -72,20 +72,19 @@ public class Main extends AbstractServer {
 
 		java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.OFF);
 		Configuration configuration = new Configuration();
+		configuration.addAnnotatedClass(Screening.class);
+		configuration.addAnnotatedClass(ViewingPackage.class);
 		configuration.addAnnotatedClass(Movie.class);
 		configuration.addAnnotatedClass(Worker.class);
 		configuration.addAnnotatedClass(PurpleLimit.class);
 		configuration.addAnnotatedClass(NetworkAdministrator.class);
 		configuration.addAnnotatedClass(Cinema.class);
 		configuration.addAnnotatedClass(Hall.class);
-		// configuration.addAnnotatedClass(Seat.class);
-		configuration.addAnnotatedClass(Screening.class);
 		configuration.addAnnotatedClass(ContentManager.class);
 		configuration.addAnnotatedClass(BranchManager.class);
 		configuration.addAnnotatedClass(CustomerService.class);
 		configuration.addAnnotatedClass(Purchase.class);
 		configuration.addAnnotatedClass(Complaint.class);
-		configuration.addAnnotatedClass(ViewingPackage.class);
 		configuration.addAnnotatedClass(SubscriptionCard.class);
 		configuration.addAnnotatedClass(PriceRequest.class);
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
@@ -105,96 +104,176 @@ public class Main extends AbstractServer {
 		try {
 			session = sessionFactory.openSession();
 			session.beginTransaction();
-			
-			Worker shirWorker = new BranchManager("shir", "shir", "shir", "shir", false, null);
-			Worker nivWorker = new BranchManager("niv", "niv", "niv", "niv", false, null);
-
-			Worker lielWorker = new ContentManager("liel", "liel", "liel", "liel", false, null);
-			Worker asafWorker = new CustomerService("asaf", "asaf", "asaf", "asaf", false, null);
-			Worker hadarWorker = new NetworkAdministrator("hadar", "hadar", "hadar", "hadar", false, null);
-			//PriceRequest priceRequest = new PriceRequest(null, null, false, null, 10, false);
-
-			// lielWorker.getPriceRequests().add(priceRequest);
-			// System.out.println(lielWorker.getPriceRequests().get(0).getNewPrice());
-			// session.save(priceRequest);
-
-			// create movie
-			
-			PurpleLimit purpleLimit1 = new PurpleLimit(LocalDate.of(2021, 1, 1), LocalDate.of(2021, 3, 4), 40);
-			PurpleLimit purpleLimit2 = new PurpleLimit(LocalDate.of(2021, 5, 5), LocalDate.of(2021, 7, 5), 40);
-			session.save(purpleLimit1);
-			session.save(purpleLimit2);
-			
+			/* ---------- Setting Workers For Data Base ---------- */
+			Worker hadarWorker = new NetworkAdministrator("Hadar", "Manor", null, "hadar", "hadar", false, 40f, 30f, 600f);
+			Worker shirWorker = new BranchManager("Shir", "Avneri", null, "shir", "shir", false);
+			Worker nivWorker = new BranchManager("Niv", "Sapir", null, "niv", "niv", false);
+			Worker lielWorker = new ContentManager("Liel", "Fridman", null, "liel", "liel", false);
+			Worker eitanWorker = new CustomerService("Eitan", "Sharabi", null, "asaf", "asaf", false);
+			Worker alonWorker = new CustomerService("Alon", "Latman", null, "alon", "alon", false);
+			/* ---------- Setting Cinema For Data Base ---------- */
+			Cinema haifaCinema = new Cinema("Haifa", "Haifa, Carmel st.", (BranchManager)shirWorker, new ArrayList<Worker>(Arrays.asList(shirWorker, alonWorker)), null, null, null, null, null);
+			Cinema telAvivCinema = new Cinema("Tel-Aviv", "Tel-Aviv, Wieztman st.", (BranchManager)nivWorker, new ArrayList<Worker>(Arrays.asList(nivWorker, eitanWorker)), null, null, null, null, null);
+			shirWorker.setCinema(haifaCinema); alonWorker.setCinema(haifaCinema); nivWorker.setCinema(telAvivCinema); eitanWorker.setCinema(telAvivCinema);
+			/* ---------- Setting Halls For Data Base ---------- */
+			Hall hall1 = new Hall(5, 10, haifaCinema, null);
+			Hall hall2 = new Hall(7, 10, haifaCinema, null);
+			Hall hall3 = new Hall(6, 11, telAvivCinema, null);
+			Hall hall4 = new Hall(5, 10, telAvivCinema, null);
+			haifaCinema.setHalls(new ArrayList<Hall>(Arrays.asList(hall1, hall2)));
+			telAvivCinema.setHalls(new ArrayList<Hall>(Arrays.asList(hall3, hall4)));
+			/* ---------- Setting Movies For Data Base ---------- */
 			String absPath = Paths.get("").toAbsolutePath().toString();
 			String picPath = absPath.substring(0, absPath.length() - 6);
-			ArrayList<String> movieStartTimes = new ArrayList<String>(
-					Arrays.asList("10:00", "12:00", "16:00", "18:00", "20:00", "22:00", "00:00"));
-			Movie avengersEndgame = new Movie("Avengers: Endgame", "3h 1min", 5.00,
-					"Action   •   Adventure   •   Drama",
+			Movie avengersEndgame = new Movie("Avengers: Endgame", "Action   •   Adventure   •   Drama",
+					"After the devastating events of Avengers: Infinity War (2018), the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe.",
+					"Anthony Russo, Joe Russo", "Robert Downey Jr., Chris Evans, Mark Ruffalo", LocalDate.of(2019, 4, 26), 3, 1, 5f,
 					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/AvengersEndgame.jpg",
 					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/AvengersEndgame.png",
-					movieStartTimes, true, false,
-					"After the devastating events of Avengers: Infinity War (2018), the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe.",
-					"Robert Downey Jr., Chris Evans, Mark Ruffalo", getTime(2019, 4, 26), 50,
-					"Anthony Russo, Joe Russo", null, false, new ArrayList<>(), true);
-
-			Movie sherlockHolmes = new Movie("Sherlock Holmes", "2h 8min", 4.5, "Action   •   Adventure   •   Mystery",
+					false, false, null, null);
+			Movie sherlockHolmes = new Movie("Sherlock Holmes", "Action   •   Adventure   •   Mystery", 
+					"Detective Sherlock Holmes and his stalwart partner Watson engage in a battle of wits and brawn with a nemesis whose plot is a threat to all of England.",
+					"Guy Ritchie", "Robert Downey Jr., Jude Law, Rachel McAdams", LocalDate.of(2009, 12, 25), 2, 8, 4.5f,
 					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/SherlockHolmes.jpg",
 					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/SherlockHolmes.png",
-					movieStartTimes, true, false,
-					"Detective Sherlock Holmes and his stalwart partner Watson engage in a battle of wits and brawn with a nemesis whose plot is a threat to all of England.",
-					"Robert Downey Jr., Jude Law, Rachel McAdams", getTime(2009, 12, 25), 50, "Guy Ritchie", null,
-					false, new ArrayList<>(), true);
-			Movie babyDriver = new Movie("Baby Driver", "1h 53min", 4.00, "Action   •   Crime   •   Drama ", picPath
-					+ "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/BabyDriver.jpg",
-					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/BabyDriver.png",
-					movieStartTimes, true, false,
+					false, false,  null, null);
+			Movie babyDriver = new Movie("Baby Driver", "Action   •   Crime   •   Drama ",
 					"After being coerced into working for a crime boss, a young getaway driver finds himself taking part in a heist doomed to fail.",
-					"Ansel Elgort, Jon Bernthal, Jon Hamm", getTime(2017, 6, 28), 50, "Edgar Wright", null, false,
-					new ArrayList<>(), true);
-			Movie wonderWoman1984 = new Movie("Wonder Woman 1984", "2h 31min", 5.00,
-					"Action   •   Adventure   •   Fantasy",
+					"Edgar Wright", "Ansel Elgort, Jon Bernthal, Jon Hamm", LocalDate.of(2017, 6, 28), 1, 53, 4f,
+					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/BabyDriver.jpg",
+					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/BabyDriver.png",
+					false, false, null, null);
+			Movie wonderWoman1984 = new Movie("Wonder Woman 1984", "Action   •   Adventure   •   Fantasy",
+					"Diana must contend with a work colleague and businessman, whose desire for extreme wealth sends the world down a path of destruction, after an ancient artifact that grants wishes goes missing.",
+					"Patty Jenkins", "Gal Gadot, Chris Pine, Kristen Wiig", LocalDate.of(2020, 12, 21), 2, 31, 5f,
 					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/WonderWoman1984.jpg",
 					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/WonderWoman1984.png",
-					movieStartTimes, true, false,
-					"Diana must contend with a work colleague and businessman, whose desire for extreme wealth sends the world down a path of destruction, after an ancient artifact that grants wishes goes missing.",
-					"Gal Gadot, Chris Pine, Kristen Wiig", getTime(2020, 12, 21), 50, "Patty Jenkins", null, false,
-					new ArrayList<>(), false);
-			Movie it = new Movie("IT", "2h 15min", 5.00, "Horror", picPath
-					+ "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/It.jpg",
-					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/It.png",
-					movieStartTimes, true, false,
+					false, false, null, null);
+			Movie it = new Movie("IT", "Horror",
 					"In the summer of 1989, a group of bullied kids band together to destroy a shape-shifting monster, which disguises itself as a clown and preys on the children of Derry, their small Maine town.",
-					"Bill Skarsgard, Jaeden Martell, Finn Wolfhard", getTime(2017, 9, 8), 50, "Andy Muschietti", null,
-					false, new ArrayList<>(), true);
-			Movie toyStory = new Movie("Toy Story", "1h 40min", 5.00, "Animation   •   Adventure   •   Comedy", picPath
-					+ "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/ToyStory.jpg",
-					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/ToyStory.png",
-					movieStartTimes, true, false,
+					"Andy Muschietti", "Bill Skarsgard, Jaeden Martell, Finn Wolfhard", LocalDate.of(2017, 9, 8), 2, 15, 5f,
+					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/It.jpg",
+					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/It.png",
+					false, false, null, null);
+			Movie toyStory = new Movie("Toy Story", "Animation   •   Adventure   •   Comedy",
 					"When a new toy called 'Forky' joins Woody and the gang, a road trip alongside old and new friends reveals how big the world can be for a toy.",
-					"Tom Hanks, Tim Allen, Annie Potts", getTime(2017, 6, 21), 50, "Josh Cooley", null, false,
-					new ArrayList<>(), true);
-			Movie minions = new Movie("Minions", "1h 31min", 4.50, "Animation   •   Adventure   •   Comedy", picPath
-					+ "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/Minions.jpg",
-					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/Minions.png",
-					movieStartTimes, false, false,
+					"Josh Cooley", "Tom Hanks, Tim Allen, Annie Potts", LocalDate.of(2017, 6, 21), 1, 40, 5f,
+					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/ToyStory.jpg",
+					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/ToyStory.png",
+					true, false, null, null);
+			Movie minions = new Movie("Minions", "Animation   •   Adventure   •   Comedy",
 					"Minions Stuart, Kevin, and Bob are recruited by Scarlet Overkill, a supervillain who, alongside her inventor husband Herb, hatches a plot to take over the world.",
-					"Sandra Bullock, Jon Hamm, Michael Keaton", getTime(2015, 7, 10), 50, "Kyle Balda, Pierre Coffin",
-					null, false, new ArrayList<>(), true);
-			Movie starWars = new Movie("Star Wars", "2h 21min", 5.00, "Action   •   Adventure   •   Fantasy", picPath
-					+ "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/StarWars.jpg",
-					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/StarWars.png",
-					movieStartTimes, false, true,
+					"Kyle Balda, Pierre Coffin", "Sandra Bullock, Jon Hamm, Michael Keaton", LocalDate.of(2015, 7, 10), 1, 31, 4.5f,
+					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/Minions.jpg",
+					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/Minions.png",
+					true, false, null, null);
+			Movie starWars = new Movie("Star Wars", "Action   •   Adventure   •   Fantasy", 
 					"The surviving members of the Resistance face the First Order once again, and the legendary conflict between the Jedi and the Sith reaches its peak, bringing the Skywalker saga to its end.",
-					"Daisy Ridley, John Boyega, Oscar Isaac", getTime(2019, 12, 20), 50, "J.J. Abrams", null, false,
-					new ArrayList<>(), false);
+					"J.J. Abrams", "Daisy Ridley, John Boyega, Oscar Isaac", LocalDate.of(2019, 12, 20), 2, 21, 5f,
+					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/StarWars.jpg",
+					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/StarWars.png",
+					true, false, null, null);
+			/* ---------- Setting Viewing Packages For Data Base ---------- */
+			ViewingPackage viewingPackage1 = new ViewingPackage(wonderWoman1984, getExacTime(2021, 6, 18, 16, 0), "www.sirtiya.co.il/wonderWoman1");
+			ViewingPackage viewingPackage2 = new ViewingPackage(wonderWoman1984, getExacTime(2021, 6, 19, 16, 0), "www.sirtiya.co.il/wonderWoman2");
+			ViewingPackage viewingPackage3 = new ViewingPackage(wonderWoman1984, getExacTime(2021, 6, 20, 16, 0), "www.sirtiya.co.il/wonderWoman3");
+			ViewingPackage viewingPackage4 = new ViewingPackage(babyDriver, getExacTime(2021, 6, 18, 17, 0), "www.sirtiya.co.il/babyDriver1");
+			ViewingPackage viewingPackage5 = new ViewingPackage(babyDriver, getExacTime(2021, 6, 19, 17, 0), "www.sirtiya.co.il/babyDriver2");
+			ViewingPackage viewingPackage6 = new ViewingPackage(babyDriver, getExacTime(2021, 6, 20, 17, 0), "www.sirtiya.co.il/babyDriver3");
+			wonderWoman1984.setViewingPackages(new ArrayList<ViewingPackage>(Arrays.asList(viewingPackage1, viewingPackage2, viewingPackage3)));
+			babyDriver.setViewingPackages(new ArrayList<ViewingPackage>(Arrays.asList(viewingPackage4, viewingPackage5, viewingPackage6)));
+			/* ---------- Setting Screenings For Data Base ---------- */
+			Screening screening1 = new Screening(getExacTime(2021, 6, 17, 20, 00), avengersEndgame, hall1, haifaCinema, null);
+			Screening screening2 = new Screening(getExacTime(2021, 6, 18, 20, 00), avengersEndgame, hall1, haifaCinema, null);
+			Screening screening3 = new Screening(getExacTime(2021, 6, 17, 20, 00), avengersEndgame, hall3, telAvivCinema, null);
+			Screening screening4 = new Screening(getExacTime(2021, 6, 18, 20, 00), avengersEndgame, hall3, telAvivCinema, null);
+			Screening screening5 = new Screening(getExacTime(2021, 6, 17, 17, 00), sherlockHolmes, hall2, haifaCinema, null);
+			Screening screening6 = new Screening(getExacTime(2021, 6, 18, 17, 00), sherlockHolmes, hall2, haifaCinema, null);
+			Screening screening7 = new Screening(getExacTime(2021, 6, 17, 17, 00), sherlockHolmes, hall4, telAvivCinema, null);
+			Screening screening8 = new Screening(getExacTime(2021, 6, 18, 17, 00), sherlockHolmes, hall4, telAvivCinema, null);
+			Screening screening9 = new Screening(getExacTime(2021, 6, 17, 20, 30), babyDriver, hall2, haifaCinema, null);
+			Screening screening10 = new Screening(getExacTime(2021, 6, 18, 20, 30), babyDriver, hall2, haifaCinema, null);
+			Screening screening11 = new Screening(getExacTime(2021, 6, 17, 20, 30), babyDriver, hall4, telAvivCinema, null);
+			Screening screening12 = new Screening(getExacTime(2021, 6, 18, 20, 30), babyDriver, hall4, telAvivCinema, null);
+			Screening screening13 = new Screening(getExacTime(2021, 6, 17, 17, 30), wonderWoman1984, hall1, haifaCinema, null);
+			Screening screening14 = new Screening(getExacTime(2021, 6, 18, 17, 30), wonderWoman1984, hall1, haifaCinema, null);
+			Screening screening15 = new Screening(getExacTime(2021, 6, 17, 17, 30), wonderWoman1984, hall3, telAvivCinema, null);
+			Screening screening16 = new Screening(getExacTime(2021, 6, 18, 17, 30), wonderWoman1984, hall3, telAvivCinema, null);
+			Screening screening17 = new Screening(getExacTime(2021, 6, 17, 00, 00), it, hall1, haifaCinema, null);
+			Screening screening18 = new Screening(getExacTime(2021, 6, 18, 00, 00), it, hall1, haifaCinema, null);
+			Screening screening19 = new Screening(getExacTime(2021, 6, 17, 00, 00), it, hall3, telAvivCinema, null);
+			Screening screening20 = new Screening(getExacTime(2021, 6, 18, 00, 00), it, hall3, telAvivCinema, null);
+			
+			avengersEndgame.setScreenings(new ArrayList<Screening>(Arrays.asList(screening1, screening2, screening3, screening4)));
+			sherlockHolmes.setScreenings(new ArrayList<Screening>(Arrays.asList(screening5, screening6, screening7, screening8)));
+			babyDriver.setScreenings(new ArrayList<Screening>(Arrays.asList(screening9, screening10, screening11, screening12)));
+			wonderWoman1984.setScreenings(new ArrayList<Screening>(Arrays.asList(screening13, screening14, screening15, screening16)));
+			it.setScreenings(new ArrayList<Screening>(Arrays.asList(screening17, screening18, screening19, screening20)));
+			
+			hall1.setScreenings(new ArrayList<Screening>(Arrays.asList(screening1, screening2, screening13, screening14, screening17, screening18)));
+			hall2.setScreenings(new ArrayList<Screening>(Arrays.asList(screening5, screening6, screening9, screening10)));
+			hall3.setScreenings(new ArrayList<Screening>(Arrays.asList(screening3, screening4, screening15, screening16, screening19, screening20)));
+			hall4.setScreenings(new ArrayList<Screening>(Arrays.asList(screening7, screening8, screening11, screening12)));
 
-			avengersEndgame.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("10:00", "12:00")));
-			sherlockHolmes.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("16:00", "18:00")));
-			babyDriver.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("20:00", "22:00")));
-			wonderWoman1984.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("00:00")));
-			it.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("11:00", "13:00")));
-			toyStory.setMovieBeginingTime(new ArrayList<String>(Arrays.asList("15:00", "17:00")));
+			haifaCinema.setScreenings(new ArrayList<Screening>(Arrays.asList(screening1, screening2, screening5, screening6, screening9, screening10, screening13, screening14, screening17, screening18)));
+			telAvivCinema.setScreenings(new ArrayList<Screening>(Arrays.asList(screening3, screening4, screening7, screening8, screening11, screening12, screening15, screening16, screening19, screening20)));
+			/* ---------- Setting Purple Limits For Data Base ---------- */
+			PurpleLimit purpleLimit1 = new PurpleLimit(LocalDate.of(2021, 1, 1), LocalDate.of(2021, 3, 1), 40);
+			PurpleLimit purpleLimit2 = new PurpleLimit(LocalDate.of(2021, 5, 5), LocalDate.of(2021, 6, 17), 40);
+			/* ---------- Setting Subscription Cards For Data Base ---------- */
+			SubscriptionCard card1 = new SubscriptionCard(); card1.setRemaining(17);
+			SubscriptionCard card2 = new SubscriptionCard(); card2.setRemaining(19);
+			SubscriptionCard card3 = new SubscriptionCard(); card3.setRemaining(20);
+			/* ---------- Setting Purchases For Data Base ---------- */
+			// Tickets Purchases
+			Purchase customer1 = new Purchase("Shir", "Avneri", "shiravneri@gmail.com", "street 1, city", "0523456789", 40.0, getTime(2021, 6, 10), screening1, new ArrayList<>(), null);
+			Purchase customer2 = new Purchase("Eitan", "Sharabi", "shiravneri@gmail.com", "street 2, city", "0523456789", 40.0, getTime(2021, 6, 10), screening5, new ArrayList<>(), null);
+			Purchase customer3 = new Purchase("Niv", "Sapir", "shiravneri@gmail.com", "street 3, city", "0523456789", 40.0, getTime(2021, 6, 10), screening3, new ArrayList<>(), null);
+			Purchase customer4 = new Purchase("Hadar", "Manor", "shiravneri@gmail.com", "street 4, city", "0523456789", 40.0, getTime(2021, 6, 10), screening20, new ArrayList<>(), null);
+			
+			screening1.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer1))); screening3.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer3))); 
+			screening5.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer2))); screening20.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer4)));
+			
+			haifaCinema.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer1, customer2))); 
+			telAvivCinema.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer3, customer4)));
+			// Viewing Package Purchases
+			Purchase customer5 = new Purchase("Alon", "Latman", "shiravneri@gmail.com", "street 5, city", "0523456789", 30.0, getTime(2021, 6, 9), null, viewingPackage1, null);
+			Purchase customer6 = new Purchase("Liel", "Fridman", "shiravneri@gmail.com", "street 6, city", "0523456789", 30.0,  getTime(2021, 6, 9), null, viewingPackage2, null);
+			Purchase customer7 = new Purchase("Asaf", "Moshe", "shiravneri@gmail.com", "street 7, city", "0523456789", 30.0, getTime(2021, 6, 10), null, viewingPackage3, null);
+			Purchase customer8 = new Purchase("Malki", "Grossman", "shiravneri@gmail.com", "street 8, city", "0523456789", 30.0,  getTime(2021, 6, 10), null, viewingPackage4, null);
+			// Subscription Cards Purchases
+			Purchase customer9 = new Purchase("Liel", "Fridman", "shiravneri@gmail.com", "street 9, city", "0523456789", 600.0, getTime(2021, 6, 5), null, card1, null);
+			Purchase customer10 = new Purchase("Malki", "Grossman", "shiravneri@gmail.com", "street 10, city", "0523456789", 600.0, getTime(2021, 6, 5), null, card2, null);
+			Purchase customer11 = new Purchase("Asaf", "Moshe", "shiravneri@gmail.com", "street 11, city", "0523456789", 600.0, getTime(2021, 6, 5), null, card3, null);
+			card1.setPurchase(customer9); card2.setPurchase(customer10); card3.setPurchase(customer11); 
+			/* ---------- Setting Complaints For Data Base ---------- */
+			Complaint complaint1 = new Complaint("Shir", "Avneri", "shiravneri@gmail.com", "0523456789", Complaint.getComplaintTypes()[0], "I'm very upset", "I want to finish this project", customer1, true);
+			Complaint complaint2 = new Complaint("Niv", "Sapir", "shiravneri@gmail.com", "0523456789", Complaint.getComplaintTypes()[0], "I want to complain", "I am very upset", customer2, true);
+			Complaint complaint3 = new Complaint("Hadar", "Manor", "shiravneri@gmail.com", "0523456789", Complaint.getComplaintTypes()[0], "Some title", "Some details", customer3, false);
+			
+			haifaCinema.setComplaints(new ArrayList<Complaint>(Arrays.asList(complaint1, complaint2))); 
+			telAvivCinema.setComplaints(new ArrayList<Complaint>(Arrays.asList(complaint3)));
+			/* ---------- Setting Price Request For Data Base ---------- */
+			PriceRequest request1 = new PriceRequest(1, "I think the price is too low.", 50f, true);
+			PriceRequest request2 = new PriceRequest(2, "I think the price is too high.", 20f, true);
+			
+			
+			/* ---------- Saving Workers To Data Base ---------- */
+			session.save(hadarWorker);
+			session.save(shirWorker);
+			session.save(nivWorker);
+			session.save(lielWorker);
+			session.save(eitanWorker);
+			session.save(alonWorker);
+			/* ---------- Saving Cinema To Data Base ---------- */
+			session.save(haifaCinema);
+			session.save(telAvivCinema);
+			/* ---------- Saving Halls To Data Base ---------- */
+			session.save(hall1);
+			session.save(hall2);
+			session.save(hall3);
+			session.save(hall4);
+			/* ---------- Saving Movies To Data Base ---------- */
 			session.save(avengersEndgame);
 			session.save(sherlockHolmes);
 			session.save(babyDriver);
@@ -203,181 +282,62 @@ public class Main extends AbstractServer {
 			session.save(toyStory);
 			session.save(minions);
 			session.save(starWars);
-			session.flush();
-			// ViewingPackage viewingPackage = new ViewingPackage(babyDriver, getTime(2021,
-			// 6,6), new ArrayList<>());
-			// session.save(viewingPackage);
-
-			// creating whole data base to cinema,screening,Hall
-			Cinema haifaCinema = new Cinema("Haifa", "Haifa,Carmel st", (BranchManager) shirWorker, new ArrayList<>(),
-					new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), 40, 20, 0.8, new ArrayList<>(),
-					new ArrayList<>());
-			Cinema telAvivCinema = new Cinema("Tel-Aviv", "Tel-Aviv,Wieztman st", (BranchManager) nivWorker,
-					new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), 45, 20, 0.9,
-					new ArrayList<>(), new ArrayList<>());
-			shirWorker.setCinema(haifaCinema);
-			nivWorker.setCinema(telAvivCinema);
-			haifaCinema.getWorkerArray().add(asafWorker);
-			telAvivCinema.getWorkerArray().add(asafWorker);
-			haifaCinema.getWorkerArray().add(lielWorker);
-			telAvivCinema.getWorkerArray().add(lielWorker);
-
-			// Integer[][] planeArray1 = new Integer[3][5];
-
-			Hall hall1 = new Hall(3, 5, new ArrayList<>(), haifaCinema, new ArrayList<>());
-			Hall hall2 = new Hall(4, 4, new ArrayList<>(), haifaCinema, new ArrayList<>());
-			Hall hall3 = new Hall(7, 5, new ArrayList<>(), telAvivCinema, new ArrayList<>());
-			Hall hall4 = new Hall(2, 5, new ArrayList<>(), telAvivCinema, new ArrayList<>());
-
-			Screening screeningOfFilm_1 = new Screening(getTime(2021, 2, 3), hall1, avengersEndgame, haifaCinema,
-					new ArrayList<>());
-			Screening screeningOfFilm_2 = new Screening(getExacTime(2021, 6, 25, 20, 00), hall1, sherlockHolmes,
-					haifaCinema, new ArrayList<>());
-			Screening screeningOfFilm_3 = new Screening(getExacTime(2021, 6, 26, 20, 00), hall2, sherlockHolmes,
-					haifaCinema, new ArrayList<>());
-			Screening screeningOfFilm_4 = new Screening(getExacTime(2021, 6, 27, 20, 00), hall2, babyDriver,
-					haifaCinema, new ArrayList<>());
-			Screening screeningOfFilm_9 = new Screening(getExacTime(2021, 6, 27, 20, 30), hall2, sherlockHolmes,
-					haifaCinema, new ArrayList<>());
-			Screening screeningOfFilm_10 = new Screening(getExacTime(2021, 6, 27, 20, 30), hall1, wonderWoman1984,
-					haifaCinema, new ArrayList<>());
-			Screening screeningOfFilm_5 = new Screening(getExacTime(2021, 6, 26, 20, 00), hall3, wonderWoman1984,
-					telAvivCinema, new ArrayList<>());
-			Screening screeningOfFilm_6 = new Screening(getExacTime(2021, 6, 27, 20, 00), hall3, it, telAvivCinema,
-					new ArrayList<>());
-			Screening screeningOfFilm_7 = new Screening(getExacTime(2021, 6, 28, 13, 30), hall4, toyStory,
-					telAvivCinema, new ArrayList<>());
-			Screening screeningOfFilm_8 = new Screening(getExacTime(2021, 6, 28, 20, 00), hall4, minions, telAvivCinema,
-					new ArrayList<>());
-			Screening screeningOfFilm_11 = new Screening(getExacTime(2021, 6, 28, 10, 15), hall4, minions,
-					telAvivCinema, new ArrayList<>());
-			Screening screeningOfFilm_12 = new Screening(getExacTime(2021, 6, 28, 10, 15), hall3, it, telAvivCinema,
-					new ArrayList<>());
-
-			hall1.getScreeningArray().add(screeningOfFilm_1);
-			hall1.getScreeningArray().add(screeningOfFilm_2);
-			hall1.getScreeningArray().add(screeningOfFilm_10);
-			hall2.getScreeningArray().add(screeningOfFilm_3);
-			hall2.getScreeningArray().add(screeningOfFilm_4);
-			hall2.getScreeningArray().add(screeningOfFilm_9);
-			hall3.getScreeningArray().add(screeningOfFilm_5);
-			hall3.getScreeningArray().add(screeningOfFilm_6);
-			hall3.getScreeningArray().add(screeningOfFilm_12);
-			hall4.getScreeningArray().add(screeningOfFilm_7);
-			hall4.getScreeningArray().add(screeningOfFilm_8);
-			hall4.getScreeningArray().add(screeningOfFilm_11);
-
-			haifaCinema.getScreeningArray().add(screeningOfFilm_1);
-			haifaCinema.getScreeningArray().add(screeningOfFilm_2);
-			haifaCinema.getScreeningArray().add(screeningOfFilm_3);
-			haifaCinema.getScreeningArray().add(screeningOfFilm_4);
-			haifaCinema.getScreeningArray().add(screeningOfFilm_9);
-			haifaCinema.getScreeningArray().add(screeningOfFilm_10);
-			haifaCinema.setHallArray(new ArrayList<Hall>(Arrays.asList(hall1, hall2)));
-
-			telAvivCinema.getScreeningArray().add(screeningOfFilm_5);
-			telAvivCinema.getScreeningArray().add(screeningOfFilm_6);
-			telAvivCinema.getScreeningArray().add(screeningOfFilm_7);
-			telAvivCinema.getScreeningArray().add(screeningOfFilm_8);
-			telAvivCinema.getScreeningArray().add(screeningOfFilm_11);
-			telAvivCinema.getScreeningArray().add(screeningOfFilm_12);
-			telAvivCinema.setHallArray(new ArrayList<Hall>(Arrays.asList(hall3, hall4)));
-			
-			ViewingPackage viewingPackage = new ViewingPackage(wonderWoman1984, getExacTime(2021, 6, 3, 17, 58), new ArrayList<>(), "www.sirtiya.co.il");
-			
-			session.save(screeningOfFilm_1);
-			session.save(screeningOfFilm_2);
-			session.save(screeningOfFilm_3);
-			session.save(screeningOfFilm_4);
-			session.save(screeningOfFilm_5);
-			session.save(screeningOfFilm_6);
-			session.save(screeningOfFilm_7);
-			session.save(screeningOfFilm_8);
-			session.save(screeningOfFilm_9);
-			session.save(screeningOfFilm_10);
-			session.save(screeningOfFilm_11);
-			session.save(screeningOfFilm_12);
-
-			session.save(hall1);
-			session.save(hall2);
-			session.save(hall3);
-			session.save(hall4);
-
-			session.save(shirWorker);
-			session.save(nivWorker);
-			session.save(lielWorker);
-			session.save(asafWorker);
-			session.save(hadarWorker);
-
-			session.save(haifaCinema);
-			session.save(telAvivCinema);
-
-			ViewingPackage viewingPackage2 = new ViewingPackage(babyDriver, getTime(2021, 6, 6), new ArrayList<>(),
-					"www.sirtiya.co.il");
-			session.save(viewingPackage);
-
-			SubscriptionCard card1 = new SubscriptionCard();
-			SubscriptionCard card2 = new SubscriptionCard();
-			// Tickets Purchases
-			Purchase customer1 = 
-					new Purchase("Shir", "Avneri", "shiravneri@gmail.com", "street 1, city", "0523456789", 40.0, 
-					getTime(2021, 2, 3), screeningOfFilm_1, new ArrayList<>(), null);
-
-			Purchase customer2 = 
-					new Purchase("Niv", "Sapir", "shiravneri@gmail.com", "street 2, city", "0523456789", 40.0, 
-					getTime(2021, 6, 5), screeningOfFilm_2, new ArrayList<>(), null);
-			
-			// Viewing Package Purchases
-			Purchase customer3 = 
-					new Purchase("Eitan", "Sharabi", "shiravneri@gmail.com", "street 3, city", "0523456789", 40.0, 
-					getTime(2021, 6, 5), telAvivCinema, viewingPackage, null);
-			Purchase customer4 = 
-					new Purchase("Hadar", "Manor", "shiravneri@gmail.com", "street 4, city", "0523456789", 40.0, 
-					getTime(2021, 6, 5), haifaCinema, viewingPackage2, null);
-			
-			// Subscription Cards Purchases
-			Purchase customer5 = 
-					new Purchase("Liel", "Fridman", "shiravneri@gmail.com", "street 5, city", "0523456789", 40.0, 
-					getTime(2021, 6, 5), telAvivCinema, card1, null);
-			Purchase customer6 = 
-					new Purchase("Alon", "Latman", "shiravneri@gmail.com", "street 6, city", "0523456789", 40.0, 
-					getTime(2021, 6, 5), haifaCinema, card2, null);
-			
-			card1.setPurchase(customer5); card1.setRemaining(7);
-			card2.setPurchase(customer6); card1.setRemaining(10);
-			
+			/* ---------- Saving Viewing Packages To Data Base ---------- */
+			session.save(viewingPackage1);
+			session.save(viewingPackage2);
+			session.save(viewingPackage3);
+			session.save(viewingPackage4);
+			session.save(viewingPackage5);
+			session.save(viewingPackage6);
+			/* ---------- Saving Screenings To Data Base ---------- */
+			session.save(screening1);
+			session.save(screening2);
+			session.save(screening3);
+			session.save(screening4);
+			session.save(screening5);
+			session.save(screening6);
+			session.save(screening7);
+			session.save(screening8);
+			session.save(screening9);
+			session.save(screening10);
+			session.save(screening11);
+			session.save(screening12);
+			session.save(screening13);
+			session.save(screening14);
+			session.save(screening15);
+			session.save(screening16);
+			session.save(screening17);
+			session.save(screening18);
+			session.save(screening19);
+			session.save(screening20);
+			/* ---------- Saving Purple Limits To Data Base ---------- */
+			session.save(purpleLimit1);
+			session.save(purpleLimit2);
+			/* ---------- Saving Subscription Cards To Data Base ---------- */
+			session.save(card1);
+			session.save(card2);
+			session.save(card3);
+			/* ---------- Saving Purchases To Data Base ---------- */
 			session.save(customer1);
 			session.save(customer2);
 			session.save(customer3);
 			session.save(customer4);
 			session.save(customer5);
 			session.save(customer6);
-			
-			session.save(card1);
-			session.save(card2);
-
-			Complaint someComplaint1 = new Complaint("Shir", "Avneri", "shiravneri@gmail.com", "0523456789",
-					Complaint.getComplaintTypes()[0], "I'm very upset", "I want to finish this project", true,
-					customer1, haifaCinema);
-			Complaint someComplaint2 = new Complaint("Niv", "Sapir", "shiravneri@gmail.com", "0523456789",
-					Complaint.getComplaintTypes()[1], "I want to complain", "I am very upset", true, customer1,
-					telAvivCinema);
-			Complaint someComplaint3 = new Complaint("Hadar", "Manor", "shiravneri@gmail.com", "0523456789",
-					Complaint.getComplaintTypes()[2], "Some title", "Some details", false, customer2, haifaCinema);
-
-			PriceRequest request = new PriceRequest(LocalDateTime.now(), telAvivCinema, true, "becasue", 80, true);
-
-			session.save(request);
-			session.save(someComplaint1);
-			session.save(someComplaint2);
-			session.save(someComplaint3);
-			session.save(haifaCinema);
-			session.save(telAvivCinema);
-
+			session.save(customer7);
+			session.save(customer8);
+			session.save(customer9);
+			session.save(customer10);
+			session.save(customer11);
+			/* ---------- Saving Complaints To Data Base ---------- */
+			session.save(complaint1);
+			session.save(complaint2);
+			session.save(complaint3);
+			/* ---------- Saving Requests To Data Base ---------- */
+			session.save(request1);
+			session.save(request2);
+			// DONE!
 			session.flush();
-
-			// System.out.println(ScreeningController.pickChair(1, 1, hall4));
-
 			session.getTransaction().commit();
 			session.clear();
 		} catch (Exception exception) {
@@ -390,7 +350,6 @@ public class Main extends AbstractServer {
 			assert session != null;
 			session.close();
 		}
-
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -556,7 +515,7 @@ public class Main extends AbstractServer {
 			ArrayList<Movie> toReturnArrayList = new ArrayList<>();
 			screeningMoviesArrayList = Main.getAllOfType(Movie.class);
 			for (Movie movie : screeningMoviesArrayList) {
-				if (movie.isDeleted() == false && (movie.isScreening() == true || movie.isSoonInCinema() == true)) {
+				if (!movie.isDeleted()) {
 					toReturnArrayList.add(movie);
 				}
 			}
@@ -574,10 +533,9 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("update movie time")) {
 
 			System.out.println("about to update movie time");
-			Screening newScreening = new Screening(currentMsg.getDateMovie(),
+			Screening newScreening = new Screening(currentMsg.getDateMovie(), MovieController.getMovieByName(currentMsg.getMovieName()),
 					ScreeningController.getHallById(currentMsg.getHallId()),
-					MovieController.getMovieByName(currentMsg.getMovieName()),
-					MovieController.getCinemaByName(currentMsg.getCinemaName()), null);
+					CinemaController.getCinemaByName(currentMsg.getCinemaName()), null);
 
 			if (currentMsg.getDbAction().equals("removal")) {
 				deleteRowInDB(currentMsg.getScreening());
@@ -596,7 +554,7 @@ public class Main extends AbstractServer {
 			List<Screening> screenings = getAllOfType(Screening.class);
 
 			for (Screening screening : screenings) {
-				if (screening.getDate_screen().equals(newScreening.getDate_screen())
+				if (screening.getDateAndTime().equals(newScreening.getDateAndTime())
 						&& screening.getCinema().getName().equals(newScreening.getCinema().getName())
 						&& screening.getMovie().getName().equals(newScreening.getMovie().getName())
 						&& screening.getHall().getHallId() == (newScreening.getHall().getHallId())) {
@@ -701,7 +659,7 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("pull soon movies")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.setMovies((ArrayList<Movie>) MovieController.getSoonMovies());
+				serverMsg.setMovies((ArrayList<Movie>) MovieController.getComingSoonMovies());
 				serverMsg.setAction("got soon movies");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
@@ -716,7 +674,7 @@ public class Main extends AbstractServer {
 				serverMsg = currentMsg;
 				System.out.println("in Main pull screeening movies msg");
 
-				serverMsg.setMovies((ArrayList<Movie>) MovieController.getAllScreeningMovies());
+				serverMsg.setMovies((ArrayList<Movie>) MovieController.getCurrentlyScreeningMovies());
 				serverMsg.setAction("got screening movies");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
@@ -754,7 +712,7 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("sort movies by date")) {
 			try {
 				serverMsg = (Message) msg;
-				serverMsg.setMovies((ArrayList<Movie>) MovieController.MoviesByDate(serverMsg.getDateMovie()));
+				serverMsg.setMovies((ArrayList<Movie>) MovieController.getMoviesByDate(serverMsg.getDateMovie()));
 				serverMsg.setAction("done to sort by date");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
@@ -777,14 +735,14 @@ public class Main extends AbstractServer {
 		}
 		if (currentMsg.getAction().equals("pull movies from home")) {
 			try {
-				ArrayList<Movie> movies = ((ArrayList<Movie>) MovieController.WatchingFromHome());
+				ArrayList<Movie> movies = ((ArrayList<Movie>) ViewingPackageController.getViewingPackageMovies());
 				if (currentMsg.getRate() != null) {
 
 					Iterator<Movie> iter = movies.iterator();
 
 					while (iter.hasNext()) {
 						Movie movie = iter.next();
-						if (Double.parseDouble(currentMsg.getRate()) != movie.getPopular()) {
+						if (Double.parseDouble(currentMsg.getRate()) != movie.getRate()) {
 							iter.remove();
 						}
 					}
@@ -1025,7 +983,7 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("delete movie")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.getMovie().setDeleted(true);
+				serverMsg.getMovie().setIsDeleted(true);
 				updateRowDB(serverMsg.getMovie());
 				serverMsg.setAction("deleted movie");
 				client.sendToClient(serverMsg);
@@ -1038,7 +996,7 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("delete a viewing package")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.getMovie().setStreamOnline(false);
+				//serverMsg.getMovie().setStreamOnline(false);
 				updateRowDB(serverMsg.getMovie());
 				serverMsg.setAction("deleted a viewing package");
 				client.sendToClient(serverMsg);
@@ -1103,7 +1061,7 @@ public class Main extends AbstractServer {
 						Iterator<Movie> iter = movies.iterator();
 						while (iter.hasNext()) {
 							Movie movie = iter.next();
-							if (movie.isSoonInCinema()) {
+							if (movie.isComingSoon()) {
 								iter.remove();
 							}
 						}
@@ -1124,7 +1082,7 @@ public class Main extends AbstractServer {
 					while (iter.hasNext()) {
 						Movie movie = iter.next();
 
-						if (!movie.isSoonInCinema()) {
+						if (!movie.isComingSoon()) {
 							iter.remove();
 						}
 					}
@@ -1135,7 +1093,7 @@ public class Main extends AbstractServer {
 					Iterator<Movie> iter = movies.iterator();
 					while (iter.hasNext()) {
 						Movie movie = iter.next();
-						if (!movie.isStreamOnline()) {
+						if (!movie.isViewingPackage()) {
 							iter.remove();
 						}
 					}
@@ -1148,7 +1106,7 @@ public class Main extends AbstractServer {
 
 					while (iter.hasNext()) {
 						Movie movie = iter.next();
-						if (Double.parseDouble(currentMsg.getRate()) != movie.getPopular()) {
+						if (Double.parseDouble(currentMsg.getRate()) != movie.getRate()) {
 							iter.remove();
 						}
 					}
@@ -1191,7 +1149,7 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("cancellation of purchase")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.getPurchase().getScreening().getCinema().getCancelPurchases().add(serverMsg.getPurchase());
+				serverMsg.getPurchase().getScreening().getCinema().getCanceledPurchases().add(serverMsg.getPurchase());
 
 				Float refund = CustomerController.ReturnOnPurchase(serverMsg.getPurchase(), LocalDateTime.now());
 				serverMsg.getPurchase().setIsCanceled(new Pair<Boolean, Float> (true, refund));
@@ -1334,9 +1292,8 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("update price")) {
 			try {
 				serverMsg = currentMsg;
-				currentMsg.getPriceRequestmsg().setOpen(false);
+				currentMsg.getPriceRequestmsg().setIsOpen(false);
 				updateRowDB(currentMsg.getPriceRequestmsg());
-				updateRowDB(currentMsg.getPriceRequestmsg().getCinema());
 				serverMsg.setAction("done update price");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
@@ -1348,7 +1305,7 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("cancel update price")) {
 			try {
 				serverMsg = currentMsg;
-				currentMsg.getPriceRequestmsg().setOpen(false);
+				currentMsg.getPriceRequestmsg().setIsOpen(false);
 				updateRowDB(currentMsg.getPriceRequestmsg());
 				serverMsg.setAction("done canceling update price");
 				client.sendToClient(serverMsg);

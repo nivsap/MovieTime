@@ -77,12 +77,12 @@ public class ViewingPackagesInfoPageController {
     	movieLargeImageSrc.setImage(movie.getLargeImage());
     	movieName.setText(movie.getName());
     	movieGenre.setText(movie.getGenre());
-    	moviePopularity.setText(movie.getPopular().toString());
+    	moviePopularity.setText(movie.getRate().toString());
     	movieNameSecond.setText(movie.getName());
     	movieGenreSecond.setText(movie.getGenre());
     	movieDescription.setText(movie.getDescription());
     	movieDescription.setWrapText(true);
-    	movieProducers.setText(movie.getProducersMovie());
+    	movieProducers.setText(movie.getProducers());
     	movieMainActors.setText(movie.getMainActors());
     	movieDuration.setText(movie.getDuration());
     	movieLaunchDate.setText(movie.getLaunchDate().toString());

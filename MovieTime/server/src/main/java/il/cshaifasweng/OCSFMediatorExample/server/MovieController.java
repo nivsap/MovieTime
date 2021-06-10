@@ -1,56 +1,16 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
-import il.cshaifasweng.OCSFMediatorExample.entities.Cinema;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 
 public class MovieController {
-	public static List<Movie> getSoonMovies() {
-		ArrayList<Movie> soonMoviesArrayList = new ArrayList<>();
-		ArrayList<Movie> toReturnArrayList = new ArrayList<>();
-		soonMoviesArrayList = Main.getAllOfType(Movie.class);
-		for(int i = 0 ; i < soonMoviesArrayList.size() ; i++) {
-			//System.out.println(movie.getName());
-			if(soonMoviesArrayList.get(i).isSoonInCinema()) {
-				toReturnArrayList.add(soonMoviesArrayList.get(i));
-			}
-		}
-		return toReturnArrayList;
-	}
-
-	public static List<Movie> getGenreTypeMovies(String genre) {
-		ArrayList<Movie> soonMoviesArrayList = new ArrayList<>();
-		ArrayList<Movie> toReturnArrayList = new ArrayList<>();
-		soonMoviesArrayList = Main.getAllOfType(Movie.class);
-		for(int i = 0 ; i < soonMoviesArrayList.size() ; i++) {
-			//System.out.println(movie.getName());
-			if(soonMoviesArrayList.get(i).isSoonInCinema()&&soonMoviesArrayList.get(i).getGenre()==genre) {
-				toReturnArrayList.add(soonMoviesArrayList.get(i));
-			}
-		}
-		return toReturnArrayList;
-	}
-	
-
-	public static List<Movie> getAllScreeningMovies() {
-		ArrayList<Movie> screeningMoviesArrayList = new ArrayList<>();
-		ArrayList<Movie> toReturnArrayList = new ArrayList<>();
-		screeningMoviesArrayList = Main.getAllOfType(Movie.class);
-		for(Movie movie : screeningMoviesArrayList) {
-			if(movie.isSoonInCinema() == false && movie.isDeleted() == false) {
-				toReturnArrayList.add(movie);
-			}
-		}
-		return toReturnArrayList;
-	}
-	
 	
 	public static Movie getMovieByName(String name) {
 		ArrayList<Movie> movies = new ArrayList<>();
@@ -63,7 +23,63 @@ public class MovieController {
 		return null;
 	}
 	
+	public static List<Movie> getMoviesByDate(LocalDateTime date){ //return Movies by LaunchDate
+		List<Movie> toReturn = new ArrayList<>();
+		for(Screening movie :  Main.getAllOfType(Screening.class)) {
+			if(date == movie.getDateAndTime())
+				toReturn.add(movie.getMovie());
+		}
+		return toReturn;				
+	}
+	
+	public static List<Movie> getNotDeletedMovies() {
+		ArrayList<Movie> allMovies = new ArrayList<>();
+		ArrayList<Movie> toReturn = new ArrayList<>();
+		allMovies = Main.getAllOfType(Movie.class);
+		for(Movie movie : allMovies) {
+			if(!movie.isDeleted()) {
+				toReturn.add(movie);
+			}
+		}
+		return toReturn;
+	}
+	
+	public static List<Movie> getCurrentlyScreeningMovies() {
+		ArrayList<Movie> allMovies = new ArrayList<>();
+		ArrayList<Movie> toReturn = new ArrayList<>();
+		allMovies = Main.getAllOfType(Movie.class);
+		for(Movie movie : allMovies) {
+			if(movie.isScreening()) {
+				toReturn.add(movie);
+			}
+		}
+		return toReturn;
+	}
+	
+	public static List<Movie> getComingSoonMovies() {
+		ArrayList<Movie> allMovies = new ArrayList<>();
+		ArrayList<Movie> toReturn = new ArrayList<>();
+		allMovies = Main.getAllOfType(Movie.class);
+		for(Movie m: allMovies) {
+			if(m.isComingSoon()) 
+				toReturn.add(m);
+		}
+		return toReturn;
+	}
 
+	public static List<Movie> getGenreTypeMovies(String genre) {
+		ArrayList<Movie> soonMoviesArrayList = new ArrayList<>();
+		ArrayList<Movie> toReturnArrayList = new ArrayList<>();
+		soonMoviesArrayList = Main.getAllOfType(Movie.class);
+		for(int i = 0 ; i < soonMoviesArrayList.size() ; i++) {
+			//System.out.println(movie.getName());
+			if(soonMoviesArrayList.get(i).isComingSoon()&&soonMoviesArrayList.get(i).getGenre()==genre) {
+				toReturnArrayList.add(soonMoviesArrayList.get(i));
+			}
+		}
+		return toReturnArrayList;
+	}
+	
 	public static List<Movie> MoviesByGener (String genre){
 		List<Movie> toReturn = new ArrayList<>();
 		List<Movie> allMovies = Main.getAllOfType(Movie.class);
@@ -80,50 +96,23 @@ public class MovieController {
 		Collections.sort(toReturn, new Comparator<Movie>() {
 			@Override
 			public int compare(Movie u1, Movie u2) {
-				return u2.getPopular().compareTo(u1.getPopular());
+				return u2.getRate().compareTo(u1.getRate());
 			}
 		});
 		return toReturn; 				 // return movies sorted by popularty
 	}
 
-	public static List<Movie> WatchingFromHome (){ 
-		List<Movie> toReturn = new ArrayList<>();
-		for(Movie movie : Main.getAllOfType(Movie.class)) {
-			if(movie.isStreamOnline()==true)
-				toReturn.add(movie);
-		}
-		return toReturn;				//return Movies available viewing from home 
-	}
-	public static List<Movie> MoviesByDate (LocalDateTime date){
-		List<Movie> toReturn = new ArrayList<>();
-		for(Screening movie :  Main.getAllOfType(Screening.class)) {
-			if(date.getDayOfYear() == movie.getDate_screen().getDayOfYear())
-				toReturn.add(movie.getMovie());
-		}
-		return toReturn;				//return Movies by LaunchDate
-	}
+	
 	public static List<String> getAllGenreScreeningMovies() {
 		ArrayList<Movie> soonMoviesArrayList = new ArrayList<>();
 		ArrayList<String> toReturnArrayList = new ArrayList<>();
 		soonMoviesArrayList = Main.getAllOfType(Movie.class);
 		for(int i = 0 ; i < soonMoviesArrayList.size() ; i++) {
 			//System.out.println(movie.getName());
-			if(soonMoviesArrayList.get(i).isSoonInCinema()&&!toReturnArrayList.contains(soonMoviesArrayList.get(i).getGenre())) {
+			if(soonMoviesArrayList.get(i).isComingSoon()&&!toReturnArrayList.contains(soonMoviesArrayList.get(i).getGenre())) {
 				toReturnArrayList.add(soonMoviesArrayList.get(i).getGenre());
 			}
 		}
 		return toReturnArrayList;
 	}
-	
-	
-	public static Cinema getCinemaByName(String name) {
-		List<Cinema> cinemas = Main.getAllOfType(Cinema.class);
-		for(Cinema cinema : cinemas) {
-			if(cinema.getName().equals(name)) {
-				return cinema;
-			}
-		}
-		return null;
-	}
-	
 }

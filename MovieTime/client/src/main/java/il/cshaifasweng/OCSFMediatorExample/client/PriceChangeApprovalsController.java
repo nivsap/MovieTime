@@ -98,7 +98,7 @@ public class PriceChangeApprovalsController {
 		if (Text.equals("Approve")) {
 			request.setIsOpen(false);
 			NetworkAdministrator.setMoviePrice((float)request.getNewPrice());
-			msg.setPriceRequestmsg(request);
+			msg.setPriceRequest(request);
 			msg.setAction("update price");
 			try {
 				AppClient.getClient().sendToServer(msg);
@@ -110,7 +110,7 @@ public class PriceChangeApprovalsController {
 		}
 
 		if (Text.equals("Denied")) {
-			msg.setPriceRequestmsg(request);
+			msg.setPriceRequest(request);
 			msg.setAction("cancel update price");
 			try {
 				AppClient.getClient().sendToServer(msg);
@@ -202,7 +202,7 @@ public class PriceChangeApprovalsController {
 	public void onMessageEvent(Message msg) {
 		if (msg.getAction().equals("got all price request")) {
 			Platform.runLater(() -> {
-				requests = msg.getPriceRequestsArrayList();
+				requests = msg.getPriceRequests();
 				for (PriceRequest priceReq : requests) {
 					if (priceReq.isOpen()) {
 						request = priceReq;

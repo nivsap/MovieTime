@@ -2,15 +2,11 @@ package il.cshaifasweng.OCSFMediatorExample.server;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import il.cshaifasweng.OCSFMediatorExample.entities.Cinema;
 import il.cshaifasweng.OCSFMediatorExample.entities.Hall;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
-import javafx.util.Pair;
 
 public class ScreeningController {
-	
-	
 	public static List<Cinema> getCinemas(int id) {
 		ArrayList<Cinema> list = Main.getAllOfType(Cinema.class);
 		ArrayList<Cinema> toReturnArrayList = new ArrayList<>();

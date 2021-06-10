@@ -1,17 +1,9 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
-import java.io.IOException;
 import java.util.logging.Logger;
-
-import javax.swing.JOptionPane;
-
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
 import il.cshaifasweng.OCSFMediatorExample.client.ocsf.AbstractClient;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
-import javafx.application.Platform;
-import javafx.util.Pair;
 
 public class AppClient extends AbstractClient {
 

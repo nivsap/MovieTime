@@ -105,17 +105,15 @@ public class OpenPriceChangeRequestsController {
 		textfields = textFiller.getText();
 		if (textCollector.equals("Movie")) {
 			prices = new PriceRequest(0, textfields, price, true);
-			msg.setPriceRequestmsg(prices);
+			msg.setPriceRequest(prices);
 		} else {
 			prices = new PriceRequest(1, textfields, price, false);
-			msg.setPriceRequestmsg(prices);
+			msg.setPriceRequest(prices);
 		}
 
 		try {
-			System.out.println("hi");
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -190,10 +188,10 @@ public class OpenPriceChangeRequestsController {
 		if (msg.getAction().equals("got all cinemas")) {
 			Platform.runLater(() -> {
 				CinemaBox.getItems().clear();
-				cinemas = msg.getCinemasArrayList();
+				cinemas = msg.getCinemas();
 				System.out.println(cinemas.size());
 				System.out.println(cinemas);
-				for (Cinema cinema : msg.getCinemasArrayList()) {
+				for (Cinema cinema : msg.getCinemas()) {
 					if (!CinemaBox.getItems().contains(cinema.getName())) {
 						CinemaBox.getItems().add(cinema.getName());
 					}

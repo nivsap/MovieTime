@@ -23,7 +23,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
 public class MovieInfoPageController {
-    private Movie currentlyDisplayed;  
+    private Movie movie;  
     private Screening screeningChosen;
     private ArrayList<Cinema> cinemas;
     private ArrayList<Screening> screenings;
@@ -89,7 +89,7 @@ public class MovieInfoPageController {
     private Button orderTicketBtn;
     
     void InitPageInfo(Movie movie) {
-    	currentlyDisplayed = movie;
+    	this.movie = movie;
     	purchaseType = PurchaseTypes.TICKET;
     	movieImageSrc.setImage(movie.getImage());
     	movieLargeImageSrc.setImage(movie.getLargeImage());
@@ -104,12 +104,12 @@ public class MovieInfoPageController {
     	movieMainActors.setText(movie.getMainActors());
     	movieDuration.setText(movie.getDuration());
     	movieLaunchDate.setText(movie.getLaunchDate().toString());
-    	getCinemas(movie.getId());
     	cinemaCombo.getItems().clear();
     	dateCombo.getItems().clear();
     	timeCombo.getItems().clear();
     	numberOfSeatsCombo.getItems().clear();
     	numberOfSeatsCombo.setVisible(false);
+    	getCinemas(this.movie.getId());
     }
     
     private void getCinemas(int id) {
@@ -120,7 +120,6 @@ public class MovieInfoPageController {
     	try {
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
@@ -135,13 +134,12 @@ public class MovieInfoPageController {
     
     @Subscribe 
     public void onMessageEvent(Message msg){
-    	
     	if(msg.getAction().equals("cinema contained movies done")) {
     		EventBus.getDefault().unregister(this);
     		Platform.runLater(()-> {
 	    		cinemaCombo.getItems().clear();
-	    		cinemas = msg.getCinemasArrayList();
-	    		for(Cinema cinema : msg.getCinemasArrayList()) {	
+	    		cinemas = msg.getCinemas();
+	    		for(Cinema cinema : cinemas) {	
 	    			if(!cinemaCombo.getItems().contains(cinema.getName()));
 	    				cinemaCombo.getItems().add(cinema.getName());
 	    		}
@@ -153,7 +151,7 @@ public class MovieInfoPageController {
     		EventBus.getDefault().unregister(this);
     		Platform.runLater(()-> {
     	    	String onlyDate;
-	    		screenings = msg.getScreeningArrayList();
+	    		screenings = msg.getScreenings();
 	    		dateCombo.getItems().clear();
 	    		for(Screening screening : screenings) {
 	    			onlyDate = screening.getDate().toString(); 
@@ -195,11 +193,10 @@ public class MovieInfoPageController {
     	Message msg = new Message();
     	msg.setAction("screening for movie");
     	msg.setCinemaId(cinemaId);
-    	msg.setMovieId(currentlyDisplayed.getId());
+    	msg.setMovieId(movie.getId());
     	try {
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	
@@ -210,11 +207,10 @@ public class MovieInfoPageController {
     	EventBus.getDefault().register(this);
     	Message msg = new Message();
     	msg.setAction("check purple limit");
-    	msg.setDateMovie(screenings.get(0).getDateAndTime());
+    	msg.setScreeningDate(screenings.get(0).getDateAndTime());
     	try {
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	String onlyTime;

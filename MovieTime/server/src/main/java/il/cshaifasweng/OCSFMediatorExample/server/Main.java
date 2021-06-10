@@ -43,52 +43,34 @@ import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
 import javafx.util.Pair;
 
 public class Main extends AbstractServer {
-
+	private static SessionFactory sessionFactory = getSessionFactory();
 	private static Session session;
-	public static SessionFactory sessionFactory = getSessionFactory();
-	Message serverMsg;
-	private ArrayList<String> genres = new ArrayList<String>();
-
+	private static ArrayList<String> genres = new ArrayList<String>(Arrays.asList("Action", "Adventure", "Animation", "Comedy", "Crime", "Drama", "Fiction", "Fantasy", "Horror", "Mystery", "Romance", "Science", "Thriller", "Other"));
+	private Message serverMsg;
+	
 	public Main(int port) {
 		super(port);
-
-		genres.add("Action");
-		genres.add("Adventure");
-		genres.add("Animation");
-		genres.add("Comedy");
-		genres.add("Crime");
-		genres.add("Drama");
-		genres.add("Fiction");
-		genres.add("Fantasy");
-		genres.add("Horror");
-		genres.add("Mystery");
-		genres.add("Romance");
-		genres.add("Science");
-		genres.add("Thriller");
-		genres.add("Other");
 	}
 
 	public static SessionFactory getSessionFactory() throws HibernateException {
-
 		java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.OFF);
 		Configuration configuration = new Configuration();
-		configuration.addAnnotatedClass(Screening.class);
-		configuration.addAnnotatedClass(ViewingPackage.class);
-		configuration.addAnnotatedClass(Movie.class);
 		configuration.addAnnotatedClass(Worker.class);
-		configuration.addAnnotatedClass(PurpleLimit.class);
 		configuration.addAnnotatedClass(NetworkAdministrator.class);
-		configuration.addAnnotatedClass(Cinema.class);
-		configuration.addAnnotatedClass(Hall.class);
 		configuration.addAnnotatedClass(ContentManager.class);
 		configuration.addAnnotatedClass(BranchManager.class);
 		configuration.addAnnotatedClass(CustomerService.class);
+		configuration.addAnnotatedClass(Cinema.class);
+		configuration.addAnnotatedClass(Hall.class);
+		configuration.addAnnotatedClass(Screening.class);
+		configuration.addAnnotatedClass(Movie.class);
+		configuration.addAnnotatedClass(ViewingPackage.class);
+		configuration.addAnnotatedClass(SubscriptionCard.class);
 		configuration.addAnnotatedClass(Purchase.class);
 		configuration.addAnnotatedClass(Complaint.class);
-		configuration.addAnnotatedClass(SubscriptionCard.class);
+		configuration.addAnnotatedClass(PurpleLimit.class);
 		configuration.addAnnotatedClass(PriceRequest.class);
-		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
-				.applySettings(configuration.getProperties()).build();
+		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
 		return configuration.buildSessionFactory(serviceRegistry);
 	}
 
@@ -96,7 +78,7 @@ public class Main extends AbstractServer {
 		return LocalDate.of(year, month, day).atStartOfDay();
 	}
 
-	private static LocalDateTime getExacTime(int year, int month, int day, int hours, int minutes) {
+	private static LocalDateTime getExactTime(int year, int month, int day, int hours, int minutes) {
 		return LocalDate.of(year, month, day).atTime(hours, minutes);
 	}
 
@@ -174,35 +156,35 @@ public class Main extends AbstractServer {
 					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/StarWars.png",
 					true, false, null, null);
 			/* ---------- Setting Viewing Packages For Data Base ---------- */
-			ViewingPackage viewingPackage1 = new ViewingPackage(wonderWoman1984, getExacTime(2021, 6, 18, 16, 0), "www.sirtiya.co.il/wonderWoman1");
-			ViewingPackage viewingPackage2 = new ViewingPackage(wonderWoman1984, getExacTime(2021, 6, 19, 16, 0), "www.sirtiya.co.il/wonderWoman2");
-			ViewingPackage viewingPackage3 = new ViewingPackage(wonderWoman1984, getExacTime(2021, 6, 20, 16, 0), "www.sirtiya.co.il/wonderWoman3");
-			ViewingPackage viewingPackage4 = new ViewingPackage(babyDriver, getExacTime(2021, 6, 18, 17, 0), "www.sirtiya.co.il/babyDriver1");
-			ViewingPackage viewingPackage5 = new ViewingPackage(babyDriver, getExacTime(2021, 6, 19, 17, 0), "www.sirtiya.co.il/babyDriver2");
-			ViewingPackage viewingPackage6 = new ViewingPackage(babyDriver, getExacTime(2021, 6, 20, 17, 0), "www.sirtiya.co.il/babyDriver3");
+			ViewingPackage viewingPackage1 = new ViewingPackage(wonderWoman1984, getExactTime(2021, 6, 18, 16, 0), "www.sirtiya.co.il/wonderWoman1");
+			ViewingPackage viewingPackage2 = new ViewingPackage(wonderWoman1984, getExactTime(2021, 6, 19, 16, 0), "www.sirtiya.co.il/wonderWoman2");
+			ViewingPackage viewingPackage3 = new ViewingPackage(wonderWoman1984, getExactTime(2021, 6, 20, 16, 0), "www.sirtiya.co.il/wonderWoman3");
+			ViewingPackage viewingPackage4 = new ViewingPackage(babyDriver, getExactTime(2021, 6, 18, 17, 0), "www.sirtiya.co.il/babyDriver1");
+			ViewingPackage viewingPackage5 = new ViewingPackage(babyDriver, getExactTime(2021, 6, 19, 17, 0), "www.sirtiya.co.il/babyDriver2");
+			ViewingPackage viewingPackage6 = new ViewingPackage(babyDriver, getExactTime(2021, 6, 20, 17, 0), "www.sirtiya.co.il/babyDriver3");
 			wonderWoman1984.setViewingPackages(new ArrayList<ViewingPackage>(Arrays.asList(viewingPackage1, viewingPackage2, viewingPackage3)));
 			babyDriver.setViewingPackages(new ArrayList<ViewingPackage>(Arrays.asList(viewingPackage4, viewingPackage5, viewingPackage6)));
 			/* ---------- Setting Screenings For Data Base ---------- */
-			Screening screening1 = new Screening(getExacTime(2021, 6, 17, 20, 00), avengersEndgame, hall1, haifaCinema, null);
-			Screening screening2 = new Screening(getExacTime(2021, 6, 18, 20, 00), avengersEndgame, hall1, haifaCinema, null);
-			Screening screening3 = new Screening(getExacTime(2021, 6, 17, 20, 00), avengersEndgame, hall3, telAvivCinema, null);
-			Screening screening4 = new Screening(getExacTime(2021, 6, 18, 20, 00), avengersEndgame, hall3, telAvivCinema, null);
-			Screening screening5 = new Screening(getExacTime(2021, 6, 17, 17, 00), sherlockHolmes, hall2, haifaCinema, null);
-			Screening screening6 = new Screening(getExacTime(2021, 6, 18, 17, 00), sherlockHolmes, hall2, haifaCinema, null);
-			Screening screening7 = new Screening(getExacTime(2021, 6, 17, 17, 00), sherlockHolmes, hall4, telAvivCinema, null);
-			Screening screening8 = new Screening(getExacTime(2021, 6, 18, 17, 00), sherlockHolmes, hall4, telAvivCinema, null);
-			Screening screening9 = new Screening(getExacTime(2021, 6, 17, 20, 30), babyDriver, hall2, haifaCinema, null);
-			Screening screening10 = new Screening(getExacTime(2021, 6, 18, 20, 30), babyDriver, hall2, haifaCinema, null);
-			Screening screening11 = new Screening(getExacTime(2021, 6, 17, 20, 30), babyDriver, hall4, telAvivCinema, null);
-			Screening screening12 = new Screening(getExacTime(2021, 6, 18, 20, 30), babyDriver, hall4, telAvivCinema, null);
-			Screening screening13 = new Screening(getExacTime(2021, 6, 17, 17, 30), wonderWoman1984, hall1, haifaCinema, null);
-			Screening screening14 = new Screening(getExacTime(2021, 6, 18, 17, 30), wonderWoman1984, hall1, haifaCinema, null);
-			Screening screening15 = new Screening(getExacTime(2021, 6, 17, 17, 30), wonderWoman1984, hall3, telAvivCinema, null);
-			Screening screening16 = new Screening(getExacTime(2021, 6, 18, 17, 30), wonderWoman1984, hall3, telAvivCinema, null);
-			Screening screening17 = new Screening(getExacTime(2021, 6, 17, 00, 00), it, hall1, haifaCinema, null);
-			Screening screening18 = new Screening(getExacTime(2021, 6, 18, 00, 00), it, hall1, haifaCinema, null);
-			Screening screening19 = new Screening(getExacTime(2021, 6, 17, 00, 00), it, hall3, telAvivCinema, null);
-			Screening screening20 = new Screening(getExacTime(2021, 6, 18, 00, 00), it, hall3, telAvivCinema, null);
+			Screening screening1 = new Screening(getExactTime(2021, 6, 17, 20, 00), avengersEndgame, hall1, haifaCinema, null);
+			Screening screening2 = new Screening(getExactTime(2021, 6, 18, 20, 00), avengersEndgame, hall1, haifaCinema, null);
+			Screening screening3 = new Screening(getExactTime(2021, 6, 17, 20, 00), avengersEndgame, hall3, telAvivCinema, null);
+			Screening screening4 = new Screening(getExactTime(2021, 6, 18, 20, 00), avengersEndgame, hall3, telAvivCinema, null);
+			Screening screening5 = new Screening(getExactTime(2021, 6, 17, 17, 00), sherlockHolmes, hall2, haifaCinema, null);
+			Screening screening6 = new Screening(getExactTime(2021, 6, 18, 17, 00), sherlockHolmes, hall2, haifaCinema, null);
+			Screening screening7 = new Screening(getExactTime(2021, 6, 17, 17, 00), sherlockHolmes, hall4, telAvivCinema, null);
+			Screening screening8 = new Screening(getExactTime(2021, 6, 18, 17, 00), sherlockHolmes, hall4, telAvivCinema, null);
+			Screening screening9 = new Screening(getExactTime(2021, 6, 17, 20, 30), babyDriver, hall2, haifaCinema, null);
+			Screening screening10 = new Screening(getExactTime(2021, 6, 18, 20, 30), babyDriver, hall2, haifaCinema, null);
+			Screening screening11 = new Screening(getExactTime(2021, 6, 17, 20, 30), babyDriver, hall4, telAvivCinema, null);
+			Screening screening12 = new Screening(getExactTime(2021, 6, 18, 20, 30), babyDriver, hall4, telAvivCinema, null);
+			Screening screening13 = new Screening(getExactTime(2021, 6, 17, 17, 30), wonderWoman1984, hall1, haifaCinema, null);
+			Screening screening14 = new Screening(getExactTime(2021, 6, 18, 17, 30), wonderWoman1984, hall1, haifaCinema, null);
+			Screening screening15 = new Screening(getExactTime(2021, 6, 17, 17, 30), wonderWoman1984, hall3, telAvivCinema, null);
+			Screening screening16 = new Screening(getExactTime(2021, 6, 18, 17, 30), wonderWoman1984, hall3, telAvivCinema, null);
+			Screening screening17 = new Screening(getExactTime(2021, 6, 17, 00, 00), it, hall1, haifaCinema, null);
+			Screening screening18 = new Screening(getExactTime(2021, 6, 18, 00, 00), it, hall1, haifaCinema, null);
+			Screening screening19 = new Screening(getExactTime(2021, 6, 17, 00, 00), it, hall3, telAvivCinema, null);
+			Screening screening20 = new Screening(getExactTime(2021, 6, 18, 00, 00), it, hall3, telAvivCinema, null);
 			
 			avengersEndgame.setScreenings(new ArrayList<Screening>(Arrays.asList(screening1, screening2, screening3, screening4)));
 			sherlockHolmes.setScreenings(new ArrayList<Screening>(Arrays.asList(screening5, screening6, screening7, screening8)));
@@ -255,9 +237,7 @@ public class Main extends AbstractServer {
 			telAvivCinema.setComplaints(new ArrayList<Complaint>(Arrays.asList(complaint3)));
 			/* ---------- Setting Price Request For Data Base ---------- */
 			PriceRequest request1 = new PriceRequest(1, "I think the price is too low.", 50f, true);
-			PriceRequest request2 = new PriceRequest(2, "I think the price is too high.", 20f, true);
-			
-			
+			PriceRequest request2 = new PriceRequest(2, "I think the price is too high.", 20f, true);		
 			/* ---------- Saving Workers To Data Base ---------- */
 			session.save(hadarWorker);
 			session.save(shirWorker);
@@ -462,7 +442,6 @@ public class Main extends AbstractServer {
 			System.err.println("An error occured, changes have been rolled back.");
 			e.printStackTrace();
 		} finally {
-			// assert session != null;
 			session.close();
 			System.out.println("Complaint added to database");
 		}
@@ -491,8 +470,6 @@ public class Main extends AbstractServer {
 
 	@Override
 	protected synchronized void clientDisconnected(ConnectionToClient client) {
-		// TODO Auto-generated method stub
-
 		System.out.println("Client Disconnected.");
 		super.clientDisconnected(client);
 	}
@@ -525,7 +502,6 @@ public class Main extends AbstractServer {
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant create list of movies");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -533,19 +509,18 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("update movie time")) {
 
 			System.out.println("about to update movie time");
-			Screening newScreening = new Screening(currentMsg.getDateMovie(), MovieController.getMovieByName(currentMsg.getMovieName()),
+			Screening newScreening = new Screening(currentMsg.getScreeningDate(), MovieController.getMovieByName(currentMsg.getMovieName()),
 					ScreeningController.getHallById(currentMsg.getHallId()),
 					CinemaController.getCinemaByName(currentMsg.getCinemaName()), null);
 
-			if (currentMsg.getDbAction().equals("removal")) {
+			if (currentMsg.getDBAction().equals("removal")) {
 				deleteRowInDB(currentMsg.getScreening());
 				serverMsg = new Message();
 				currentMsg.setAction("updated movie time");
-				currentMsg.setScreeningArrayList(getAllOfType(Screening.class));
+				currentMsg.setScreenings(getAllOfType(Screening.class));
 				try {
 					client.sendToClient(currentMsg);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				return;
@@ -559,7 +534,7 @@ public class Main extends AbstractServer {
 						&& screening.getMovie().getName().equals(newScreening.getMovie().getName())
 						&& screening.getHall().getHallId() == (newScreening.getHall().getHallId())) {
 					System.out.println("screening == newScreening");
-					if (currentMsg.getDbAction().equals("addition")) {
+					if (currentMsg.getDBAction().equals("addition")) {
 						Message serverMsg = new Message();
 						serverMsg.setAction("update movie time error");
 						serverMsg.setError("screening already exists");
@@ -567,11 +542,10 @@ public class Main extends AbstractServer {
 							client.sendToClient(serverMsg);
 							return;
 						} catch (IOException e) {
-							// TODOAuto-generated catch block
 							e.printStackTrace();
 						}
 					}
-					if (currentMsg.getDbAction().equals("removal")) {
+					if (currentMsg.getDBAction().equals("removal")) {
 						deleteRowInDB(screening);
 						break;
 					}
@@ -582,11 +556,10 @@ public class Main extends AbstractServer {
 			saveRowInDB(newScreening);
 			serverMsg = new Message();
 			currentMsg.setAction("updated movie time");
-			currentMsg.setScreeningArrayList(getAllOfType(Screening.class));
+			currentMsg.setScreenings(getAllOfType(Screening.class));
 			try {
 				client.sendToClient(currentMsg);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -603,7 +576,6 @@ public class Main extends AbstractServer {
 				}
 			} catch (IOException e) {
 				System.out.println("cant login");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -622,7 +594,6 @@ public class Main extends AbstractServer {
 				}
 			} catch (IOException e) {
 				System.out.println("cant add a complaint");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -630,15 +601,13 @@ public class Main extends AbstractServer {
 			try {
 				serverMsg = currentMsg;
 				System.out.println("about to pull cinemas according to movie id");
-				System.out.println("movie id is: " + currentMsg.getMovieId());
-				serverMsg.setCinemasArrayList(
-						(ArrayList<Cinema>) ScreeningController.getCinemas(currentMsg.getMovieId()));
+				System.out.println("movie id is: " + currentMsg.getId());
+				serverMsg.setCinemas((ArrayList<Cinema>) ScreeningController.getCinemas(currentMsg.getMovieId()));
 				System.out.println("finished pulling cinemas according to movie id");
 				serverMsg.setAction("cinema contained movies done");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant cinema contained movies");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 
 			}
@@ -646,13 +615,11 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("screening for movie")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.setScreeningArrayList((ArrayList<Screening>) ScreeningController
-						.getAllDateOfMovie(serverMsg.getMovieId(), serverMsg.getCinemaId()));
+				serverMsg.setScreenings((ArrayList<Screening>) ScreeningController.getAllDateOfMovie(serverMsg.getMovieId(), serverMsg.getCinemaId()));
 				serverMsg.setAction("screening for movie done");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant screening for movie");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -664,7 +631,6 @@ public class Main extends AbstractServer {
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant pull soon movies");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 
 			}
@@ -679,7 +645,6 @@ public class Main extends AbstractServer {
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant pull screening movies");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -692,7 +657,6 @@ public class Main extends AbstractServer {
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant pull screening movies");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -705,19 +669,16 @@ public class Main extends AbstractServer {
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant pull screening movies");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		if (currentMsg.getAction().equals("sort movies by date")) {
 			try {
 				serverMsg = (Message) msg;
-				serverMsg.setMovies((ArrayList<Movie>) MovieController.getMoviesByDate(serverMsg.getDateMovie()));
+				serverMsg.setMovies((ArrayList<Movie>) MovieController.getMoviesByDate(serverMsg.getScreeningDate()));
 				serverMsg.setAction("done to sort by date");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
-				System.out.println("cant pull screening movies");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -729,7 +690,6 @@ public class Main extends AbstractServer {
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant pull screening movies");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -767,7 +727,6 @@ public class Main extends AbstractServer {
 
 			} catch (IOException e) {
 				System.out.println("cant add movie");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -797,7 +756,6 @@ public class Main extends AbstractServer {
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant picking chair");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -810,7 +768,6 @@ public class Main extends AbstractServer {
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant pull complaints");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -848,19 +805,17 @@ public class Main extends AbstractServer {
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant get purchase by id");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		if (currentMsg.getAction().equals("get purchases")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.setPurchasesList(getAllOfType(Purchase.class));
+				serverMsg.setPurchases(getAllOfType(Purchase.class));
 				serverMsg.setAction("got purchases");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant get purchase by id");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -868,14 +823,13 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("get cinemas and purchases and complaints")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.setPurchasesList(getAllOfType(Purchase.class));
-				serverMsg.setCinemasArrayList(getAllOfType(Cinema.class));
+				serverMsg.setPurchases(getAllOfType(Purchase.class));
+				serverMsg.setCinemas(getAllOfType(Cinema.class));
 				serverMsg.setComplaints(getAllOfType(Complaint.class));
 				serverMsg.setAction("got cinemas and purchases and complaints");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant get purchase by id");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -883,13 +837,11 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("get report ticket")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.setPurchasesList(
-						ReportController.getTicketReportMonthly(serverMsg.getMonth(), serverMsg.getCinema()));
+				serverMsg.setPurchases(ReportController.getTicketReportMonthly(serverMsg.getCinema()));
 				serverMsg.setAction("got report ticket");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant get report ticket");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -897,26 +849,22 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("get report special ticket")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.setPurchasesList(
-						ReportController.getSpecialTicketReportMonthly(serverMsg.getMonth(), serverMsg.getCinema()));
+				serverMsg.setPurchases(ReportController.getSpecialTicketReportMonthly(serverMsg.getCinema()));
 				serverMsg.setAction("got report special ticket");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant get report special ticket");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		if (currentMsg.getAction().equals("get status complaints monthly")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.setPurchasesList(
-						ReportController.statusComplaintsMonthly(serverMsg.getMonth(), serverMsg.getCinema()));
+				serverMsg.setPurchases(ReportController.statusComplaintsMonthly(serverMsg.getCinema()));
 				serverMsg.setAction("got status complaints monthly");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant get status complaints monthly");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -924,12 +872,11 @@ public class Main extends AbstractServer {
 			try {
 				System.out.println("in Main pull screeening movies msg");
 				serverMsg = (Message) msg;
-				serverMsg.genreArray=MovieController.getAllGenreScreeningMovies().toArray(new String[0]); 
+				serverMsg.setGenres((ArrayList<String>) MovieController.getAllGenreScreeningMovies());
 				serverMsg.setAction("got genre screening movies");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant pull screening movies");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -951,7 +898,6 @@ public class Main extends AbstractServer {
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant send purchase cancellation mail");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -959,12 +905,11 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("get all screenings")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.setScreeningArrayList(getAllOfType(Screening.class));
+				serverMsg.setScreenings(getAllOfType(Screening.class));
 				serverMsg.setAction("got all screenings");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant get status complaints monthly");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -976,7 +921,6 @@ public class Main extends AbstractServer {
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant add movie");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -989,20 +933,17 @@ public class Main extends AbstractServer {
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant deleted movie");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		if (currentMsg.getAction().equals("delete a viewing package")) {
 			try {
 				serverMsg = currentMsg;
-				//serverMsg.getMovie().setStreamOnline(false);
 				updateRowDB(serverMsg.getMovie());
 				serverMsg.setAction("deleted a viewing package");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant deleted movie");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -1010,7 +951,7 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("get active purple limits")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.setActivePurpleLimit(PurpleLimitController.getActivePurpleLimits());
+				serverMsg.setActivePurpleLimits(PurpleLimitController.getActivePurpleLimits());
 				serverMsg.setAction("got active purple limits");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
@@ -1025,7 +966,7 @@ public class Main extends AbstractServer {
 				PurpleLimit newPurpleLimit = serverMsg.getPurpleLimit();
 				saveRowInDB(newPurpleLimit);
 				PurpleLimitController.cancelPurchases(newPurpleLimit.getFromDate(), newPurpleLimit.getToDate());
-				serverMsg.setActivePurpleLimit(PurpleLimitController.getActivePurpleLimits());
+				serverMsg.setActivePurpleLimits(PurpleLimitController.getActivePurpleLimits());
 				serverMsg.setAction("added purple limit");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
@@ -1112,13 +1053,13 @@ public class Main extends AbstractServer {
 					}
 				}
 
-				if (currentMsg.getGenere() != null) {
+				if (currentMsg.getGenre() != null) {
 
 					Iterator<Movie> iter = movies.iterator();
 
 					while (iter.hasNext()) {
 						Movie movie = iter.next();
-						if (!movie.getGenre().contains(currentMsg.getGenere())) {
+						if (!movie.getGenre().contains(currentMsg.getGenre())) {
 							iter.remove();
 						}
 					}
@@ -1159,7 +1100,6 @@ public class Main extends AbstractServer {
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant cancellation of purchase");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -1167,7 +1107,7 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("check purple limit")) {
 			try {
 				serverMsg = currentMsg;
-				Pair<Boolean, Integer> tavSagol = PurpleLimitController.checkPurpleLimit(serverMsg.getDateMovie().toLocalDate());
+				Pair<Boolean, Integer> tavSagol = PurpleLimitController.checkPurpleLimit(serverMsg.getScreeningDate().toLocalDate());
 				serverMsg.setStatus(tavSagol.getKey());
 				serverMsg.setTavSagolLimit(tavSagol.getValue());
 				serverMsg.setAction("done check purple limit");
@@ -1181,13 +1121,11 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("selection of seats under restrictions")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.setSeats(
-						PurpleLimitController.setSeatsPurpleLimit(serverMsg.getScreening(), serverMsg.getNumOfSeats()));
+				serverMsg.setSeats(PurpleLimitController.setSeatsPurpleLimit(serverMsg.getScreening(), serverMsg.getNumOfSeats()));
 				serverMsg.setAction("done selection of seats under restrictions");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant selection of seats under restrictions");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -1200,7 +1138,6 @@ public class Main extends AbstractServer {
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant selection of seats under restrictions");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -1212,7 +1149,6 @@ public class Main extends AbstractServer {
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant selection of seats under restrictions");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -1232,36 +1168,33 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("get all cinemas")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.setCinemasArrayList(getAllOfType(Cinema.class));
+				serverMsg.setCinemas(getAllOfType(Cinema.class));
 				serverMsg.setAction("got all cinemas");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant get all cinemas");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		if (currentMsg.getAction().equals("get all price request")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.setPriceRequestsArrayList(getAllOfType(PriceRequest.class));
+				serverMsg.setPriceRequests(getAllOfType(PriceRequest.class));
 				serverMsg.setAction("got all price request");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant get all price request");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		if (currentMsg.getAction().equals("save price request")) {
 			try {
 				serverMsg = currentMsg;
-				saveRowInDB(serverMsg.getPriceRequestmsg());
+				saveRowInDB(serverMsg.getPriceRequest());
 				serverMsg.setAction("done to save price request");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant save price request");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -1273,7 +1206,6 @@ public class Main extends AbstractServer {
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant close complaint");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -1285,33 +1217,30 @@ public class Main extends AbstractServer {
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant close complaint");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		if (currentMsg.getAction().equals("update price")) {
 			try {
 				serverMsg = currentMsg;
-				currentMsg.getPriceRequestmsg().setIsOpen(false);
-				updateRowDB(currentMsg.getPriceRequestmsg());
+				currentMsg.getPriceRequest().setIsOpen(false);
+				updateRowDB(currentMsg.getPriceRequest());
 				serverMsg.setAction("done update price");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant update price");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		if (currentMsg.getAction().equals("cancel update price")) {
 			try {
 				serverMsg = currentMsg;
-				currentMsg.getPriceRequestmsg().setIsOpen(false);
-				updateRowDB(currentMsg.getPriceRequestmsg());
+				currentMsg.getPriceRequest().setIsOpen(false);
+				updateRowDB(currentMsg.getPriceRequest());
 				serverMsg.setAction("done canceling update price");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant cancel update price");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -1323,19 +1252,17 @@ public class Main extends AbstractServer {
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant selection of seats under restrictions");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		if (currentMsg.getAction().equals("get all viewing package")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.setViewingPackageList(getAllOfType(ViewingPackage.class));
+				serverMsg.setViewingPackages(getAllOfType(ViewingPackage.class));
 				serverMsg.setAction("got all viewing package");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant get all viewing package");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -1347,7 +1274,6 @@ public class Main extends AbstractServer {
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant get all movies from viewing packages");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -1360,120 +1286,8 @@ public class Main extends AbstractServer {
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("can't get subscription card");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
-
-//	public static void updateMovie(String movieName, String time, String action, ConnectionToClient client) {
-//		boolean timeChanged = false;
-//		boolean error = false;
-//		Message msg = new Message();
-//		System.out.println("1");
-//		try {
-//
-//			ArrayList<Movie> movies = getAllOfType(Movie.class);
-//			System.out.println("1.5");
-//
-//			session = sessionFactory.openSession();
-//			session.beginTransaction();
-//
-//			System.out.println("1.7");
-//			// find movie
-//			for (Movie movie : movies) {
-//				System.out.println("1.9");
-//
-//				if (movie.getName().equals(movieName)) {
-//					if (action.equals("addition")) {
-//						// if time dosent exist we goochi
-//						if (movie.getMovieBeginingTime().indexOf(time) == -1) {
-//							movie.getMovieBeginingTime().add(time);
-//							timeChanged = true;
-//							System.out.println("2");
-//						} else {
-//							error = true;
-//							msg.setError("Screening already exists!");
-//							System.out.println("3");
-//						}
-//					} else {
-//						// if action is removal
-//						Integer index = movie.getMovieBeginingTime().indexOf(time);
-//						if (index == -1) {
-//							// time for removal does not exist
-//							System.out.println("4");
-//							error = true;
-//							msg.setError("Selected time does not exist for this movie");
-//						} else {
-//							/*
-//							 * if(index != -1) { movie.getMovieBeginingTime().remove(index); timeChanged =
-//							 * true; }else { JOptionPane.showMessageDialog(null, "Incorrect time chosen"); }
-//							 */
-//							System.out.println("5");
-//							for (String mTime : movie.getMovieBeginingTime()) {
-//								if (time.equals(mTime)) {
-//									movie.getMovieBeginingTime().remove(time);
-//									timeChanged = true;
-//									break;
-//								}
-//							}
-//						}
-//					}
-//					if (timeChanged) {
-//						session.update(movie);
-//						session.flush();
-//						session.getTransaction().commit();
-//						session.clear();
-//						System.out.println("6");
-//						msg.setAction("updated movie time");
-//						client.sendToClient(msg);
-//						break;
-//					}
-//					if (error) {
-//						System.out.println("7");
-//						msg.setAction("	 error");
-//						client.sendToClient(msg);
-//						break;
-//					}
-//
-//				}
-//			}
-//
-//		} catch (Exception exception) {
-//			if (session != null) {
-//				session.getTransaction().rollback();
-//			}
-//			System.err.println("An error occured, changes have been rolled back.");
-//			exception.printStackTrace();
-//		} finally {
-//			assert session != null;
-//			session.close();
-//		}
-//
-//	}
-
-	// public static <T> T getExacRow(Class<T> objectType , int id) {
-	// T t = null;
-	// try {
-	// session = sessionFactory.openSession();
-	// session.beginTransaction();
-	//
-	// //System.out.println(12);
-	// t = session.load(objectType , id);
-	// System.out.println(((Cinema)t).getName());
-	// }catch (Exception e) {
-	// e.printStackTrace();
-	// if (session != null) {
-	// session.getTransaction().rollback();
-	// }
-	// System.out.println("exan row loader");
-	// }
-	// finally {
-	// session.close();
-	// }
-	//
-	// return t;
-	//
-	// }
-
 }

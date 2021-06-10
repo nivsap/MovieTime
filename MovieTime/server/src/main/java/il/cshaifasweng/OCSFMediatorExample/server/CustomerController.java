@@ -1,17 +1,12 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-
 import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
 import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
-import javafx.util.Pair;
 
 
 public class CustomerController{
-
-	
 	public static ArrayList<Complaint> getAllCurrentComplaints() {
 		ArrayList<Complaint> ComplaintArrayList = new ArrayList<>();
 		ArrayList<Complaint> toReturnArrayList = new ArrayList<>();

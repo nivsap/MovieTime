@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -24,156 +25,271 @@ public class Purchase implements  Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	//private static final long serialVersionUID = 1L;
+	// Purchaser info
 	private String firstName;
 	private String lastName;
-	private String emailOrder;
-	private String cityString;
-	private String phoneString;
-	private Pair<Boolean , Integer> cinemaTab;
-	private boolean watchFromHome;
-	private LocalDateTime purchaseDate;
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "cinema_id")
-	private Cinema cinema;
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "hall_id")
-	private Hall hall;
-//	private List<Pair<Integer , Integer>> sitsList;
+	private String email;
+	private String city;
+	private String phone;
 	private double payment;
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Complaint complaint;
+	// Purchase info
+	private LocalDateTime purchaseTime;
+	private int purchaseType; // 0 - ticket, 1 - link, 2 - card, 3 - unknown
+	private Pair<Boolean, Float> isCanceled;
+
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "screening_id")
 	private Screening screening;
-	private boolean isCanceled;
+	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "hall_id")
+	private Hall hall;
+	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "viewingPackage_id")
+	@JoinColumn(name = "cinema_id")
+	private Cinema cinema;
+	
+	@Lob
+	private ArrayList<Pair<Integer , Integer>> seatsList;
+	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "viewing_package_id")
 	private ViewingPackage viewingPackage;
+	
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private SubscriptionCard subscriptionCard;
+	
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Complaint complaint;
 
-
-	public Purchase(String firstName, String lastName, String emailOrder, String cityString, String phoneString,
-			Pair<Boolean, Integer> cinemaTab , boolean watchFromHome , LocalDateTime purchaseDate,Cinema cinema , Hall hall ,List<Pair<Integer , Integer>> sitsList ,double payment,Complaint complaint, Screening screening,boolean isCanceled,ViewingPackage viewingPackage) {
+	public Purchase() {
+		super();
+	}
+	
+	public Purchase(String firstName, String lastName, String email, String city, String phone,
+					double payment, LocalDateTime purchaseTime, Screening screening, ArrayList<Pair<Integer , Integer>> seatsList, 
+					Complaint complaint) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.emailOrder = emailOrder;
-		this.cityString = cityString;
-		this.phoneString = phoneString;
-		this.cinemaTab = cinemaTab;
-		this.watchFromHome = watchFromHome;
-		this.purchaseDate = purchaseDate;
-		this.cinema = cinema;
-		this.hall = hall;
-		//this.sitsList = new ArrayList<>();
+		this.email = email;
+		this.city = city;
+		this.phone = phone;
 		this.payment = payment;
-		this.complaint = complaint;
+		this.purchaseTime = purchaseTime;
+		this.purchaseType = 0;
+		this.isCanceled = new Pair<Boolean, Float>(false, 0f);
 		this.screening = screening;
-		this.isCanceled = isCanceled;
-		this.viewingPackage = viewingPackage;
+		if(screening != null) {
+			this.hall = screening.getHall();
+			this.cinema = screening.getCinema();
+		}
+		else {
+			this.hall = null;
+			this.cinema = null;
+		}
+		this.seatsList = seatsList;
+		this.viewingPackage = null;
+		this.subscriptionCard = null;
+		this.complaint = complaint;	
 	}
-	public Purchase() {}
-	public ViewingPackage getViewingPackage() {
-		return viewingPackage;
-	}
-	public void setViewingPackage(ViewingPackage viewingPackage) {
-		this.viewingPackage = viewingPackage;
-	}
-	public boolean isCanceled() {
-		return isCanceled;
-	}
-	public void setCanceled(boolean isCanceled) {
-		this.isCanceled = isCanceled;
-	}
-	public Screening getScreening() {
-		return screening;
-	}
-	public void setScreening(Screening screening) {
-		this.screening = screening;
-	}
-	public Complaint getComplaint() {
-		return complaint;
-	}
-	public void setComplaint(Complaint complaint) {
-		this.complaint = complaint;
-	}
-	public double getPayment() {
-		return payment;
-	}
-	public void setPayment(double payment) {
+	
+	public Purchase(String firstName, String lastName, String email, String city, String phone,
+					double payment, LocalDateTime purchaseTime, Cinema cinema,
+					ViewingPackage viewingPackage, Complaint complaint) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.city = city;
+		this.phone = phone;
 		this.payment = payment;
-	}
-	public LocalDateTime getPurchaseDate() {
-		return purchaseDate;
-	}
-	public void setPurchaseDate(LocalDateTime purchaseDate) {
-		this.purchaseDate = purchaseDate;
-	}
-	public Cinema getCinema() {
-		return cinema;
-	}
-	public void setCinema(Cinema cinema) {
+		this.purchaseTime = purchaseTime;
+		this.purchaseType = 1;
+		this.isCanceled = new Pair<Boolean, Float>(false, 0f);
+		this.screening = null;
+		this.hall = null;
 		this.cinema = cinema;
+		this.seatsList = null;
+		this.viewingPackage = viewingPackage;
+		this.subscriptionCard = null;
+		this.complaint = complaint;	
 	}
-	public Hall getHall() {
-		return hall;
+	
+	public Purchase(String firstName, String lastName, String email, String city, String phone,
+			double payment, LocalDateTime purchaseTime, Cinema cinema,
+			SubscriptionCard subscriptionCard, Complaint complaint) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.city = city;
+		this.phone = phone;
+		this.payment = payment;
+		this.purchaseTime = purchaseTime;
+		this.purchaseType = 2;
+		this.isCanceled = new Pair<Boolean, Float>(false, 0f);
+		this.screening = null;
+		this.hall = null;
+		this.cinema = cinema;
+		this.seatsList = null;
+		this.viewingPackage = null;
+		this.subscriptionCard = subscriptionCard;
+		this.complaint = complaint;	
 	}
-	public void setHall(Hall hall) {
-		this.hall = hall;
-	}
-//	public List<Pair<Integer, Integer>> getSitsList() {
-//		return sitsList;
-//	}
-//	public void setSitsList(List<Pair<Integer, Integer>> sitsList) {
-//		this.sitsList = sitsList;
-//	}
-	public boolean isWatchFromHome() {
-		return watchFromHome;
-	}
-	public void setWatchFromHome(boolean watchFromHome) {
-		this.watchFromHome = watchFromHome;
-	}
-	public Pair<Boolean, Integer> getCinemaTab() {
-		return cinemaTab;
-	}
-	public void setCinemaTab(Pair<Boolean, Integer> cinemaTab) {
-		this.cinemaTab = cinemaTab;
-	}
+	
 	public int getId() {
 		return id;
 	}
-	public void setId(int id) {
-		this.id = id;
-	}
+
 	public String getFirstName() {
 		return firstName;
 	}
+
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
+
 	public String getLastName() {
 		return lastName;
 	}
+
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public String getEmailOrder() {
-		return emailOrder;
-	}
-	public void setEmailOrder(String emailOrder) {
-		this.emailOrder = emailOrder;
-	}
-	public String getCityString() {
-		return cityString;
-	}
-	public void setCityString(String cityString) {
-		this.cityString = cityString;
-	}
-	public String getPhoneString() {
-		return phoneString;
-	}
-	public void setPhoneString(String phoneString) {
-		this.phoneString = phoneString;
+
+	public String getEmail() {
+		return email;
 	}
 
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public double getPayment() {
+		return payment;
+	}
+
+	public void setPayment(double payment) {
+		this.payment = payment;
+	}
+
+	public LocalDateTime getPurchaseTime() {
+		return purchaseTime;
+	}
+
+	public void setPurchaseTime(LocalDateTime purchaseTime) {
+		this.purchaseTime = purchaseTime;
+	}
+	
+	public int getPurchaseType() {
+		return purchaseType;
+	}
+	
+	public void setPurchaseType(int purchaseType) {
+		this.purchaseType = purchaseType;
+	}
+	
+	public Boolean isCanceled() {
+		return isCanceled.getKey();
+	}
+
+	public Pair<Boolean, Float> getIsCanceled() {
+		return isCanceled;
+	}
+
+	public void setIsCanceled(Pair<Boolean, Float> isCanceled) {
+		if(purchaseType != 2)
+			this.isCanceled = isCanceled;
+	}
+	
+	public Screening getScreening() {
+		return screening;
+	}
+
+	public void setScreening(Screening screening) {
+		this.screening = screening;
+	}
+	
+	public Cinema getCinema() {
+		return cinema;
+	}
+	
+	public List<Pair<Integer, Integer>> getSeatsList() {
+		return seatsList;
+	}
+
+	public void setSeatsList(ArrayList<Pair<Integer, Integer>> seatsList) {
+		this.seatsList = seatsList;
+	}
+	
+	public ViewingPackage getViewingPackage() {
+		return viewingPackage;
+	}
+
+	public void setViewingPackage(ViewingPackage viewingPackage) {
+		this.viewingPackage = viewingPackage;
+	}
+	
+	public SubscriptionCard getSubscriptionCard() {
+		return subscriptionCard;
+	}
+
+	public void setSubscriptionCard(SubscriptionCard subscriptionCard) {
+		this.subscriptionCard = subscriptionCard;
+	}
+	
+	public Complaint getComplaint() {
+		return complaint;
+	}
+
+	public void setComplaint(Complaint complaint) {
+		this.complaint = complaint;
+	}
+	
+	public void setTypeTicket() {
+		purchaseType = 0;
+	}
+	
+	public void setTypeLink() {
+		purchaseType = 1;
+	}
+	
+	public void setTypeCard() {
+		purchaseType = 2;
+	}
+	
+	public Boolean isTicket() {
+		if(purchaseType == 0)
+			return true;
+		return false;
+	}
+	
+	public Boolean isLink() {
+		if(purchaseType == 1)
+			return true;
+		return false;
+	}
+	
+	public Boolean isCard() {
+		if(purchaseType == 2)
+			return true;
+		return false;
+	}
 }

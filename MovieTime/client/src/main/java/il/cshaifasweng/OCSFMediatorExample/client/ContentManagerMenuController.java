@@ -22,12 +22,27 @@ public class ContentManagerMenuController {
 
     @FXML
     private Button logoutMenuBtn;
-
     
+
+    @FXML
+    private Button RequestPriceChangeBtn;
+
+    @FXML
+    void RequestPriceChange(ActionEvent event) throws IOException {
+    	App.setWindowTitle(PageTitles.OpenPriceChangeRequests);
+    	App.setContent("OpenPriceChangeRequests");
+    }
+
     @FXML
     void loadDeleteMoviesPage(ActionEvent event) throws IOException {
     	App.setWindowTitle(PageTitles.DeleteMoviesPage);
     	App.setContent("DeleteMoviePage");
+    }
+    
+    @FXML
+    void loadDeleteViewingPackagePage(ActionEvent event) throws IOException {
+    	App.setWindowTitle(PageTitles.DeleteViewingPackagePage);
+    	App.setContent("DeleteViewingPackagePage");
     }
     
     

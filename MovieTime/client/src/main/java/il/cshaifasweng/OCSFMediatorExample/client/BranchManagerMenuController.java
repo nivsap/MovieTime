@@ -21,6 +21,7 @@ public class BranchManagerMenuController {
     @FXML
     private Button logoutMenuBtn;
     
+    
     @FXML
     void logout(ActionEvent event) throws IOException {
     	App.logout(true);

@@ -37,7 +37,7 @@ public class Screening implements  Serializable{
 	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "cinema_id")
 	private Cinema cinema;
-	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "screening")
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "screening")
 	private List<Purchase> purchases;
 	
 	

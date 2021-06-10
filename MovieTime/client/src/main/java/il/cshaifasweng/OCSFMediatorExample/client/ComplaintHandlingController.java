@@ -129,22 +129,22 @@ public class ComplaintHandlingController {
     	
     	purchaseInfo += "\n";
     	purchaseInfo += "Purchaser Email: ";
-    	if(!complaintPurchase.getEmailOrder().equals("")) 
-    		purchaseInfo += complaintPurchase.getEmailOrder();
+    	if(!complaintPurchase.getEmail().equals("")) 
+    		purchaseInfo += complaintPurchase.getEmail();
     	else 
     		purchaseInfo += "Unknown";
     	
     	purchaseInfo += "\n";
     	purchaseInfo += "Purchaser Phone: ";
-    	if(!complaintPurchase.getPhoneString().equals("")) 
-    		purchaseInfo += complaintPurchase.getPhoneString();
+    	if(!complaintPurchase.getPhone().equals("")) 
+    		purchaseInfo += complaintPurchase.getPhone();
     	else 
     		purchaseInfo += "Unknown";
     	
     	purchaseInfo += "\n";
 
     	
-    	String date = complaintPurchase.getPurchaseDate().toString();
+    	String date = complaintPurchase.getPurchaseTime().toString();
     	if(date.equals("")) 
         	purchaseInfo += "Order Date: Unknown\nOrder Time: Unknown";
     	
@@ -163,8 +163,10 @@ public class ComplaintHandlingController {
     	
     	purchaseInfo += "\n";
     	purchaseInfo += "Canceled Order: ";
-    	if(complaintPurchase.isCanceled()) 
-    		purchaseInfo += "Yes";
+    	if(complaintPurchase.isCanceled())  {
+    		purchaseInfo += "Yes\nRefund: " + complaintPurchase.getIsCanceled().getValue();
+    		
+    	}
     	else 
     		purchaseInfo += "No";
 

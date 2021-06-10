@@ -23,7 +23,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="updateViewingPackagesMenuBtn" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutY="270.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="200.0" styleClass="menuButton" text="Remove Viewing Packages" textFill="WHITE">
+            <Button fx:id="updateViewingPackagesMenuBtn" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutY="270.0" mnemonicParsing="false" onAction="#loadDeleteViewingPackagePage" prefHeight="52.0" prefWidth="200.0" styleClass="menuButton" text="Remove Viewing Packages" textFill="WHITE">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -49,7 +49,8 @@
                   </ImageView>
                </graphic>
             </Button>
-         <Button layoutX="32.0" layoutY="478.0" mnemonicParsing="false" onAction="#loadUpdateMovies" text="update screening time" />
+         <Button layoutX="33.0" layoutY="462.0" mnemonicParsing="false" onAction="#loadUpdateMovies" text="update screening time" />
+         <Button fx:id="RequestPriceChangeBtn" layoutX="67.0" layoutY="503.0" mnemonicParsing="false" onAction="#RequestPriceChange" text="Request price change" />
          </children>
       </AnchorPane>
    <ImageView fitHeight="205.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">

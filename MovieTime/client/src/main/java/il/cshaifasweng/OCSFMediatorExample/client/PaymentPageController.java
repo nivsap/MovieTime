@@ -35,7 +35,6 @@ public class PaymentPageController {
 	private ViewingPackage viewingPackage;
 	private Purchase purchase;
 	private double price;
-	private ViewingPackage viewingPackage;
 	  
     @FXML
     private TextArea orderSummeryTextArea;

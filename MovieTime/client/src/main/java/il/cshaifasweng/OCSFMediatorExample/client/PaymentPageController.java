@@ -34,6 +34,7 @@ public class PaymentPageController {
 	private SubscriptionCard subscriptionCard;
 	private ViewingPackage viewingPackage;
 	private Purchase purchase;
+	private String order;
 	private float price, ticketPrice, linkPrice, cardPrice;
 	  
     @FXML
@@ -183,10 +184,9 @@ public class PaymentPageController {
     	this.purchaseType = PurchaseTypes.TICKET;
     	this.screening = screening;
     	this.seats = seatsChosen;
-    	String order;
     	price = seats.size() * ticketPrice;
 		paymentLabel.setText(Double.toString(price));
-    	order = "Screened Movie:" + screening.getMovie().getName() + 
+    	order = "Screened Movie: " + screening.getMovie().getName() + 
     			"\nIn " + screening.getCinema().getName() + " Cinema, hall number: " + screening.getHall().getHallId() + 
     			"\nScreening Date: " + screening.getDate() + ", Screening Time: " +  screening.getTime() + "\n";
 		for(Pair<Integer,Integer> seat : seats) {
@@ -204,7 +204,6 @@ public class PaymentPageController {
 		paymentLabel.setText(Double.toString(cardPrice));
 		order = "With a subscription card, you can freely attend 20 screenings of your choice, in a cinema of your choice!\n";
 		order += "Total price: " + price;
-
         orderSummeryTextArea.setText(order);
     }
 
@@ -215,8 +214,8 @@ public class PaymentPageController {
 
     	String order;
 		paymentLabel.setText(Double.toString(linkPrice));
-    	order = screening.getMovie().getName() + " " + screening.getDate();
-		order += "Total price: " + paymentLabel.getText();
+    	order = "Movie chosen: " + viewingPackage.getMovie().getName() + " on the date of:  " + viewingPackage.getDateTime().toString().substring(0,10) + " at: " + viewingPackage.getDateTime().toString().substring(11,16);
+		order += "\nTotal price: " + paymentLabel.getText();
         orderSummeryTextArea.setText(order);	
     }
     
@@ -254,10 +253,12 @@ public class PaymentPageController {
 									price, LocalDateTime.now(), null, subscriptionCard, null);	
     	}
 
+    	order += "\nPuchase Id for cancelations: " + purchase.getId();
     	Message msg = new Message();
     	msg.setAction("save customer");
     	msg.setPurchase(purchase);
-    	
+    	msg.setCustomerEmail(emailTextField.getText());
+    	msg.setEmailMessage(order);
     	try {
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
@@ -266,12 +267,12 @@ public class PaymentPageController {
     	
     	try {
 			PaymentCompletionPageController controller= (PaymentCompletionPageController)App.setContent("PaymentCompletionPage");
-			controller.SetData("msg", firstNameTextField.getText(), lastNameTextField.getText(),
+			controller.SetData(order, firstNameTextField.getText(), lastNameTextField.getText(),
 					emailTextField.getText(), phoneNumberTextField.getText(),
 					cardHoldersNameTextField.getText(), cardHoldersIDTextField.getText(),
 					paymentNumberComboBox.getValue().toString(), cityTextField.getText(),
 					addressTextField.getText(), cardExpirationDatePicker.getValue().toString(),
-					paymentLabel.getText(), cardNumberTextField.getText());
+					paymentLabel.getText(), cardNumberTextField.getText(), Integer.toString(purchase.getId()));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

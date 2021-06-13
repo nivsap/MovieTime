@@ -67,7 +67,7 @@ public class ReportsPageController {
 		    	for(Purchase purchase : purchases) {
 		    		if(purchase.getPurchaseType() == PurchaseTypes.TICKET) {
 			    		if(purchase.getScreening().getCinema().getName().equals(cinema.getName())) {
-				    		if(purchase.getPurchaseTime().getMonthValue() == Integer.parseInt(monthComboBox.getValue()) && purchase.isCard() == false && purchase.isLink() == false) {
+				    		if(purchase.getPurchaseTime().getMonthValue() == Integer.parseInt(monthComboBox.getValue())) {
 								count++;
 							}
 			    		}
@@ -78,6 +78,7 @@ public class ReportsPageController {
 	    	}
 	    	reportChart.getData().addAll(set1);
     	}
+    	
     	if(reportNameComboBox.getValue().equals("ViewingPackages and Subscription Card sales")){
 	    	XYChart.Series set1 = new XYChart.Series<>();
         	int Vcount = 0;
@@ -115,6 +116,8 @@ public class ReportsPageController {
 	    	}
 	    	reportChart.getData().addAll(set1);
     	}
+    	
+    	
     	if(reportNameComboBox.getValue().equals("Complaints by day")){
 	    	XYChart.Series set1 = new XYChart.Series<>();
 	    	YearMonth yearMonthObject = YearMonth.of(2021,Integer.parseInt(monthComboBox.getValue()) );

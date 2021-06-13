@@ -17,6 +17,7 @@ public class UserController {
 		for(Worker arr : allWorkers) {
 			if(arr.getUserName().equals(msg.getUsername()) && arr.getPassword().equals( msg.getPassword()) && arr.isLoggedIn()==false) {
 				if(arr instanceof BranchManager) {
+
 					msg.setTypeOfWorker("BranchManager");
 					System.out.println(msg.getTypeOfWorker());
 					arr.setLoggedIn(true);
@@ -25,6 +26,7 @@ public class UserController {
 					flag = 1;
 				}
 				else if(arr instanceof ContentManager) {
+
 					msg.setTypeOfWorker("ContentManager");
 					arr.setLoggedIn(true);
 					System.out.println(msg.getTypeOfWorker());
@@ -41,6 +43,7 @@ public class UserController {
 					flag = 1;
 				}
 				else if(arr instanceof NetworkAdministrator) {
+
 					msg.setTypeOfWorker("NetworkAdministrator");
 					System.out.println(msg.getTypeOfWorker());
 					arr.setLoggedIn(true);

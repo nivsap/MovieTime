@@ -69,7 +69,7 @@ public class Purchase implements  Serializable{
 		this.phone = phone;
 		this.payment = payment;
 		this.purchaseTime = purchaseTime;
-		this.purchaseType = 0;
+		this.purchaseType = 1;
 		this.isCanceled = new Pair<Boolean, Float>(false, 0f);
 		this.screening = screening;
 		if(screening != null) {
@@ -97,7 +97,7 @@ public class Purchase implements  Serializable{
 		this.phone = phone;
 		this.payment = payment;
 		this.purchaseTime = purchaseTime;
-		this.purchaseType = 1;
+		this.purchaseType = 2;
 		this.isCanceled = new Pair<Boolean, Float>(false, 0f);
 		this.screening = null;
 		this.hall = null;
@@ -119,7 +119,7 @@ public class Purchase implements  Serializable{
 		this.phone = phone;
 		this.payment = payment;
 		this.purchaseTime = purchaseTime;
-		this.purchaseType = 2;
+		this.purchaseType = 3;
 		this.isCanceled = new Pair<Boolean, Float>(false, 0f);
 		this.screening = null;
 		this.hall = null;
@@ -256,31 +256,31 @@ public class Purchase implements  Serializable{
 	}
 	
 	public void setTypeTicket() {
-		purchaseType = 0;
-	}
-	
-	public void setTypeLink() {
 		purchaseType = 1;
 	}
 	
-	public void setTypeCard() {
+	public void setTypeLink() {
 		purchaseType = 2;
 	}
 	
-	public Boolean isTicket() {
-		if(purchaseType == 0)
-			return true;
-		return false;
+	public void setTypeCard() {
+		purchaseType = 3;
 	}
 	
-	public Boolean isLink() {
+	public Boolean isTicket() {
 		if(purchaseType == 1)
 			return true;
 		return false;
 	}
 	
-	public Boolean isCard() {
+	public Boolean isLink() {
 		if(purchaseType == 2)
+			return true;
+		return false;
+	}
+	
+	public Boolean isCard() {
+		if(purchaseType == 3)
 			return true;
 		return false;
 	}

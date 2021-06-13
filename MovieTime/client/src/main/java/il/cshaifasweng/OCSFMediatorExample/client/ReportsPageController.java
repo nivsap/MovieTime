@@ -26,7 +26,7 @@ public class ReportsPageController {
 	List<Complaint> complaints;
 
     @FXML
-    private BarChart<?, ?> reportChart;
+    private BarChart<Integer, String> reportChart;
 
     @FXML
     private ComboBox<String> reportNameComboBox;
@@ -76,7 +76,7 @@ public class ReportsPageController {
 		    	System.out.println(count);
 		    	set1.getData().add(new XYChart.Data(cinema.getName(), count));
 	    	}
-	    	reportChart.getData().addAll(set1);
+	    	reportChart.getData().add(set1);
     	}
     	
     	if(reportNameComboBox.getValue().equals("ViewingPackages and Subscription Card sales")){
@@ -157,6 +157,7 @@ public class ReportsPageController {
     	EventBus.getDefault().register(this);
     	monthComboBox.getItems().clear();
     	reportChart.getData().clear();
+    	reportChart.setAnimated(false);
     	reportNameComboBox.getItems().clear();
 		
     	reportNameComboBox.getItems().addAll("Ticket Sales", "ViewingPackages and Subscription Card sales", "Tav Sagol Refunds", "Complaints by day");

@@ -199,8 +199,7 @@ public class PaymentPageController {
     
     public void setInfoSubscription() {
     	purchaseType = PurchaseTypes.SUBSCRIPTION_CARD;
-    	String order;
-    	price = cardPrice; 
+    	price = cardPrice;
 		paymentLabel.setText(Double.toString(cardPrice));
 		order = "With a subscription card, you can freely attend 20 screenings of your choice, in a cinema of your choice!\n";
 		order += "Total price: " + price;
@@ -212,7 +211,6 @@ public class PaymentPageController {
     	this.purchaseType = PurchaseTypes.VIEWING_PACKAGE;
     	this.viewingPackage = viewingPackage;
 
-    	String order;
 		paymentLabel.setText(Double.toString(linkPrice));
     	order = "Movie chosen: " + viewingPackage.getMovie().getName() + " on the date of:  " + viewingPackage.getDateTime().toString().substring(0,10) + " at: " + viewingPackage.getDateTime().toString().substring(11,16);
 		order += "\nTotal price: " + paymentLabel.getText();
@@ -284,49 +282,30 @@ public class PaymentPageController {
     @Subscribe
     public void OnMessageEvent(Message msg) {
     	if(msg.getAction().equals("got prices")) {
+    		EventBus.getDefault().unregister(this);
     		ticketPrice = msg.getMoviePrice();
     		linkPrice = msg.getViewingPackagePrice();
     		cardPrice = msg.getSubscriptionCardPrice();
     	}
     	
     	if(msg.getAction().equals("save customer done")) {
-    		purchase = msg.getPurchase();
-    		String successfulPurchaseString;
-    		successfulPurchaseString = "Dear " + this.purchase.getFirstName() +" " + this.purchase.getLastName() + "\nThank you for your order, number: " + purchase.getId() + "\n\nOrder details:\n"; 
-    		if(purchase.isTicket()) {
-    			successfulPurchaseString += "\nScreening Movie: " + purchase.getScreening().getMovie().getName() + "\nScreening Date: " + purchase.getScreening().getDate().toString() + ", Time: " +
-    										purchase.getScreening().getTime().toString() + "\nCinema: " + purchase.getCinema().getName() + "\nHall number: " + purchase.getScreening().getHall().getHallId() + "\nOrdered seats:";
-        		for(Pair<Integer,Integer> seat : seats) {
-        			successfulPurchaseString += "\n\tSeat " + seat.getKey() + "," + seat.getValue();
-        		}	
-    		}
-    		
-    		if(purchase.isLink()) {
-    			successfulPurchaseString += "\nViewing Package Movie: " + purchase.getViewingPackage().getMovie().getName() + "\nLink: " + purchase.getViewingPackage().getLink() +
-    										"\nA reminder will be sent to you an hour before your link becomes available";
-    		}
-    		
-    		if(purchase.isCard()) {
-    			subscriptionCard = msg.getSubscriptionCard();
-    			successfulPurchaseString += "\nYour subscription card number: " +  subscriptionCard.getId() + "\nSubscription card remaining: " + subscriptionCard.getRemaining();
-    		}
-    		
-    		successfulPurchaseString += "\nTotal price: " + this.price + "\n\nCheers,\nThe Sirtiya";
-    		msg.setAction("send successful purchase mail");
-    		msg.setCustomerEmail(purchase.getEmail());
-    		msg.setEmailMessage(successfulPurchaseString);
-    		try {
-				AppClient.getClient().sendToServer(msg);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-    	}
-    	
-    	if(msg.getAction().equals("sent successful purchase mail")) {
     		EventBus.getDefault().unregister(this);
-    
-    		JOptionPane.showMessageDialog(null, "Thank you for your purchase, an email has been sent with the details");
-    	}  	
+    		
+    		order += "\nPuchase Id for cancelations: " + purchase.getId();
+    		
+    		try {
+    			PaymentCompletionPageController controller= (PaymentCompletionPageController)App.setContent("PaymentCompletionPage");
+    			controller.SetData(order, firstNameTextField.getText(), lastNameTextField.getText(),
+    					emailTextField.getText(), phoneNumberTextField.getText(),
+    					cardHoldersNameTextField.getText(), cardHoldersIDTextField.getText(),
+    					paymentNumberComboBox.getValue().toString(), cityTextField.getText(),
+    					addressTextField.getText(), cardExpirationDatePicker.getValue().toString(),
+    					paymentLabel.getText(), cardNumberTextField.getText(), Integer.toString(purchase.getId()));
+    		} catch (IOException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+    	}
     }
     
     public Screening getScreening() {

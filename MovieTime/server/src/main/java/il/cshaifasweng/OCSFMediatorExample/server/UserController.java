@@ -19,14 +19,14 @@ public class UserController {
 				if(arr instanceof BranchManager) {
 					msg.setTypeOfWorkerString("BranchManager");
 					System.out.println(msg.getTypeOfWorkerString());
-					arr.setLoggedIn(true);
+					//arr.setLoggedIn(true);
 					msg.setWorker(arr);
 					Main.updateRowDB(arr);
 					flag = 1;
 				}
 				else if(arr instanceof ContentManager) {
 					msg.setTypeOfWorkerString("ContentManager");
-					arr.setLoggedIn(true);
+					//arr.setLoggedIn(true);
 					System.out.println(msg.getTypeOfWorkerString());
 					msg.setWorker(arr);
 					Main.updateRowDB(arr);
@@ -35,7 +35,7 @@ public class UserController {
 				else if(arr instanceof CustomerService) {
 					msg.setTypeOfWorkerString("CustomerService");
 					System.out.println(msg.getTypeOfWorkerString());
-					arr.setLoggedIn(true);
+					//arr.setLoggedIn(true);
 					msg.setWorker(arr);
 					Main.updateRowDB(arr);
 					flag = 1;
@@ -43,7 +43,7 @@ public class UserController {
 				else if(arr instanceof NetworkAdministrator) {
 					msg.setTypeOfWorkerString("NetworkAdministrator");
 					System.out.println(msg.getTypeOfWorkerString());
-					arr.setLoggedIn(true);
+					//arr.setLoggedIn(true);
 					msg.setWorker(arr);
 					Main.updateRowDB(arr);
 					flag = 1;

@@ -343,6 +343,37 @@ public class Main extends AbstractServer {
 					new Purchase("Alon", "Latman", "shiravneri@gmail.com", "street 6, city", "0523456789", 40.0, 
 					getTime(2021, 6, 5), haifaCinema, card2, null);
 			
+			
+			Purchase customer7 = 
+					new Purchase("Niv", "Sapir", "a@gmail.com", "street 2, city", "0523456789", 40.0, 
+					getTime(2021, 6, 5), screeningOfFilm_1, new ArrayList<>(), null);
+			
+			
+			Purchase customer8 = 
+					new Purchase("Niv", "Sapir", "a@gmail.com", "street 2, city", "0523456789", 45.0, 
+					getTime(2021, 6, 5), screeningOfFilm_3, new ArrayList<>(), null);
+			
+			Purchase customer9 = 
+					new Purchase("Niv", "Sapir", "a@gmail.com", "street 2, city", "0523456789", 45.0, 
+					getTime(2021, 6, 5), screeningOfFilm_4, new ArrayList<>(), null);
+			
+			Purchase customer10 = 
+					new Purchase("Niv", "Sapir", "a@gmail.com", "street 2, city", "0523456789", 45.0, 
+					getTime(2021, 6, 5), screeningOfFilm_5, new ArrayList<>(), null);
+			Purchase customer11 = 
+					new Purchase("Niv", "Sapir", "a@gmail.com", "street 2, city", "0523456789", 45.0, 
+					getTime(2021, 6, 5), screeningOfFilm_6, new ArrayList<>(), null);
+			Purchase customer12 = 
+					new Purchase("Niv", "Sapir", "a@gmail.com", "street 2, city", "0523456789", 45.0, 
+					getTime(2021, 6, 5), screeningOfFilm_7, new ArrayList<>(), null);
+			Purchase customer13 = 
+					new Purchase("Niv", "Sapir", "a@gmail.com", "street 2, city", "0523456789", 45.0, 
+					getTime(2021, 6, 5), screeningOfFilm_8, new ArrayList<>(), null);
+			Purchase customer14 = 
+					new Purchase("Niv", "Sapir", "a@gmail.com", "street 2, city", "0523456789", 45.0, 
+					getTime(2021, 6, 5), screeningOfFilm_9, new ArrayList<>(), null);
+			
+			
 			card1.setPurchase(customer5); card1.setRemaining(7);
 			card2.setPurchase(customer6); card1.setRemaining(10);
 			
@@ -352,6 +383,15 @@ public class Main extends AbstractServer {
 			session.save(customer4);
 			session.save(customer5);
 			session.save(customer6);
+			session.save(customer7);
+			session.save(customer8);
+			session.save(customer9);
+			session.save(customer10);
+			session.save(customer11);
+			session.save(customer12);
+			session.save(customer13);
+			session.save(customer14);
+			
 			
 			session.save(card1);
 			session.save(card2);
@@ -1408,6 +1448,13 @@ public class Main extends AbstractServer {
 			}
 		}
 	}
+	
+	
+	
+	
+	
+	
+	
 
 //	public static void updateMovie(String movieName, String time, String action, ConnectionToClient client) {
 //		boolean timeChanged = false;

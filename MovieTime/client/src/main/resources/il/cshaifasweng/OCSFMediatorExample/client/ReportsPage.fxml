@@ -12,7 +12,7 @@
    <children>
       <AnchorPane prefHeight="700.0" prefWidth="700.0">
          <children>
-            <BarChart fx:id="reportChart" layoutX="100.0" layoutY="224.0" style="-fx-background-color: #ffffff;" title="Report">
+            <BarChart fx:id="reportChart" layoutX="47.0" layoutY="164.0" prefHeight="446.0" prefWidth="606.0" style="-fx-background-color: #ffffff;" title="Report">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
@@ -20,9 +20,9 @@
                 <NumberAxis side="LEFT" />
               </yAxis>
             </BarChart>
-            <ComboBox fx:id="reportNameComboBox" layoutX="294.0" layoutY="168.0" prefWidth="150.0" promptText="Report name" styleClass="orangeComboBox" />
-            <ComboBox fx:id="monthComboBox" layoutX="100.0" layoutY="168.0" prefWidth="150.0" promptText="month" styleClass="orangeComboBox" />
-            <Button layoutX="490.0" layoutY="168.0" mnemonicParsing="false" onAction="#getReport" prefHeight="30.0" prefWidth="109.0" styleClass="orangeButton" text="Button" />
+            <ComboBox fx:id="reportNameComboBox" layoutX="294.0" layoutY="93.0" prefWidth="150.0" promptText="Report name" styleClass="orangeComboBox" />
+            <ComboBox fx:id="monthComboBox" layoutX="100.0" layoutY="93.0" prefWidth="150.0" promptText="month" styleClass="orangeComboBox" />
+            <Button layoutX="490.0" layoutY="93.0" mnemonicParsing="false" onAction="#getReport" prefHeight="30.0" prefWidth="109.0" styleClass="orangeButton" text="Button" />
          </children>
       </AnchorPane>
    </children>

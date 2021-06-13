@@ -9,7 +9,6 @@ import java.util.List;
 public class Message implements Serializable {
 	/* ---------- Message Necessary Info ---------- */
 	private String action;
-	private String actionType;
 	private String DBaction;
 	private String error;
 	private int id;
@@ -28,13 +27,14 @@ public class Message implements Serializable {
 	private int movieId;
 	private String movieName;
 	private ArrayList<Movie> movies;
-	private String moviesType;
 	/* ---------- Handling Filters ---------- */
 	private String genre; 
 	private String theater;
 	private String rate;
 	private String search;
+	private String actionType;
 	private ArrayList<String> genres;
+	private String moviesType;
 	/* ---------- Handling Screenings ---------- */
 	private Screening screening;
 	private LocalDateTime screeningDate;

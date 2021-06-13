@@ -80,9 +80,9 @@ public class OpenPriceChangeRequestsController {
     }
     
     void setPrices(float moviePrice, float viewingPackagePrice, float subscriptionCardPrice) {
-    	ticketPriceLabel.setText(String.valueOf(moviePrice));
-    	viewingPackagePriceLabel.setText(String.valueOf(viewingPackagePrice));
-    	subscriptionCardPriceLabel.setText(String.valueOf(subscriptionCardPrice));
+    	ticketPriceLabel.setText(String.valueOf(moviePrice) + " ₪");
+    	viewingPackagePriceLabel.setText(String.valueOf(viewingPackagePrice) + " ₪");
+    	subscriptionCardPriceLabel.setText(String.valueOf(subscriptionCardPrice) + " ₪");
     }
     
     @FXML

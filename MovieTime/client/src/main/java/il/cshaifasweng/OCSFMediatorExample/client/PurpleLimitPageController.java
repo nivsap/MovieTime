@@ -104,7 +104,7 @@ public class PurpleLimitPageController {
 					FXMLLoader fxmlLoader = new FXMLLoader();
 					fxmlLoader.setLocation(getClass().getResource("PurpleLimitCard.fxml"));
 					HBox card = fxmlLoader.load();	
-					ScreeningCardController ctrl = fxmlLoader.getController();
+					PurpleLimitCardController ctrl = fxmlLoader.getController();
 					ctrl.SetPurpleLimitData(p);
 					currentRegulationsContainer.getChildren().add(card);
 				}

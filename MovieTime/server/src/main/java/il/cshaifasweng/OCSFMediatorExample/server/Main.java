@@ -1224,7 +1224,11 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("update price")) {
 			try {
 				serverMsg = currentMsg;
+				PriceRequest p = currentMsg.getPriceRequest();
+				NetworkAdministrator n = getAllOfType(NetworkAdministrator.class).get(0);
 				currentMsg.getPriceRequest().setIsOpen(false);
+				
+				currentMsg.setAdministrator(getAllOfType(NetworkAdministrator.class).get(0));
 				updateRowDB(currentMsg.getPriceRequest());
 				serverMsg.setAction("done update price");
 				client.sendToClient(serverMsg);
@@ -1290,6 +1294,36 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		
+		if (currentMsg.getAction().equals("get prices")) {
+			try {
+				NetworkAdministrator n = NetworkAdministratorController.getAdministrator();
+				serverMsg = currentMsg;
+				serverMsg.setMoviePrice(n.getMoviePrice());
+				serverMsg.setViewingPackagePrice(n.getViewingPackagePrice());
+				serverMsg.setSubscriptionCardPrice(n.getSubscriptionCardPrice());
+				serverMsg.setAction("got prices");
+				client.sendToClient(serverMsg);
+			} catch (IOException e) {
+				System.out.println("can't get prices");
+				e.printStackTrace();
+			}
+		}
+		
+		
+		if (currentMsg.getAction().equals("get administrator")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.setAdministrator(NetworkAdministratorController.getAdministrator());
+				serverMsg.setAction("got administrator");
+				client.sendToClient(serverMsg);
+			} catch (IOException e) {
+				System.out.println("can't get administrator");
+				e.printStackTrace();
+			}
+		}
+		
+		
 	}
 	
 }

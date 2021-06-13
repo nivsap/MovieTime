@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
+import il.cshaifasweng.OCSFMediatorExample.entities.NetworkAdministrator;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -34,7 +35,6 @@ public class App extends Application {
     private static VBox menu;
     @FXML
     private static VBox content;
-    
     @Override
     public void start(Stage primaryStage)  {
     	EventBus.getDefault().register(this);
@@ -110,7 +110,6 @@ public class App extends Application {
             System.exit(0);
         }
     }
-    
     
     public static void logout(Boolean logoutClicked) {
     	if(userName == null || password == null) {

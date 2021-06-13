@@ -22,6 +22,7 @@ public class PriceRequest implements Serializable {
 	
 	public PriceRequest() {
 		super();
+		this.date = LocalDateTime.now();
 	}
 
 	public PriceRequest(int type, String comment, Float newPrice, boolean isOpen) {

@@ -23,7 +23,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 
 public class PriceChangeApprovalsController {
-
+/*
 	private PriceRequest request;
 	private String Text;
 	private Float price;
@@ -97,7 +97,7 @@ public class PriceChangeApprovalsController {
 
 		if (Text.equals("Approve")) {
 			request.setIsOpen(false);
-			NetworkAdministrator.setMoviePrice((float)request.getNewPrice());
+			App.getAdministrator().setMoviePrice((float)request.getNewPrice());
 			msg.setPriceRequest(request);
 			msg.setAction("update price");
 			try {
@@ -183,7 +183,7 @@ public class PriceChangeApprovalsController {
 		}
 		ReasonShow.setText(request.getComment());
 		DateShow.setText(date.toString());
-		ShowTheOldPrice.setText(String.valueOf(NetworkAdministrator.getMoviePrice()));
+		ShowTheOldPrice.setText(String.valueOf(App.getAdministrator().getMoviePrice()));
 
 	}
 
@@ -242,4 +242,5 @@ public class PriceChangeApprovalsController {
 
 		}
 	}
+	*/
 }

@@ -17,7 +17,7 @@ import javax.persistence.Table;
 
 import javafx.util.Pair;
 @Entity
-@Table(name = "Ticket")
+@Table(name = "Tickets")
 public class Ticket implements  Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

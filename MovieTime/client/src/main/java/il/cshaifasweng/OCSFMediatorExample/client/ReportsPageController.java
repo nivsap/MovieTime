@@ -37,28 +37,21 @@ public class ReportsPageController {
     
     @FXML
     void getReport() {
-    	setData();
-    	setData();
-    	
+    	setData();	
     }
     
-    
-    
+
     @Subscribe
     public void OnMessageEvent(Message msg) {
     	EventBus.getDefault().unregister(this);
     	if(msg.getAction().equals("got cinemas and purchases and complaints")) {
     		Platform.runLater(()-> {
-    			this.purchases = msg.getPurchasesList();
-    			this.cinemas = msg.getCinemasArrayList();
+    			this.purchases = msg.getPurchases();
+    			this.cinemas = msg.getCinemas();
     			this.complaints = msg.getComplaints();
     			//setData();
     		});
-    	}
-    	
-    	
-    	
-    		    	
+    	}  	
     }
     
     

@@ -18,9 +18,8 @@ import javax.persistence.Table;
 
 import javafx.util.Pair;
 
-
 @Entity
-@Table(name = "Purchase")
+@Table(name = "Purchases")
 public class Purchase implements  Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,29 +35,22 @@ public class Purchase implements  Serializable{
 	private LocalDateTime purchaseTime;
 	private int purchaseType; // 0 - ticket, 1 - link, 2 - card, 3 - unknown
 	private Pair<Boolean, Float> isCanceled;
-
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "screening_id")
 	private Screening screening;
-	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "hall_id")
-	private Hall hall;
-	
+	private Hall hall;	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "cinema_id")
 	private Cinema cinema;
-	
 	@Lob
 	private ArrayList<Pair<Integer , Integer>> seatsList;
-	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "viewing_package_id")
 	private ViewingPackage viewingPackage;
-	
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private SubscriptionCard subscriptionCard;
-	
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Complaint complaint;
 
@@ -68,7 +60,7 @@ public class Purchase implements  Serializable{
 	
 	public Purchase(String firstName, String lastName, String email, String city, String phone,
 					double payment, LocalDateTime purchaseTime, Screening screening, ArrayList<Pair<Integer , Integer>> seatsList, 
-					Complaint complaint) {
+					Complaint complaint) { // Tickets Purchase
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -96,7 +88,7 @@ public class Purchase implements  Serializable{
 	
 	public Purchase(String firstName, String lastName, String email, String city, String phone,
 					double payment, LocalDateTime purchaseTime, Cinema cinema,
-					ViewingPackage viewingPackage, Complaint complaint) {
+					ViewingPackage viewingPackage, Complaint complaint) { // Viewing Package Purchase
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -118,7 +110,7 @@ public class Purchase implements  Serializable{
 	
 	public Purchase(String firstName, String lastName, String email, String city, String phone,
 			double payment, LocalDateTime purchaseTime, Cinema cinema,
-			SubscriptionCard subscriptionCard, Complaint complaint) {
+			SubscriptionCard subscriptionCard, Complaint complaint) { // Subscription Card Purchase
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;

@@ -31,52 +31,21 @@ public class Complaint implements  Serializable {
 	private String complaintType;
 	private LocalDate complaintDate;
 	private LocalTime complaintTime;
-	
 	private String complaintTitle;
 	private String complaintDetails;
 	private Boolean isOpen;
-	private static String[] complaintTypes = { "Movie screening issues", "Viewing package issues", "Subscription card issues", "Payment issues" };
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Purchase purchase;
-
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "cinema_id")
 	private Cinema cinema;
+	private static String[] complaintTypes = { "Movie screening issues", "Viewing package issues", "Subscription card issues", "Payment issues" };
 	
 	public Complaint() {
 		super();
 	}
-	public Complaint(String firstName, String lastName, String complaintTitle, String complaintDetails, boolean isOpen, Purchase purchase, Cinema cinema) {
-		super();
-		complaintDate = LocalDate.now();
-		complaintTime = LocalTime.now();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.complaintTitle = complaintTitle;
-		this.complaintDetails = complaintDetails;
-		this.isOpen = isOpen;
-		this.purchase = purchase;
-		email = "thesirtiya@gmail.com";
-		phoneNumber = null;
-		this.cinema = cinema;						
-	}
-	public Complaint(String firstName, String lastName, String complaintType, String complaintTitle, String complaintDetails, boolean isOpen, Cinema cinema) {
-		super();
-		complaintDate = LocalDate.now();
-		complaintTime = LocalTime.now();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.complaintTitle = complaintTitle;
-		this.complaintDetails = complaintDetails;
-		this.isOpen = isOpen;
-		this.complaintType=complaintType;
-		this.purchase = null;
-		email = "thesirtiya@gmail.com";
-		phoneNumber=null;
-		this.cinema = cinema;
-	}
-	public Complaint(String firstName, String lastName, String email, String phoneNumber, String complaintType,
-					 String complaintTitle, String complaintDetails, boolean isOpen, Purchase purchase, Cinema cinema) {
+	
+	public Complaint(String firstName, String lastName, String email, String phoneNumber, String complaintType, String complaintTitle, String complaintDetails, Purchase purchase, boolean isOpen) {
 		super();
 		complaintDate = LocalDate.now();
 		complaintTime = LocalTime.now();
@@ -84,27 +53,91 @@ public class Complaint implements  Serializable {
 		this.lastName = lastName;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
-		this.complaintType = complaintType;
+		this.complaintType = complaintType; 
 		this.complaintTitle = complaintTitle;
 		this.complaintDetails = complaintDetails;
-		this.isOpen = isOpen;
 		this.purchase = purchase;
-		this.cinema = cinema;
+		this.isOpen = isOpen;
+		if(purchase != null)
+			cinema = purchase.getCinema();
+		else
+			cinema = null;
 	}
 	
 	public int getId() {
 		return id;
 	}
-
-	public void setId(int id) {
-		this.id = id;
+	
+	public LocalDate getComplaintDate() {
+		return complaintDate;
+	}
+	
+	public void setComplaintDate() {
+		this.complaintDate = LocalDate.now();
+	}
+	
+	public LocalTime getComplaintTime() {
+		return complaintTime;
 	}
 
-	public Cinema getCinema() {
-		return cinema;
+	public void setComplaintTime() {
+		this.complaintTime = LocalTime.now();
 	}
-	public void setCinema(Cinema cinema) {
-		this.cinema = cinema;
+	
+	public String getFirstName() {
+		return firstName;
+	}
+	
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+	
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+	
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+	
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+	
+	public String getComplaintType() {
+		return complaintType;
+	}
+	
+	public void setComplaintType(String complaintType) {
+		this.complaintType = complaintType;
+	}
+	
+	public String getComplaintTitle() {
+		return complaintTitle;
+	}
+	
+	public void setComplaintTitle(String complaintTitle) {
+		this.complaintTitle = complaintTitle;
+	}
+	
+	public String getComplaintDetails() {
+		return complaintDetails;
+	}
+	
+	public void setComplaintDetails(String complaintDetails) {
+		this.complaintDetails = complaintDetails;
 	}
 	
 	public Purchase getPurchase() {
@@ -113,90 +146,20 @@ public class Complaint implements  Serializable {
 
 	public void setPurchase(Purchase purchase) {
 		this.purchase = purchase;
+		if(purchase != null)
+			cinema = purchase.getCinema();
+	}
+	
+	public Cinema getCinema() {
+		return cinema;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-	
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-	
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-	
-	public void setComplaintType(String complaintType) {
-		this.complaintType = complaintType;
-	}
-	
-	public void setComplaintTitle(String complaintTitle) {
-		this.complaintTitle = complaintTitle;
-	}
-	
-	public void setComplaintDate() {
-		this.complaintDate = LocalDate.now();
-	}
-	
-	public void setComplaintTime() {
-		this.complaintTime = LocalTime.now();
-	}
-	
-	public void setComplaintDetails(String complaintDetails) {
-		this.complaintDetails = complaintDetails;
+	public Boolean isOpen() {
+		return isOpen;
 	}
 	
 	public void setIsOpen(Boolean isOpen) {
 		this.isOpen = isOpen;
-	}
-	
-	public int getID() {
-		return id;
-	}
-	
-	public String getFirstName() {
-		return firstName;
-	}
-	
-	public String getLastName() {
-		return lastName;
-	}
-	
-	public String getEmail() {
-		return email;
-	}
-	
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-	
-	public String getComplaintType() {
-		return complaintType;
-	}
-	
-	public String getComplaintTitle() {
-		return complaintTitle;
-	}
-	
-	public LocalDate getComplaintDate() {
-		return complaintDate;
-	}
-	
-	public LocalTime getComplaintTime() {
-		return complaintTime;
-	}
-	
-	public String getComplaintDetails() {
-		return complaintDetails;
-	}
-
-	public Boolean getIsOpen() {
-		return isOpen;
 	}
 	
 	public static String[] getComplaintTypes() {

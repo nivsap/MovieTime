@@ -1,12 +1,9 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
-import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
 import il.cshaifasweng.OCSFMediatorExample.entities.SubscriptionCard;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

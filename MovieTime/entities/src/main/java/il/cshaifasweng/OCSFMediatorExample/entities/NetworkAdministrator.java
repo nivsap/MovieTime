@@ -13,17 +13,17 @@ public class NetworkAdministrator extends Worker implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	public static Float moviePrice;
-	public static Float viewingPackagePrice;
-	public static Float subscriptionCardPrice;
+	public Float moviePrice;
+	public Float viewingPackagePrice;
+	public Float subscriptionCardPrice;
 	
 	public NetworkAdministrator() {}
 
-	public NetworkAdministrator(String firstName, String lastName, Cinema cinema, String userName, String password, boolean isLoggedIn, Float movieP, Float viewingPackageP, Float subscriptionCardP) {
+	public NetworkAdministrator(String firstName, String lastName, Cinema cinema, String userName, String password, boolean isLoggedIn, Float moviePrice, Float viewingPackagePrice, Float subscriptionCardPrice) {
 		super(firstName, lastName, cinema, userName, password, isLoggedIn);
-		moviePrice = movieP;
-		viewingPackagePrice = viewingPackageP;
-		subscriptionCardPrice = subscriptionCardP;
+		this.moviePrice = moviePrice;
+		this.viewingPackagePrice = viewingPackagePrice;
+		this.subscriptionCardPrice = subscriptionCardPrice;
 	}
 	
 	public int getId() {
@@ -34,27 +34,27 @@ public class NetworkAdministrator extends Worker implements Serializable {
 		this.id = id;
 	}
 
-	public static Float getMoviePrice() {
+	public Float getMoviePrice() {
 		return moviePrice;
 	}
 
-	public static void setMoviePrice(Float newPrice) {
-		moviePrice = newPrice;
+	public void setMoviePrice(Float moviePrice) {
+		this.moviePrice = moviePrice;
 	}
 
-	public static Float getViewingPackagePrice() {
+	public Float getViewingPackagePrice() {
 		return viewingPackagePrice;
 	}
 
-	public static void setViewingPackagePrice(Float newPrice) {
-		viewingPackagePrice = newPrice;
+	public void setViewingPackagePrice(Float viewingPackagePrice) {
+		this.viewingPackagePrice = viewingPackagePrice;
 	}
 
-	public static Float getSubscriptionCardPrice() {
+	public Float getSubscriptionCardPrice() {
 		return subscriptionCardPrice;
 	}
 
-	public static void setSubscriptionCardPrice(Float newPrice) {
-		subscriptionCardPrice = newPrice;
+	public void setSubscriptionCardPrice(Float subscriptionCardPrice) {
+		this.subscriptionCardPrice = subscriptionCardPrice;
 	}
 }

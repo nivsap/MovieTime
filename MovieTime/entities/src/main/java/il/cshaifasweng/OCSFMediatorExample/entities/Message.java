@@ -17,6 +17,7 @@ public class Message implements Serializable {
 	private String username;
 	private String password;
 	private String typeOfWorker;
+	private NetworkAdministrator administrator;
 	/* ---------- Handling Cinemas ---------- */
 	private Cinema cinema;
 	private int cinemaId;
@@ -57,6 +58,9 @@ public class Message implements Serializable {
 	private ArrayList<Complaint> complaints;
 	/* ---------- Handling Price Requests ---------- */
 	private PriceRequest priceRequest;
+	private float moviePrice;
+	private float viewingPackagePrice;
+	private float subscriptionCardPrice;
 	private ArrayList<PriceRequest> priceRequests;
 	/* ---------- Handling Purple Limits ---------- */
 	private PurpleLimit purpleLimit;
@@ -375,6 +379,30 @@ public class Message implements Serializable {
 	public void setPriceRequest(PriceRequest priceRequest) {
 		this.priceRequest = priceRequest;
 	}
+	
+	public float getMoviePrice() {
+		return moviePrice;
+	}
+
+	public void setMoviePrice(float moviePrice) {
+		this.moviePrice = moviePrice;
+	}
+	
+	public float getViewingPackagePrice() {
+		return viewingPackagePrice;
+	}
+
+	public void setViewingPackagePrice(float viewingPackagePrice) {
+		this.viewingPackagePrice = viewingPackagePrice;
+	}
+	
+	public float getSubscriptionCardPrice() {
+		return subscriptionCardPrice;
+	}
+
+	public void setSubscriptionCardPrice(float subscriptionCardPrice) {
+		this.subscriptionCardPrice = subscriptionCardPrice;
+	}
 
 	public ArrayList<PriceRequest> getPriceRequests() {
 		return priceRequests;
@@ -439,5 +467,14 @@ public class Message implements Serializable {
 	public void setCustomerEmail(String customerEmail) {
 		this.customerEmail = customerEmail;
 	}
+	
+	public NetworkAdministrator getAdministrator() {
+		return administrator;
+	}
+	
+	public void setAdministrator(NetworkAdministrator administrator) {
+		this.administrator = administrator;
+	}
+
 
 }

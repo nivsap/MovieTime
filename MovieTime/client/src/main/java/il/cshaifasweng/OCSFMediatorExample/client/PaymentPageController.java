@@ -34,7 +34,7 @@ public class PaymentPageController {
 	private SubscriptionCard subscriptionCard;
 	private ViewingPackage viewingPackage;
 	private Purchase purchase;
-	private double price;
+	private float price, ticketPrice, linkPrice, cardPrice;
 	  
     @FXML
     private TextArea orderSummeryTextArea;
@@ -125,7 +125,10 @@ public class PaymentPageController {
     	subscriptionCard = null;
     	viewingPackage = null;
     	purchase = null;
-    	price = 0.0;
+    	ticketPrice = 0f;
+    	linkPrice = 0f;
+    	cardPrice = 0f;
+    	getPrices();
     }
     @FXML
     void initialize() {
@@ -161,7 +164,19 @@ public class PaymentPageController {
         paymentNumberComboBox.getItems().add("2");
         paymentNumberComboBox.getItems().add("3");
         hideWarningLabels();
-        
+    }
+    
+    public void getPrices() {
+    	EventBus.getDefault().register(this);
+    	Message msg = new Message();
+    	msg.setAction("get prices");
+    	msg.setPurchase(purchase);
+    	
+    	try {
+			AppClient.getClient().sendToServer(msg);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
     public void setInfoTicket(Screening screening, ArrayList<Pair<Integer, Integer>> seatsChosen) {
@@ -169,7 +184,7 @@ public class PaymentPageController {
     	this.screening = screening;
     	this.seats = seatsChosen;
     	String order;
-    	price = seats.size() * NetworkAdministrator.getMoviePrice();
+    	price = seats.size() * ticketPrice;
 		paymentLabel.setText(Double.toString(price));
     	order = "Screened Movie:" + screening.getMovie().getName() + 
     			"\nIn " + screening.getCinema().getName() + " Cinema, hall number: " + screening.getHall().getHallId() + 
@@ -179,35 +194,34 @@ public class PaymentPageController {
 		}
 		order += "Total price: " + price;
         orderSummeryTextArea.setText(order);
-        paymentLabel.setText(Double.toString(seats.size() * NetworkAdministrator.getMoviePrice()));
+        paymentLabel.setText(Double.toString(price));
     }
     
-    public void setInfoSubscription(int type, double price) {
-    	this.purchaseType = PurchaseTypes.SUBSCRIPTION_CARD;
+    public void setInfoSubscription() {
+    	purchaseType = PurchaseTypes.SUBSCRIPTION_CARD;
     	String order;
-    	this.price = price;
-		paymentLabel.setText(Double.toString(price));
+    	price = cardPrice; 
+		paymentLabel.setText(Double.toString(cardPrice));
 		order = "With a subscription card, you can freely attend 20 screenings of your choice, in a cinema of your choice!\n";
 		order += "Total price: " + price;
 
         orderSummeryTextArea.setText(order);
     }
 
+
     public void setInfoLink(ViewingPackage viewingPackage) {
     	this.purchaseType = PurchaseTypes.VIEWING_PACKAGE;
     	this.viewingPackage = viewingPackage;
 
     	String order;
-		paymentLabel.setText(Double.toString(NetworkAdministrator.getViewingPackagePrice()));
+		paymentLabel.setText(Double.toString(linkPrice));
     	order = screening.getMovie().getName() + " " + screening.getDate();
 		order += "Total price: " + paymentLabel.getText();
         orderSummeryTextArea.setText(order);	
     }
     
     private void createPurchase() {
-    	EventBus.getDefault().register(this);
-
-    	if(purchaseType == PurchaseTypes.TICKET) {
+      	if(purchaseType == PurchaseTypes.TICKET) {
         	/* Ticket Purchase Constructor:
         	 * String firstName, String lastName, String email, String city, String phone,
         	 * double payment, LocalDateTime purchaseTime, Pair<Boolean, Float> isCanceled, 
@@ -268,6 +282,11 @@ public class PaymentPageController {
     //in the func handleMessageFromClient
     @Subscribe
     public void OnMessageEvent(Message msg) {
+    	if(msg.getAction().equals("got prices")) {
+    		ticketPrice = msg.getMoviePrice();
+    		linkPrice = msg.getViewingPackagePrice();
+    		cardPrice = msg.getSubscriptionCardPrice();
+    	}
     	
     	if(msg.getAction().equals("save customer done")) {
     		purchase = msg.getPurchase();

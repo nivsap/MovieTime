@@ -10,6 +10,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Cinema;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
+import il.cshaifasweng.OCSFMediatorExample.entities.NetworkAdministrator;
 import il.cshaifasweng.OCSFMediatorExample.entities.PriceRequest;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -25,7 +26,7 @@ public class PriceChangeApprovalsController {
 
 	private PriceRequest request;
 	private String Text;
-	private Double price;
+	private Float price;
 	private ArrayList<PriceRequest> requests;
 	private LocalDate date;
 	private Cinema cinema;
@@ -95,9 +96,9 @@ public class PriceChangeApprovalsController {
 		Message msg = new Message();
 
 		if (Text.equals("Approve")) {
-			request.setOpen(false);
-			request.getCinema().setMoviePrice(request.getNewPrice());
-			msg.setPriceRequestmsg(request);
+			request.setIsOpen(false);
+			NetworkAdministrator.setMoviePrice((float)request.getNewPrice());
+			msg.setPriceRequest(request);
 			msg.setAction("update price");
 			try {
 				AppClient.getClient().sendToServer(msg);
@@ -109,7 +110,7 @@ public class PriceChangeApprovalsController {
 		}
 
 		if (Text.equals("Denied")) {
-			msg.setPriceRequestmsg(request);
+			msg.setPriceRequest(request);
 			msg.setAction("cancel update price");
 			try {
 				AppClient.getClient().sendToServer(msg);
@@ -175,14 +176,14 @@ public class PriceChangeApprovalsController {
 		date = request.getRequestDate().toLocalDate();
 		price = request.getNewPrice();
 		ShowTheNewPrice.setText(String.valueOf(price));
-		if (request.isMovie()) {
+		if (request.isTicket()) {
 			RequestTypeShow.setText("Movie");
 		} else {
 			RequestTypeShow.setText("not Movie");
 		}
-		ReasonShow.setText(request.getCommentString());
+		ReasonShow.setText(request.getComment());
 		DateShow.setText(date.toString());
-		ShowTheOldPrice.setText(String.valueOf(request.getCinema().getMoviePrice()));
+		ShowTheOldPrice.setText(String.valueOf(NetworkAdministrator.getMoviePrice()));
 
 	}
 
@@ -201,7 +202,7 @@ public class PriceChangeApprovalsController {
 	public void onMessageEvent(Message msg) {
 		if (msg.getAction().equals("got all price request")) {
 			Platform.runLater(() -> {
-				requests = msg.getPriceRequestsArrayList();
+				requests = msg.getPriceRequests();
 				for (PriceRequest priceReq : requests) {
 					if (priceReq.isOpen()) {
 						request = priceReq;

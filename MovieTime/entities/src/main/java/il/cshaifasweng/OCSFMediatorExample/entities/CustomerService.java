@@ -22,7 +22,7 @@ import javafx.util.Pair;
 
 @Entity
 @Table(name = "CustomerService")
-public class CustomerService extends Worker implements  Serializable{
+public class CustomerService extends Worker implements  Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -31,7 +31,11 @@ public class CustomerService extends Worker implements  Serializable{
 		super();
 	}
 	
-	public CustomerService(String firstName, String lastName, String userName, String password, boolean isLoggedIn, Cinema cinema) {
-		super(firstName, lastName, userName, password, cinema, isLoggedIn);
+	public CustomerService(String firstName, String lastName, Cinema cinema, String userName, String password, boolean isLoggedIn) {
+		super(firstName, lastName, cinema, userName, password, isLoggedIn);
+	}
+	
+	public int getId() {
+		return id;
 	}
 }

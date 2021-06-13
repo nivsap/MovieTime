@@ -206,14 +206,14 @@ public class PurpleLimitPageController {
     public void OnMessageEvent(Message msg) throws IOException { 
     	if(msg.getAction().equals("got active purple limits")) {
     		Platform.runLater(()-> {
-    			activePurpleLimits = msg.getActivePurpleLimit();
+    			activePurpleLimits = msg.getActivePurpleLimits();
     			setCurrentRegulations();
     		});
     	}   
     	if(msg.getAction().equals("added purple limit")) {
     		Platform.runLater(()-> {
     			isAdding = false;
-    			activePurpleLimits = msg.getActivePurpleLimit();
+    			activePurpleLimits = msg.getActivePurpleLimits();
     			setSuccessfullyAdded();
     		});
     	}     

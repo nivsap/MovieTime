@@ -50,7 +50,7 @@ public class ComingSoonInfoPageController {
     	movieGenreSecond.setText(movie.getGenre());
     	movieDescription.setText(movie.getDescription());
     	movieDescription.setWrapText(true);
-    	movieProducers.setText(movie.getProducersMovie());
+    	movieProducers.setText(movie.getProducers());
     	movieMainActors.setText(movie.getMainActors());
     	movieDuration.setText(movie.getDuration());
     	movieLaunchDate.setText(movie.getLaunchDate().toString());

@@ -1,15 +1,10 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
-import java.util.Arrays;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 
@@ -56,7 +51,7 @@ public class ComingSoonSearchBarController {
 		msg.setAction("search bar update");
 		msg.setActionType(actionType);
 		msg.setMoviesType(moviesType);
-		msg.setGenere(genreComboBox.getValue());
+		msg.setGenre(genreComboBox.getValue());
 		try {
 			EventBus.getDefault().register(this);
 			AppClient.getClient().sendToServer(msg);

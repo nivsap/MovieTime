@@ -34,9 +34,9 @@ public class PurpleLimitController {
 		try {
 			ArrayList<Screening> allScreenings = Main.getAllOfType(Screening.class);
 			for(Screening screening : allScreenings) {
-				LocalDate screeningDate = screening.getDate_screen().toLocalDate();
+				LocalDate screeningDate = screening.getDate();
 				if(screeningDate.isAfter(fromDate) && screeningDate.isBefore(toDate)) {
-					screening.getCinema().getCancelPurchases().addAll(screening.getPurchases());
+					screening.getCinema().getCanceledPurchases().addAll(screening.getPurchases());
 					screening.initSeats(); //need to check if its working
 					for(Purchase purchase : screening.getPurchases()) {
 						JavaMailUtil.sendMessage(purchase.getEmail(), "Cancellation of purchase at Sirtiya", "Due to a purple restriction, we are noble to cancel the screening and return the money to you. You are welcome to purchase another ticket in the app");

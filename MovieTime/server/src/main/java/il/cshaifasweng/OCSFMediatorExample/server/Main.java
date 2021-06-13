@@ -783,6 +783,7 @@ public class Main extends AbstractServer {
 					saveRowInDB(subscriptionCard);
 					serverMsg.setSubscriptionCard(subscriptionCard);
 				}
+				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Customer Of The Sirtiya, Order Number :" , serverMsg.getEmailMessage());
 				serverMsg.setPurchase(purchase);
 				serverMsg.setAction("save customer done");
 				client.sendToClient(serverMsg);
@@ -883,11 +884,7 @@ public class Main extends AbstractServer {
 		}
 
 
-		if(currentMsg.getAction().equals("send successful purchase mail")) {
-				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Customer Of The Sirtiya, Order Number :" , serverMsg.getEmailMessage());
-				
-		}
-
+		
 		if (currentMsg.getAction().equals("send purchase cancellation mail")) {
 			try {
 				serverMsg = currentMsg;

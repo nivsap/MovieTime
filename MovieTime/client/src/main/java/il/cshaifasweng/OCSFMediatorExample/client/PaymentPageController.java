@@ -208,9 +208,9 @@ public class PaymentPageController {
         orderSummeryTextArea.setText(order);
     }
 
-    public void setInfoLink(int type) {
-    	this.purchaseType = PurchaseTypes.VIEWING_PACKAGE;
 
+    public void setInfoLink(ViewingPackage viewingPackage) {
+    	this.purchaseType = PurchaseTypes.VIEWING_PACKAGE;
     	this.viewingPackage = viewingPackage;
 
     	String order;

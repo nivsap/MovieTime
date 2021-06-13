@@ -156,12 +156,12 @@ public class Main extends AbstractServer {
 					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/StarWars.png",
 					true, false, null, null);
 			/* ---------- Setting Viewing Packages For Data Base ---------- */
-			ViewingPackage viewingPackage1 = new ViewingPackage(wonderWoman1984, getExactTime(2021, 6, 18, 16, 0), "www.sirtiya.co.il/wonderWoman1");
-			ViewingPackage viewingPackage2 = new ViewingPackage(wonderWoman1984, getExactTime(2021, 6, 19, 16, 0), "www.sirtiya.co.il/wonderWoman2");
-			ViewingPackage viewingPackage3 = new ViewingPackage(wonderWoman1984, getExactTime(2021, 6, 20, 16, 0), "www.sirtiya.co.il/wonderWoman3");
-			ViewingPackage viewingPackage4 = new ViewingPackage(babyDriver, getExactTime(2021, 6, 18, 17, 0), "www.sirtiya.co.il/babyDriver1");
-			ViewingPackage viewingPackage5 = new ViewingPackage(babyDriver, getExactTime(2021, 6, 19, 17, 0), "www.sirtiya.co.il/babyDriver2");
-			ViewingPackage viewingPackage6 = new ViewingPackage(babyDriver, getExactTime(2021, 6, 20, 17, 0), "www.sirtiya.co.il/babyDriver3");
+			ViewingPackage viewingPackage1 = new ViewingPackage(wonderWoman1984, getExactTime(2021, 6, 18, 16, 00), "www.sirtiya.co.il/wonderWoman1");
+			ViewingPackage viewingPackage2 = new ViewingPackage(wonderWoman1984, getExactTime(2021, 6, 19, 16, 00), "www.sirtiya.co.il/wonderWoman2");
+			ViewingPackage viewingPackage3 = new ViewingPackage(wonderWoman1984, getExactTime(2021, 6, 20, 16, 00), "www.sirtiya.co.il/wonderWoman3");
+			ViewingPackage viewingPackage4 = new ViewingPackage(babyDriver, getExactTime(2021, 6, 18, 17, 00), "www.sirtiya.co.il/babyDriver1");
+			ViewingPackage viewingPackage5 = new ViewingPackage(babyDriver, getExactTime(2021, 6, 19, 17, 00), "www.sirtiya.co.il/babyDriver2");
+			ViewingPackage viewingPackage6 = new ViewingPackage(babyDriver, getExactTime(2021, 6, 20, 17, 00), "www.sirtiya.co.il/babyDriver3");
 			wonderWoman1984.setViewingPackages(new ArrayList<ViewingPackage>(Arrays.asList(viewingPackage1, viewingPackage2, viewingPackage3)));
 			babyDriver.setViewingPackages(new ArrayList<ViewingPackage>(Arrays.asList(viewingPackage4, viewingPackage5, viewingPackage6)));
 			/* ---------- Setting Screenings For Data Base ---------- */
@@ -1279,6 +1279,19 @@ public class Main extends AbstractServer {
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant get all movies from viewing packages");
+				e.printStackTrace();
+			}
+		}
+		
+		
+		if (currentMsg.getAction().equals("get viewing packages by movie")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.setViewingPackages(ViewingPackageController.getViewingPackagesByMovie(currentMsg.getMovieName()));
+				serverMsg.setAction("got viewing packages by movie");
+				client.sendToClient(serverMsg);
+			} catch (IOException e) {
+				System.out.println("cant get viewing packages by movie");
 				e.printStackTrace();
 			}
 		}

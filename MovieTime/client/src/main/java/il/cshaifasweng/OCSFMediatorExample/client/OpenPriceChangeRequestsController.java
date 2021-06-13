@@ -1,8 +1,5 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
-//import java.awt.TextArea;
-//import java.awt.TextField;
-import java.awt.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,6 +10,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Cinema;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
+import il.cshaifasweng.OCSFMediatorExample.entities.NetworkAdministrator;
 import il.cshaifasweng.OCSFMediatorExample.entities.PriceRequest;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -29,14 +27,12 @@ import javafx.scene.control.TextArea;
 public class OpenPriceChangeRequestsController {
 	private String textCollector;
 	private String textfields;
-	private int price;
+	private Float price;
 	private LocalDate date;
 	ObservableList<String> list = FXCollections.observableArrayList("Movie", "Viewing Package", "Card");
 	private ArrayList<Cinema> cinemas;
 	private Cinema theCinema;
 	private PriceRequest prices;
-	private Message msg2 = new Message();
-
 	@FXML
 	private ResourceBundle resources;
 
@@ -86,7 +82,7 @@ public class OpenPriceChangeRequestsController {
 		for (Cinema cinema : cinemas) {
 			if (cinema.getName().equals(CinemaBox.getValue())) {
 				theCinema = cinema;
-				OldPriceShow.setText(String.valueOf(cinema.getMoviePrice()));
+				OldPriceShow.setText(String.valueOf(NetworkAdministrator.getMoviePrice()));
 				OldPriceLeble.setVisible(true);
 				OldPriceShow.setVisible(true);
 			}
@@ -108,18 +104,16 @@ public class OpenPriceChangeRequestsController {
 		msg.setAction("save price request");
 		textfields = textFiller.getText();
 		if (textCollector.equals("Movie")) {
-			prices = new PriceRequest(date.atStartOfDay(), theCinema, true, textfields, price, true);
-			msg.setPriceRequestmsg(prices);
+			prices = new PriceRequest(0, textfields, price, true);
+			msg.setPriceRequest(prices);
 		} else {
-			prices = new PriceRequest(date.atStartOfDay(), theCinema, false, textfields, price, true);
-			msg.setPriceRequestmsg(prices);
+			prices = new PriceRequest(1, textfields, price, false);
+			msg.setPriceRequest(prices);
 		}
 
 		try {
-			System.out.println("hi");
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -132,7 +126,7 @@ public class OpenPriceChangeRequestsController {
 
 	@FXML
 	void enterNewPrice(ActionEvent event) {
-		price = (int) Double.parseDouble(NewPriceField.getText());
+		price = Float.parseFloat(NewPriceField.getText());
 		System.out.println(price);
 	}
 
@@ -194,10 +188,10 @@ public class OpenPriceChangeRequestsController {
 		if (msg.getAction().equals("got all cinemas")) {
 			Platform.runLater(() -> {
 				CinemaBox.getItems().clear();
-				cinemas = msg.getCinemasArrayList();
+				cinemas = msg.getCinemas();
 				System.out.println(cinemas.size());
 				System.out.println(cinemas);
-				for (Cinema cinema : msg.getCinemasArrayList()) {
+				for (Cinema cinema : msg.getCinemas()) {
 					if (!CinemaBox.getItems().contains(cinema.getName())) {
 						CinemaBox.getItems().add(cinema.getName());
 					}

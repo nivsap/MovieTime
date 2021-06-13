@@ -9,8 +9,8 @@ import javax.swing.JOptionPane;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import il.cshaifasweng.OCSFMediatorExample.entities.Hall;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
+import il.cshaifasweng.OCSFMediatorExample.entities.NetworkAdministrator;
 import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.SubscriptionCard;
@@ -169,16 +169,17 @@ public class PaymentPageController {
     	this.screening = screening;
     	this.seats = seatsChosen;
     	String order;
-    	price = seats.size() * screening.getCinema().getMoviePrice();
+    	price = seats.size() * NetworkAdministrator.getMoviePrice();
 		paymentLabel.setText(Double.toString(price));
-    	order = screening.getCinema().getName() + " Cinema, hall " + screening.getHall().getHallId() + "\n" +
-    			screening.getMovie().getName() + " " + screening.getDate_screen() + "\n";
+    	order = "Screened Movie:" + screening.getMovie().getName() + 
+    			"\nIn " + screening.getCinema().getName() + " Cinema, hall number: " + screening.getHall().getHallId() + 
+    			"\nScreening Date: " + screening.getDate() + ", Screening Time: " +  screening.getTime() + "\n";
 		for(Pair<Integer,Integer> seat : seats) {
 			order += "Seat " + seat.getKey() + "," + seat.getValue() + "\n";
 		}
 		order += "Total price: " + price;
         orderSummeryTextArea.setText(order);
-        paymentLabel.setText(Double.toString(seats.size() * screening.getCinema().getMoviePrice()));
+        paymentLabel.setText(Double.toString(seats.size() * NetworkAdministrator.getMoviePrice()));
     }
     
     public void setInfoSubscription(int type, double price) {
@@ -199,8 +200,8 @@ public class PaymentPageController {
     	this.viewingPackage = viewingPackage;
 
     	String order;
-		paymentLabel.setText(Double.toString(screening.getCinema().getLinkPrice()));
-    	order = screening.getMovie().getName() + " " + screening.getDate_screen();
+		paymentLabel.setText(Double.toString(NetworkAdministrator.getViewingPackagePrice()));
+    	order = screening.getMovie().getName() + " " + screening.getDate();
 		order += "Total price: " + paymentLabel.getText();
         orderSummeryTextArea.setText(order);	
     }
@@ -275,8 +276,8 @@ public class PaymentPageController {
     		String successfulPurchaseString;
     		successfulPurchaseString = "Dear " + this.purchase.getFirstName() +" " + this.purchase.getLastName() + "\nThank you for your order, number: " + purchase.getId() + "\n\nOrder details:\n"; 
     		if(purchase.isTicket()) {
-    			successfulPurchaseString += "\nScreening Movie: " + purchase.getScreening().getMovie().getName() + "\nScreening Date: " + purchase.getScreening().getDate_screen().toString().substring(0,10) + ", Time: " +
-    										purchase.getScreening().getDate_screen().toString().toString().substring(11, 16) + "\nCinema: " + purchase.getCinema().getName() + "\nHall number: " + purchase.getScreening().getHall().getHallId() + "\nOrdered seats:";
+    			successfulPurchaseString += "\nScreening Movie: " + purchase.getScreening().getMovie().getName() + "\nScreening Date: " + purchase.getScreening().getDate().toString() + ", Time: " +
+    										purchase.getScreening().getTime().toString() + "\nCinema: " + purchase.getCinema().getName() + "\nHall number: " + purchase.getScreening().getHall().getHallId() + "\nOrdered seats:";
         		for(Pair<Integer,Integer> seat : seats) {
         			successfulPurchaseString += "\n\tSeat " + seat.getKey() + "," + seat.getValue();
         		}	

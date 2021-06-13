@@ -293,24 +293,10 @@ public class AddContentPageController {
     		genre += g + "   •   ";
     	}
     	genre = genre.substring(0, genre.length() - 7);
-    	
-    	String duration = hoursDuration + "h " + minutesDuration + "min";
-    	LocalDateTime launchDateTime = LocalDate.of(launchDate.getYear(), launchDate.getMonthValue(), launchDate.getDayOfWeek().getValue()).atStartOfDay();
-    	
-    	Movie newMovie = new Movie(name, 
-    							   duration, 
-    							   Double.parseDouble(rate),
-    							   genre,
-    							   imagePickerController.getLoadedFile().getAbsolutePath().toString(), 
-    							   largeImagePickerController.getLoadedFile().getAbsolutePath().toString(),
-    							   null,
-    							   false,
-    							   isYes,
-    							   shortDescription,
-    							   mainActors,
-    							   launchDateTime,
-    							   0,
-    							   producers, null, false, new ArrayList<>(), true);
+    	Movie newMovie = new Movie(name, genre, shortDescription, producers, mainActors, launchDate, Integer.parseInt(hoursDuration), Integer.parseInt(minutesDuration),
+    							   Float.parseFloat(rate), imagePickerController.getLoadedFile().getAbsolutePath().toString(), 
+    							   largeImagePickerController.getLoadedFile().getAbsolutePath().toString(), isYes,
+    							   false, null, null);
     	sendMovieToServer(newMovie);
     }
     
@@ -343,7 +329,7 @@ public class AddContentPageController {
     		return;
     	}
     	
-    	ViewingPackage newViewingPackage = new ViewingPackage(selectedMovie, LocalDateTime.now(), null, link);
+    	ViewingPackage newViewingPackage = new ViewingPackage(selectedMovie, LocalDateTime.now(), link);
     	sendViewingPackageToServer(newViewingPackage);
     }
     

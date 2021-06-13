@@ -186,12 +186,6 @@ public class FilingComplaintsPageController  {
     	newComplaint.setComplaintDate();
     	newComplaint.setComplaintTime();
     	newComplaint.setPurchase(foundPurchase);
-    	if(foundPurchase.isTicket()) {
-    		newComplaint.setCinema(foundPurchase.getScreening().getCinema());
-    	}
-    	else {
-    		newComplaint.setCinema(null);
-    	}
     	newComplaint.setIsOpen(true);
     	Message msg = new Message();
 		msg.setComplaint(newComplaint);

@@ -97,7 +97,7 @@ public class LoginPageController {
 	public void onMessageEvent(Message msg) {
     	if(msg.getAction().equals("login done")) {
     		Platform.runLater(()-> {
-    			String workerType = msg.getTypeOfWorkerString();
+    			String workerType = msg.getTypeOfWorker();
     			if(workerType != null) {
     				if(workerType.equals("you are already logged in")) {
     					loginFailedLabel.setText("Login Failed- user is already logged in");

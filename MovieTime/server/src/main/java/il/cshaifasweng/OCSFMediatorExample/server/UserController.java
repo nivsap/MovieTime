@@ -17,41 +17,41 @@ public class UserController {
 		for(Worker arr : allWorkers) {
 			if(arr.getUserName().equals(msg.getUsername()) && arr.getPassword().equals( msg.getPassword()) && arr.isLoggedIn()==false) {
 				if(arr instanceof BranchManager) {
-					msg.setTypeOfWorkerString("BranchManager");
-					System.out.println(msg.getTypeOfWorkerString());
+					msg.setTypeOfWorker("BranchManager");
+					System.out.println(msg.getTypeOfWorker());
 					arr.setLoggedIn(true);
 					msg.setWorker(arr);
 					Main.updateRowDB(arr);
 					flag = 1;
 				}
 				else if(arr instanceof ContentManager) {
-					msg.setTypeOfWorkerString("ContentManager");
+					msg.setTypeOfWorker("ContentManager");
 					arr.setLoggedIn(true);
-					System.out.println(msg.getTypeOfWorkerString());
+					System.out.println(msg.getTypeOfWorker());
 					msg.setWorker(arr);
 					Main.updateRowDB(arr);
 					flag = 1;
 				}
 				else if(arr instanceof CustomerService) {
-					msg.setTypeOfWorkerString("CustomerService");
-					System.out.println(msg.getTypeOfWorkerString());
+					msg.setTypeOfWorker("CustomerService");
+					System.out.println(msg.getTypeOfWorker());
 					arr.setLoggedIn(true);
 					msg.setWorker(arr);
 					Main.updateRowDB(arr);
 					flag = 1;
 				}
 				else if(arr instanceof NetworkAdministrator) {
-					msg.setTypeOfWorkerString("NetworkAdministrator");
-					System.out.println(msg.getTypeOfWorkerString());
+					msg.setTypeOfWorker("NetworkAdministrator");
+					System.out.println(msg.getTypeOfWorker());
 					arr.setLoggedIn(true);
 					msg.setWorker(arr);
 					Main.updateRowDB(arr);
 					flag = 1;
 				}
-				else msg.setTypeOfWorkerString("null");
+				else msg.setTypeOfWorker("null");
 			}
 			else if(arr.getUserName().equals(msg.getUsername()) && arr.getPassword().equals( msg.getPassword()) &&arr.isLoggedIn()==true) {
-				msg.setTypeOfWorkerString("you are already logged in");
+				msg.setTypeOfWorker("you are already logged in");
 				//arr.setLoggedIn(false);
 				Main.updateRowDB(arr);
 				flag = 1;
@@ -59,13 +59,12 @@ public class UserController {
 
 		}
 		if(flag==0) {
-			msg.setTypeOfWorkerString("This user does not exist");
+			msg.setTypeOfWorker("This user does not exist");
 		}
 	}
 	
 	public static void logUserOut (Message msg) {
 		ArrayList<Worker> allWorkers = Main.getAllOfType(Worker.class);
-		int flag = 0;
 		System.out.println("about to log out");
 
 		for(Worker arr : allWorkers) {
@@ -93,9 +92,7 @@ public class UserController {
 
 			}
 			else if(arr.getUserName().equals(msg.getUsername()) && arr.getPassword().equals( msg.getPassword()) &&arr.isLoggedIn()==true) {
-				msg.setTypeOfWorkerString("you are already logged out");
-				//arr.setLoggedIn(false);
-				//Main.updateRowDB(arr);
+				msg.setTypeOfWorker("you are already logged out");
 			}
 
 		}

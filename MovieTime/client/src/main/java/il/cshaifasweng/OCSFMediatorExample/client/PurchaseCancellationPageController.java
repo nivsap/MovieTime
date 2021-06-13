@@ -20,7 +20,7 @@ public class PurchaseCancellationPageController {
 	private int waitingForMessageCounter;
 	private String orderNumber;
 	private Purchase foundPurchase;
-	private double refundAmount; // Needs to be changed to float...
+	private float refundAmount;
 
 	@FXML
 	private TextField OrderNumberTextField;

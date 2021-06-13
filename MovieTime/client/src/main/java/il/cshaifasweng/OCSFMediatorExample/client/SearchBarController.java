@@ -1,13 +1,9 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
-import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -117,7 +113,7 @@ public class SearchBarController {
 		msg.setAction("search bar update");
 		msg.setActionType(actionType);
 		msg.setMoviesType(moviesType);
-		msg.setGenere(genreComboBox.getValue());
+		msg.setGenre(genreComboBox.getValue());
 		msg.setTheater(theaterComboBox.getValue());
 		msg.setRate(rateComboBox.getValue());
 		msg.setSearch(mainSearchBar.getText());

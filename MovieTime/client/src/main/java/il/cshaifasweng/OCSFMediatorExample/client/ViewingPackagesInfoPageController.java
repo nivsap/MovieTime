@@ -1,5 +1,8 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
+import java.util.ArrayList;
+
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
+import il.cshaifasweng.OCSFMediatorExample.entities.ViewingPackage;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -69,6 +72,9 @@ public class ViewingPackagesInfoPageController {
     public int getPurchaseType() {
     	return this.purchaseType;
     }
+    
+    
+   
     
     void InitPageInfo(Movie movie) {
     	currentlyDisplayed = movie;

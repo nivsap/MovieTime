@@ -29,6 +29,16 @@ public class CustomerController{
 		}
 		return null;	
 	}
+	
+	public static Purchase getPurchaseBySerial(String serial) {
+		ArrayList<Purchase> customerList = Main.getAllOfType(Purchase.class);
+		for(Purchase customer : customerList) {
+			if(customer.getSerial().equals(serial)) {
+				return customer;
+			}
+		}
+		return null;	
+	}
 	 
 	//This function checks whether the customer deserves a refund and if so, returns the money to him according to the company's terms
 	public static Float ReturnOnPurchase(Purchase purchase , LocalDateTime time) {

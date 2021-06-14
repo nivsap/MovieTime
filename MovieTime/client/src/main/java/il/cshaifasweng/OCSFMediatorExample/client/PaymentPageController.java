@@ -251,7 +251,7 @@ public class PaymentPageController {
 									price, LocalDateTime.now(), null, subscriptionCard, null);	
     	}
 
-    	order += "\nPuchase Id for cancelations: " + purchase.getId();
+    	order += "\nPuchase Id for cancelations: " + purchase.getSerial();
     	Message msg = new Message();
     	msg.setAction("save customer");
     	msg.setPurchase(purchase);
@@ -270,7 +270,7 @@ public class PaymentPageController {
 					cardHoldersNameTextField.getText(), cardHoldersIDTextField.getText(),
 					paymentNumberComboBox.getValue().toString(), cityTextField.getText(),
 					addressTextField.getText(), cardExpirationDatePicker.getValue().toString(),
-					paymentLabel.getText(), cardNumberTextField.getText(), Integer.toString(purchase.getId()));
+					paymentLabel.getText(), cardNumberTextField.getText(), purchase.getSerial());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -291,20 +291,6 @@ public class PaymentPageController {
     	if(msg.getAction().equals("save customer done")) {
     		EventBus.getDefault().unregister(this);
     		
-    		order += "\nPuchase Id for cancelations: " + purchase.getId();
-    		
-    		try {
-    			PaymentCompletionPageController controller= (PaymentCompletionPageController)App.setContent("PaymentCompletionPage");
-    			controller.SetData(order, firstNameTextField.getText(), lastNameTextField.getText(),
-    					emailTextField.getText(), phoneNumberTextField.getText(),
-    					cardHoldersNameTextField.getText(), cardHoldersIDTextField.getText(),
-    					paymentNumberComboBox.getValue().toString(), cityTextField.getText(),
-    					addressTextField.getText(), cardExpirationDatePicker.getValue().toString(),
-    					paymentLabel.getText(), cardNumberTextField.getText(), Integer.toString(purchase.getId()));
-    		} catch (IOException e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    		}
     	}
     }
     

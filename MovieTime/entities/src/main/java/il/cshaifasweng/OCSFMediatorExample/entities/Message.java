@@ -53,6 +53,7 @@ public class Message implements Serializable {
 	private Purchase purchase;
 	private float payment;
 	private List<Purchase> purchases;
+	private String serial;
 	/* ---------- Handling Complaints ---------- */
 	private Complaint complaint;
 	private ArrayList<Complaint> complaints;
@@ -474,6 +475,14 @@ public class Message implements Serializable {
 	
 	public void setAdministrator(NetworkAdministrator administrator) {
 		this.administrator = administrator;
+	}
+
+	public String getSerial() {
+		return serial;
+	}
+
+	public void setSerial(String serial) {
+		this.serial = serial;
 	}
 
 

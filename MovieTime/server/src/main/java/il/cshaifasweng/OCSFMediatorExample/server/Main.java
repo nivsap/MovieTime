@@ -210,7 +210,7 @@ public class Main extends AbstractServer {
 			// Tickets Purchases
 			Purchase customer1 = new Purchase("Shir", "Avneri", "shiravneri@gmail.com", "street 1, city", "0523456789", 40.0, getTime(2021, 6, 10), screening1, new ArrayList<>(), null);
 			Purchase customer2 = new Purchase("Eitan", "Sharabi", "shiravneri@gmail.com", "street 2, city", "0523456789", 40.0, getTime(2021, 6, 10), screening5, new ArrayList<>(), null);
-			Purchase customer3 = new Purchase("Niv", "Sapir", "shiravneri@gmail.com", "street 3, city", "0523456789", 40.0, getTime(2021, 6, 10), screening3, new ArrayList<>(), null);
+			Purchase customer3 = new Purchase("Niv", "Sapir", "eitansharabi@gmail.com", "street 3, city", "0523456789", 40.0, getTime(2021, 6, 10), screening3, new ArrayList<>(), null);
 			Purchase customer4 = new Purchase("Hadar", "Manor", "shiravneri@gmail.com", "street 4, city", "0523456789", 40.0, getTime(2021, 6, 10), screening20, new ArrayList<>(), null);
 			
 			screening1.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer1))); screening3.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer3))); 
@@ -810,6 +810,25 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		
+		if (currentMsg.getAction().equals("get purchase by serial")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.setPurchase(CustomerController.getPurchaseBySerial(currentMsg.getSerial()));
+				if (serverMsg.getPurchase() != null) {
+					serverMsg.setPayment(
+							CustomerController.ReturnOnPurchase(serverMsg.getPurchase(), LocalDateTime.now()));
+				}
+				serverMsg.setAction("got purchase by serial");
+				if (serverMsg.getPurchase() != null && serverMsg.getPurchase().isCanceled())
+					serverMsg.setPurchase(null);
+				client.sendToClient(serverMsg);
+			} catch (IOException e) {
+				System.out.println("cant get purchase by id");
+				e.printStackTrace();
+			}
+		}
+		
 		if (currentMsg.getAction().equals("get purchases")) {
 			try {
 				serverMsg = currentMsg;
@@ -1087,13 +1106,13 @@ public class Main extends AbstractServer {
 
 		if (currentMsg.getAction().equals("cancellation of purchase")) {
 			try {
-				serverMsg = currentMsg;
-				serverMsg.getPurchase().getScreening().getCinema().getCanceledPurchases().add(serverMsg.getPurchase());
+				serverMsg = new Message();
+				currentMsg.getPurchase().getScreening().getCinema().getCanceledPurchases().add(currentMsg.getPurchase());
 
-				Float refund = CustomerController.ReturnOnPurchase(serverMsg.getPurchase(), LocalDateTime.now());
-				serverMsg.getPurchase().setIsCanceled(new Pair<Boolean, Float> (true, refund));
-				updateRowDB(serverMsg.getPurchase());
-				updateRowDB(serverMsg.getPurchase().getScreening().getCinema());
+				Float refund = CustomerController.ReturnOnPurchase(currentMsg.getPurchase(), LocalDateTime.now());
+				currentMsg.getPurchase().setIsCanceled(new Pair<Boolean, Float> (true, refund));
+				updateRowDB(currentMsg.getPurchase());
+				updateRowDB(currentMsg.getPurchase().getScreening().getCinema());
 				serverMsg.setAction("got purchase cancelation by id");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {

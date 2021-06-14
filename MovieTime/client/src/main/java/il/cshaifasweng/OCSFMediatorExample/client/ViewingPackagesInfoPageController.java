@@ -25,8 +25,11 @@ import javafx.scene.layout.AnchorPane;
 public class ViewingPackagesInfoPageController {
 	
     private int purchaseType;
-    private Movie currentlyDisplayed;  
+    @SuppressWarnings("unused")
+	private Movie currentlyDisplayed;  
     private ArrayList<ViewingPackage> viewingPackages;
+    private String date, time;
+    private Message msg = new Message();
 
     @FXML
     private ImageView movieLargeImageSrc;
@@ -92,7 +95,7 @@ public class ViewingPackagesInfoPageController {
     void dateChosen() {
     	timeCombo.getItems().clear();
     	for(ViewingPackage view : viewingPackages) {
-			String time = view.getDateTime().toString().substring(11,16);
+			time = view.getDateTime().toString().substring(11,16);
 			if(view.getDateTime().toString().substring(0,10).equals(dateCombo.getValue()) &&  !timeCombo.getItems().contains(time)) {
 				timeCombo.getItems().add(time);
 			}
@@ -104,11 +107,7 @@ public class ViewingPackagesInfoPageController {
     @FXML
     void ChoosePackage(ActionEvent event) throws IOException {
     	
-    	if(dateCombo.getValue() == null && timeCombo.getValue() == null) {
-    		JOptionPane.showMessageDialog(null, "You must fill all the fields");
-    		return;
-    	}
-		if(dateCombo.getValue().isEmpty() || timeCombo.getValue().isEmpty()) {
+		if(dateCombo.getValue().isEmpty() || timeCombo.getValue().isEmpty()|| dateCombo.getValue().isEmpty() && timeCombo.getValue().isEmpty() ) {
 			JOptionPane.showMessageDialog(null, "You must fill all the fields");
 			return;
 		}
@@ -117,8 +116,8 @@ public class ViewingPackagesInfoPageController {
     	PaymentPageController controller = (PaymentPageController) App.setContent("PaymentPage");
     	ViewingPackage chosenView = null;
     	for(ViewingPackage view : viewingPackages) {
-			String date = view.getDateTime().toString().substring(0,10);
-			String time = view.getDateTime().toString().substring(11,16);
+		    date = view.getDateTime().toString().substring(0,10);
+			time = view.getDateTime().toString().substring(11,16);
 			if(dateCombo.getValue().equals(date) && timeCombo.getValue().equals(time)) {
 				chosenView = view;
 			}
@@ -149,8 +148,7 @@ public class ViewingPackagesInfoPageController {
     	movieLaunchDate.setText(movie.getLaunchDate().toString());
     	dateCombo.getItems().clear();
     	timeCombo.getItems().clear();
-    	
-    	Message msg = new Message();
+
     	msg.setAction("get viewing packages by movie");
     	msg.setMovieName(movie.getName());
     	try {
@@ -162,7 +160,8 @@ public class ViewingPackagesInfoPageController {
     }
     
     
-    @Subscribe
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	@Subscribe
     public void OnMessageEvent(Message msg) {
     	if(msg.getAction().equals("got viewing packages by movie")) {
     		EventBus.getDefault().unregister(this);
@@ -170,7 +169,7 @@ public class ViewingPackagesInfoPageController {
 	    		viewingPackages = (ArrayList)msg.getViewingPackages();
 				dateCombo.getItems().clear();
 	    		for(ViewingPackage view : viewingPackages) {
-	    			String date = view.getDateTime().toString().substring(0,10);
+	    		     date = view.getDateTime().toString().substring(0,10);
 	    			if(!dateCombo.getItems().contains(date)) {
 	    				dateCombo.getItems().add(date);
 	    			}

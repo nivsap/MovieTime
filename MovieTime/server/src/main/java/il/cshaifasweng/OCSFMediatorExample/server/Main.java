@@ -142,18 +142,30 @@ public class Main extends AbstractServer {
 					"Josh Cooley", "Tom Hanks, Tim Allen, Annie Potts", LocalDate.of(2017, 6, 21), 1, 40, 5f,
 					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/ToyStory.jpg",
 					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/ToyStory.png",
-					true, false, null, null);
+					false, false, null, null);
 			Movie minions = new Movie("Minions", "Animation   •   Adventure   •   Comedy",
 					"Minions Stuart, Kevin, and Bob are recruited by Scarlet Overkill, a supervillain who, alongside her inventor husband Herb, hatches a plot to take over the world.",
 					"Kyle Balda, Pierre Coffin", "Sandra Bullock, Jon Hamm, Michael Keaton", LocalDate.of(2015, 7, 10), 1, 31, 4.5f,
 					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/Minions.jpg",
 					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/Minions.png",
-					true, false, null, null);
+					false, false, null, null);
 			Movie starWars = new Movie("Star Wars", "Action   •   Adventure   •   Fantasy", 
 					"The surviving members of the Resistance face the First Order once again, and the legendary conflict between the Jedi and the Sith reaches its peak, bringing the Skywalker saga to its end.",
 					"J.J. Abrams", "Daisy Ridley, John Boyega, Oscar Isaac", LocalDate.of(2019, 12, 20), 2, 21, 5f,
 					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/StarWars.jpg",
 					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/StarWars.png",
+					true, false, null, null);
+			Movie joker = new Movie("Joker", "Crime   •   Drama   •   Thriller", 
+					"In Gotham City, mentally troubled comedian Arthur Fleck is disregarded and mistreated by society. He then embarks on a downward spiral of revolution and bloody crime. This path brings him face-to-face with his alter-ego: the Joker.",
+					"Todd Phillips", "Joaquin Phoenix, Robert De Niro, Zazie Beetz ", LocalDate.of(2019, 10, 04), 2, 2, 5f,
+					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/Joker.jpg",
+					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/Joker.png",
+					true, false, null, null);
+			Movie theFastSaga = new Movie("F9", "Action   •   Adventure   •   Crime", 
+					"Cipher enlists the help of Jakob, Dom's younger brother to take revenge on Dom and his team.",
+					"Justin Lin", "Vin Diesel, Michelle Rodriguez, Jordana Brewster", LocalDate.of(2021, 6, 25), 2, 25, 5f,
+					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/F9.jpg",
+					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/F9.png",
 					true, false, null, null);
 			/* ---------- Setting Viewing Packages For Data Base ---------- */
 			ViewingPackage viewingPackage1 = new ViewingPackage(wonderWoman1984, getExactTime(2021, 6, 18, 16, 00), "www.sirtiya.co.il/wonderWoman1");
@@ -185,20 +197,25 @@ public class Main extends AbstractServer {
 			Screening screening18 = new Screening(getExactTime(2021, 6, 18, 00, 00), it, hall1, haifaCinema, null);
 			Screening screening19 = new Screening(getExactTime(2021, 6, 17, 00, 00), it, hall3, telAvivCinema, null);
 			Screening screening20 = new Screening(getExactTime(2021, 6, 18, 00, 00), it, hall3, telAvivCinema, null);
+			Screening screening21 = new Screening(getExactTime(2021, 6, 20, 17, 00), toyStory, hall2, haifaCinema, null);
+			Screening screening22 = new Screening(getExactTime(2021, 6, 20, 20, 00), toyStory, hall2, haifaCinema, null);
+			Screening screening23 = new Screening(getExactTime(2021, 6, 20, 17, 00), minions, hall4, telAvivCinema, null);
+			Screening screening24 = new Screening(getExactTime(2021, 6, 20, 20, 00), minions, hall4, telAvivCinema, null);
 			
 			avengersEndgame.setScreenings(new ArrayList<Screening>(Arrays.asList(screening1, screening2, screening3, screening4)));
 			sherlockHolmes.setScreenings(new ArrayList<Screening>(Arrays.asList(screening5, screening6, screening7, screening8)));
 			babyDriver.setScreenings(new ArrayList<Screening>(Arrays.asList(screening9, screening10, screening11, screening12)));
 			wonderWoman1984.setScreenings(new ArrayList<Screening>(Arrays.asList(screening13, screening14, screening15, screening16)));
 			it.setScreenings(new ArrayList<Screening>(Arrays.asList(screening17, screening18, screening19, screening20)));
-			
+			toyStory.setScreenings(new ArrayList<Screening>(Arrays.asList(screening21, screening22)));
+			minions.setScreenings(new ArrayList<Screening>(Arrays.asList(screening23, screening24)));
 			hall1.setScreenings(new ArrayList<Screening>(Arrays.asList(screening1, screening2, screening13, screening14, screening17, screening18)));
-			hall2.setScreenings(new ArrayList<Screening>(Arrays.asList(screening5, screening6, screening9, screening10)));
+			hall2.setScreenings(new ArrayList<Screening>(Arrays.asList(screening5, screening6, screening9, screening10, screening21, screening22)));
 			hall3.setScreenings(new ArrayList<Screening>(Arrays.asList(screening3, screening4, screening15, screening16, screening19, screening20)));
-			hall4.setScreenings(new ArrayList<Screening>(Arrays.asList(screening7, screening8, screening11, screening12)));
+			hall4.setScreenings(new ArrayList<Screening>(Arrays.asList(screening7, screening8, screening11, screening12, screening23, screening24)));
 
-			haifaCinema.setScreenings(new ArrayList<Screening>(Arrays.asList(screening1, screening2, screening5, screening6, screening9, screening10, screening13, screening14, screening17, screening18)));
-			telAvivCinema.setScreenings(new ArrayList<Screening>(Arrays.asList(screening3, screening4, screening7, screening8, screening11, screening12, screening15, screening16, screening19, screening20)));
+			haifaCinema.setScreenings(new ArrayList<Screening>(Arrays.asList(screening1, screening2, screening5, screening6, screening9, screening10, screening13, screening14, screening17, screening18, screening21, screening22)));
+			telAvivCinema.setScreenings(new ArrayList<Screening>(Arrays.asList(screening3, screening4, screening7, screening8, screening11, screening12, screening15, screening16, screening19, screening20, screening23, screening24)));
 			/* ---------- Setting Purple Limits For Data Base ---------- */
 			PurpleLimit purpleLimit1 = new PurpleLimit(LocalDate.of(2021, 1, 1), LocalDate.of(2021, 3, 1), 40);
 			PurpleLimit purpleLimit2 = new PurpleLimit(LocalDate.of(2021, 5, 5), LocalDate.of(2021, 6, 17), 40);
@@ -262,7 +279,8 @@ public class Main extends AbstractServer {
 			session.save(toyStory);
 			session.save(minions);
 			session.save(starWars);
-
+			session.save(joker);
+			session.save(theFastSaga);
 			/* ---------- Saving Viewing Packages To Data Base ---------- */
 			session.save(viewingPackage1);
 			session.save(viewingPackage2);
@@ -291,6 +309,10 @@ public class Main extends AbstractServer {
 			session.save(screening18);
 			session.save(screening19);
 			session.save(screening20);
+			session.save(screening21);
+			session.save(screening22);
+			session.save(screening23);
+			session.save(screening24);
 			/* ---------- Saving Purple Limits To Data Base ---------- */
 			session.save(purpleLimit1);
 			session.save(purpleLimit2);

@@ -236,8 +236,8 @@ public class Main extends AbstractServer {
 			haifaCinema.setComplaints(new ArrayList<Complaint>(Arrays.asList(complaint1, complaint2))); 
 			telAvivCinema.setComplaints(new ArrayList<Complaint>(Arrays.asList(complaint3)));
 			/* ---------- Setting Price Request For Data Base ---------- */
-			PriceRequest request1 = new PriceRequest(1, "I think the price is too low.", 50f, true);
-			PriceRequest request2 = new PriceRequest(2, "I think the price is too high.", 20f, true);		
+			PriceRequest request1 = new PriceRequest(0, "I think the price is too low.", 40f, 50f, true, null);
+			PriceRequest request2 = new PriceRequest(1, "I think the price is too high.", 30f, 20f, true, null);		
 			/* ---------- Saving Workers To Data Base ---------- */
 			session.save(hadarWorker);
 			session.save(shirWorker);
@@ -1204,6 +1204,53 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		if (currentMsg.getAction().equals("get all open price requests")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.setPriceRequests(PriceRequestController.getAllOpenPriceRequests());
+				serverMsg.setAction("got all open price requests");
+				client.sendToClient(serverMsg);
+			} catch (IOException e) {
+				System.out.println("cant get all open price requests");
+				e.printStackTrace();
+			}
+		}
+		
+		if (currentMsg.getAction().equals("approve price request")) {
+			try {
+				serverMsg = currentMsg;
+				PriceRequest request = serverMsg.getPriceRequest();
+				NetworkAdministrator administrator = NetworkAdministratorController.getAdministrator();
+				if(request.isTicket())
+					administrator.setMoviePrice(request.getNewPrice());
+				if(request.isLink())
+					administrator.setViewingPackagePrice(request.getNewPrice());
+				if(request.isCard())
+					administrator.setSubscriptionCardPrice(request.getNewPrice());
+				updateRowDB(administrator);
+				updateRowDB(request);
+				serverMsg.setPriceRequests(PriceRequestController.getAllOpenPriceRequests());
+				serverMsg.setAction("approved price request");
+				client.sendToClient(serverMsg);
+			} catch (IOException e) {
+				System.out.println("can't approve price request");
+				e.printStackTrace();
+			}
+		}
+		
+		if (currentMsg.getAction().equals("decline price request")) {
+			try {
+				serverMsg = currentMsg;
+				updateRowDB(serverMsg.getPriceRequest());
+				serverMsg.setPriceRequests(PriceRequestController.getAllOpenPriceRequests());
+				serverMsg.setAction("declined price request");
+				client.sendToClient(serverMsg);
+			} catch (IOException e) {
+				System.out.println("can't decline price request");
+				e.printStackTrace();
+			}
+		}
+		
 		if (currentMsg.getAction().equals("save price request")) {
 			try {
 				serverMsg = currentMsg;
@@ -1234,34 +1281,6 @@ public class Main extends AbstractServer {
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant close complaint");
-				e.printStackTrace();
-			}
-		}
-		if (currentMsg.getAction().equals("update price")) {
-			try {
-				serverMsg = currentMsg;
-				PriceRequest p = currentMsg.getPriceRequest();
-				NetworkAdministrator n = getAllOfType(NetworkAdministrator.class).get(0);
-				currentMsg.getPriceRequest().setIsOpen(false);
-				
-				currentMsg.setAdministrator(getAllOfType(NetworkAdministrator.class).get(0));
-				updateRowDB(currentMsg.getPriceRequest());
-				serverMsg.setAction("done update price");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant update price");
-				e.printStackTrace();
-			}
-		}
-		if (currentMsg.getAction().equals("cancel update price")) {
-			try {
-				serverMsg = currentMsg;
-				currentMsg.getPriceRequest().setIsOpen(false);
-				updateRowDB(currentMsg.getPriceRequest());
-				serverMsg.setAction("done canceling update price");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant cancel update price");
 				e.printStackTrace();
 			}
 		}
@@ -1340,134 +1359,7 @@ public class Main extends AbstractServer {
 		}
 		
 		
-		if (currentMsg.getAction().equals("get administrator")) {
-			try {
-				serverMsg = currentMsg;
-				serverMsg.setAdministrator(NetworkAdministratorController.getAdministrator());
-				serverMsg.setAction("got administrator");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("can't get administrator");
-				e.printStackTrace();
-			}
-		}
-		
 		
 	}
 	
 }
-	
-	
-	
-
-//	public static void updateMovie(String movieName, String time, String action, ConnectionToClient client) {
-//		boolean timeChanged = false;
-//		boolean error = false;
-//		Message msg = new Message();
-//		System.out.println("1");
-//		try {
-//
-//			ArrayList<Movie> movies = getAllOfType(Movie.class);
-//			System.out.println("1.5");
-//
-//			session = sessionFactory.openSession();
-//			session.beginTransaction();
-//
-//			System.out.println("1.7");
-//			// find movie
-//			for (Movie movie : movies) {
-//				System.out.println("1.9");
-//
-//				if (movie.getName().equals(movieName)) {
-//					if (action.equals("addition")) {
-//						// if time dosent exist we goochi
-//						if (movie.getMovieBeginingTime().indexOf(time) == -1) {
-//							movie.getMovieBeginingTime().add(time);
-//							timeChanged = true;
-//							System.out.println("2");
-//						} else {
-//							error = true;
-//							msg.setError("Screening already exists!");
-//							System.out.println("3");
-//						}
-//					} else {
-//						// if action is removal
-//						Integer index = movie.getMovieBeginingTime().indexOf(time);
-//						if (index == -1) {
-//							// time for removal does not exist
-//							System.out.println("4");
-//							error = true;
-//							msg.setError("Selected time does not exist for this movie");
-//						} else {
-//							/*
-//							 * if(index != -1) { movie.getMovieBeginingTime().remove(index); timeChanged =
-//							 * true; }else { JOptionPane.showMessageDialog(null, "Incorrect time chosen"); }
-//							 */
-//							System.out.println("5");
-//							for (String mTime : movie.getMovieBeginingTime()) {
-//								if (time.equals(mTime)) {
-//									movie.getMovieBeginingTime().remove(time);
-//									timeChanged = true;
-//									break;
-//								}
-//							}
-//						}
-//					}
-//					if (timeChanged) {
-//						session.update(movie);
-//						session.flush();
-//						session.getTransaction().commit();
-//						session.clear();
-//						System.out.println("6");
-//						msg.setAction("updated movie time");
-//						client.sendToClient(msg);
-//						break;
-//					}
-//					if (error) {
-//						System.out.println("7");
-//						msg.setAction("	 error");
-//						client.sendToClient(msg);
-//						break;
-//					}
-//
-//				}
-//			}
-//
-//		} catch (Exception exception) {
-//			if (session != null) {
-//				session.getTransaction().rollback();
-//			}
-//			System.err.println("An error occured, changes have been rolled back.");
-//			exception.printStackTrace();
-//		} finally {
-//			assert session != null;
-//			session.close();
-//		}
-//
-//	}
-
-	// public static <T> T getExacRow(Class<T> objectType , int id) {
-	// T t = null;
-	// try {
-	// session = sessionFactory.openSession();
-	// session.beginTransaction();
-	//
-	// //System.out.println(12);
-	// t = session.load(objectType , id);
-	// System.out.println(((Cinema)t).getName());
-	// }catch (Exception e) {
-	// e.printStackTrace();
-	// if (session != null) {
-	// session.getTransaction().rollback();
-	// }
-	// System.out.println("exan row loader");
-	// }
-	// finally {
-	// session.close();
-	// }
-	//
-	// return t;
-	//
-	// }
-
-

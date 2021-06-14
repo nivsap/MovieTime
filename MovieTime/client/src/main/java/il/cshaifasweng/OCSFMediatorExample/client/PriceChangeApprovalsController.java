@@ -1,246 +1,176 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import il.cshaifasweng.OCSFMediatorExample.entities.Cinema;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
-import il.cshaifasweng.OCSFMediatorExample.entities.NetworkAdministrator;
 import il.cshaifasweng.OCSFMediatorExample.entities.PriceRequest;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 public class PriceChangeApprovalsController {
-/*
-	private PriceRequest request;
-	private String Text;
-	private Float price;
-	private ArrayList<PriceRequest> requests;
-	private LocalDate date;
-	private Cinema cinema;
+	ArrayList<PriceRequest> allRequests;
+	PriceRequest currentRequest;
+	Boolean isRegistered;
+	
+    @FXML
+    private Label noRequestsLabel;
+	
+    @FXML
+    private VBox cardsContainer;
 
-	ObservableList<String> list = FXCollections.observableArrayList("Approve", "Denied");
-	@FXML
-	private ResourceBundle resources;
+    @FXML
+    private AnchorPane requestHandlingContainer;
 
-	@FXML
-	private Label DateTitle;
+    @FXML
+    private TextArea responseTextArea;
 
-	@FXML
-	private Label RequestTitle;
+    @FXML
+    private Button declineBtn;
 
-	@FXML
-	private Label OldPriceTitle;
+    @FXML
+    private Button approveBtn;
 
-	@FXML
-	private Label NewPriceTitle;
+    @FXML
+    private Label warningLabel;
 
-	@FXML
-	private Label ReasonTitle;
+    @FXML
+    private Label reasonLabel;
+    
+    public PriceChangeApprovalsController() {
+    	allRequests = new ArrayList<PriceRequest>();
+    	currentRequest = new PriceRequest();
+    	isRegistered = false;
+    }
 
-	@FXML
-	private TextArea CommentBox;
+    @FXML
+    void initialize() {
+    	 assert noRequestsLabel != null : "fx:id=\"noRequestsLabel\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
+         assert cardsContainer != null : "fx:id=\"cardsContainer\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
+         assert requestHandlingContainer != null : "fx:id=\"requestHandlingContainer\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
+         assert responseTextArea != null : "fx:id=\"responseTextArea\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
+         assert declineBtn != null : "fx:id=\"declineBtn\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
+         assert approveBtn != null : "fx:id=\"approveBtn\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
+         assert warningLabel != null : "fx:id=\"warningLabel\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
+         assert reasonLabel != null : "fx:id=\"reasonLabel\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
 
-	@FXML
-	private Label CommentTitle;
-
-	@FXML
-	private ComboBox<String> decisionBox;
-
-	@FXML
-	private Button PendingBtn1;
-
-	@FXML
-	private Label ShowTheOldPrice;
-
-	@FXML
-	private Label ShowTheNewPrice;
-
-	@FXML
-	private Label DecisionTitle;
-
-	@FXML
-	private Label numRequestLabel;
-
-	@FXML
-	private Label ReasonShow;
-
-	@FXML
-	private Label RequestTypeShow;
-
-	@FXML
-	private Label DateShow;
-
-	@FXML
-	private Label numRequestShow;
-
-	@FXML
-	void ShowApproveDenied(ActionEvent event) {
-		Text = decisionBox.getValue();
-	}
-
-	@FXML
-	void SubBtn(ActionEvent event) {
-		Message msg = new Message();
-
-		if (Text.equals("Approve")) {
-			request.setIsOpen(false);
-			App.getAdministrator().setMoviePrice((float)request.getNewPrice());
-			msg.setPriceRequest(request);
-			msg.setAction("update price");
-			try {
-				AppClient.getClient().sendToServer(msg);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
+        noRequestsLabel.setVisible(false);
+        requestHandlingContainer.setVisible(false);
+        pullRequests();
+    }
+    
+	void pullRequests() {
+		if(!isRegistered) {
+			EventBus.getDefault().register(this);
+			isRegistered = true;
 		}
-
-		if (Text.equals("Denied")) {
-			msg.setPriceRequest(request);
-			msg.setAction("cancel update price");
-			try {
-				AppClient.getClient().sendToServer(msg);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
-
-	@FXML
-	void initialize() {
-		assert DateTitle != null
-				: "fx:id=\"DateTitle\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
-		assert RequestTitle != null
-				: "fx:id=\"RequestTitle\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
-		assert OldPriceTitle != null
-				: "fx:id=\"OldPriceTitle\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
-		assert NewPriceTitle != null
-				: "fx:id=\"NewPriceTitle\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
-		assert ReasonTitle != null
-				: "fx:id=\"ReasonTitle\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
-		assert CommentBox != null
-				: "fx:id=\"CommentBox\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
-		assert CommentTitle != null
-				: "fx:id=\"CommentTitle\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
-		assert decisionBox != null
-				: "fx:id=\"decisionBox\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
-		assert PendingBtn1 != null
-				: "fx:id=\"PendingBtn1\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
-		assert ShowTheOldPrice != null
-				: "fx:id=\"ShowTheOldPrice\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
-		assert ShowTheNewPrice != null
-				: "fx:id=\"ShowTheNewPrice\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
-		assert DecisionTitle != null
-				: "fx:id=\"DecisionTitle\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
-		assert numRequestLabel != null
-				: "fx:id=\"numRequestLabel\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
-		assert ReasonShow != null
-				: "fx:id=\"ReasonShow\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
-		assert RequestTypeShow != null
-				: "fx:id=\"RequestTypeShow\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
-		assert DateShow != null
-				: "fx:id=\"DateShow\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
-		assert numRequestShow != null
-				: "fx:id=\"numRequestShow\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
-
-		EventBus.getDefault().register(this);
-		Message msg = new Message();
-		msg.setAction("get all price request");
+		Message msg= new Message();
+		msg.setAction("get all open price requests");
 		try {
 			AppClient.getClient().sendToServer(msg);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (IOException e) {
+			System.out.println("failed to send msg to server from PriceChangeApprovalsController");
 			e.printStackTrace();
 		}
-		decisionBox.setItems(list);
-
 	}
-
-	void textSetter() {
-		numRequestShow.setText(String.valueOf(requests.size()));
-		date = request.getRequestDate().toLocalDate();
-		price = request.getNewPrice();
-		ShowTheNewPrice.setText(String.valueOf(price));
-		if (request.isTicket()) {
-			RequestTypeShow.setText("Movie");
-		} else {
-			RequestTypeShow.setText("not Movie");
+	
+	void initRequestsContainer() {
+		if(allRequests == null || allRequests.isEmpty()) {
+			cardsContainer.getChildren().clear();
+			cardsContainer.getChildren().add(noRequestsLabel);
+			noRequestsLabel.setVisible(true);
 		}
-		ReasonShow.setText(request.getComment());
-		DateShow.setText(date.toString());
-		ShowTheOldPrice.setText(String.valueOf(App.getAdministrator().getMoviePrice()));
-
-	}
-
-	void hidePlease() {
-		numRequestShow.setText("0");
-		DateShow.setVisible(false);
-		ShowTheNewPrice.setVisible(false);
-		ShowTheOldPrice.setVisible(false);
-		RequestTypeShow.setVisible(false);
-		decisionBox.setVisible(false);
-		ReasonShow.setVisible(false);
-		CommentBox.setVisible(false);
-	}
-
-	@Subscribe
-	public void onMessageEvent(Message msg) {
-		if (msg.getAction().equals("got all price request")) {
-			Platform.runLater(() -> {
-				requests = msg.getPriceRequests();
-				for (PriceRequest priceReq : requests) {
-					if (priceReq.isOpen()) {
-						request = priceReq;
-						textSetter();
-					}
-					if (!priceReq.isOpen()) {
-						hidePlease();
-					}
+		else {
+			cardsContainer.getChildren().clear();
+			noRequestsLabel.setVisible(false);
+			try {
+				for(PriceRequest request : allRequests) {
+					FXMLLoader fxmlLoader = new FXMLLoader();
+					fxmlLoader.setLocation(getClass().getResource("PriceChangeCard.fxml"));
+					HBox cardBox = fxmlLoader.load();	
+					PriceChangeCardController ctrl = fxmlLoader.getController();
+					ctrl.setRequestData(request, this);
+					cardsContainer.getChildren().add(cardBox);
 				}
-
-			});
-		}
-		if (msg.getAction().equals("done update price")) {
-			Platform.runLater(() -> {
-				EventBus.getDefault().unregister(this);
-				App.setWindowTitle(PageTitles.PriceChangePage);
-				try {
-					App.setContent("PriceChangeApprovals");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			});
-
-		}
-		if (msg.getAction().equals("done canceling update price")) {
-			Platform.runLater(() -> {
-				EventBus.getDefault().unregister(this);
-				App.setWindowTitle(PageTitles.PriceChangePage);
-				try {
-					App.setContent("PriceChangeApprovals");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			});
-
+			} 
+			catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
-	*/
+	
+	void clearRequestHandlingContainer() {
+		reasonLabel.setText("");
+		responseTextArea.clear();
+		warningLabel.setVisible(false);
+		requestHandlingContainer.setVisible(false);
+	}
+    
+    void setRequestHandling(PriceRequest request) {
+    	warningLabel.setVisible(false);
+    	currentRequest = request;
+    	reasonLabel.setText(request.getComment());
+    	requestHandlingContainer.setVisible(true);
+    }
+    
+    @FXML
+    void approveRequest() {
+    	if(responseTextArea.getText().equals(""))
+    		warningLabel.setVisible(true);
+    	currentRequest.setIsOpen(false);
+    	currentRequest.setAdministratorComment(responseTextArea.getText());
+    	sendMessageToServer(true);
+    }
+
+    @FXML
+    void declineRequest() {
+    	if(responseTextArea.getText().equals(""))
+    		warningLabel.setVisible(true);
+    	currentRequest.setIsOpen(false);
+    	currentRequest.setAdministratorComment(responseTextArea.getText());
+    	sendMessageToServer(false);
+    }
+    
+    void sendMessageToServer(Boolean isApproved) {
+    	if(!isRegistered) {
+        	EventBus.getDefault().register(this);
+        	isRegistered = true;
+    	}
+    	Message msg = new Message();
+    	if(isApproved)
+    		msg.setAction("approve price request");
+    	else
+    		msg.setAction("decline price request");
+ 		msg.setPriceRequest(currentRequest);
+ 		try {
+ 			AppClient.getClient().sendToServer(msg);
+		} 
+ 		catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+
+    
+    @Subscribe
+	public void onMessageEvent(Message msg) throws IOException {
+    	if(msg.getAction().equals("got all open price requests") || 
+    			msg.getAction().equals("approved price request") || msg.getAction().equals("declined price request")) {
+    		Platform.runLater(()-> {
+	    		allRequests = msg.getPriceRequests();
+	    		initRequestsContainer();
+	    		clearRequestHandlingContainer();
+    		});
+    	}
+	}		
 }

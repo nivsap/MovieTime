@@ -26,7 +26,7 @@ public class ReportsPageController {
 	List<Complaint> complaints;
 
     @FXML
-    private BarChart<?, ?> reportChart;
+    private BarChart<Integer, String> reportChart;
 
     @FXML
     private ComboBox<String> reportNameComboBox;
@@ -67,7 +67,7 @@ public class ReportsPageController {
 		    	for(Purchase purchase : purchases) {
 		    		if(purchase.getPurchaseType() == PurchaseTypes.TICKET) {
 			    		if(purchase.getScreening().getCinema().getName().equals(cinema.getName())) {
-				    		if(purchase.getPurchaseTime().getMonthValue() == Integer.parseInt(monthComboBox.getValue()) && purchase.isCard() == false && purchase.isLink() == false) {
+				    		if(purchase.getPurchaseTime().getMonthValue() == Integer.parseInt(monthComboBox.getValue())) {
 								count++;
 							}
 			    		}
@@ -76,8 +76,9 @@ public class ReportsPageController {
 		    	System.out.println(count);
 		    	set1.getData().add(new XYChart.Data(cinema.getName(), count));
 	    	}
-	    	reportChart.getData().addAll(set1);
+	    	reportChart.getData().add(set1);
     	}
+    	
     	if(reportNameComboBox.getValue().equals("ViewingPackages and Subscription Card sales")){
 	    	XYChart.Series set1 = new XYChart.Series<>();
         	int Vcount = 0;
@@ -100,12 +101,14 @@ public class ReportsPageController {
     	if(reportNameComboBox.getValue().equals("Tav Sagol Refunds")){
 	    	XYChart.Series set1 = new XYChart.Series<>();
 	    	for(Cinema cinema : cinemas) {
-	        	int count = 0;
+	        	double count = 0;
 		    	for(Purchase purchase : purchases) {
-		    		if(purchase.getCinema().getName().equals(cinema.getName())) {
-			    		if(purchase.getPurchaseTime().getMonthValue() == Integer.parseInt(monthComboBox.getValue()) && purchase.isCard() == false && purchase.isLink() == false) {
-							count++;
-						}
+		    		if(purchase.getPurchaseType() == PurchaseTypes.TICKET) {
+			    		if(purchase.getCinema().getName().equals(cinema.getName())) {
+				    		if(purchase.getPurchaseTime().getMonthValue() == Integer.parseInt(monthComboBox.getValue())) {
+								count+= purchase.getPayment();
+							}
+			    		}
 		    		}
 		    	}
 		    	System.out.println(count);
@@ -113,6 +116,8 @@ public class ReportsPageController {
 	    	}
 	    	reportChart.getData().addAll(set1);
     	}
+    	
+    	
     	if(reportNameComboBox.getValue().equals("Complaints by day")){
 	    	XYChart.Series set1 = new XYChart.Series<>();
 	    	YearMonth yearMonthObject = YearMonth.of(2021,Integer.parseInt(monthComboBox.getValue()) );
@@ -131,8 +136,6 @@ public class ReportsPageController {
 				}
 	    	}
 			    	
-		    	
-	    	
 	    	for(int i = 1 ; i <= daysInMonth ; i++) {
 	    		set1.getData().add(new XYChart.Data(Integer.toString(i) + "." + monthComboBox.getValue(), count.get(i)));
 	    	}
@@ -154,6 +157,7 @@ public class ReportsPageController {
     	EventBus.getDefault().register(this);
     	monthComboBox.getItems().clear();
     	reportChart.getData().clear();
+    	reportChart.setAnimated(false);
     	reportNameComboBox.getItems().clear();
 		
     	reportNameComboBox.getItems().addAll("Ticket Sales", "ViewingPackages and Subscription Card sales", "Tav Sagol Refunds", "Complaints by day");

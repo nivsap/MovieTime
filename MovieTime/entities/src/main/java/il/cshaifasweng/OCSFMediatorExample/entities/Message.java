@@ -9,7 +9,6 @@ import java.util.List;
 public class Message implements Serializable {
 	/* ---------- Message Necessary Info ---------- */
 	private String action;
-	private String actionType;
 	private String DBaction;
 	private String error;
 	private int id;
@@ -29,13 +28,14 @@ public class Message implements Serializable {
 	private int movieId;
 	private String movieName;
 	private ArrayList<Movie> movies;
-	private String moviesType;
 	/* ---------- Handling Filters ---------- */
 	private String genre; 
 	private String theater;
 	private String rate;
 	private String search;
+	private String actionType;
 	private ArrayList<String> genres;
+	private String moviesType;
 	/* ---------- Handling Screenings ---------- */
 	private Screening screening;
 	private LocalDateTime screeningDate;
@@ -53,6 +53,7 @@ public class Message implements Serializable {
 	private Purchase purchase;
 	private float payment;
 	private List<Purchase> purchases;
+	private String serial;
 	/* ---------- Handling Complaints ---------- */
 	private Complaint complaint;
 	private ArrayList<Complaint> complaints;
@@ -474,6 +475,14 @@ public class Message implements Serializable {
 	
 	public void setAdministrator(NetworkAdministrator administrator) {
 		this.administrator = administrator;
+	}
+
+	public String getSerial() {
+		return serial;
+	}
+
+	public void setSerial(String serial) {
+		this.serial = serial;
 	}
 
 

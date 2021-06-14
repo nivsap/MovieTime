@@ -156,12 +156,12 @@ public class Main extends AbstractServer {
 					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/StarWars.png",
 					true, false, null, null);
 			/* ---------- Setting Viewing Packages For Data Base ---------- */
-			ViewingPackage viewingPackage1 = new ViewingPackage(wonderWoman1984, getExactTime(2021, 6, 18, 16, 0), "www.sirtiya.co.il/wonderWoman1");
-			ViewingPackage viewingPackage2 = new ViewingPackage(wonderWoman1984, getExactTime(2021, 6, 19, 16, 0), "www.sirtiya.co.il/wonderWoman2");
-			ViewingPackage viewingPackage3 = new ViewingPackage(wonderWoman1984, getExactTime(2021, 6, 20, 16, 0), "www.sirtiya.co.il/wonderWoman3");
-			ViewingPackage viewingPackage4 = new ViewingPackage(babyDriver, getExactTime(2021, 6, 18, 17, 0), "www.sirtiya.co.il/babyDriver1");
-			ViewingPackage viewingPackage5 = new ViewingPackage(babyDriver, getExactTime(2021, 6, 19, 17, 0), "www.sirtiya.co.il/babyDriver2");
-			ViewingPackage viewingPackage6 = new ViewingPackage(babyDriver, getExactTime(2021, 6, 20, 17, 0), "www.sirtiya.co.il/babyDriver3");
+			ViewingPackage viewingPackage1 = new ViewingPackage(wonderWoman1984, getExactTime(2021, 6, 18, 16, 00), "www.sirtiya.co.il/wonderWoman1");
+			ViewingPackage viewingPackage2 = new ViewingPackage(wonderWoman1984, getExactTime(2021, 6, 19, 16, 00), "www.sirtiya.co.il/wonderWoman2");
+			ViewingPackage viewingPackage3 = new ViewingPackage(wonderWoman1984, getExactTime(2021, 6, 20, 16, 00), "www.sirtiya.co.il/wonderWoman3");
+			ViewingPackage viewingPackage4 = new ViewingPackage(babyDriver, getExactTime(2021, 6, 18, 17, 00), "www.sirtiya.co.il/babyDriver1");
+			ViewingPackage viewingPackage5 = new ViewingPackage(babyDriver, getExactTime(2021, 6, 19, 17, 00), "www.sirtiya.co.il/babyDriver2");
+			ViewingPackage viewingPackage6 = new ViewingPackage(babyDriver, getExactTime(2021, 6, 20, 17, 00), "www.sirtiya.co.il/babyDriver3");
 			wonderWoman1984.setViewingPackages(new ArrayList<ViewingPackage>(Arrays.asList(viewingPackage1, viewingPackage2, viewingPackage3)));
 			babyDriver.setViewingPackages(new ArrayList<ViewingPackage>(Arrays.asList(viewingPackage4, viewingPackage5, viewingPackage6)));
 			/* ---------- Setting Screenings For Data Base ---------- */
@@ -210,7 +210,7 @@ public class Main extends AbstractServer {
 			// Tickets Purchases
 			Purchase customer1 = new Purchase("Shir", "Avneri", "shiravneri@gmail.com", "street 1, city", "0523456789", 40.0, getTime(2021, 6, 10), screening1, new ArrayList<>(), null);
 			Purchase customer2 = new Purchase("Eitan", "Sharabi", "shiravneri@gmail.com", "street 2, city", "0523456789", 40.0, getTime(2021, 6, 10), screening5, new ArrayList<>(), null);
-			Purchase customer3 = new Purchase("Niv", "Sapir", "shiravneri@gmail.com", "street 3, city", "0523456789", 40.0, getTime(2021, 6, 10), screening3, new ArrayList<>(), null);
+			Purchase customer3 = new Purchase("Niv", "Sapir", "eitansharabi@gmail.com", "street 3, city", "0523456789", 40.0, getTime(2021, 6, 10), screening3, new ArrayList<>(), null);
 			Purchase customer4 = new Purchase("Hadar", "Manor", "shiravneri@gmail.com", "street 4, city", "0523456789", 40.0, getTime(2021, 6, 10), screening20, new ArrayList<>(), null);
 			
 			screening1.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer1))); screening3.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer3))); 
@@ -783,6 +783,7 @@ public class Main extends AbstractServer {
 					saveRowInDB(subscriptionCard);
 					serverMsg.setSubscriptionCard(subscriptionCard);
 				}
+				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Customer Of The Sirtiya, Order Number :" , serverMsg.getEmailMessage());
 				serverMsg.setPurchase(purchase);
 				serverMsg.setAction("save customer done");
 				client.sendToClient(serverMsg);
@@ -809,6 +810,25 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		
+		if (currentMsg.getAction().equals("get purchase by serial")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.setPurchase(CustomerController.getPurchaseBySerial(currentMsg.getSerial()));
+				if (serverMsg.getPurchase() != null) {
+					serverMsg.setPayment(
+							CustomerController.ReturnOnPurchase(serverMsg.getPurchase(), LocalDateTime.now()));
+				}
+				serverMsg.setAction("got purchase by serial");
+				if (serverMsg.getPurchase() != null && serverMsg.getPurchase().isCanceled())
+					serverMsg.setPurchase(null);
+				client.sendToClient(serverMsg);
+			} catch (IOException e) {
+				System.out.println("cant get purchase by id");
+				e.printStackTrace();
+			}
+		}
+		
 		if (currentMsg.getAction().equals("get purchases")) {
 			try {
 				serverMsg = currentMsg;
@@ -883,11 +903,7 @@ public class Main extends AbstractServer {
 		}
 
 
-		if(currentMsg.getAction().equals("send successful purchase mail")) {
-				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Customer Of The Sirtiya, Order Number :" , serverMsg.getEmailMessage());
-				
-		}
-
+		
 		if (currentMsg.getAction().equals("send purchase cancellation mail")) {
 			try {
 				serverMsg = currentMsg;
@@ -1090,13 +1106,13 @@ public class Main extends AbstractServer {
 
 		if (currentMsg.getAction().equals("cancellation of purchase")) {
 			try {
-				serverMsg = currentMsg;
-				serverMsg.getPurchase().getScreening().getCinema().getCanceledPurchases().add(serverMsg.getPurchase());
+				serverMsg = new Message();
+				currentMsg.getPurchase().getScreening().getCinema().getCanceledPurchases().add(currentMsg.getPurchase());
 
-				Float refund = CustomerController.ReturnOnPurchase(serverMsg.getPurchase(), LocalDateTime.now());
-				serverMsg.getPurchase().setIsCanceled(new Pair<Boolean, Float> (true, refund));
-				updateRowDB(serverMsg.getPurchase());
-				updateRowDB(serverMsg.getPurchase().getScreening().getCinema());
+				Float refund = CustomerController.ReturnOnPurchase(currentMsg.getPurchase(), LocalDateTime.now());
+				currentMsg.getPurchase().setIsCanceled(new Pair<Boolean, Float> (true, refund));
+				updateRowDB(currentMsg.getPurchase());
+				updateRowDB(currentMsg.getPurchase().getScreening().getCinema());
 				serverMsg.setAction("got purchase cancelation by id");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
@@ -1279,6 +1295,19 @@ public class Main extends AbstractServer {
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant get all movies from viewing packages");
+				e.printStackTrace();
+			}
+		}
+		
+		
+		if (currentMsg.getAction().equals("get viewing packages by movie")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.setViewingPackages(ViewingPackageController.getViewingPackagesByMovie(currentMsg.getMovieName()));
+				serverMsg.setAction("got viewing packages by movie");
+				client.sendToClient(serverMsg);
+			} catch (IOException e) {
+				System.out.println("cant get viewing packages by movie");
 				e.printStackTrace();
 			}
 		}

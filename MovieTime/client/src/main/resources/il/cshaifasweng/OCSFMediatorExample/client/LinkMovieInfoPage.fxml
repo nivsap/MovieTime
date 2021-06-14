@@ -65,9 +65,9 @@
                            <Font size="18.0" />
                         </font>
                      </Label>
-                     <ComboBox fx:id="dateCombo" layoutX="34.0" layoutY="61.0" prefHeight="30.0" prefWidth="250.0" promptText="Choose a Date" styleClass="orangeComboBox" />
-                     <ComboBox fx:id="timeCombo" layoutX="34.0" layoutY="135.0" prefWidth="250.0" promptText="Choose Time" styleClass="orangeComboBox" />
-                     <Button fx:id="orderTicketBtn" alignment="CENTER" layoutX="35.0" layoutY="255.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" styleClass="orangeButton" text="Order Viewing Package" />
+                     <ComboBox fx:id="dateCombo" layoutX="34.0" layoutY="61.0" onAction="#dateChosen" prefHeight="30.0" prefWidth="250.0" promptText="Choose a Date" styleClass="orangeComboBox" />
+                     <ComboBox fx:id="timeCombo" layoutX="34.0" layoutY="106.0" prefWidth="250.0" promptText="Choose Time" styleClass="orangeComboBox" />
+                     <Button fx:id="orderTicketBtn" alignment="CENTER" layoutX="35.0" layoutY="255.0" mnemonicParsing="false" onAction="#ChoosePackage" prefHeight="30.0" prefWidth="250.0" styleClass="orangeButton" text="Order Viewing Package" />
                   </children>
                </AnchorPane>
             </children>

@@ -17,6 +17,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import javafx.util.Pair;
+import net.bytebuddy.utility.RandomString;
 
 @Entity
 @Table(name = "Purchases")
@@ -31,6 +32,8 @@ public class Purchase implements  Serializable{
 	private String city;
 	private String phone;
 	private double payment;
+	private String serial;
+	private int serialSize =10;
 	// Purchase info
 	private LocalDateTime purchaseTime;
 	private int purchaseType; // 0 - ticket, 1 - link, 2 - card, 3 - unknown
@@ -84,6 +87,8 @@ public class Purchase implements  Serializable{
 		this.viewingPackage = null;
 		this.subscriptionCard = null;
 		this.complaint = complaint;	
+		
+		serial = getAlphaNumericString(serialSize);
 	}
 	
 	public Purchase(String firstName, String lastName, String email, String city, String phone,
@@ -106,6 +111,7 @@ public class Purchase implements  Serializable{
 		this.viewingPackage = viewingPackage;
 		this.subscriptionCard = null;
 		this.complaint = complaint;	
+		serial = getAlphaNumericString(serialSize);
 	}
 	
 	public Purchase(String firstName, String lastName, String email, String city, String phone,
@@ -128,6 +134,7 @@ public class Purchase implements  Serializable{
 		this.viewingPackage = null;
 		this.subscriptionCard = subscriptionCard;
 		this.complaint = complaint;	
+		serial = getAlphaNumericString(serialSize);
 	}
 	
 	public int getId() {
@@ -284,4 +291,38 @@ public class Purchase implements  Serializable{
 			return true;
 		return false;
 	}
+	
+	private static String getAlphaNumericString(int n)
+    {
+  
+        // chose a Character random from this String
+        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                    + "0123456789"
+                                    + "abcdefghijklmnopqrstuvxyz";
+  
+        // create StringBuffer size of AlphaNumericString
+        StringBuilder sb = new StringBuilder(n);
+  
+        for (int i = 0; i < n; i++) {
+  
+            // generate a random number between
+            // 0 to AlphaNumericString variable length
+            int index
+                = (int)(AlphaNumericString.length()
+                        * Math.random());
+  
+            // add Character one by one in end of sb
+            sb.append(AlphaNumericString
+                          .charAt(index));
+        }
+  
+        return sb.toString();
+    }
+
+	public String getSerial() {
+		return serial;
+	}
+
+
 }
+

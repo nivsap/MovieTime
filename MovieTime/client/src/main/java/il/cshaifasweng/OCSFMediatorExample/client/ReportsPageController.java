@@ -43,6 +43,7 @@ public class ReportsPageController {
 
     @Subscribe
     public void OnMessageEvent(Message msg) {
+    	System.out.println("got message in ReportsPageController");
     	EventBus.getDefault().unregister(this);
     	if(msg.getAction().equals("got cinemas and purchases and complaints")) {
     		Platform.runLater(()-> {

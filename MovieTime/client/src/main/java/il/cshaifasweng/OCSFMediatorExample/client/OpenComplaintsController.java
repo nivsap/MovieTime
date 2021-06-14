@@ -26,12 +26,12 @@ public class OpenComplaintsController {
 
 	@FXML
 	public void initialize() {
-		EventBus.getDefault().register(this);
 		PullComplaint();
 		noComplaintsLabel.setVisible(false);
 	}
 
 	private void PullComplaint() {
+		EventBus.getDefault().register(this);
 		Message msg= new Message();
 		msg.setAction("pull current complaint");
 		try {
@@ -71,7 +71,9 @@ public class OpenComplaintsController {
 
 	@Subscribe
 	public void onMessageEvent(Message msg) throws IOException {
+		System.out.println("got message in OpenComplaintsController");
     	if(msg.getAction().equals("got complaints")) {
+    		EventBus.getDefault().unregister(this);
     		Platform.runLater(()-> {
 	    		allComplaints = msg.getComplaints();
 	    		InitPage();

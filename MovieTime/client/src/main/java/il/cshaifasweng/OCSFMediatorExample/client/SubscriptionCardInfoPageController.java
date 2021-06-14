@@ -94,10 +94,10 @@ public class SubscriptionCardInfoPageController {
     		return;
     	}
     	
+    	EventBus.getDefault().register(this);
     	Message msg = new Message();
     	msg.setAction("get subscription card");
     	msg.setId(Integer.parseInt(subscriptionCardNumber));
-    	EventBus.getDefault().register(this);
     	try {
     		AppClient.getClient().sendToServer(msg);
     	} catch (IOException e) {
@@ -121,6 +121,7 @@ public class SubscriptionCardInfoPageController {
     
     @Subscribe
     public void onMessageEvent(Message msg){
+    	System.out.println("got msg in SubscriptionCardInfoPageController");
     	if(msg.getAction().equals("got subscription card")) {
     		Platform.runLater(() -> {
     			EventBus.getDefault().unregister(this);

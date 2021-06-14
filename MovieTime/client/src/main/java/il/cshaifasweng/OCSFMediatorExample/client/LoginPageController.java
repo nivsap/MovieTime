@@ -76,10 +76,9 @@ public class LoginPageController {
 	}
 	
 	public void sendMessageToServer(String username, String password) {
-		if(!isRegistered) {
-			isRegistered = true;
-			EventBus.getDefault().register(this); 
-		}
+
+		EventBus.getDefault().register(this); 
+		
 		Message msg = new Message();
 		msg.setUsername(username);
 		msg.setPassword(password);
@@ -95,7 +94,9 @@ public class LoginPageController {
 	
 	@Subscribe
 	public void onMessageEvent(Message msg) {
+		System.out.println("got message in loginPageController");
     	if(msg.getAction().equals("login done")) {
+    		EventBus.getDefault().unregister(this);
     		Platform.runLater(()-> {
     			String workerType = msg.getTypeOfWorker();
     			if(workerType != null) {

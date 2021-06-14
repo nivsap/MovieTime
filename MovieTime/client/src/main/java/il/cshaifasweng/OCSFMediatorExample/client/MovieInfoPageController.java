@@ -139,6 +139,7 @@ public class MovieInfoPageController {
 
 	@Subscribe
 	public void onMessageEvent(Message msg) {
+		System.out.println("got message in movieInfoPageController");
 		if (msg.getAction().equals("cinema contained movies done")) {
 			EventBus.getDefault().unregister(this);
 			Platform.runLater(() -> {

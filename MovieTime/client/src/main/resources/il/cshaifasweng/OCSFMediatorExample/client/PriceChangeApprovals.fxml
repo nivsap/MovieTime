@@ -1,49 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
 <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #1d1e22;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.PriceChangeApprovalsController">
    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #343537;">
       <children>
-         <AnchorPane layoutX="25.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="220.0" prefWidth="650.0" style="-fx-background-color: #141518;">
+         <AnchorPane layoutY="15.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: #141518;">
             <children>
-               <Label layoutX="15.0" layoutY="15.0" style="-fx-font-weight: bold;" text="Price Change Page" textFill="WHITE">
+               <Label fx:id="noRequestsLabel" layoutX="455.0" layoutY="15.0" text="There are no open requests" textFill="WHITE">
                   <font>
-                     <Font size="18.0" />
+                     <Font name="System Bold" size="18.0" />
                   </font>
                </Label>
+               <Label layoutX="20.0" layoutY="10.0" style="-fx-font-weight: bold;" text="List of Open Requests" textFill="WHITE">
+                  <font>
+                     <Font size="20.0" />
+                  </font>
+               </Label>
+               <Line endX="685.0" layoutY="45.0" startX="15.0" stroke="WHITE" />
+               <Label alignment="CENTER" layoutY="50.0" prefWidth="700.0" style="-fx-font-weight: bold;" text="Choose a request to handle" textFill="WHITE">
+                  <font>
+                     <Font size="16.0" />
+                  </font>
+               </Label>
+               <Label layoutX="145.0" layoutY="80.0" text="Date" textFill="WHITE" />
+               <ScrollPane layoutY="100.0" prefHeight="300.0" prefWidth="700.0" style="-fx-background-color: #141518;">
+                  <content>
+                     <VBox fx:id="cardsContainer" alignment="TOP_CENTER" prefHeight="300.0" prefWidth="700.0" spacing="10.0" style="-fx-background-color: #141518;" />
+                  </content>
+               </ScrollPane>
+               <Label layoutX="595.0" layoutY="80.0" text="Old Price" textFill="WHITE" />
+               <Label layoutX="490.0" layoutY="80.0" text="New Price" textFill="WHITE" />
+               <Label layoutX="325.0" layoutY="80.0" text="Request Type" textFill="WHITE" />
             </children>
          </AnchorPane>
-         <AnchorPane layoutY="240.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="700.0" style="-fx-background-color: #141518;">
+         <AnchorPane fx:id="requestHandlingContainer" layoutX="25.0" layoutY="420.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="270.0" prefWidth="650.0" style="-fx-background-color: #141518;">
             <children>
-               <Label layoutX="15.0" layoutY="5.0" style="-fx-font-weight: bold;" text="Price Change Request Info" textFill="WHITE">
+               <Label layoutX="20.0" layoutY="10.0" style="-fx-font-weight: bold;" text="Administrator Response" textFill="WHITE">
                   <font>
                      <Font size="18.0" />
                   </font>
                </Label>
-               <Label fx:id="DateTitle" layoutX="47.0" layoutY="97.0" text="Date Of Request" textFill="WHITE" />
-               <Label fx:id="RequestTitle" layoutX="206.0" layoutY="97.0" text="Request Type" textFill="#f8f8f8" />
-               <Label fx:id="OldPriceTitle" layoutX="322.0" layoutY="97.0" text="Previous Price" textFill="WHITE" />
-               <Label fx:id="NewPriceTitle" layoutX="445.0" layoutY="97.0" text="New Price" textFill="WHITE" />
-               <Label fx:id="ReasonTitle" layoutX="44.0" layoutY="159.0" text="Reason For Request" textFill="#fcfcfc" />
-               <TextArea fx:id="CommentBox" layoutX="38.0" layoutY="230.0" prefHeight="103.0" prefWidth="276.0" />
-               <Label fx:id="CommentTitle" layoutX="38.0" layoutY="213.0" text="Comments" textFill="WHITE" />
-               <ComboBox fx:id="decisionBox" layoutX="536.0" layoutY="123.0" onAction="#ShowApproveDenied" prefWidth="150.0" promptText="Approved/Denied" />
-               <Button fx:id="PendingBtn1" alignment="CENTER" layoutX="248.0" layoutY="378.0" mnemonicParsing="false" onAction="#SubBtn" prefWidth="150.0" styleClass="orangeBtn" text="Submit " />
-               <Label fx:id="ShowTheOldPrice" layoutX="322.0" layoutY="127.0" text="Previous Price" textFill="WHITE" />
-               <Label fx:id="ShowTheNewPrice" layoutX="445.0" layoutY="127.0" text="New Price" textFill="WHITE" />
-               <Label fx:id="DecisionTitle" layoutX="589.0" layoutY="97.0" text="Decision" textFill="#fcfcfc" />
-               <Label fx:id="numRequestLabel" layoutX="242.0" layoutY="51.0" text="Num of Requests" textFill="#f8f8f8" />
-               <Label fx:id="ReasonShow" layoutX="44.0" layoutY="182.0" prefHeight="17.0" prefWidth="289.0" text="Reason For Request" textFill="#fcfcfc" />
-               <Label fx:id="RequestTypeShow" layoutX="206.0" layoutY="127.0" text="Request Type" textFill="#f8f8f8" />
-               <Label fx:id="DateShow" layoutX="47.0" layoutY="127.0" text="Date Of Request" textFill="WHITE" />
-               <Label fx:id="numRequestShow" layoutX="350.0" layoutY="51.0" prefHeight="17.0" prefWidth="45.0" text="Num" textFill="#f8f8f8" />
+               <Line endX="610.0" layoutX="20.0" layoutY="40.0" stroke="WHITE" />
+               <Label layoutX="325.0" layoutY="60.0" text="Your Response" textFill="WHITE" />
+               <TextArea fx:id="responseTextArea" layoutX="325.0" layoutY="80.0" prefHeight="100.0" prefWidth="300.0" promptText="Your response..." />
+               <Button fx:id="declineBtn" layoutX="500.0" layoutY="210.0" mnemonicParsing="false" onAction="#declineRequest" prefWidth="125.0" styleClass="redButton" text="Decline" />
+               <Button fx:id="approveBtn" layoutX="325.0" layoutY="210.0" mnemonicParsing="false" onAction="#approveRequest" prefWidth="125.0" styleClass="greenButton" text="Approve" />
+               <Label fx:id="warningLabel" alignment="CENTER" layoutX="325.0" layoutY="185.0" prefWidth="300.0" text="Please fill your response first" textFill="RED">
+                  <font>
+                     <Font name="System Bold" size="12.0" />
+                  </font>
+               </Label>
+               <AnchorPane layoutX="20.0" layoutY="55.0" prefHeight="200.0" prefWidth="270.0" style="-fx-background-color: #1d1e22;">
+                  <children>
+                     <Label fx:id="reasonLabel" alignment="TOP_CENTER" layoutY="30.0" prefHeight="170.0" prefWidth="270.0" text="Reason for request" textAlignment="CENTER" textFill="WHITE" wrapText="true" />
+                     <Label layoutX="10.0" layoutY="5.0" prefWidth="255.0" text="Content manager reason for request:" textFill="WHITE">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                        </font>
+                     </Label>
+                  </children>
+               </AnchorPane>
             </children>
          </AnchorPane>
       </children>

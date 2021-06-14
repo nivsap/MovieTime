@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
-import il.cshaifasweng.OCSFMediatorExample.entities.NetworkAdministrator;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import javafx.application.Application;
 import javafx.application.Platform;

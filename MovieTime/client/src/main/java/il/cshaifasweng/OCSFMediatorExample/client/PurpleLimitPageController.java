@@ -91,7 +91,7 @@ public class PurpleLimitPageController {
     }
     
     void setCurrentRegulations() {
-    	if(activePurpleLimits.isEmpty()) {
+    	if(activePurpleLimits == null || activePurpleLimits.isEmpty()) {
     		currentRegulationsContainer.getChildren().clear();
     		currentRegulationsContainer.getChildren().add(noRegulationsLabel);
     		noRegulationsLabel.setVisible(true);

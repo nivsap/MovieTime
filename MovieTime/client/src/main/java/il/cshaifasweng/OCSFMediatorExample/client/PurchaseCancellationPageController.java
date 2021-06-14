@@ -229,7 +229,7 @@ public class PurchaseCancellationPageController {
     		});
     	} 	
     	
-    	if(msg.getAction().equals("got purchase cancelation by serial")) {
+    	if(msg.getAction().equals("got purchase cancelation by id")) {
     		Platform.runLater(() -> {
     			waitingForMessageCounter--;
             	if(waitingForMessageCounter == 0 && isRegistered) {

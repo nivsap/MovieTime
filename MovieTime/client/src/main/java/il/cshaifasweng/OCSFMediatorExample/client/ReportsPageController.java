@@ -55,7 +55,8 @@ public class ReportsPageController {
     }
     
     
-    private void setData() {
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	private void setData() {
     	
     	//ArrayList<Integer> count = new ArrayList<Integer>(cinemas.size());
     	reportChart.getData().clear();

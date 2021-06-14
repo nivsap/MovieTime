@@ -75,7 +75,8 @@ public class App extends Application {
     	stage.setTitle(title);
     }
     
-    @Override
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
     public void stop(){
     	if(currentController!= null) {
 	        System.out.println("Stage is closing");

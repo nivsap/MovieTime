@@ -53,7 +53,6 @@ public class DeleteMoviePageController {
 
     @FXML
     void initialize() {
-    	EventBus.getDefault().register(this);
         assert search != null : "fx:id=\"search\" was not injected: check your FXML file 'DeleteMoviePage.fxml'.";
         assert cardsContainer != null : "fx:id=\"cardsContainer\" was not injected: check your FXML file 'DeleteMoviePage.fxml'.";
         assert movieContainer != null : "fx:id=\"movieContainer\" was not injected: check your FXML file 'DeleteMoviePage.fxml'.";
@@ -120,6 +119,7 @@ public class DeleteMoviePageController {
     
     public void sendMessageToServer(String actionType, Movie movie) {
     	try {
+    		EventBus.getDefault().register(this);
 			Message msg = new Message();
 			if(actionType.equals("delete movie")) {
 				msg.setMovie(movie); 
@@ -138,8 +138,10 @@ public class DeleteMoviePageController {
     
     @Subscribe
 	public void onMessageEvent(Message msg) {
+    	System.out.println("got message in DeleteMoviePageController");
 		System.out.println(msg.getAction());
     	if(msg.getAction().equals("got screening movies")) {
+    		EventBus.getDefault().unregister(this);
     		Platform.runLater(()-> {
     			movieContainer.getChildren().clear();
     			recentlyAdded = msg.getMovies();
@@ -149,6 +151,7 @@ public class DeleteMoviePageController {
     		});
     	}
     	if(msg.getAction().equals("deleted movie")) {
+    		EventBus.getDefault().unregister(this);
     		Platform.runLater(()-> {
     			movieContainer.getChildren().clear();
     			currentlyDisplayedFrom = 0;

@@ -70,10 +70,8 @@ public class PriceChangeApprovalsController {
     }
     
 	void pullRequests() {
-		if(!isRegistered) {
-			EventBus.getDefault().register(this);
-			isRegistered = true;
-		}
+
+		EventBus.getDefault().register(this);
 		Message msg= new Message();
 		msg.setAction("get all open price requests");
 		try {
@@ -164,8 +162,10 @@ public class PriceChangeApprovalsController {
     
     @Subscribe
 	public void onMessageEvent(Message msg) throws IOException {
+    	System.out.println("got message in PriceChangeApprovalsController");
     	if(msg.getAction().equals("got all open price requests") || 
     			msg.getAction().equals("approved price request") || msg.getAction().equals("declined price request")) {
+    		EventBus.getDefault().unregister(this);
     		Platform.runLater(()-> {
 	    		allRequests = msg.getPriceRequests();
 	    		initRequestsContainer();

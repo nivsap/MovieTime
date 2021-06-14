@@ -63,7 +63,6 @@ public class UpdateMoviesPageController{
 	@FXML
 	public void initialize() {
 		System.out.println("initializing UpdateMoviesPage");
-		EventBus.getDefault().register(this);
 		PullScreenings();
 		
 		
@@ -140,6 +139,7 @@ public class UpdateMoviesPageController{
 	}
 	
 	private void PullScreenings() {
+		EventBus.getDefault().register(this);
 		Message msg= new Message();
 		msg.setAction("get all screenings");
 		try {
@@ -217,16 +217,16 @@ public class UpdateMoviesPageController{
 	
 	@Subscribe
 	public void onMessageEvent(Message msg) throws IOException {
-		EventBus.getDefault().unregister(this);
+		System.out.println("got msg in UpdateMoviesPageController");
     		if(msg.getAction().equals("got all screenings")) {
-    			
+    			EventBus.getDefault().unregister(this);
     			Platform.runLater(()-> {
     				screenings = msg.getScreenings();
     				SetData();
     			});
     		}
     		if(msg.getAction().equals("updated movie time")) {
-    			
+    			EventBus.getDefault().unregister(this);
     			Platform.runLater(()-> {
     				screenings = msg.getScreenings();
 					onChoiceCB();
@@ -234,6 +234,7 @@ public class UpdateMoviesPageController{
     			});
     		}
     		if(msg.getAction().equals("update movie time error")) {
+    			EventBus.getDefault().unregister(this);
     			JOptionPane.showMessageDialog(null, msg.getError());
     			
     		}

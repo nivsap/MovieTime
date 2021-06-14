@@ -115,6 +115,7 @@ public class CardContainerController {
     
     @Subscribe
 	public void onMessageEvent(Message msg) {
+    	System.out.println("got msg in CardContainerController");
 		System.out.println(msg.getAction());
     	if(msg.getAction().equals(moviesType)) {
     		EventBus.getDefault().unregister(this);

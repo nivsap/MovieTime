@@ -3,7 +3,9 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -33,7 +35,7 @@ import javafx.scene.layout.VBox;
 
 public class AddContentPageController {
 	private FilePickerController imagePickerController, largeImagePickerController;
-	private Boolean isLaunchedMovie;
+	private Boolean isLaunchedMovie, isRegistered;
 	private final ToggleGroup comingSoonGroup = new ToggleGroup();
 	private final List<String> selectedGenres = new ArrayList<String>();
 	private final CheckBox[] allGenres = { new CheckBox("Action"), new CheckBox("Adventure"), 
@@ -100,6 +102,12 @@ public class AddContentPageController {
     private ComboBox<String> movieComboBox;
 
     @FXML
+    private DatePicker datePicker;
+
+    @FXML
+    private ComboBox<String> timeComboBox;
+
+    @FXML
     private TextField linkTextField;
 
     @FXML
@@ -107,8 +115,9 @@ public class AddContentPageController {
 
     @FXML
     private Label viewingPackageWarningLabel;
-
+    
     public AddContentPageController() {
+    	isRegistered = false;
     	genreCheckBoxContainer = new VBox();
     	imagePickerController = new FilePickerController();
     	largeImagePickerController = new FilePickerController();
@@ -134,6 +143,8 @@ public class AddContentPageController {
         assert addMovieBtn != null : "fx:id=\"addMovieBtn\" was not injected: check your FXML file 'AddContentPage.fxml'.";
         assert movieWarningLabel != null : "fx:id=\"movieWarningLabel\" was not injected: check your FXML file 'AddContentPage.fxml'.";
         assert movieComboBox != null : "fx:id=\"movieComboBox\" was not injected: check your FXML file 'AddContentPage.fxml'.";
+        assert datePicker != null : "fx:id=\"datePicker\" was not injected: check your FXML file 'AddContentPage.fxml'.";
+        assert timeComboBox != null : "fx:id=\"timeComboBox\" was not injected: check your FXML file 'AddContentPage.fxml'.";
         assert linkTextField != null : "fx:id=\"linkTextField\" was not injected: check your FXML file 'AddContentPage.fxml'.";
         assert addViewingPackageBtn != null : "fx:id=\"addViewingPackageBtn\" was not injected: check your FXML file 'AddContentPage.fxml'.";
         assert viewingPackageWarningLabel != null : "fx:id=\"viewingPackageWarningLabel\" was not injected: check your FXML file 'AddContentPage.fxml'.";
@@ -149,6 +160,11 @@ public class AddContentPageController {
         
         rateLabel.setVisible(false);
         rateTextField.setVisible(false);
+        
+        timeComboBox.getItems().clear();
+        timeComboBox.getItems().addAll(Arrays.asList("08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00"));
+        
+        getMovies();
     }
     
     void setEventListeners() {
@@ -299,6 +315,28 @@ public class AddContentPageController {
     							   false, null, null);
     	sendMovieToServer(newMovie);
     }
+
+    void getMovies() {
+    	if(!isRegistered) {
+    		EventBus.getDefault().register(this);
+    		isRegistered = true;
+    	}
+    	Message msg = new Message();
+    	msg.setAction("get all valid for viewing package movies");
+    	try {
+			AppClient.getClient().sendToServer(msg);
+		} catch (IOException e) {
+			System.out.println("failed to send msg to server from AddContentPageController");
+			e.printStackTrace();
+		} 	
+    }
+    
+    void setMovies() {
+    	movieComboBox.getItems().clear();
+    	for(Movie m: moviesForViewingPackage) {
+    		movieComboBox.getItems().add(m.getName());
+    	}
+    }
     
     @FXML
     void setSelectedMovie(ActionEvent event) {
@@ -322,6 +360,24 @@ public class AddContentPageController {
     		return;
     	}
     	
+    	if(datePicker.getValue() == null) {
+    		viewingPackageWarningLabel.setText("Please pick a date first");
+    		viewingPackageWarningLabel.setVisible(true);
+    		return;
+    	}
+    	
+    	if(datePicker.getValue().isBefore(LocalDate.now())) {
+    		viewingPackageWarningLabel.setText("Date has already passed");
+    		viewingPackageWarningLabel.setVisible(true);
+    		return;
+    	}
+    	
+    	if(timeComboBox.getValue() == null) {
+    		viewingPackageWarningLabel.setText("Please pick a time first");
+    		viewingPackageWarningLabel.setVisible(true);
+    		return;
+    	}
+    	
     	String link = linkTextField.getText();
     	if(link.equals("")) {
     		viewingPackageWarningLabel.setText("Please fill link first");
@@ -329,14 +385,17 @@ public class AddContentPageController {
     		return;
     	}
     	
-    	ViewingPackage newViewingPackage = new ViewingPackage(selectedMovie, LocalDateTime.now(), link);
+    	ViewingPackage newViewingPackage = new ViewingPackage(selectedMovie, LocalDateTime.of(datePicker.getValue(), LocalTime.of(Integer.parseInt(timeComboBox.getValue().substring(0,2)), 0)), link);
     	sendViewingPackageToServer(newViewingPackage);
     }
     
 
     
     void sendMovieToServer(Movie newMovie) {
-    	EventBus.getDefault().register(this);
+    	if(!isRegistered) {
+    		EventBus.getDefault().register(this);
+    		isRegistered = true;
+    	}
     	Message msg = new Message();
     	msg.setAction("add movie");
     	msg.setMovie(newMovie);
@@ -349,7 +408,10 @@ public class AddContentPageController {
     }
     
     void sendViewingPackageToServer(ViewingPackage newViewingPackage) {
-    	EventBus.getDefault().register(this);
+    	if(!isRegistered) {
+    		EventBus.getDefault().register(this);
+    		isRegistered = true;
+    	}
     	Message msg = new Message();
     	msg.setAction("add viewing package");
     	msg.setViewingPackage(newViewingPackage);
@@ -361,18 +423,62 @@ public class AddContentPageController {
 		}
     }
     
+    void clearForm() {
+    	nameTextField.clear();
+    	mainActorsTextField.clear();
+    	producersTextField.clear();
+    	shortDescriptionTextArea.clear();
+    	hoursDurationTextField.clear();
+    	minutesDurationTextField.clear();
+    	launchDatePicker.setValue(null);
+    	rateLabel.setVisible(false);
+    	rateTextField.clear();
+    	yesRadioBtn.selectedProperty().set(false);
+    	yesRadioBtn.setDisable(false);
+    	noRadioBtn.selectedProperty().set(false);
+    	noRadioBtn.setDisable(false);
+    	for(CheckBox cb: allGenres) {
+    		cb.setSelected(false);
+    	}
+    	movieWarningLabel.setVisible(false);
+    	movieComboBox.valueProperty().set(null);
+    	datePicker.setValue(null);
+    	timeComboBox.valueProperty().set(null);
+    	linkTextField.clear();
+    	viewingPackageWarningLabel.setVisible(false);
+    }
+    
     @Subscribe 
     public void onMessageEvent(Message msg){
+    	if(msg.getAction().equals("got all valid for viewing package movies")) {
+    		Platform.runLater(()-> {
+    			if(isRegistered) {
+        			EventBus.getDefault().unregister(this);
+        			isRegistered = false;
+    			}
+    			moviesForViewingPackage = msg.getMovies();
+    			setMovies();
+    		});
+    		
+    	}   
     	if(msg.getAction().equals("added movie")) {
     		Platform.runLater(()-> {
-    			EventBus.getDefault().unregister(this);
+    			if(isRegistered) {
+        			EventBus.getDefault().unregister(this);
+        			isRegistered = false;
+    			}
+    			clearForm();
     			JOptionPane.showMessageDialog(null, "Movie added successfully");
     		});
     		
     	}   
     	if(msg.getAction().equals("added viewing package")) {
     		Platform.runLater(()-> {
-    			EventBus.getDefault().unregister(this);
+    			if(isRegistered) {
+        			EventBus.getDefault().unregister(this);
+        			isRegistered = false;
+    			}
+    			clearForm();
     			JOptionPane.showMessageDialog(null, "Viewing package added successfully");
     		});
     		

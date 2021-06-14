@@ -63,10 +63,14 @@
                </font>
             </Label>
             <Line endX="575.0" endY="-7.62939453125E-6" layoutX="115.0" layoutY="505.0" startX="-100.0" stroke="WHITE" />
-            <Label layoutX="75.0" layoutY="540.0" text="Movie *" textFill="WHITE" />
-            <ComboBox fx:id="movieComboBox" layoutX="75.0" layoutY="560.0" onAction="#setSelectedMovie" prefWidth="200.0" promptText="Movie" styleClass="orangeComboBox" />
-            <Label layoutX="375.0" layoutY="540.0" text="Link *" textFill="WHITE" />
-            <TextField fx:id="linkTextField" layoutX="375.0" layoutY="560.0" prefWidth="250.0" promptText="Link" />
+            <Label layoutX="75.0" layoutY="530.0" text="Movie *" textFill="WHITE" />
+            <ComboBox fx:id="movieComboBox" layoutX="75.0" layoutY="550.0" onAction="#setSelectedMovie" prefHeight="30.0" prefWidth="180.0" promptText="Movie" styleClass="orangeComboBox" />
+            <Label layoutX="310.0" layoutY="530.0" prefHeight="18.0" prefWidth="120.0" text="Date *" textFill="WHITE" />
+            <DatePicker fx:id="datePicker" layoutX="310.0" layoutY="550.0" prefHeight="30.0" prefWidth="150.0" promptText="Date" />
+            <Label layoutX="475.0" layoutY="530.0" prefHeight="18.0" prefWidth="120.0" text="Start Time *" textFill="WHITE" />
+            <ComboBox fx:id="timeComboBox" layoutX="475.0" layoutY="550.0" prefWidth="150.0" promptText="Start Time" styleClass="orangeComboBox" />
+            <Label layoutX="75.0" layoutY="600.0" text="Link *" textFill="WHITE" />
+            <TextField fx:id="linkTextField" layoutX="75.0" layoutY="620.0" prefHeight="30.0" prefWidth="300.0" promptText="Link" />
             <Button fx:id="addViewingPackageBtn" alignment="CENTER" layoutX="515.0" layoutY="630.0" mnemonicParsing="false" onAction="#addViewingPackage" prefHeight="30.0" prefWidth="160.0" styleClass="orangeButton" text="Add Viewing Package" />
             <Label fx:id="viewingPackageWarningLabel" alignment="TOP_CENTER" contentDisplay="TOP" layoutX="515.0" layoutY="662.0" prefHeight="35.0" prefWidth="160.0" text="Please Fill All Form Fields" textAlignment="CENTER" textFill="RED" wrapText="true">
                <font>

@@ -26,6 +26,36 @@ public class InputTests {
 		return true;
 	}
 	
+	public static Boolean isValidId(String id) {
+		if(id == null || id.length() != 9)
+			return false;
+		String regex = "[0-9]+";
+		Pattern pattern = Pattern.compile(regex);  
+		Matcher matcher = pattern.matcher(id);
+		return matcher.matches();
+	}
+	
+	public static Boolean isValidCreditCard(String creditCard) {
+		int[] ints = new int[creditCard.length()];
+		int sum = 0;
+		
+		for (int i = 0; i < creditCard.length(); i++) 
+			ints[i] = Integer.parseInt(creditCard.substring(i, i + 1));
+		
+		for (int i = ints.length - 2; i >= 0; i = i - 2) {
+			int j = ints[i];
+			j *= 2;
+			if (j > 9) 
+				j = j % 10 + 1;
+			ints[i] = j;
+		}
+		
+		for (int i = 0; i < ints.length; i++) 
+			sum += ints[i];
+		
+		return sum % 10 == 0;
+	}
+
 	public static Boolean isValidCVV(String cvv) {
 		if(cvv == null || cvv.length() != 3)
 			return false;

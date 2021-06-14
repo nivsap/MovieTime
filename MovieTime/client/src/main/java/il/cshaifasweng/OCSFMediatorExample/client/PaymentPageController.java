@@ -321,84 +321,119 @@ public class PaymentPageController {
     @FXML
     void padNow(ActionEvent event) {
     	hideWarningLabels();
-    	boolean emptyField = true;
     	
     	String firstName = firstNameTextField.getText();
     	if(firstName.equals("")) {
+    		firstNameWarningLabel.setText("First name must be filled");
     		firstNameWarningLabel.setVisible(true);
-    		emptyField = false;
+    		return;
     	}
     	
     	String lastName = lastNameTextField.getText();
     	if(lastName.equals("")) {
     		lastNameWarningLabel.setVisible(true);
-    		emptyField = false;
+    		return;
     	}
     	
     	String email = emailTextField.getText();
     	if(email.equals("")) {
+    		emailWarningLabel.setText("Email must be filled");
     		emailWarningLabel.setVisible(true);
-    		emptyField = false;
+    		return;
+    	}
+    	
+    	if(!InputTests.isValidEmail(email)) {
+    		emailWarningLabel.setText("Email is invalid");
+    		emailWarningLabel.setVisible(true);
+    		return;
     	}
     		
     	String address = addressTextField.getText();
     	if(address.equals("")) {
     		addressWarningLabel.setVisible(true);
-    		emptyField = false;
+    		return;
     	}
     	
     	String city = cityTextField.getText();
     	if(city.equals("")) {
     		cityWarningLabel.setVisible(true);
-    		emptyField = false;
+    		return;
     	}
     	
     	String phoneNumber = phoneNumberTextField.getText();
     	if(phoneNumber.equals("")) {
+    		phoneNumberWarningLabel.setText("Phone number must be filled");
     		phoneNumberWarningLabel.setVisible(true);
-    		emptyField = false;
+    		return;
+    	}
+    	
+    	if(!InputTests.isValidPhoneNumber(phoneNumber)) {
+    		phoneNumberWarningLabel.setText("Phone number is invalid");
+    		phoneNumberWarningLabel.setVisible(true);
+    		return;
     	}
     	
     	String cardHoldersName = cardHoldersNameTextField.getText();
     	if(cardHoldersName.equals("")) {
     		cardHoldersNameWarningLabel.setVisible(true);
-    		emptyField = false;
+    		return;
     	}
     	
     	String cardHoldersID = cardHoldersIDTextField.getText();
     	if(cardHoldersID.equals("")) {
+    		cardHoldersIDWarningLabel.setText("Card holder's name must be filled");
     		cardHoldersIDWarningLabel.setVisible(true);
-    		emptyField = false;
+    		return;
+    	}
+    	
+    	if(!InputTests.isValidId(cardHoldersID)) {
+    		cardHoldersIDWarningLabel.setText("Card holder's name is invalid");
+    		cardHoldersIDWarningLabel.setVisible(true);
+    		return;
     	}
     	
     	String cardNumber = cardNumberTextField.getText();
     	if(cardNumber.equals("")) {
+    		cardNumberWarningLabel.setText("Card number must be filled");
     		cardNumberWarningLabel.setVisible(true);
-    		emptyField = false;
+    		return;
+    	}
+    	
+    	if(!InputTests.isValidCreditCard(cardNumber)) {
+    		cardNumberWarningLabel.setText("Card number is invalid");
+    		cardNumberWarningLabel.setVisible(true);
+    		return;
     	}
     	
     	LocalDate cardExpirationDate = cardExpirationDatePicker.getValue();
     	if(cardExpirationDate == null) {
+    		cardExpirationDateWarningLabel.setText("Card expiration date must be filled");
     		cardExpirationDateWarningLabel.setVisible(true);
-    		emptyField = false;
+    		return;
+    	}
+    	
+    	if(cardExpirationDate.isBefore(LocalDate.now())) {
+    		cardExpirationDateWarningLabel.setText("Card expiration date has passed");
+    		cardExpirationDateWarningLabel.setVisible(true);
+    		return;
     	}
     	
     	String cardCVV = cardCVVTextField.getText();
     	if(cardCVV.equals("")) {
+    		cardExpirationDateWarningLabel.setText("Card CVV must be filled");
     		cardCVVWarningLabel.setVisible(true);
-    		emptyField = false;
+    		return;
     	}
     	
-    	if(emptyField == false) {
+    	if(!InputTests.isValidCVV(cardCVV)) {
+    		cardExpirationDateWarningLabel.setText("Card CVV is invalid");
+    		cardCVVWarningLabel.setVisible(true);
     		return;
     	}
     	
     	if(paymentNumberComboBox.getValue() == null) {
     		numberOfPaymentsWarningLabel.setVisible(true);
-    		emptyField = false;
-    		if(emptyField == false) {
-        		return;
-        	}
+    		return;
     	}
     	
     	createPurchase();

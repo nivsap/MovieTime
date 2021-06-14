@@ -106,8 +106,8 @@ public class PurchaseCancellationPageController {
 		}	
 		
 		Message msg = new Message();
-		msg.setAction("get purchase by id");
-		msg.setId(Integer.parseInt(orderNumber));
+		msg.setAction("get purchase by serial");
+		msg.setSerial(orderNumber);
 		sendMessageToServer(msg);
 	}
     
@@ -203,7 +203,9 @@ public class PurchaseCancellationPageController {
 	
     @Subscribe
     public void onMessageEvent(Message msg){
-    	if(msg.getAction().equals("got purchase by id")) {
+    	
+    	
+    	if(msg.getAction().equals("got purchase by serial")) {
     		Platform.runLater(() -> {
     			waitingForMessageCounter--;
             	if(waitingForMessageCounter == 0 && isRegistered) {
@@ -227,7 +229,7 @@ public class PurchaseCancellationPageController {
     		});
     	} 	
     	
-    	if(msg.getAction().equals("got purchase cancelation by id")) {
+    	if(msg.getAction().equals("got purchase cancelation by serial")) {
     		Platform.runLater(() -> {
     			waitingForMessageCounter--;
             	if(waitingForMessageCounter == 0 && isRegistered) {

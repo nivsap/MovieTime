@@ -46,14 +46,14 @@ public class CustomerController{
 			return 0f;
 		}
 		else if(purchase.isLink()) {
-			if(time.getDayOfYear() < purchase.getPurchaseTime().getDayOfYear()) {
+			if(time.getDayOfYear() < purchase.getViewingPackage().getDateTime().getDayOfYear()) {
 				return (float) purchase.getPayment();
 			}
-			else if(time.getDayOfYear() == purchase.getPurchaseTime().getDayOfYear()) {
-				if(purchase.getPurchaseTime().getHour()  > time.getHour() + 3) {
+			else if(time.getDayOfYear() == purchase.getViewingPackage().getDateTime().getDayOfYear()) {
+				if(purchase.getViewingPackage().getDateTime().getHour()  > time.getHour() + 3) {
 					return (float) (purchase.getPayment()/2);
 				}
-				else if(purchase.getPurchaseTime().getHour()  == time.getHour() + 3 && time.getMinute() <= purchase.getPurchaseTime().getMinute()) {
+				else if(purchase.getViewingPackage().getDateTime().getHour()  == time.getHour() + 3 && time.getMinute() <= purchase.getViewingPackage().getDateTime().getMinute()) {
 					return (float) (purchase.getPayment()/2);
 				}
 				else return 0f;

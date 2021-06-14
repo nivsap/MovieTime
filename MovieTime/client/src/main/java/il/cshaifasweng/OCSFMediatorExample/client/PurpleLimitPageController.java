@@ -173,7 +173,13 @@ public class PurpleLimitPageController {
 			yFactorWarningLabel.setText("Y Factor must be filled");
 			yFactorWarningLabel.setVisible(true);
 			return;
-    	}
+		} else {
+			if(!InputTests.isValidInt(yFactor)) {
+				yFactorWarningLabel.setText("Y Factor is invalid");
+				yFactorWarningLabel.setVisible(true);
+				return;
+			}
+		}
 		
 		PurpleLimit p = new PurpleLimit(fromDate, toDate, Integer.parseInt(yFactor));
 		if(!isLegalPurpleLimit(p)) {

@@ -119,6 +119,12 @@ public class OpenPriceChangeRequestsController {
     		return;
     	}
     	
+    	if(!InputTests.isValidFloat(newPriceTextField.getText())) {
+    		warningLabel.setText("New price is invalid");
+    		warningLabel.setVisible(true);
+    		return;
+    	}
+    	
     	newPriceRequest.setNewPrice(Float.parseFloat(newPriceTextField.getText()));
     	
     	if(commentsTextArea.getText().equals("")) {

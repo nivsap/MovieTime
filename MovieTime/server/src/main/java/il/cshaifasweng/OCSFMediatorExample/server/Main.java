@@ -1379,8 +1379,17 @@ public class Main extends AbstractServer {
 			}
 		}
 		
-		
-		
+		if (currentMsg.getAction().equals("get all valid for viewing package movies")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.setMovies(ViewingPackageController.getAllValidMovies());
+				serverMsg.setAction("got all valid for viewing package movies");
+				client.sendToClient(serverMsg);
+			} catch (IOException e) {
+				System.out.println("can't get all valid for viewing package movies");
+				e.printStackTrace();
+			}
+		}
 	}
 	
 }

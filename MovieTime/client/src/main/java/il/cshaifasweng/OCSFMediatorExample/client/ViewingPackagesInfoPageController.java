@@ -1,5 +1,20 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import il.cshaifasweng.OCSFMediatorExample.entities.Cinema;
+import il.cshaifasweng.OCSFMediatorExample.entities.Hall;
+import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
+import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
+import il.cshaifasweng.OCSFMediatorExample.entities.ViewingPackage;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -11,6 +26,7 @@ public class ViewingPackagesInfoPageController {
 	
     private int purchaseType;
     private Movie currentlyDisplayed;  
+    private ArrayList<ViewingPackage> viewingPackages;
 
     @FXML
     private ImageView movieLargeImageSrc;
@@ -52,10 +68,10 @@ public class ViewingPackagesInfoPageController {
     private AnchorPane orderTicketsContainer;
 
     @FXML
-    private ComboBox<?> dateCombo;
+    private ComboBox<String> dateCombo;
 
     @FXML
-    private ComboBox<?> timeCombo;
+    private ComboBox<String> timeCombo;
 
     @FXML
     private Button orderTicketBtn;
@@ -70,24 +86,99 @@ public class ViewingPackagesInfoPageController {
     	return this.purchaseType;
     }
     
+    
+    
+    @FXML
+    void dateChosen() {
+    	timeCombo.getItems().clear();
+    	for(ViewingPackage view : viewingPackages) {
+			String time = view.getDateTime().toString().substring(11,16);
+			if(view.getDateTime().toString().substring(0,10).equals(dateCombo.getValue()) &&  !timeCombo.getItems().contains(time)) {
+				timeCombo.getItems().add(time);
+			}
+		}
+    	
+    }
+    
+    
+    @FXML
+    void ChoosePackage(ActionEvent event) throws IOException {
+    	
+    	if(dateCombo.getValue() == null && timeCombo.getValue() == null) {
+    		JOptionPane.showMessageDialog(null, "You must fill all the fields");
+    		return;
+    	}
+		if(dateCombo.getValue().isEmpty() || timeCombo.getValue().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "You must fill all the fields");
+			return;
+		}
+    	
+    	App.setWindowTitle(PageTitles.PaymentPage);
+    	PaymentPageController controller = (PaymentPageController) App.setContent("PaymentPage");
+    	ViewingPackage chosenView = null;
+    	for(ViewingPackage view : viewingPackages) {
+			String date = view.getDateTime().toString().substring(0,10);
+			String time = view.getDateTime().toString().substring(11,16);
+			if(dateCombo.getValue().equals(date) && timeCombo.getValue().equals(time)) {
+				chosenView = view;
+			}
+		}
+   
+    	controller.setInfoLink(chosenView);
+    	
+    
+    }
+   
+    
     void InitPageInfo(Movie movie) {
+    	EventBus.getDefault().register(this);
     	currentlyDisplayed = movie;
     	purchaseType = PurchaseTypes.TICKET;
     	movieImageSrc.setImage(movie.getImage());
     	movieLargeImageSrc.setImage(movie.getLargeImage());
     	movieName.setText(movie.getName());
     	movieGenre.setText(movie.getGenre());
-    	moviePopularity.setText(movie.getPopular().toString());
+    	moviePopularity.setText(movie.getRate().toString());
     	movieNameSecond.setText(movie.getName());
     	movieGenreSecond.setText(movie.getGenre());
     	movieDescription.setText(movie.getDescription());
     	movieDescription.setWrapText(true);
-    	movieProducers.setText(movie.getProducersMovie());
+    	movieProducers.setText(movie.getProducers());
     	movieMainActors.setText(movie.getMainActors());
     	movieDuration.setText(movie.getDuration());
     	movieLaunchDate.setText(movie.getLaunchDate().toString());
     	dateCombo.getItems().clear();
     	timeCombo.getItems().clear();
+    	
+    	Message msg = new Message();
+    	msg.setAction("get viewing packages by movie");
+    	msg.setMovieName(movie.getName());
+    	try {
+			AppClient.getClient().sendToServer(msg);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
+    
+    
+    @Subscribe
+    public void OnMessageEvent(Message msg) {
+    	if(msg.getAction().equals("got viewing packages by movie")) {
+    		EventBus.getDefault().unregister(this);
+    		Platform.runLater(()-> {
+	    		viewingPackages = (ArrayList)msg.getViewingPackages();
+				dateCombo.getItems().clear();
+	    		for(ViewingPackage view : viewingPackages) {
+	    			String date = view.getDateTime().toString().substring(0,10);
+	    			if(!dateCombo.getItems().contains(date)) {
+	    				dateCombo.getItems().add(date);
+	    			}
+	    		}
+    		});
+    		
+    	}
+    }
+    
 }
 

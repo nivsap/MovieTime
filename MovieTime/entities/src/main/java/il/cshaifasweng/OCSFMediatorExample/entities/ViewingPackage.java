@@ -17,30 +17,27 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 @Entity
-@Table(name = "ViewingPackage")
-public class ViewingPackage implements  Serializable{
+@Table(name = "ViewingPackages")
+public class ViewingPackage implements  Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	//private static final long serialVersionUID = 1L;
 	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "movies_id")
 	private Movie movie;
-	//@Column (name = "link string")
 	private String link;
 	private LocalDateTime startDateTime;
-	private ArrayList<LocalDateTime> datesAvailables;
 	
 	
-	public ViewingPackage(Movie movie, LocalDateTime dateTime, ArrayList<LocalDateTime> datesAvailables,String link) {
+	public ViewingPackage(Movie movie, LocalDateTime dateTime, String link) {
 		super();
-	//	this.link = "www.sirtiya-" + this.movie.getName() + "." + this.id + "co.il";
 		this.link = link;
 		this.movie = movie;
 		this.startDateTime = dateTime;
-		this.datesAvailables = new ArrayList<>();
 	}
+	
 	public ViewingPackage() {}
+	
 	public int getId() {
 		return id;
 	}

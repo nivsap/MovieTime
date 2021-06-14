@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 @Entity
 @Table(name = "BranchManager")
 public class BranchManager extends Worker implements  Serializable{
@@ -22,18 +23,17 @@ public class BranchManager extends Worker implements  Serializable{
 	private int id;
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Cinema cinema;
-	 public BranchManager() {
-	    }
-	public BranchManager(String firstName, String lastName, String userName, String password,boolean isLoggedIn ,Cinema cinema) {
-		super(firstName, lastName, userName, password,cinema,isLoggedIn);
+	
+	public BranchManager() { 
+		super();
 	}
+	
+	public BranchManager(String firstName, String lastName, Cinema cinema, String userName, String password,boolean isLoggedIn) {
+		super(firstName, lastName, cinema, userName, password, isLoggedIn);
+	}
+	
 	public int getId() {
 		return id;
 	}
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	
 	
 }

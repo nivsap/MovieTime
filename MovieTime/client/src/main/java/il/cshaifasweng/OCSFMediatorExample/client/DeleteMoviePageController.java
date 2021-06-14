@@ -87,7 +87,7 @@ public class DeleteMoviePageController {
 					fxmlLoader.setLocation(getClass().getResource("DeleteCard.fxml"));
 					VBox card = fxmlLoader.load();
 					DeleteCardController deleteCardController = fxmlLoader.getController();
-					deleteCardController.setData(recentlyAdded.get(index), this);
+					deleteCardController.setData(recentlyAdded.get(index), this, "DeleteMovie");
 					movieContainer.add(card, j, i);
 					index++;
                }

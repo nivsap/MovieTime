@@ -1,23 +1,18 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-
 import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
 import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
-import javafx.util.Pair;
 
 
 public class CustomerController{
-
-	
 	public static ArrayList<Complaint> getAllCurrentComplaints() {
 		ArrayList<Complaint> ComplaintArrayList = new ArrayList<>();
 		ArrayList<Complaint> toReturnArrayList = new ArrayList<>();
 		ComplaintArrayList = Main.getAllOfType(Complaint.class);
 		for(Complaint complaint : ComplaintArrayList) {
-			if(complaint.getIsOpen() == true) {
+			if(complaint.isOpen()) {
 				toReturnArrayList.add(complaint);
 			}
 		}
@@ -26,61 +21,57 @@ public class CustomerController{
 	}
 
 	public static Purchase getID(int id) {
-		//Customer customer = null;
 		ArrayList<Purchase> customerList = Main.getAllOfType(Purchase.class);
-	//	System.out.println(customerList.size());
 		for(Purchase customer : customerList) {
 			if(customer.getId() == id) {
 				return customer;
 			}
 		}
-		return null;
+		return null;	
 	}
-	public static void reduceTab(int id) {
-		//Customer customer = null;
+	
+	public static Purchase getPurchaseBySerial(String serial) {
 		ArrayList<Purchase> customerList = Main.getAllOfType(Purchase.class);
 		for(Purchase customer : customerList) {
-			if(customer.getId() == id) {
-				Pair<Boolean, Integer> temp = new Pair<Boolean, Integer>(customer.getCinemaTab().getKey(), customer.getCinemaTab().getValue()-1);
-				customer.setCinemaTab(temp);
-				Main.updateRowDB(customer);
+			if(customer.getSerial().equals(serial)) {
+				return customer;
 			}
 		}
-		
+		return null;	
 	}
 	 
 	//This function checks whether the customer deserves a refund and if so, returns the money to him according to the company's terms
-	public static double ReturnOnPurchase(Purchase purchase , LocalDateTime time) {
-		if(purchase.getCinemaTab().getKey() == true) {
-			return 0;
+	public static Float ReturnOnPurchase(Purchase purchase , LocalDateTime time) {
+		if(purchase.isCard() == true) {
+			return 0f;
 		}
-		else if(purchase.isWatchFromHome()) {
-			if(time.getDayOfYear() < purchase.getPurchaseDate().getDayOfYear()) {
-				return purchase.getPayment();
+		else if(purchase.isLink()) {
+			if(time.getDayOfYear() < purchase.getPurchaseTime().getDayOfYear()) {
+				return (float) purchase.getPayment();
 			}
-			else if(time.getDayOfYear() == purchase.getPurchaseDate().getDayOfYear()) {
-				if(purchase.getPurchaseDate().getHour()  > time.getHour() + 3) {
-					return purchase.getPayment()/2;
+			else if(time.getDayOfYear() == purchase.getPurchaseTime().getDayOfYear()) {
+				if(purchase.getPurchaseTime().getHour()  > time.getHour() + 3) {
+					return (float) (purchase.getPayment()/2);
 				}
-				else if(purchase.getPurchaseDate().getHour()  == time.getHour() + 3 && time.getMinute() <= purchase.getPurchaseDate().getMinute()) {
-					return purchase.getPayment()/2;
+				else if(purchase.getPurchaseTime().getHour()  == time.getHour() + 3 && time.getMinute() <= purchase.getPurchaseTime().getMinute()) {
+					return (float) (purchase.getPayment()/2);
 				}
-				else return 0;
+				else return 0f;
 			}
 		}
-		else if(time.getDayOfYear() < purchase.getScreening().getDate_screen().getDayOfYear()) {
-			return purchase.getPayment();
+		else if(time.getDayOfYear() < purchase.getScreening().getDateAndTime().getDayOfYear()) {
+			return (float) purchase.getPayment();
 		}
-		else if(time.getDayOfYear() == purchase.getScreening().getDate_screen().getDayOfYear()) {
-			if(purchase.getPurchaseDate().getHour()  > time.getHour() + 3) {
-				return purchase.getPayment()/2;
+		else if(time.getDayOfYear() == purchase.getScreening().getDateAndTime().getDayOfYear()) {
+			if(purchase.getPurchaseTime().getHour()  > time.getHour() + 3) {
+				return (float) (purchase.getPayment()/2);
 			}
-			else if(purchase.getPurchaseDate().getHour()  == time.getHour() + 3 && time.getMinute() <= purchase.getPurchaseDate().getMinute()) {
-				return purchase.getPayment()/2;
+			else if(purchase.getPurchaseTime().getHour()  == time.getHour() + 3 && time.getMinute() <= purchase.getPurchaseTime().getMinute()) {
+				return (float) (purchase.getPayment()/2);
 			}
-			else return 0;
+			else return 0f;
 		}
 
-		return 0;
+		return 0f;
 	}
 }

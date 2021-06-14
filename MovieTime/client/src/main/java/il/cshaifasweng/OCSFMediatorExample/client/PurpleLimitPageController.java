@@ -1,126 +1,222 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import java.io.IOException;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import javafx.util.Pair;
-
-import il.cshaifasweng.OCSFMediatorExample.entities.CustomerService;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
-import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
+import il.cshaifasweng.OCSFMediatorExample.entities.PurpleLimit;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 public class PurpleLimitPageController {
+	private ArrayList<PurpleLimit> activePurpleLimits;
+	private Boolean isAdding = false;
+	
+    @FXML
+    private Label noRegulationsLabel;
 
     @FXML
-    private Label currentFrom;
+    private VBox currentRegulationsContainer;
 
     @FXML
-    private TextField YChoose;
+    private DatePicker fromDatePicker;
 
     @FXML
-    private Button update;
+    private Label fromWarningLabel;
 
     @FXML
-    private DatePicker FromChooseDate;
+    private DatePicker toDatePicker;
 
     @FXML
-    private DatePicker ToChooseDate;
+    private Label toWarningLabel;
 
     @FXML
-    private Label warningFrom;
+    private TextField yFactorTextField;
 
     @FXML
-    private Label warningTo;
+    private Label yFactorWarningLabel;
+
     @FXML
-    private Label enterYLabel;
+    private Button setBtn;
+
+    @FXML
+    private Label setBtnWarningLabel;
+
+    @FXML
+    private Label successLabel;
     
-    @Subscribe
-    public void OnMessageEvent(Message msg) { 
-       // EventBus.getDefault().unregister(this);
-        //System.out.println("I AM HEREEEE");
-    	if(msg.getAction().equals("got purple limit")) {
-    		JOptionPane.showMessageDialog(null, "Thank you for your purple limit update.");
-    	} 
-		    EventBus.getDefault().unregister(this);
-
-    }
+    
     
     @FXML
     void initialize() {
-        EventBus.getDefault().register(this);
-
-        assert ToChooseDate != null : "fx:id=\"ToChooseDate\" was not injected: check your FXML file 'PurpleLimitPage.fxml'.";
-        assert warningTo != null : "fx:id=\"warningTo\" was not injected: check your FXML file 'PurpleLimitPage.fxml'.";
-        assert FromChooseDate != null : "fx:id=\"FromChooseDate\" was not injected: check your FXML file 'PurpleLimitPage.fxml'.";
-        assert warningFrom != null : "fx:id=\"warningFrom\" was not injected: check your FXML file 'PurpleLimitPage.fxml'.";
-        assert YChoose != null : "fx:id=\"YChoose\" was not injected: check your FXML file 'PurpleLimitPage.fxml'.";
-        assert enterYLabel != null : "fx:id=\"enterYLabel\" was not injected: check your FXML file 'PurpleLimitPage.fxml'.";
-        hideWarningLabels();
-
-    	String string;
-    	Worker worker = App.currentWorker;
-    	if(((CustomerService) worker).getDatesOfPurpleLimit()!=null) {
-    		string="We have purple limit from:"+((CustomerService) worker).getDatesOfPurpleLimit().getKey().toString()+" to "+((CustomerService) worker).getDatesOfPurpleLimit().getValue().toString()+".";
+		EventBus.getDefault().register(this);
+    	assert noRegulationsLabel != null : "fx:id=\"noRegulationsLabel\" was not injected: check your FXML file 'PurpleLimitPage.fxml'.";
+        assert currentRegulationsContainer != null : "fx:id=\"currentRegulationsContainer\" was not injected: check your FXML file 'PurpleLimitPage.fxml'.";
+        assert fromDatePicker != null : "fx:id=\"fromDatePicker\" was not injected: check your FXML file 'PurpleLimitPage.fxml'.";
+        assert fromWarningLabel != null : "fx:id=\"fromWarningLabel\" was not injected: check your FXML file 'PurpleLimitPage.fxml'.";
+        assert toDatePicker != null : "fx:id=\"toDatePicker\" was not injected: check your FXML file 'PurpleLimitPage.fxml'.";
+        assert toWarningLabel != null : "fx:id=\"toWarningLabel\" was not injected: check your FXML file 'PurpleLimitPage.fxml'.";
+        assert yFactorTextField != null : "fx:id=\"yFactorTextField\" was not injected: check your FXML file 'PurpleLimitPage.fxml'.";
+        assert yFactorWarningLabel != null : "fx:id=\"yFactorWarningLabel\" was not injected: check your FXML file 'PurpleLimitPage.fxml'.";
+        assert setBtn != null : "fx:id=\"setBtn\" was not injected: check your FXML file 'PurpleLimitPage.fxml'.";
+        assert setBtnWarningLabel != null : "fx:id=\"setBtnWarningLabel\" was not injected: check your FXML file 'PurpleLimitPage.fxml'.";
+        assert successLabel != null : "fx:id=\"successLabel\" was not injected: check your FXML file 'PurpleLimitPage.fxml'.";
+         
+        hideLabels();
+        getActiveRegulations();
+    }
+    
+    void getActiveRegulations() {
+    	Message msg = new Message();
+		msg.setAction("get active purple limits");
+ 		try {
+			AppClient.getClient().sendToServer(msg);
+		} 
+ 		catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    void setCurrentRegulations() {
+    	if(activePurpleLimits == null || activePurpleLimits.isEmpty()) {
+    		currentRegulationsContainer.getChildren().clear();
+    		currentRegulationsContainer.getChildren().add(noRegulationsLabel);
+    		noRegulationsLabel.setVisible(true);
     	}
     	else {
-    		string="There is not purple limit.";
+			currentRegulationsContainer.getChildren().clear();
+			noRegulationsLabel.setVisible(false);
+			try {
+				for(PurpleLimit p : activePurpleLimits) {
+					FXMLLoader fxmlLoader = new FXMLLoader();
+					fxmlLoader.setLocation(getClass().getResource("PurpleLimitCard.fxml"));
+					HBox card = fxmlLoader.load();	
+					PurpleLimitCardController ctrl = fxmlLoader.getController();
+					ctrl.SetPurpleLimitData(p);
+					currentRegulationsContainer.getChildren().add(card);
+				}
+			} 
+			catch (IOException e) {
+				e.printStackTrace();
+			}
     	}
-    	currentFrom.setText(string);
-
-    	//currentFrom.setText(string);
     }
-    void hideWarningLabels() {
-    	warningTo.setVisible(false);
-    	warningFrom.setVisible(false);
-    	enterYLabel.setVisible(false);
+    
+    
+    void hideLabels() {
+    	noRegulationsLabel.setVisible(false);
+    	fromWarningLabel.setVisible(false);
+    	toWarningLabel.setVisible(false);
+    	yFactorWarningLabel.setVisible(false);
+    	setBtnWarningLabel.setVisible(false);
+    	successLabel.setVisible(false);
 	}
     
-    @FXML
-    void PurpleLimit(ActionEvent event) {
-    	boolean emptyField = true;
-    	System.out.println("begingn of updatePurpleLimit ");
-    	Message msg = new Message();
-		Worker worker = App.currentWorker;
-		if(YChoose.getText().equals("")) {
-			enterYLabel.setVisible(true);
-    		emptyField = false;
+    Boolean isLegalPurpleLimit(PurpleLimit purpleLimit) {
+    	for(PurpleLimit p: activePurpleLimits) {
+    		if(p.getFromDate() == purpleLimit.getFromDate() || p.getToDate() == purpleLimit.getToDate())
+    			return false;
+    		if(p.getFromDate().isBefore(purpleLimit.getFromDate()) && p.getToDate().isAfter(purpleLimit.getToDate())) 
+    			return false;
     	}
-		((CustomerService) worker).setY(Integer.parseInt(YChoose.getText()));
-		LocalDateTime localDatefrom = FromChooseDate.getValue().atStartOfDay();
-		LocalDateTime localDateTo = ToChooseDate.getValue().atStartOfDay();
-		if(localDatefrom.isAfter(localDateTo)) {
-			warningTo.setVisible(true);
-			warningFrom.setVisible(true);
-    		emptyField = false;
+    	return true;
+    }
+    
+    @FXML
+    void addPurpleLimit(ActionEvent event) {
+    	if(isAdding)
+    		return;
+    	
+    	hideLabels();
+
+		LocalDate fromDate = fromDatePicker.getValue();
+		if(fromDate == null) {
+			fromWarningLabel.setText("From Date must be picked");
+			fromWarningLabel.setVisible(true);
+			return;
+		} else {
+			if(fromDate.isBefore(LocalDate.now())) {
+				fromWarningLabel.setText("From Date has passed");
+				fromWarningLabel.setVisible(true);
+				return;
+			}
+		}
+		
+		LocalDate toDate = toDatePicker.getValue();
+		if(toDate == null) {
+			toWarningLabel.setText("To Date must be picked");
+			toWarningLabel.setVisible(true);
+			return;
+		} else {
+			if(toDate.isBefore(fromDate)) {
+				toWarningLabel.setText("To Date must be after From Date");
+				toWarningLabel.setVisible(true);
+				return;
+			}
+		}
+		
+    	String yFactor = yFactorTextField.getText();
+		if(yFactor.equals("")) {
+			yFactorWarningLabel.setText("Y Factor must be filled");
+			yFactorWarningLabel.setVisible(true);
+			return;
     	}
 		
-		if(emptyField == false) {
-    		return;
-    	}
-		((CustomerService) worker).setDatesOfPurpleLimit(new Pair<>(localDatefrom,localDateTo ));
-    	msg.setWorker(App.currentWorker);
-    	System.out.println("before send successful purchase mail");
-		msg.setAction("set purple limit");
- 			try {
-					AppClient.getClient().sendToServer(msg);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
- 	
+		PurpleLimit p = new PurpleLimit(fromDate, toDate, Integer.parseInt(yFactor));
+		if(!isLegalPurpleLimit(p)) {
+			setBtnWarningLabel.setText("Can't set regulation\nThere is a set regulation within the chosen dates!");
+			setBtnWarningLabel.setVisible(true);
+			return;
+		}
+		Message msg = new Message();
+		msg.setPurpleLimit(p);
+		msg.setAction("add purple limit");
+		isAdding = true;
+ 		try {
+			AppClient.getClient().sendToServer(msg);
+		} 
+ 		catch (IOException e) {
+			e.printStackTrace();
+		}	
     }
-   
+    
+    void setSuccessfullyAdded() {
+    	hideLabels();
+        fromDatePicker.setValue(null);
+        toDatePicker.setValue(null);
+        yFactorTextField.clear();
+        successLabel.setVisible(true);
+    	setCurrentRegulations();
+    }
+    
+    @Subscribe
+    public void OnMessageEvent(Message msg) throws IOException { 
+    	if(msg.getAction().equals("got active purple limits")) {
+    		Platform.runLater(()-> {
+    			activePurpleLimits = msg.getActivePurpleLimits();
+    			setCurrentRegulations();
+    		});
+    	}   
+    	if(msg.getAction().equals("added purple limit")) {
+    		Platform.runLater(()-> {
+    			isAdding = false;
+    			activePurpleLimits = msg.getActivePurpleLimits();
+    			setSuccessfullyAdded();
+    		});
+    	}     
+    }
 }
 

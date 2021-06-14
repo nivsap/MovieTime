@@ -11,6 +11,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -19,11 +20,15 @@ public class OpenComplaintsController {
 	
     @FXML
     private VBox complaints_container;
+    
+    @FXML
+    private Label noComplaintsLabel;
 
 	@FXML
 	public void initialize() {
 		EventBus.getDefault().register(this);
 		PullComplaint();
+		noComplaintsLabel.setVisible(false);
 	}
 
 	private void PullComplaint() {
@@ -39,20 +44,29 @@ public class OpenComplaintsController {
 	}
 	
 	
-	public void InitPage() {		
-		try {
-			for(Complaint complaint : allComplaints) {
-				FXMLLoader fxmlLoader = new FXMLLoader();
-				fxmlLoader.setLocation(getClass().getResource("cardContainerComplaint.fxml"));
-				HBox cardBox = fxmlLoader.load();	
-				ScreeningCardController ctrl = fxmlLoader.getController();
-				ctrl.SetComplaintData(complaint);
-				complaints_container.getChildren().add(cardBox);
+	public void InitPage() {
+		if(allComplaints == null || allComplaints.isEmpty()) {
+			complaints_container.getChildren().clear();
+			complaints_container.getChildren().add(noComplaintsLabel);
+			noComplaintsLabel.setVisible(true);
+		}
+		else {
+			complaints_container.getChildren().clear();
+			noComplaintsLabel.setVisible(false);
+			try {
+				for(Complaint complaint : allComplaints) {
+					FXMLLoader fxmlLoader = new FXMLLoader();
+					fxmlLoader.setLocation(getClass().getResource("cardContainerComplaint.fxml"));
+					HBox cardBox = fxmlLoader.load();	
+					ScreeningCardController ctrl = fxmlLoader.getController();
+					ctrl.SetComplaintData(complaint);
+					complaints_container.getChildren().add(cardBox);
+				}
+			} 
+			catch (IOException e) {
+				e.printStackTrace();
 			}
-		} 
-		catch (IOException e) {
-			e.printStackTrace();
-			}
+		}
 	}
 
 	@Subscribe

@@ -9,13 +9,13 @@ import javax.swing.JOptionPane;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
-import il.cshaifasweng.OCSFMediatorExample.entities.Cinema;
-import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
-import il.cshaifasweng.OCSFMediatorExample.entities.Hall;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
+import il.cshaifasweng.OCSFMediatorExample.entities.NetworkAdministrator;
 import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
+import il.cshaifasweng.OCSFMediatorExample.entities.SubscriptionCard;
+
+import il.cshaifasweng.OCSFMediatorExample.entities.ViewingPackage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -29,13 +29,13 @@ import javafx.util.Pair;
 public class PaymentPageController {
 	
 	private int purchaseType;
-	private Hall hall;
 	private Screening screening;
 	private ArrayList<Pair<Integer,Integer>> seats; 
-	private  Pair<Boolean, Integer> subscriptionCard;
-	private boolean watchFromHome;
-	private Complaint complaint;
+	private SubscriptionCard subscriptionCard;
+	private ViewingPackage viewingPackage;
 	private Purchase purchase;
+	private String order;
+	private float price, ticketPrice, linkPrice, cardPrice;
 	  
     @FXML
     private TextArea orderSummeryTextArea;
@@ -89,7 +89,7 @@ public class PaymentPageController {
     private Label cardHoldersIDWarningLabel;
 
     @FXML
-    private ComboBox<?> paymentNumberComboBox;
+    private ComboBox<String> paymentNumberComboBox;
 
     @FXML
     private TextField cardNumberTextField;
@@ -114,10 +114,25 @@ public class PaymentPageController {
 
     @FXML
     private Button payNowBtn;
+    
+	
+    @FXML
+    private Label numberOfPaymentsWarningLabel;
 
+	public PaymentPageController() {
+    	purchaseType = 4;
+    	screening = null;
+    	seats = null; 
+    	subscriptionCard = null;
+    	viewingPackage = null;
+    	purchase = null;
+    	ticketPrice = 0f;
+    	linkPrice = 0f;
+    	cardPrice = 0f;
+    	getPrices();
+    }
     @FXML
     void initialize() {
-    	
         assert firstNameTextField != null : "fx:id=\"firstNameTextField\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         assert firstNameWarningLabel != null : "fx:id=\"firstNameWarningLabel\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         assert lastNameTextField != null : "fx:id=\"lastNameTextField\" was not injected: check your FXML file 'PaymentPage.fxml'.";
@@ -139,87 +154,123 @@ public class PaymentPageController {
         assert cardNumberWarningLabel != null : "fx:id=\"cardNumberWarningLabel\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         assert cardExpirationDatePicker != null : "fx:id=\"cardExpirationDatePicker\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         assert cardExpirationDateWarningLabel != null : "fx:id=\"cardExpirationDateWarningLabel\" was not injected: check your FXML file 'PaymentPage.fxml'.";
+        assert numberOfPaymentsWarningLabel != null : "fx:id=\"numberOfPaymentsWarningLabel\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         assert cardCVVTextField != null : "fx:id=\"cardCVVTextField\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         assert cardCVVWarningLabel != null : "fx:id=\"cardCVVWarningLabel\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         assert paymentLabel != null : "fx:id=\"paymentLabel\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         assert payNowBtn != null : "fx:id=\"payNowBtn\" was not injected: check your FXML file 'PaymentPage.fxml'.";
-        
+
+        paymentNumberComboBox.getItems().clear();
+        paymentNumberComboBox.getItems().add("1");
+        paymentNumberComboBox.getItems().add("2");
+        paymentNumberComboBox.getItems().add("3");
         hideWarningLabels();
-        
-        
+    }
+    
+    public void getPrices() {
+    	EventBus.getDefault().register(this);
+    	Message msg = new Message();
+    	msg.setAction("get prices");
+    	msg.setPurchase(purchase);
+    	
+    	try {
+			AppClient.getClient().sendToServer(msg);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
-    public void setInfoTicket(int type, Screening screening, ArrayList<Pair<Integer, Integer>> seatsChosen) {
-    	this.purchaseType = type;
+    public void setInfoTicket(Screening screening, ArrayList<Pair<Integer, Integer>> seatsChosen) {
+    	this.purchaseType = PurchaseTypes.TICKET;
     	this.screening = screening;
     	this.seats = seatsChosen;
-    	String order;
-    	
-		paymentLabel.setText(Double.toString(seats.size() * screening.getCinema().getMoviePrice()));
-    	order = screening.getCinema().getName() + " Cinema, hall " + screening.getHall().getHallId() + "\n" +
-    			screening.getMovie().getName() + " " + screening.getDate_screen() + "\n";
+    	price = seats.size() * ticketPrice;
+		paymentLabel.setText(Double.toString(price));
+    	order = "Screened Movie: " + screening.getMovie().getName() + 
+    			"\nIn " + screening.getCinema().getName() + " Cinema, hall number: " + screening.getHall().getHallId() + 
+    			"\nScreening Date: " + screening.getDate() + ", Screening Time: " +  screening.getTime() + "\n";
 		for(Pair<Integer,Integer> seat : seats) {
 			order += "Seat " + seat.getKey() + "," + seat.getValue() + "\n";
 		}
-		order += "Total price: " + seats.size() * screening.getCinema().getMoviePrice();
+		order += "Total price: " + price;
         orderSummeryTextArea.setText(order);
-	
-		watchFromHome = false;
-		subscriptionCard = new Pair<Boolean,Integer>(false,0);
-        paymentLabel.setText(Double.toString(seats.size() * screening.getCinema().getMoviePrice()));
-   	
+        paymentLabel.setText(Double.toString(price));
     }
     
-    public void setInfoSubscription(int type, double price) {
-    	this.purchaseType = type;
-    	String order;
-    
-		paymentLabel.setText(Double.toString(price));
-		order = "The subscription card will act as a realy time ticket to enter any movie\n in any of our cinemas 20 times!\n";
-		order += "Total price: " + paymentLabel.getText();
+    public void setInfoSubscription() {
+    	purchaseType = PurchaseTypes.SUBSCRIPTION_CARD;
+    	price = cardPrice;
+		paymentLabel.setText(Double.toString(cardPrice));
+		order = "With a subscription card, you can freely attend 20 screenings of your choice, in a cinema of your choice!\n";
+		order += "Total price: " + price;
         orderSummeryTextArea.setText(order);
-	
-		watchFromHome = false;
-		subscriptionCard = new Pair<Boolean,Integer>(true,20);
+    }
 
-	
-    	
-    }
-    
-    
-    public void setInfoLink(int type, Screening screening) {
-    	this.purchaseType = type;
-    	this.screening = screening;
-    	String order;
-		paymentLabel.setText(Double.toString(screening.getCinema().getLinkPrice()));
-    	order = screening.getMovie().getName() + " " + screening.getDate_screen();
-		order += "Total price: " + paymentLabel.getText();
-        orderSummeryTextArea.setText(order);
-		watchFromHome = true;
-		subscriptionCard = new Pair<Boolean,Integer>(false,0);    		
-    	
+
+    public void setInfoLink(ViewingPackage viewingPackage) {
+    	this.purchaseType = PurchaseTypes.VIEWING_PACKAGE;
+    	this.viewingPackage = viewingPackage;
+
+		paymentLabel.setText(Double.toString(linkPrice));
+    	order = "Movie chosen: " + viewingPackage.getMovie().getName() + " on the date of:  " + viewingPackage.getDateTime().toString().substring(0,10) + " at: " + viewingPackage.getDateTime().toString().substring(11,16);
+		order += "\nTotal price: " + paymentLabel.getText();
+        orderSummeryTextArea.setText(order);	
     }
     
     private void createPurchase() {
-    	EventBus.getDefault().register(this);
-    	//complaint = new Complaint(firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), phoneNumberTextField.getText(),false, null ,false);
-    	for(Pair<Integer,Integer> seat : seats) {
-    		screening.getSeats()[seat.getKey()][seat.getValue()] = 1;
-    	}
-    	
-    	if(purchaseType == PurchaseTypes.TICKET) {
+      	if(purchaseType == PurchaseTypes.TICKET) {
+        	/* Ticket Purchase Constructor:
+        	 * String firstName, String lastName, String email, String city, String phone,
+        	 * double payment, LocalDateTime purchaseTime, Pair<Boolean, Float> isCanceled, 
+        	 * Screening screening, ArrayList<Pair<Integer , Integer>> seatsList, Complaint complaint
+        	 */
+        	for(Pair<Integer,Integer> seat : seats) {
+        		screening.getSeats()[seat.getKey()][seat.getValue()] = 1;
+        	}
     		purchase = new Purchase(firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), cityTextField.getText(), phoneNumberTextField.getText(),
-    			subscriptionCard, watchFromHome, LocalDateTime.now(), screening.getCinema(), screening.getHall(), seats, 0 , null,screening,false,null);
+    								price, LocalDateTime.now(), screening, seats, null);
     	}
-    	purchase = new Purchase(firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), cityTextField.getText(), phoneNumberTextField.getText(),
-    			subscriptionCard, watchFromHome, LocalDateTime.now(), screening.getCinema(), screening.getHall(), seats, Double.parseDouble(paymentLabel.getText()) , null,screening,false,null);
-    	//complaint.setPurchase(purchase);
     	
+    	if(purchaseType == PurchaseTypes.VIEWING_PACKAGE) {
+    		/* Viewing Package Constructor:
+    		 * (String firstName, String lastName, String email, String city, String phone,
+    		 * double payment, LocalDateTime purchaseTime, Cinema cinema,
+    		 * ViewingPackage viewingPackage, Complaint complaint)
+    		 */
+    		purchase = new Purchase(firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), cityTextField.getText(), phoneNumberTextField.getText(),
+									price, LocalDateTime.now(), null, viewingPackage, null);
+    	}
+    	
+    	if(purchaseType == PurchaseTypes.SUBSCRIPTION_CARD) {
+    		/* Subscription Card Constructor:
+    		 * public Purchase(String firstName, String lastName, String email, String city, String phone,
+    		 * double payment, LocalDateTime purchaseTime, Cinema cinema,
+    		 * SubscriptionCard subscriptionCard, Complaint complaint)
+    		 */
+    		purchase = new Purchase(firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), cityTextField.getText(), phoneNumberTextField.getText(),
+									price, LocalDateTime.now(), null, subscriptionCard, null);	
+    	}
+
+    	order += "\nPuchase Id for cancelations: " + purchase.getSerial();
     	Message msg = new Message();
     	msg.setAction("save customer");
     	msg.setPurchase(purchase);
+    	msg.setCustomerEmail(emailTextField.getText());
+    	msg.setEmailMessage(order);
     	try {
 			AppClient.getClient().sendToServer(msg);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	
+    	try {
+			PaymentCompletionPageController controller= (PaymentCompletionPageController)App.setContent("PaymentCompletionPage");
+			controller.SetData(order, firstNameTextField.getText(), lastNameTextField.getText(),
+					emailTextField.getText(), phoneNumberTextField.getText(),
+					cardHoldersNameTextField.getText(), cardHoldersIDTextField.getText(),
+					paymentNumberComboBox.getValue().toString(), cityTextField.getText(),
+					addressTextField.getText(), cardExpirationDatePicker.getValue().toString(),
+					paymentLabel.getText(), cardNumberTextField.getText(), purchase.getSerial());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -227,37 +278,20 @@ public class PaymentPageController {
     	
     }
     
-    
+    //in the func handleMessageFromClient
     @Subscribe
     public void OnMessageEvent(Message msg) {
+    	if(msg.getAction().equals("got prices")) {
+    		EventBus.getDefault().unregister(this);
+    		ticketPrice = msg.getMoviePrice();
+    		linkPrice = msg.getViewingPackagePrice();
+    		cardPrice = msg.getSubscriptionCardPrice();
+    	}
     	
     	if(msg.getAction().equals("save customer done")) {
-    		String successfulPurchaseString;
-    		successfulPurchaseString = "Dear " + purchase.getFirstName() +" " + purchase.getLastName() + ", Thank you for your purchase.\n"
-    				+ "the details of your order are:\n" + "Order Number: " + purchase.getId()
-    				+ purchase.getCinema().getName() + " Cinema, hall " + purchase.getHall().getHallId() + "with the following seats:\n";
-    			for(Pair<Integer,Integer> seat : seats) {
-    				successfulPurchaseString += "Seat " + seat.getKey() + "," + seat.getValue() + "\n";
-    			}
-    			successfulPurchaseString += "Total price: " + purchase.getPayment();
-    			msg.setAction("send successful purchase mail");
-    			msg.setCustomerEmail(purchase.getEmailOrder());
-    			msg.setEmailMessage(successfulPurchaseString);
-    			try {
-					AppClient.getClient().sendToServer(msg);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-    	}
-    	
-    	if(msg.getAction().equals("sent successful purchase mail")) {
     		EventBus.getDefault().unregister(this);
-    
-    		JOptionPane.showMessageDialog(null, "Thank you for your purchase, an email has been sent with the details");
+    		
     	}
-    	
-    	
     }
     
     public Screening getScreening() {
@@ -281,6 +315,7 @@ public class PaymentPageController {
 		cardNumberWarningLabel.setVisible(false);
 		cardExpirationDateWarningLabel.setVisible(false);
 		cardCVVWarningLabel.setVisible(false);
+		numberOfPaymentsWarningLabel.setVisible(false);
 	}
 
     @FXML
@@ -356,6 +391,14 @@ public class PaymentPageController {
     	
     	if(emptyField == false) {
     		return;
+    	}
+    	
+    	if(paymentNumberComboBox.getValue() == null) {
+    		numberOfPaymentsWarningLabel.setVisible(true);
+    		emptyField = false;
+    		if(emptyField == false) {
+        		return;
+        	}
     	}
     	
     	createPurchase();

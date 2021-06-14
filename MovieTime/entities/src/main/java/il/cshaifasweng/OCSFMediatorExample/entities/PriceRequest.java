@@ -2,88 +2,113 @@ package il.cshaifasweng.OCSFMediatorExample.entities;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-@SuppressWarnings("serial")
+
 @Entity
-@Table(name = "PriceRequest")
-public class PriceRequest implements Serializable{
+@Table(name = "PriceRequests")
+public class PriceRequest implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private LocalDate requestDate;
-	@OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-	private Cinema cinema;
-	private boolean isMovie;
-	private String commentString;
-	private double newPrice;
+	private LocalDateTime date;
+	private int type; // 0 - ticket, 1 - link, 2 - subscription card
+	private String comment;
+	private Float oldPrice;
+	private Float newPrice;
 	private boolean isOpen;
-//	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//	@JoinColumn(name = "worker_id")
-//	private Worker worker;
-	public PriceRequest(LocalDate requestDate, Cinema cinema, boolean isMovie, String commentString,
-			double newPrice, boolean isOpen) {
+	private String administratorComment;
+	
+	public PriceRequest() {
 		super();
-		this.requestDate = requestDate;
-		this.cinema = cinema;
-		this.isMovie = isMovie;
-		this.commentString = commentString;
+		this.date = LocalDateTime.now();
+	}
+
+	public PriceRequest(int type, String comment, Float oldPrice, Float newPrice, boolean isOpen, String administratorComment) {
+		super();
+		this.date = LocalDateTime.now();
+		this.type = type;
+		this.comment = comment;
+		this.oldPrice = oldPrice;
 		this.newPrice = newPrice;
 		this.isOpen = isOpen;
+		this.setAdministratorComment(administratorComment);
 	}
-	public PriceRequest() {}
+
 	public int getId() {
 		return id;
 	}
+	
 	public void setId(int id) {
 		this.id = id;
 	}
-	public LocalDate getRequestDate() {
-		return requestDate;
+	
+	public LocalDateTime getRequestDate() {
+		return date;
 	}
-	public void setRequestDate(LocalDate requestDate) {
-		this.requestDate = requestDate;
+	
+	public void setRequestDate(LocalDateTime date) {
+		this.date = date;
 	}
-	public Cinema getCinema() {
-		return cinema;
+	
+	public boolean isTicket() {
+		return (type == 0);
 	}
-	public void setCinema(Cinema cinema) {
-		this.cinema = cinema;
+	
+	public boolean isLink() {
+		return (type == 1);
 	}
-	public boolean isMovie() {
-		return isMovie;
+	
+	public boolean isCard() {
+		return (type == 2);
 	}
-	public void setMovie(boolean isMovie) {
-		this.isMovie = isMovie;
+	
+	public void setType(int type) {
+		if(type < 0 || type > 2)
+			return;
+		this.type = type;
 	}
-	public String getCommentString() {
-		return commentString;
+	
+	public String getComment() {
+		return comment;
 	}
-	public void setCommentString(String commentString) {
-		this.commentString = commentString;
+	
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
-	public double getNewPrice() {
+	
+	public Float getOldPrice() {
+		return oldPrice;
+	}
+	
+	public void setOldPrice(Float oldPrice) {
+		this.oldPrice = oldPrice;
+	}
+	
+	public Float getNewPrice() {
 		return newPrice;
 	}
-	public void setNewPrice(double newPrice) {
+	
+	public void setNewPrice(Float newPrice) {
 		this.newPrice = newPrice;
 	}
+	
 	public boolean isOpen() {
 		return isOpen;
 	}
-	public void setOpen(boolean isOpen) {
+	
+	public void setIsOpen(boolean isOpen) {
 		this.isOpen = isOpen;
 	}
-	
-	
-	
+
+	public String getAdministratorComment() {
+		return administratorComment;
+	}
+
+	public void setAdministratorComment(String administratorComment) {
+		this.administratorComment = administratorComment;
+	}
 }

@@ -1,17 +1,12 @@
-
 package il.cshaifasweng.OCSFMediatorExample.client; // should be View package
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
-import antlr.collections.List;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
-import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -26,25 +21,19 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 
 public class App extends Application {
-
-	private static Object currentController;
+	private AppClient client;
     private static Scene scene;
+    private static Stage stage;
+	private static Object currentController;
     private static String userName;
     private static String password;
-    private static Stage stage;
+    private static Boolean isLogoutClicked = false;
     @FXML
     private static BorderPane pageLayout;
     @FXML
     private static VBox menu;
     @FXML
     private static VBox content;
-    
-    
-    private AppClient client;
-    private static Boolean isLogoutClicked = false;
-    public static Worker currentWorker;
-    
-    
     @Override
     public void start(Stage primaryStage)  {
     	EventBus.getDefault().register(this);
@@ -52,24 +41,20 @@ public class App extends Application {
     	client = AppClient.getClient();
     	try {
 			client.openConnection();
-		
-    	
-    	// Setting Layout's Content
-    	pageLayout = new BorderPane();
-    	menu = (VBox) loadFXML("SystemMenu").getKey();
-    	content = new VBox();
-    	setBarAndGridLayout("MainPage");
-    	pageLayout.setLeft(menu);
-    	pageLayout.setCenter(content);
-    	
-    	// Setting App's Window
-    	setWindowTitle(PageTitles.MainPage);
-        scene = new Scene(pageLayout, 900, 700);
-        stage.setScene(scene);
-        stage.show();
-
-    	} catch (IOException e) {
-			// TODO Auto-generated catch block
+	    	// Setting Layout's Content
+	    	pageLayout = new BorderPane();
+	    	menu = (VBox) loadFXML("SystemMenu").getKey();
+	    	content = new VBox();
+	    	setBarAndGridLayout("MainPage");
+	    	pageLayout.setLeft(menu);
+	    	pageLayout.setCenter(content);
+	    	// Setting App's Window
+	    	setWindowTitle(PageTitles.MainPage);
+	        scene = new Scene(pageLayout, 900, 700);
+	        stage.setScene(scene);
+	        stage.show();
+    	} 
+    	catch (IOException e) {
 			e.printStackTrace();
 		}
         
@@ -124,7 +109,6 @@ public class App extends Application {
             System.exit(0);
         }
     }
-    
     
     public static void logout(Boolean logoutClicked) {
     	if(userName == null || password == null) {
@@ -226,14 +210,6 @@ public class App extends Application {
         Object controller =  fxmlLoader.getController();
         return new Pair<>(root, controller);
     }
-    
-    public static Worker getCurrentWorker() {
-		return currentWorker;
-	}
-
-	public static void setCurrentWorker(Worker worker) {
-		currentWorker = worker;
-	}
 
 	public static String getPassword() {
 		return password;

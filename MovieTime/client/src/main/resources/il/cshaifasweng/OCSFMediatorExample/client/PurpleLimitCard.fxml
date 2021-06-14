@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="650.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.PurpleLimitCardController">
+   <children>
+      <AnchorPane prefHeight="40.0" prefWidth="650.0" style="-fx-background-color: #f5821e; -fx-background-radius: 50;">
+         <children>
+            <Label alignment="CENTER" layoutX="510.0" layoutY="12.0" text="Y:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label alignment="CENTER" layoutX="270.0" layoutY="12.0" text="To Date:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="15.0" layoutY="12.0" text="From Date:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="fromLabel" alignment="TOP_CENTER" layoutX="85.0" layoutY="12.0" prefWidth="180.0" text="Some Date">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="toLabel" alignment="TOP_CENTER" layoutX="325.0" layoutY="12.0" prefWidth="180.0" text="Some Date">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="yLabel" alignment="TOP_CENTER" layoutX="525.0" layoutY="12.0" prefWidth="115.0" text="Some Y">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</HBox>

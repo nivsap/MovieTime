@@ -1,16 +1,11 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
-import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
-import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
+import il.cshaifasweng.OCSFMediatorExample.entities.PurpleLimit;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
-import javafx.util.Pair;
 
 public class ScreeningCardController {
     @FXML
@@ -42,7 +37,6 @@ public class ScreeningCardController {
 
 	private Complaint complaint;
     
-    
     public void SetData(String movie, String cinema, String date, String time, int hall) {
     	label_movie_name.setText(movie);
     	label_cinema.setText(cinema);
@@ -52,7 +46,7 @@ public class ScreeningCardController {
     	
     }
 
-    public void SetComplaintData(Complaint complaint) {;
+    public void SetComplaintData(Complaint complaint) {
 		label_title.setText(complaint.getComplaintTitle());
     	label_type.setText(complaint.getComplaintType());
     	label_sender.setText(complaint.getFirstName() + " " + complaint.getLastName());

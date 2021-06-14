@@ -60,7 +60,7 @@
                <TextField fx:id="cardHoldersIDTextField" layoutX="270.0" layoutY="255.0" prefHeight="25.0" prefWidth="150.0" promptText="Card holder's ID" />
                <Label fx:id="cardHoldersIDWarningLabel" layoutX="270.0" layoutY="280.0" prefHeight="10.0" text="Card holder's ID must be filed" textFill="RED" />
                <Label layoutX="470.0" layoutY="235.0" text="Payments Number *" textFill="WHITE" />
-               <ComboBox fx:id="paymentNumberComboBox" layoutX="470.0" layoutY="255.0" prefHeight="25.0" prefWidth="150.0" promptText="1" styleClass="orangeComboBox" />
+               <ComboBox fx:id="paymentNumberComboBox" layoutX="470.0" layoutY="255.0" prefHeight="25.0" prefWidth="150.0" promptText="-" styleClass="orangeComboBox" />
                <Label layoutX="70.0" layoutY="300.0" text="Card number *" textFill="WHITE" />
                <TextField fx:id="cardNumberTextField" layoutX="70.0" layoutY="320.0" prefWidth="150.0" promptText="Card number" />
                <Label fx:id="cardNumberWarningLabel" layoutX="70.0" layoutY="345.0" prefHeight="10.0" text="Card number must be filed" textFill="RED" />
@@ -78,6 +78,7 @@
                   </font>
                </Label>
                <Button fx:id="payNowBtn" alignment="CENTER" layoutX="275.0" layoutY="425.0" mnemonicParsing="false" onAction="#padNow" prefWidth="150.0" styleClass="orangeButton" text="Pay now" />
+               <Label fx:id="numberOfPaymentsWarningLabel" layoutX="470.0" layoutY="285.0" prefHeight="10.0" text="number of payments must be filed" textFill="RED" />
             </children>
          </AnchorPane>
       </children>

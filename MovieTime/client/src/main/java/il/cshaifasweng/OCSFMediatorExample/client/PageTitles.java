@@ -9,15 +9,17 @@ public final class PageTitles {
 	static final String OrderTicketsPage = "Order Tickets";
 	static final String LoginPage = "Login";
 	static final String UpdateMoviesPage = "Update Screening Info";
+	static final String PaymentPage = "Payment";
 	static final String PurchaseCancellationPage = "Purchase Cancellation";
 	static final String ViewingPackages = "Viewing Packages";
 	static final String OpenComplaintsPage = "Open Complaints";
 	static final String AddContentPage = "Add Content";
 	static final String DeleteMoviesPage = "Delete Movies";
-    static final String OpenPriceChangeRequests = "OpenPriceChangeRequests";
+	static final String DeleteViewingPackagePage = "Delete Viewing Packages Page";
+    static final String OpenPriceChangeRequests = "Open Price Change Requests";
+	static final String PaymentCompletionPage = "Purchase Sucessful!";
 	static final String ReportsPage = "Reports";
 	static final String PurpleLimitPage = "Purple Limit Page";
-	static final String PriceChangePage = "PriceChangeApprovals";
-
+	static final String PriceChangePage = "Price Change Approvals";
 	static final String ComplaintHandling = "Complaint Handeling";
 }

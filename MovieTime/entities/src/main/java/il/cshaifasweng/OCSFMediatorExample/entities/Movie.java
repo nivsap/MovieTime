@@ -5,20 +5,22 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
-import java.net.URL;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import javafx.scene.image.Image;
+
 @Entity
 @Table(name = "Movies")
 public class Movie implements  Serializable
@@ -26,99 +28,101 @@ public class Movie implements  Serializable
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	//private static final long serialVersionUID = 1L;
 	private String Name;
-    private String duration;
-    private Double popular;
     private String genre;
+    private String description;
+    private String producers;
+    private String mainActors;
+    private LocalDate launchDate;
+    private String duration;
+    private Float rate;
     @Lob
     private byte[] image;
     @Lob
     private byte[] largeImage;
-    private ArrayList<String> MovieBeginingTime;
-    private boolean streamOnline;
-    private boolean soonInCinema;
-    private String  description;
-    private String mainActors;
-    private int priceMovie;
-    private String producersMovie;
-    private LocalDateTime launchDate;
+    private boolean isComingSoon;
     private boolean isDeleted;
-    private boolean isScreening;
-  //  @OneToMany(mappedBy = "movies", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-   // private List<ViewingPackage> viewingPackages;
-//    @OneToOne(mappedBy = "movie", cascade = CascadeType.MERGE , fetch = FetchType.EAGER)
-//	private Screening screening;
-    //TODO ending time, duration = ending time - starting time
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "movie")
+	@Fetch(value = FetchMode.SUBSELECT)
+	private List<Screening> screenings;
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "movie")
+	@Fetch(value = FetchMode.SUBSELECT)
+	private List<ViewingPackage> viewingPackages;
 
-
-    public String getDuration() {
-        return duration;
-    }
-
-    public Movie(String name, String duration, Double popular, String genre, String imageSrc, String largeImageSrc,
-			ArrayList<String> movie_Begining_Time, boolean streamOnline, boolean soonInCinema, String description,
-			String mainActors, LocalDateTime launchDate ,int priceMovie, String producersMovie,Screening screening, boolean isDeleted , List<ViewingPackage> viewingPackages,boolean isScreening) throws IOException {
-		Name = name;
-		this.duration = duration;
-		this.popular = popular;
-		this.genre = genre;
-		this.MovieBeginingTime = new ArrayList<>();
-		this.streamOnline = streamOnline;
-		this.soonInCinema = soonInCinema;
-		this.description = description;
-		this.mainActors = mainActors;
-		this.launchDate = launchDate;
-		this.priceMovie = priceMovie;
-		this.producersMovie = producersMovie;
-		this.isDeleted = isDeleted;
-		this.isScreening = isScreening;
-		setImage(imageSrc);
-		setLargeImage(largeImageSrc);
-	}
-  
-	public boolean isScreening() {
-		return isScreening;
-	}
-
-	public void setScreening(boolean isScreening) {
-		this.isScreening = isScreening;
-	}
-
-	public boolean isDeleted() {
-		return this.isDeleted;
-	}
-
-	public void setDeleted(boolean isDeleted) {
-		this.isDeleted = isDeleted;
-	}
-
+     /*  For easier copy-paste:
+		 this.Name;
+	     this.genre;
+	     this.description;
+	     this.producers;
+	     this.mainActors;
+	     this.launchDate;
+	     this.duration;
+	     this.rate;
+	     this.image;
+	     this.largeImage;
+	     this.isComingSoon;
+	     this.isDeleted;
+		 this.viewingPackages;
+	 */
+	
 	public Movie() {
 		super();
 	}
-	
-	public int getPriceMovie() {
-		return priceMovie;
-	}
 
-	public void setPriceMovie(int priceMovie) {
-		this.priceMovie = priceMovie;
+    public Movie(String name, String genre, String description, String producers, String mainActors,
+    			 LocalDate launchDate, int durationHours, int durationMinutes, Float rate, byte[] image, byte[] largeImage,
+    			 boolean isComingSoon, boolean isDeleted, ArrayList<Screening> screenings, ArrayList<ViewingPackage> viewingPackages) throws IOException {
+	   	 this.Name = name;
+	     this.genre = genre;
+	     this.description = description;
+	     this.producers = producers;
+	     this.mainActors = mainActors;
+	     this.launchDate = launchDate;
+	     this.duration = durationHours + "h " + durationMinutes + "min";
+	     this.rate = rate;
+	     this.image = image;
+	     this.largeImage = largeImage;
+	     this.isDeleted = isDeleted;
+	     this.screenings = screenings;
+		 this.viewingPackages = viewingPackages;
+	   	 if(launchDate.isAfter(LocalDate.now())) {
+	   		 this.rate = 0f;
+	   		 this.isComingSoon = true;
+	   	 }
+	   	 else {
+	   		this.rate = rate;
+	   		this.isComingSoon = isComingSoon;
+	   	 }
 	}
-
-	public String getProducersMovie() {
-		return producersMovie;
+    
+    public Movie(String name, String genre, String description, String producers, String mainActors,
+    			 LocalDate launchDate, int durationHours, int durationMinutes, Float rate, String image, String largeImage,
+    			 boolean isComingSoon, boolean isDeleted, ArrayList<Screening> screenings, ArrayList<ViewingPackage> viewingPackages) throws IOException {
+	   	 this.Name = name;
+	     this.genre = genre;
+	     this.description = description;
+	     this.producers = producers;
+	     this.mainActors = mainActors;
+	     this.launchDate = launchDate;
+	     this.duration = durationHours + "h " + durationMinutes + "min";
+	     this.rate = rate;
+	     setImage(image);
+	     setLargeImage(largeImage);
+	     this.isDeleted = isDeleted;
+	     this.screenings = screenings;
+		 this.viewingPackages = viewingPackages;
+	   	 if(launchDate.isAfter(LocalDate.now())) {
+	   		 this.rate = 0f;
+	   		 this.isComingSoon = true;
+	   	 }
+	   	 else {
+	   		this.rate = rate;
+	   		this.isComingSoon = isComingSoon;
+	   	 }
 	}
-
-	public void setProducersMovie(String producersMovie) {
-		this.producersMovie = producersMovie;
-	}
-
-	public int getId() {
+    
+    public int getId() {
 		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getName() {
@@ -126,31 +130,17 @@ public class Movie implements  Serializable
 	}
 
 	public void setName(String name) {
-		Name = name;
+		if(!isDeleted)
+			this.Name = name;
 	}
 
-	public ArrayList<String> getMovieBeginingTime() {
-		return MovieBeginingTime;
+	public String getGenre() {
+		return genre;
 	}
 
-	public void setMovieBeginingTime(ArrayList<String> movieBeginingTime) {
-		MovieBeginingTime = movieBeginingTime;
-	}
-
-	public boolean isStreamOnline() {
-		return streamOnline;
-	}
-
-	public void setStreamOnline(boolean streamOnline) {
-		this.streamOnline = streamOnline;
-	}
-
-	public boolean isSoonInCinema() {
-		return soonInCinema;
-	}
-
-	public void setSoonInCinema(boolean soonInCinema) {
-		this.soonInCinema = soonInCinema;
+	public void setGenre(String genre) {
+		if(!isDeleted)
+			this.genre = genre;
 	}
 
 	public String getDescription() {
@@ -158,7 +148,17 @@ public class Movie implements  Serializable
 	}
 
 	public void setDescription(String description) {
-		this.description = description;
+		if(!isDeleted)
+			this.description = description;
+	}
+
+	public String getProducers() {
+		return producers;
+	}
+
+	public void setProducers(String producers) {
+		if(!isDeleted)
+			this.producers = producers;
 	}
 
 	public String getMainActors() {
@@ -166,34 +166,39 @@ public class Movie implements  Serializable
 	}
 
 	public void setMainActors(String mainActors) {
-		this.mainActors = mainActors;
+		if(!isDeleted)
+			this.mainActors = mainActors;
 	}
 
-	public LocalDateTime getLaunchDate() {
+	public LocalDate getLaunchDate() {
 		return launchDate;
 	}
 
-	public void setLaunchDate(LocalDateTime launchDate) {
-		this.launchDate = launchDate;
+	public void setLaunchDate(LocalDate launchDate) {
+		if(!isDeleted)
+			this.launchDate = launchDate;
+	}
+
+	public String getDuration() {
+		return duration;
 	}
 
 	public void setDuration(String duration) {
-        this.duration = duration;
-    }
-
-    public Double getPopular() {
-        return popular;
-    }
-
-    public void setPopular(Double popular) {
-        this.popular = popular;
-    }
-	public String getGenre() {
-		return genre;
+		if(!isDeleted)
+			this.duration = duration;
 	}
 
-	public void setGenre(String genre) {
-		this.genre = genre;
+	public Float getRate() {
+		return rate;
+	}
+
+	public void setRate(Float rate) {
+		if(!isDeleted) {
+			if(launchDate.isAfter(LocalDate.now())) 
+				this.rate = 0f;
+		   	else 
+		   		this.rate = rate;
+		}
 	}
     
 	public Image getImage() {
@@ -204,6 +209,9 @@ public class Movie implements  Serializable
 	}
 
 	public void setImage(String imageSrc) throws IOException {
+		if(isDeleted)
+			return;
+		
 		if(imageSrc == null || imageSrc.equals("")) {
 			this.image = null;
 			return;
@@ -232,6 +240,9 @@ public class Movie implements  Serializable
 	}
 
 	public void setLargeImage(String largeImageSrc) throws IOException {
+		if(isDeleted)
+			return;
+		
 		if(largeImageSrc == null || largeImageSrc.equals("")) {
 			this.largeImage = null;
 			return;
@@ -251,26 +262,82 @@ public class Movie implements  Serializable
         }
         this.largeImage = binaryImage;
 	}
+	
+	public boolean isComingSoon() {
+		return isComingSoon;
+	}
 
+	public void setComingSoon(boolean isComingSoon) {
+		if(!isDeleted) {
+		   	if(launchDate.isAfter(LocalDate.now())) 
+		   		this.isComingSoon = true;
+		   	else 
+		   		this.isComingSoon = isComingSoon;
+		}
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+	
+	public List<Screening> getScreenings() {
+		if(!isComingSoon)
+			return screenings;
+		return null;
+	}
+
+	public void setScreenings(ArrayList<Screening> screenings) {
+		if(!isDeleted && !isComingSoon)
+			this.screenings = screenings;
+	}
+	
+	public Boolean isScreening() {
+		if(!isDeleted && !isComingSoon && screenings != null && !screenings.isEmpty())
+			return true;
+		return false;
+	}
+	
+	public List<ViewingPackage> getViewingPackages() {
+		if(!isDeleted)
+			return viewingPackages;
+		return null;
+	}
+
+	public void setViewingPackages(ArrayList<ViewingPackage> viewingPackages) {
+		if(!isDeleted)
+			this.viewingPackages = viewingPackages;
+	}
+	
+	public Boolean isViewingPackage() {
+		if(!isDeleted && viewingPackages != null && !viewingPackages.isEmpty())
+			return true;
+		return false;
+	}
+	 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((MovieBeginingTime == null) ? 0 : MovieBeginingTime.hashCode());
 		result = prime * result + ((Name == null) ? 0 : Name.hashCode());
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((duration == null) ? 0 : duration.hashCode());
 		result = prime * result + ((genre == null) ? 0 : genre.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((producers == null) ? 0 : producers.hashCode());
+		result = prime * result + ((mainActors == null) ? 0 : mainActors.hashCode());
+		result = prime * result + ((launchDate == null) ? 0 : launchDate.hashCode());
+		result = prime * result + ((duration == null) ? 0 : duration.hashCode());
+		result = prime * result + ((rate == null) ? 0 : rate.hashCode());
 		result = prime * result + ((image == null) ? 0 : image.hashCode());
 		result = prime * result + ((largeImage == null) ? 0 : largeImage.hashCode());
-		result = prime * result + ((launchDate == null) ? 0 : launchDate.hashCode());
-		result = prime * result + ((mainActors == null) ? 0 : mainActors.hashCode());
-		result = prime * result + ((popular == null) ? 0 : popular.hashCode());
-		result = prime * result + (soonInCinema ? 1231 : 1237);
-		result = prime * result + (streamOnline ? 1231 : 1237);
+		result = prime * result + (isComingSoon ? 1231 : 1237);
+		result = prime * result + (isDeleted ? 1231 : 1237);
+		result = prime * result + ((viewingPackages == null) ? 0 : viewingPackages.hashCode());
 		return result;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -280,10 +347,7 @@ public class Movie implements  Serializable
 		if (getClass() != obj.getClass())
 			return false;
 		Movie other = (Movie) obj;
-		if (MovieBeginingTime == null) {
-			if (other.MovieBeginingTime != null)
-				return false;
-		} else if (!MovieBeginingTime.equals(other.MovieBeginingTime))
+		if (id != other.id)
 			return false;
 		if (Name == null) {
 			if (other.Name != null)
@@ -320,27 +384,45 @@ public class Movie implements  Serializable
 				return false;
 		} else if (!launchDate.equals(other.launchDate))
 			return false;
+		if (producers == null) {
+			if (other.producers != null)
+				return false;
+		} else if (!producers.equals(other.producers))
 		if (mainActors == null) {
 			if (other.mainActors != null)
 				return false;
 		} else if (!mainActors.equals(other.mainActors))
 			return false;
-		if (popular == null) {
-			if (other.popular != null)
+		if (rate == null) {
+			if (other.rate != null)
 				return false;
-		} else if (!popular.equals(other.popular))
+		} else if (!rate.equals(other.rate))
 			return false;
-		if (soonInCinema != other.soonInCinema)
+		if (isComingSoon != other.isComingSoon)
 			return false;
-		if (streamOnline != other.streamOnline)
+		if (isDeleted != other.isDeleted)
+			return false;
+		if (viewingPackages == null) {
+			if (other.viewingPackages != null)
+				return false;
+		} else if (!viewingPackages.equals(other.viewingPackages))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Movie [Name=" + Name + ", duration=" + duration + ", popular=" + popular + ", genre=" + genre
-				+ ", MovieBeginingTime=" + MovieBeginingTime + ", streamOnline=" + streamOnline + ", soonInCinema=" + soonInCinema
-				+ ", description=" + description + ", mainActors=" + mainActors + ", launchDate=" + launchDate + "]";
+		return "movie_" + id + 
+				"[name: " + Name + 
+				", genre: " + genre + 
+				", description: " + description +
+				", producers: " + producers +
+				", mainActors: " + mainActors +
+				", launchDate: " + launchDate +
+				", duration: " + duration + 
+				", rate: " + rate + 
+				", isComingSoon: " + isComingSoon +
+				", isDeleted: " + isDeleted +
+				", viewingPackages:\n" + viewingPackages +"]\n";
 	}
 }

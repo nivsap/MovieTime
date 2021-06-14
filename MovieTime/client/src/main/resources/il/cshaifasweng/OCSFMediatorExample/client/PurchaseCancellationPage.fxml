@@ -124,7 +124,7 @@
                   </font>
                </Label>
                <Button fx:id="cancelBtn" alignment="CENTER" layoutX="200.0" layoutY="410.0" mnemonicParsing="false" onAction="#cancelPurchase" prefHeight="30.0" prefWidth="250.0" styleClass="orangeButton" text="Cancel" />
-               <Label fx:id="weAreSorryLabel" alignment="CENTER" layoutY="440.0" prefWidth="650.0" text="We are sorry! Your order can not be canceled" textAlignment="CENTER" textFill="RED" wrapText="true">
+               <Label fx:id="weAreSorryLabel" alignment="CENTER" layoutY="442.0" prefWidth="650.0" text="We are sorry! Your order can not be canceled" textAlignment="CENTER" textFill="RED" wrapText="true">
                   <font>
                      <Font name="System Bold" size="12.0" />
                   </font>

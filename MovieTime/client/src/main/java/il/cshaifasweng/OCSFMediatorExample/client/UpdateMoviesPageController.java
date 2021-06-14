@@ -1,15 +1,10 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
-import java.awt.TextField;
 import java.io.IOException;
-import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 
@@ -23,16 +18,11 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 public class UpdateMoviesPageController{
 
@@ -117,7 +107,7 @@ public class UpdateMoviesPageController{
 			Iterator<Screening> iter = filteredScreenings.iterator();
 			while (iter.hasNext()) {
 			  Screening s = iter.next();
-			  if (!s.getDate_screen().toString().substring(0,10).equals(dateCard.getValue().toString()))
+			  if (!s.getDate().toString().equals(dateCard.getValue().toString()))
 				  iter.remove();
 			}
 		}
@@ -126,20 +116,18 @@ public class UpdateMoviesPageController{
 			Iterator<Screening> iter = filteredScreenings.iterator();
 			while (iter.hasNext()) {
 			  Screening s = iter.next();
-			  if (!s.getDate_screen().toString().substring(11,16).equals(cb_time.getValue()))
+			  if (!s.getTime().toString().equals(cb_time.getValue()))
 				  iter.remove();
 			}
 		}
 			
-		String temp;
 		try {
 			for(Screening screening : filteredScreenings) {
 				FXMLLoader fxmlLoader = new FXMLLoader();
 				fxmlLoader.setLocation(getClass().getResource("ScreeningCard.fxml"));
 				HBox cardBox = fxmlLoader.load();				
 				ScreeningCardController ctrl = fxmlLoader.getController();
-				temp = screening.getDate_screen().toString();
-				ctrl.SetData(screening.getMovie().getName(), screening.getCinema().getName(),temp.substring(0,10), temp.substring(11,16), screening.getHall().getHallId());
+				ctrl.SetData(screening.getMovie().getName(), screening.getCinema().getName(), screening.getDate().toString(), screening.getTime().toString(), screening.getHall().getHallId());
 				screening_time_layout.getChildren().add(cardBox);
 			}
 		} catch (IOException e) {
@@ -165,15 +153,13 @@ public class UpdateMoviesPageController{
 	 
 	public void InitPage(){		
 	 System.out.println("in here");
-	 String temp;
 		try {
 			for(Screening screening : screenings) {
 				FXMLLoader fxmlLoader = new FXMLLoader();
 				fxmlLoader.setLocation(getClass().getResource("ScreeningCard.fxml"));
 				HBox cardBox = fxmlLoader.load();				
 				ScreeningCardController ctrl = fxmlLoader.getController();
-				temp = screening.getDate_screen().toString();
-				ctrl.SetData(screening.getMovie().getName(), screening.getCinema().getName(),temp.substring(0,10), temp.substring(11,16), screening.getHall().getHallId());
+				ctrl.SetData(screening.getMovie().getName(), screening.getCinema().getName(), screening.getDate().toString(), screening.getTime().toString(), screening.getHall().getHallId());
 				screening_time_layout.getChildren().add(cardBox);
 			}
 		} catch (IOException e) {
@@ -235,14 +221,14 @@ public class UpdateMoviesPageController{
     		if(msg.getAction().equals("got all screenings")) {
     			
     			Platform.runLater(()-> {
-    				screenings = msg.getScreeningArrayList();
+    				screenings = msg.getScreenings();
     				SetData();
     			});
     		}
     		if(msg.getAction().equals("updated movie time")) {
     			
     			Platform.runLater(()-> {
-    				screenings = msg.getScreeningArrayList();
+    				screenings = msg.getScreenings();
 					onChoiceCB();
 
     			});
@@ -293,7 +279,7 @@ public class UpdateMoviesPageController{
 				}
 				msg.setAction("update movie time");
 				msg.setMovieName(cb_movie.getValue());
-				msg.setDbAction(cb_removal_addition.getValue());
+				msg.setDBAction(cb_removal_addition.getValue());
 				msg.setCinemaName(cb_cinema.getValue());
 				msg.setHallId(Integer.parseInt(cb_hall.getValue()));
 
@@ -311,7 +297,7 @@ public class UpdateMoviesPageController{
 				System.out.println(day);
 				System.out.println(hour);
 				System.out.println(minutes);
-				msg.setDateMovie(LocalDate.of(year,month,day).atTime(hour,minutes));
+				msg.setScreeningDate(LocalDate.of(year,month,day).atTime(hour,minutes));
 
 			 
 			try {

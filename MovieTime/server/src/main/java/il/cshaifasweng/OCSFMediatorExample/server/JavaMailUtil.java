@@ -1,10 +1,5 @@
-/**
- * 
- */
 package il.cshaifasweng.OCSFMediatorExample.server;
 
-
-//import java.net.PasswordAuthentication;
 import java.util.Properties;
 import javax.mail.Session;
 import javax.mail.Authenticator;
@@ -15,10 +10,6 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.*;
 
-
-//import com.sun.net.httpserver.Authenticator;
-import com.sun.net.httpserver.Authenticator.Result;
-import com.sun.net.httpserver.HttpExchange;
 /**
  * @author Eitan
  *

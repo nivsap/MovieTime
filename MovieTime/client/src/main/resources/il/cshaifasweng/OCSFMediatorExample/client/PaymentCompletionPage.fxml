@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #1d1e22;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.PaymentCompletionPageController">
+   <children>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="437.0" prefWidth="700.0">
+         <children>
+            <Label layoutX="15.0" layoutY="75.0" style="-fx-font-weight: bold;" text="Purchase Details:" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="15.0" layoutY="130.0" text="First name:" textFill="WHITE" />
+            <Label layoutX="15.0" layoutY="150.0" text="Last name:" textFill="WHITE" />
+            <Label layoutX="262.0" layoutY="15.0" style="-fx-font-weight: bold;" text="Purchase Successful!" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="320.0" layoutY="45.0" text="Thank You!" textFill="WHITE" />
+            <Label layoutX="15.0" layoutY="110.0" style="-fx-font-weight: bold;" text="Customer Information" textFill="WHITE" />
+            <Line endX="575.0" layoutX="115.0" layoutY="100.0" startX="-100.0" stroke="WHITE" />
+            <Label layoutX="15.0" layoutY="170.0" text="Email:" textFill="WHITE" />
+            <Label layoutX="15.0" layoutY="190.0" text="Phone number:" textFill="WHITE" />
+            <Label layoutX="300.0" layoutY="110.0" style="-fx-font-weight: bold;" text="Purchase Information" textFill="WHITE" />
+            <Label layoutX="300.0" layoutY="130.0" text="Card holder's name:" textFill="WHITE" />
+            <Label layoutX="300.0" layoutY="150.0" text="Card holder's ID:" textFill="WHITE" />
+            <Label layoutX="300.0" layoutY="170.0" text="Number of Payments:" textFill="WHITE" />
+            <Label fx:id="cardNumberLabel" layoutX="300.0" layoutY="190.0" text="Card number:" textFill="WHITE" />
+            <Label fx:id="firstNameLabel" layoutX="120.0" layoutY="130.0" text="Liel" textFill="WHITE" />
+            <Label fx:id="lastNameLabel" layoutX="120.0" layoutY="150.0" text="Fridman" textFill="WHITE" />
+            <Label fx:id="emailLabel" layoutX="120.0" layoutY="170.0" text="myemail@gmail.com" textFill="WHITE" />
+            <Label fx:id="phoneNumberLabel" layoutX="120.0" layoutY="190.0" text="0523456789" textFill="WHITE" />
+            <Label fx:id="cardHolderLabel" layoutX="420.0" layoutY="130.0" text="Payment issues" textFill="WHITE" />
+            <Label fx:id="cardHolderIdLabel" layoutX="420.0" layoutY="150.0" text="5" textFill="WHITE" />
+            <Label fx:id="numberOfPaymentsLabel" layoutX="420.0" layoutY="170.0" text="I'm very upset" textFill="WHITE" />
+            <Label fx:id="cardNumberLabel" layoutX="420.0" layoutY="190.0" prefWidth="200.0" text="********1234" textFill="WHITE" />
+            <Label layoutX="15.0" layoutY="208.0" text="City" textFill="WHITE" />
+            <Label layoutX="15.0" layoutY="226.0" text="Address" textFill="WHITE" />
+            <Label fx:id="cityLabel" layoutX="120.0" layoutY="208.0" text="Haifa" textFill="WHITE" />
+            <Label fx:id="addressLabel" layoutX="120.0" layoutY="226.0" text="Carmi 2" textFill="WHITE" />
+            <Label layoutX="300.0" layoutY="208.0" text="Expiration date:" textFill="WHITE" />
+            <Label layoutX="300.0" layoutY="226.0" text="Payment Amount:" textFill="WHITE" />
+            <TextArea fx:id="paymentTA" layoutY="264.0" prefHeight="174.0" prefWidth="700.0" />
+            <Label fx:id="expirationDateLabel" layoutX="420.0" layoutY="208.0" text="I'm very upset" textFill="WHITE" />
+            <Label fx:id="paymentAmountLabel" layoutX="420.0" layoutY="226.0" text="I'm very upset" textFill="WHITE" />
+            <Label layoutX="300.0" layoutY="75.0" style="-fx-font-weight: bold;" text="Purchase ID:" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="purchaseIdLabel" layoutX="420.0" layoutY="75.0" style="-fx-font-weight: bold;" text="--" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>

@@ -1,56 +1,56 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 
-import il.cshaifasweng.OCSFMediatorExample.entities.CustomerService;
 import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
+import il.cshaifasweng.OCSFMediatorExample.entities.PurpleLimit;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
-import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
 import javafx.util.Pair;
 
 public class PurpleLimitController {
 	
+	public static ArrayList<PurpleLimit> getActivePurpleLimits() {
+		ArrayList<PurpleLimit> list = Main.getAllOfType(PurpleLimit.class);
+		ArrayList<PurpleLimit> returnList = new ArrayList<>();
+		LocalDate today = LocalDate.now();
+ 		for(PurpleLimit p : list) {
+			if(today.isBefore(p.getToDate()))
+				returnList.add(p);
+		}
+		return returnList;
+	}
 	
-	public static void SetPurpleLimit (LocalDateTime fromDate , LocalDateTime toDate) {
+	public static Pair<Boolean,Integer> checkPurpleLimit(LocalDate date) {
+		ArrayList<PurpleLimit> purpleLimits = Main.getAllOfType(PurpleLimit.class);
+		for(PurpleLimit p: purpleLimits) {
+			if(date.isAfter(p.getFromDate()) && date.isBefore(p.getToDate()))
+				return new Pair<Boolean,Integer>(true, p.getY());
+		}
+		return new Pair<Boolean,Integer>(false, 0);
+	}
+	
+	public static void cancelPurchases(LocalDate fromDate, LocalDate toDate) {
 		try {
 			ArrayList<Screening> allScreenings = Main.getAllOfType(Screening.class);
-			for(Screening screen : allScreenings) {
-				if(screen.getDate_screen().getDayOfYear() >= fromDate.getDayOfYear() && screen.getDate_screen().getDayOfYear() <= toDate.getDayOfYear()) {
-					screen.getCinema().getCancelPurchases().addAll(screen.getPurchases());
-
-					screen.initSeats(); //need to check if its working
-					for(Purchase purchase : screen.getPurchases()) {
-						JavaMailUtil.sendMessage(purchase.getEmailOrder(), "Cancellation of purchase at Sirtiya", "Due to a purple restriction, we are noble to cancel the screening and return the money to you. You are welcome to purchase another ticket in the app");
+			for(Screening screening : allScreenings) {
+				LocalDate screeningDate = screening.getDate();
+				if(screeningDate.isAfter(fromDate) && screeningDate.isBefore(toDate)) {
+					screening.getCinema().getCanceledPurchases().addAll(screening.getPurchases());
+					screening.initSeats(); //need to check if its working
+					for(Purchase purchase : screening.getPurchases()) {
+						JavaMailUtil.sendMessage(purchase.getEmail(), "Cancellation of purchase at Sirtiya", "Due to a purple restriction, we are noble to cancel the screening and return the money to you. You are welcome to purchase another ticket in the app");
 					}
-					Main.updateRowDB(screen);
-					System.out.println("done set purple limit on screening");
+					Main.updateRowDB(screening);
 				}
 			}
-		}catch (Exception e) {
-			// TODO: handle exception
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	public static Pair<Boolean,Integer> CheckPurpleLimit (LocalDateTime date) {
-		ArrayList<Worker> workers = Main.getAllOfType(Worker.class);
-		for(Worker worker : workers) {
-			if(worker instanceof CustomerService) {
-				//worker = ((CustomerService) worker);
-				if(date.getDayOfYear() >= ((CustomerService) worker).getDatesOfPurpleLimit().getKey().getDayOfYear() && date.getDayOfYear() <= ((CustomerService) worker).getDatesOfPurpleLimit().getValue().getDayOfYear()) {
-					return new Pair<Boolean,Integer>(true,((CustomerService) worker).getY());
-				}
-				break;
-			}
-		}
-		return new Pair<Boolean,Integer>(false,0);
-	}
-	
-	
-	public static int[][] SetSeatsPurpleLimit(Screening screening , int numOfSeats) {
+
+	public static int[][] setSeatsPurpleLimit(Screening screening , int numOfSeats) {
 	    int size = screening.getSeats().length * screening.getSeats()[0].length;
 	    int sumOfPeople = screening.getPurchases().size();
 	    int limit = 0 ;

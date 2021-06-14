@@ -1,405 +1,81 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.util.Pair;
-//purchas
 @SuppressWarnings("serial")
 public class Message implements Serializable {
-	String action;
-	String username; 
-	String password;
-	String actionType;
-	String moviesType;
-	String typeOfWorkerString;
-	Movie movie;
-	Screening screening;
-	ArrayList<Movie> movies;
-	ArrayList<String> timeOfMovie; //for shir
-	Worker worker;
-	Complaint complaint;
-	ArrayList<Complaint> complaints;
-	String emailMessage;
-	String customerEmail;
-	String cinemaName;
-	String genere;
-	String theater;
-	String rate;
-	String search;
-	int id;
-	int tavSagolLimit;
-	int numOfSeats;
-	double payment;
-	ArrayList<String> genres;
-	
-	
-	int movieId;            				//clientSide need to fill/set is field when send msg to server
-	int cinemaId;           				//clientSide need to fill/set is field when send msg to server
-	ArrayList<Cinema> cinemasArrayList;
-	ArrayList<PriceRequest> priceRequestsArrayList;
-	ArrayList<Screening> screeningArrayList;
-	List<Pair<Integer,Integer>> chairsHall;
-	Hall hall;              				//clientSide need to fill/set is field when send msg to server
-	boolean status;
-	//HANDLE TICKETS **for shir
-	boolean isTab;
-	/*
-	String firstName;
-	String lastName;
-	String emailOrder;
-	String cityString;
-	String phoneString;
-	public String genreString;
-	public String[] genreArray;
+	/* ---------- Message Necessary Info ---------- */
+	private String action;
+	private String DBaction;
+	private String error;
+	private int id;
+	/* ---------- Handling Workers ---------- */
+	private Worker worker;
+	private String username;
+	private String password;
+	private String typeOfWorker;
+	private NetworkAdministrator administrator;
+	/* ---------- Handling Cinemas ---------- */
+	private Cinema cinema;
+	private int cinemaId;
+	private String cinemaName;
+	private ArrayList<Cinema> cinemas;
+	/* ---------- Handling Movies ---------- */
+	private Movie movie;
+	private int movieId;
+	private String movieName;
+	private ArrayList<Movie> movies;
+	/* ---------- Handling Filters ---------- */
+	private String genre; 
+	private String theater;
+	private String rate;
+	private String search;
+	private String actionType;
+	private ArrayList<String> genres;
+	private String moviesType;
+	/* ---------- Handling Screenings ---------- */
+	private Screening screening;
+	private LocalDateTime screeningDate;
+	private int[][] seats;
+	private ArrayList<Screening> screenings;
+	/* ---------- Handling Halls ---------- */
+	private Hall hall;
+	private int hallId;
+	/* ---------- Handling Viewing Packages ---------- */
+	private ViewingPackage viewingPackage;
+	private List<ViewingPackage> viewingPackages;
+	/* ---------- Handling Subscription Cards ---------- */
+	private SubscriptionCard subscriptionCard;
+	/* ---------- Handling Purchases ---------- */
+	private Purchase purchase;
+	private float payment;
+	private List<Purchase> purchases;
+	private String serial;
+	/* ---------- Handling Complaints ---------- */
+	private Complaint complaint;
+	private ArrayList<Complaint> complaints;
+	/* ---------- Handling Price Requests ---------- */
+	private PriceRequest priceRequest;
+	private float moviePrice;
+	private float viewingPackagePrice;
+	private float subscriptionCardPrice;
+	private ArrayList<PriceRequest> priceRequests;
+	/* ---------- Handling Purple Limits ---------- */
+	private PurpleLimit purpleLimit;
+	private int tavSagolLimit;
+	private int numOfSeats;
+	private boolean status;
+	private ArrayList<PurpleLimit> activePurpleLimits;
+	/* ---------- Handling Emails ---------- */
+	private String emailMessage;
+	private String customerEmail;
 
-	
-	
-	Pair<Boolean , Integer> cinemaTab;
-	*/
-	public String genreString;
-
-	public String[] genreArray;
-
-	int[][] seats;
-	String firstName;       				//clientSide need to fill/set is field when send msg to server
-	String lastName;        				//clientSide need to fill/set is field when send msg to server
-	String emailOrder;      				//clientSide need to fill/set is field when send msg to server
-	String cityString;      				//clientSide need to fill/set is field when send msg to server
-	String phoneString;     				//clientSide need to fill/set is field when send msg to server
-	Pair<Boolean , Integer> cinemaTab;      //clientSide need to fill/set is field when send msg to server
-	String time;
-	String movieName;
-	String DbAction;
-	String error;
-	int hallId;
-	String genre;    						//clientSide need to fill/set is field when send msg to server
-	LocalDateTime dateMovie;    			//clientSide need to fill/set is field when send msg to server
-	Purchase purchase;
-	int month;
-	Cinema cinema;
-	List<Purchase> purchasesList;
-	ViewingPackage viewingPackage;
-	PriceRequest priceRequestmsg;
 	public Message() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-
-	public PriceRequest getPriceRequestmsg() {
-		return priceRequestmsg;
-	}
-
-	public void setPriceRequestmsg(PriceRequest priceRequestmsg) {
-		this.priceRequestmsg = priceRequestmsg;
-	}
-
-	public Cinema getCinema() {
-		return cinema;
-	}
-
-	public ViewingPackage getViewingPackage() {
-		return viewingPackage;
-	}
-
-	public void setViewingPackage(ViewingPackage viewingPackage) {
-		this.viewingPackage = viewingPackage;
-	}
-
-	public void setCinema(Cinema cinema) {
-		this.cinema = cinema;
-	}
-
-	public ArrayList<Complaint> getComplaints() {
-		return complaints;
-	}
-	public void setComplaints(ArrayList<Complaint> complaints) {
-		this.complaints = complaints;
-	}
-	public int getMonth() {
-		return month;
-	}
-
-
-	public List<Purchase> getPurchasesList() {
-		return purchasesList;
-	}
-
-	public void setPurchasesList(List<Purchase> purchasesList) {
-		this.purchasesList = purchasesList;
-	}
-
-	public void setMonth(int month) {
-		this.month = month;
-	}
-
-
-
-	public int getId() {
-		return id;
-	}
-
-
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-
-
-	public Purchase getPurchase() {
-		return purchase;
-	}
-
-
-
-	public void setPurchase(Purchase purchase) {
-		this.purchase = purchase;
-	}
-
-
-
-	public boolean getStatus() {
-		return status;
-	}
-
-
-
-	public List<Pair<Integer, Integer>> getChairsHall() {
-		return chairsHall;
-	}
-
-
-
-	public void setChairsHall(List<Pair<Integer, Integer>> chairsHall) {
-		this.chairsHall = chairsHall;
-	}
-
-
-
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
-
-
-
-	public String getGenre() {
-		return genre;
-	}
-
-
-
-	public void setGenre(String genre) {
-		this.genre = genre;
-	}
-
-
-
-	public LocalDateTime getDateMovie() {
-		return dateMovie;
-	}
-
-
-
-	public void setDateMovie(LocalDateTime dateMovie) {
-		this.dateMovie = dateMovie;
-	}
-
-
-
-	public boolean isTab() {
-		return isTab;
-	}
-
-
-
-	public void setTab(boolean isTab) {
-		this.isTab = isTab;
-	}
-
-
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-
-
-	public String getLastName() {
-		return lastName;
-	}
-
-
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-
-
-	public String getEmailOrder() {
-		return emailOrder;
-	}
-
-
-
-	public void setEmailOrder(String emailOrder) {
-		this.emailOrder = emailOrder;
-	}
-
-
-
-	public String getCityString() {
-		return cityString;
-	}
-
-
-
-	public void setCityString(String cityString) {
-		this.cityString = cityString;
-	}
-
-
-
-	public String getPhoneString() {
-		return phoneString;
-	}
-
-
-
-	public void setPhoneString(String phoneString) {
-		this.phoneString = phoneString;
-	}
-
-
-
-	public Pair<Boolean, Integer> getCinemaTab() {
-		return cinemaTab;
-	}
-
-
-
-	public void setCinemaTab(Pair<Boolean, Integer> cinemaTab) {
-		this.cinemaTab = cinemaTab;
-	}
-
-
-	public Hall getHall() {
-		return hall;
-	}
-
-
-
-	public void setHall(Hall hall) {
-		this.hall = hall;
-	}
-
-
-
-	public int getCinemaId() {
-		return cinemaId;
-	}
-
-
-
-	public void setCinemaId(int cinemaId) {
-		this.cinemaId = cinemaId;
-	}
-
-
-
-	public ArrayList<Screening> getScreeningArrayList() {
-		return screeningArrayList;
-	}
-
-
-
-	public void setScreeningArrayList(ArrayList<Screening> screeningArrayList) {
-		this.screeningArrayList = screeningArrayList;
-	}
-
-
-
-	public ArrayList<Cinema> getCinemasArrayList() {
-		return cinemasArrayList;
-	}
-
-
-
-	public void setCinemasArrayList(ArrayList<Cinema> cinemasArrayList) {
-		this.cinemasArrayList = cinemasArrayList;
-	}
-
-
-
-	public int getMovieId() {
-		return movieId;
-	}
-
-
-
-	public void setMovieId(int movieId) {
-		this.movieId = movieId;
-	}
-
-
-
-	public String getTypeOfWorkerString() {
-		return typeOfWorkerString;
-	}
-
-
-
-	public void setTypeOfWorkerString(String typeOfWorkerString) {
-		this.typeOfWorkerString = typeOfWorkerString;
-	}
-
-
-
-	public String getUsername() {
-		return username;
-	}
-
-
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-
-
-	public String getPassword() {
-		return password;
-	}
-
-
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-
-
-	public Worker getWorker() {
-		return worker;
-	}
-
-
-
-	public void setWorker(Worker worker) {
-		this.worker = worker;
-	}
-
-
 
 	public String getAction() {
 		return action;
@@ -407,6 +83,102 @@ public class Message implements Serializable {
 
 	public void setAction(String action) {
 		this.action = action;
+	}
+
+	public String getActionType() {
+		return actionType;
+	}
+
+	public void setActionType(String actionType) {
+		this.actionType = actionType;
+	}
+
+	public String getDBAction() {
+		return DBaction;
+	}
+
+	public void setDBAction(String dBaction) {
+		DBaction = dBaction;
+	}
+
+	public String getError() {
+		return error;
+	}
+
+	public void setError(String error) {
+		this.error = error;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Worker getWorker() {
+		return worker;
+	}
+
+	public void setWorker(Worker worker) {
+		this.worker = worker;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getTypeOfWorker() {
+		return typeOfWorker;
+	}
+
+	public void setTypeOfWorker(String typeOfWorker) {
+		this.typeOfWorker = typeOfWorker;
+	}
+
+	public Cinema getCinema() {
+		return cinema;
+	}
+
+	public void setCinema(Cinema cinema) {
+		this.cinema = cinema;
+	}
+
+	public int getCinemaId() {
+		return cinemaId;
+	}
+
+	public void setCinemaId(int cinemaId) {
+		this.cinemaId = cinemaId;
+	}
+
+	public String getCinemaName() {
+		return cinemaName;
+	}
+
+	public void setCinemaName(String cinemaName) {
+		this.cinemaName = cinemaName;
+	}
+
+	public ArrayList<Cinema> getCinemas() {
+		return cinemas;
+	}
+
+	public void setCinemas(ArrayList<Cinema> cinemas) {
+		this.cinemas = cinemas;
 	}
 
 	public Movie getMovie() {
@@ -417,6 +189,22 @@ public class Message implements Serializable {
 		this.movie = movie;
 	}
 
+	public int getMovieId() {
+		return movieId;
+	}
+
+	public void setMovieId(int movieId) {
+		this.movieId = movieId;
+	}
+
+	public String getMovieName() {
+		return movieName;
+	}
+
+	public void setMovieName(String movieName) {
+		this.movieName = movieName;
+	}
+
 	public ArrayList<Movie> getMovies() {
 		return movies;
 	}
@@ -425,14 +213,149 @@ public class Message implements Serializable {
 		this.movies = movies;
 	}
 
-	public ArrayList<String> getTimeOfMovie() {
-		return timeOfMovie;
+	public String getMoviesType() {
+		return moviesType;
 	}
 
-	public void setTimeOfMovie(ArrayList<String> timeOfMovie) {
-		this.timeOfMovie = timeOfMovie;
+	public void setMoviesType(String moviesType) {
+		this.moviesType = moviesType;
 	}
 
+	public String getGenre() {
+		return genre;
+	}
+
+	public void setGenre(String genre) {
+		this.genre = genre;
+	}
+
+	public String getTheater() {
+		return theater;
+	}
+
+	public void setTheater(String theater) {
+		this.theater = theater;
+	}
+
+	public String getRate() {
+		return rate;
+	}
+
+	public void setRate(String rate) {
+		this.rate = rate;
+	}
+
+	public String getSearch() {
+		return search;
+	}
+
+	public void setSearch(String search) {
+		this.search = search;
+	}
+
+	public ArrayList<String> getGenres() {
+		return genres;
+	}
+
+	public void setGenres(ArrayList<String> genres) {
+		this.genres = genres;
+	}
+
+	public Screening getScreening() {
+		return screening;
+	}
+
+	public void setScreening(Screening screening) {
+		this.screening = screening;
+	}
+
+	public LocalDateTime getScreeningDate() {
+		return screeningDate;
+	}
+
+	public void setScreeningDate(LocalDateTime screeningDate) {
+		this.screeningDate = screeningDate;
+	}
+
+	public int[][] getSeats() {
+		return seats;
+	}
+
+	public void setSeats(int[][] seats) {
+		this.seats = seats;
+	}
+
+	public ArrayList<Screening> getScreenings() {
+		return screenings;
+	}
+
+	public void setScreenings(ArrayList<Screening> screenings) {
+		this.screenings = screenings;
+	}
+
+	public Hall getHall() {
+		return hall;
+	}
+
+	public void setHall(Hall hall) {
+		this.hall = hall;
+	}
+
+	public int getHallId() {
+		return hallId;
+	}
+
+	public void setHallId(int hallId) {
+		this.hallId = hallId;
+	}
+
+	public ViewingPackage getViewingPackage() {
+		return viewingPackage;
+	}
+
+	public void setViewingPackage(ViewingPackage viewingPackage) {
+		this.viewingPackage = viewingPackage;
+	}
+
+	public List<ViewingPackage> getViewingPackages() {
+		return viewingPackages;
+	}
+
+	public void setViewingPackages(List<ViewingPackage> viewingPackages) {
+		this.viewingPackages = viewingPackages;
+	}
+
+	public SubscriptionCard getSubscriptionCard() {
+		return subscriptionCard;
+	}
+
+	public void setSubscriptionCard(SubscriptionCard subscriptionCard) {
+		this.subscriptionCard = subscriptionCard;
+	}
+
+	public Purchase getPurchase() {
+		return purchase;
+	}
+
+	public void setPurchase(Purchase purchase) {
+		this.purchase = purchase;
+	}
+
+	public float getPayment() {
+		return payment;
+	}
+
+	public void setPayment(float payment) {
+		this.payment = payment;
+	}
+
+	public List<Purchase> getPurchases() {
+		return purchases;
+	}
+
+	public void setPurchases(List<Purchase> purchases) {
+		this.purchases = purchases;
+	}
 
 	public Complaint getComplaint() {
 		return complaint;
@@ -441,56 +364,95 @@ public class Message implements Serializable {
 	public void setComplaint(Complaint complaint) {
 		this.complaint = complaint;
 	}
-	
-	public void setTime(String time) {
-		this.time = time;
+
+	public ArrayList<Complaint> getComplaints() {
+		return complaints;
+	}
+
+	public void setComplaints(ArrayList<Complaint> complaints) {
+		this.complaints = complaints;
+	}
+
+	public PriceRequest getPriceRequest() {
+		return priceRequest;
+	}
+
+	public void setPriceRequest(PriceRequest priceRequest) {
+		this.priceRequest = priceRequest;
 	}
 	
-	public String getTime() {
-		return time;
+	public float getMoviePrice() {
+		return moviePrice;
+	}
+
+	public void setMoviePrice(float moviePrice) {
+		this.moviePrice = moviePrice;
 	}
 	
-	
-	public void setMovieName(String movieName) {
-		this.movieName = movieName;
+	public float getViewingPackagePrice() {
+		return viewingPackagePrice;
+	}
+
+	public void setViewingPackagePrice(float viewingPackagePrice) {
+		this.viewingPackagePrice = viewingPackagePrice;
 	}
 	
-	public String getMovieName() {
-		return movieName;
+	public float getSubscriptionCardPrice() {
+		return subscriptionCardPrice;
 	}
-	
-	public void setDbAction(String action) {
-		this.DbAction = action;
+
+	public void setSubscriptionCardPrice(float subscriptionCardPrice) {
+		this.subscriptionCardPrice = subscriptionCardPrice;
 	}
-	
-	public String getDbAction() {
-		return DbAction;
+
+	public ArrayList<PriceRequest> getPriceRequests() {
+		return priceRequests;
 	}
-	
-	public void setError(String error) {
-		this.error = error;
+
+	public void setPriceRequests(ArrayList<PriceRequest> priceRequests) {
+		this.priceRequests = priceRequests;
 	}
-	
-	public String getError() {
-		return error;
+
+	public PurpleLimit getPurpleLimit() {
+		return purpleLimit;
 	}
-	
-	public int[][] getSeats(){
-		return seats;
+
+	public void setPurpleLimit(PurpleLimit purpleLimit) {
+		this.purpleLimit = purpleLimit;
 	}
-	
-	public void setSeats(int[][] seats) {
-		this.seats = seats;
+
+	public int getTavSagolLimit() {
+		return tavSagolLimit;
 	}
-	
-	public Screening getScreening() {
-		return screening;
+
+	public void setTavSagolLimit(int tavSagolLimit) {
+		this.tavSagolLimit = tavSagolLimit;
 	}
-	
-	public void setScreening(Screening screening) {
-		this.screening = screening;
+
+	public int getNumOfSeats() {
+		return numOfSeats;
 	}
-	
+
+	public void setNumOfSeats(int numOfSeats) {
+		this.numOfSeats = numOfSeats;
+	}
+
+	public boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+	public ArrayList<PurpleLimit> getActivePurpleLimits() {
+		return activePurpleLimits;
+	}
+
+	public void setActivePurpleLimits(ArrayList<PurpleLimit> activePurpleLimits) {
+		this.activePurpleLimits = activePurpleLimits;
+	}
+
 	public String getEmailMessage() {
 		return emailMessage;
 	}
@@ -506,110 +468,22 @@ public class Message implements Serializable {
 	public void setCustomerEmail(String customerEmail) {
 		this.customerEmail = customerEmail;
 	}
-
-	public int getHallId() {
-		return hallId;
+	
+	public NetworkAdministrator getAdministrator() {
+		return administrator;
+	}
+	
+	public void setAdministrator(NetworkAdministrator administrator) {
+		this.administrator = administrator;
 	}
 
-	public void setHallId(int hallId) {
-		this.hallId = hallId;
+	public String getSerial() {
+		return serial;
 	}
 
-	public String getCinemaName() {
-		return cinemaName;
-	}
-
-	public void setCinemaName(String cinemaName) {
-		this.cinemaName = cinemaName;
-	}
-
-	public String getGenere() {
-		return genere;
-	}
-
-	public void setGenere(String genere) {
-		this.genere = genere;
+	public void setSerial(String serial) {
+		this.serial = serial;
 	}
 
 
-	public String getRate() {
-		return rate;
-	}
-
-	public void setRate(String rate) {
-		this.rate = rate;
-	}
-
-	public String getTheater() {
-		return theater;
-	}
-
-	public void setTheater(String theater) {
-		this.theater = theater;
-	}
-
-	public String getSearch() {
-		return search;
-	}
-
-	public void setSearch(String search) {
-		this.search = search;
-	}
-
-	public int getNumOfSeats() {
-		return numOfSeats;
-	}
-
-	public void setNumOfSeats(int numOfSeats) {
-		this.numOfSeats = numOfSeats;
-	}
-
-	public double getPayment() {
-		return payment;
-	}
-
-	public void setPayment(double payment) {
-		this.payment = payment;
-	}
-
-	public ArrayList<PriceRequest> getPriceRequestsArrayList() {
-		return priceRequestsArrayList;
-	}
-
-	public void setPriceRequestsArrayList(ArrayList<PriceRequest> priceRequestsArrayList) {
-		this.priceRequestsArrayList = priceRequestsArrayList;
-	}
-
-	public int getTavSagolLimit() {
-		return tavSagolLimit;
-	}
-
-	public void setTavSagolLimit(int tavSagolLimit) {
-		this.tavSagolLimit = tavSagolLimit;
-	}
-
-	public ArrayList<String> getGenres() {
-		return genres;
-	}
-
-	public void setGenres(ArrayList<String> genres) {
-		this.genres = genres;
-	}
-
-	public String getActionType() {
-		return actionType;
-	}
-
-	public void setActionType(String actionType) {
-		this.actionType = actionType;
-	}
-
-	public String getMoviesType() {
-		return moviesType;
-	}
-
-	public void setMoviesType(String moviesType) {
-		this.moviesType = moviesType;
-	}
 }
-

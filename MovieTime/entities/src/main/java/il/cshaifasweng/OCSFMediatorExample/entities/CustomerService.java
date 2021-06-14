@@ -2,58 +2,40 @@ package il.cshaifasweng.OCSFMediatorExample.entities;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javafx.util.Pair;
 
 @Entity
 @Table(name = "CustomerService")
-public class CustomerService extends Worker implements  Serializable{
+public class CustomerService extends Worker implements  Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private boolean purpleLimit;
-	private int y;
-	Pair<LocalDateTime,LocalDateTime> datesOfPurpleLimit;
 	
-	public CustomerService() {}
-	public CustomerService(String firstName, String lastName, String userName, String password,Cinema cinema, boolean purpleLimit,boolean isLoggedIn,Pair<LocalDateTime,LocalDateTime> datesOfPurpleLimit,int y) {
-		super(firstName, lastName, userName, password,cinema, isLoggedIn);
-		this.purpleLimit = purpleLimit;
-		this.datesOfPurpleLimit = datesOfPurpleLimit;
-		this.y = y;
+	public CustomerService() {
+		super();
 	}
+	
+	public CustomerService(String firstName, String lastName, Cinema cinema, String userName, String password, boolean isLoggedIn) {
+		super(firstName, lastName, cinema, userName, password, isLoggedIn);
+	}
+	
 	public int getId() {
 		return id;
 	}
-	
-	public int getY() {
-		return y;
-	}
-	public void setY(int y) {
-		this.y = y;
-	}
-	public Pair<LocalDateTime, LocalDateTime> getDatesOfPurpleLimit() {
-		return datesOfPurpleLimit;
-	}
-	public void setDatesOfPurpleLimit(Pair<LocalDateTime, LocalDateTime> datesOfPurpleLimit) {
-		this.datesOfPurpleLimit = datesOfPurpleLimit;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public boolean isPurpleLimit() {
-		return purpleLimit;
-	}
-	public void setPurpleLimit(boolean purpleLimit) {
-		this.purpleLimit = purpleLimit;
-	}
-	
 }

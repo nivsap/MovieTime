@@ -1,12 +1,10 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
-import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
+import il.cshaifasweng.OCSFMediatorExample.entities.SubscriptionCard;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.ImageView;
@@ -81,8 +79,9 @@ public class SubscriptionCardInfoPageController {
 
     @FXML
     void buySubscriptionCard(ActionEvent event) throws IOException {
+    	App.setWindowTitle(PageTitles.PaymentPage);
     	PaymentPageController controller = (PaymentPageController) App.setContent("PaymentPage");
-    	controller.setInfoSubscription(PurchaseTypes.SUBSCRIPTION_CARD, 20 * 0.8 * 40 );
+    	controller.setInfoSubscription();
     }
 
     @FXML
@@ -96,7 +95,7 @@ public class SubscriptionCardInfoPageController {
     	}
     	
     	Message msg = new Message();
-    	msg.setAction("get purchase by id");
+    	msg.setAction("get subscription card");
     	msg.setId(Integer.parseInt(subscriptionCardNumber));
     	EventBus.getDefault().register(this);
     	try {
@@ -107,25 +106,25 @@ public class SubscriptionCardInfoPageController {
     	}
     }
     
-    void setRemaining(Purchase purchase) {
+    void setRemaining(SubscriptionCard subscriptionCard) {
     	hideLabels();
-    	if(purchase == null || purchase.getCinemaTab().getKey() == false) {
+    	if(subscriptionCard == null) {
     		subscriptionCardNumberWarningLabel.setText("Subscription card number not found");
     		subscriptionCardNumberWarningLabel.setVisible(true);
     		return;
     	}
-        remainingTitleLabel.setVisible(true);
-        remainingLabel.setText(purchase.getCinemaTab().getValue().toString());
+    	remainingTitleLabel.setVisible(true);
+        remainingLabel.setText(Integer.toString(subscriptionCard.getRemaining()));
         remainingLabel.setVisible(true);
     }
 
     
     @Subscribe
     public void onMessageEvent(Message msg){
-    	if(msg.getAction().equals("got purchase by id")) {
+    	if(msg.getAction().equals("got subscription card")) {
     		Platform.runLater(() -> {
     			EventBus.getDefault().unregister(this);
-    			setRemaining(msg.getPurchase());
+    			setRemaining(msg.getSubscriptionCard());
     		});
     	} 	
     }

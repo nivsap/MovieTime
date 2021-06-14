@@ -2,6 +2,7 @@ package il.cshaifasweng.OCSFMediatorExample.server;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
@@ -32,8 +33,17 @@ public class ViewingPackageController {
 		}
 		
 		return viewingPackages;
-		
-		
-		
+	}
+	
+	public static ArrayList<Movie> getAllValidMovies() {
+		ArrayList<Movie> allMovies = new ArrayList<>();
+		ArrayList<Movie> toReturn = new ArrayList<>();
+		allMovies = Main.getAllOfType(Movie.class);
+		for(Movie movie : allMovies) {
+			if(!movie.isDeleted() && !movie.isComingSoon()) {
+				toReturn.add(movie);
+			}
+		}
+		return toReturn;
 	}
 }

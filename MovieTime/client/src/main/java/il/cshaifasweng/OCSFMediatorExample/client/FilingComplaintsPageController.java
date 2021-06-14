@@ -133,6 +133,13 @@ public class FilingComplaintsPageController  {
     	
     	String email = emailTextField.getText();
     	if(email.equals("")) {
+    		emailWarningLabel.setText("Email must be filled");
+    		emailWarningLabel.setVisible(true);
+    		return;
+    	}
+    	
+    	if(!InputTests.isValidEmail(email)) {
+    		emailWarningLabel.setText("Email is invalid");
     		emailWarningLabel.setVisible(true);
     		return;
     	}
@@ -140,6 +147,13 @@ public class FilingComplaintsPageController  {
     	
     	String phoneNumber = phoneNumberTextField.getText();
     	if(phoneNumber.equals("")) {
+    		phoneNumberWarningLabel.setText("Phone number must be filled");
+    		phoneNumberWarningLabel.setVisible(true);
+    		return;
+    	}
+    	
+    	if(!InputTests.isValidPhoneNumber(phoneNumber)) {
+    		phoneNumberWarningLabel.setText("Phone number is invalid");
     		phoneNumberWarningLabel.setVisible(true);
     		return;
     	}

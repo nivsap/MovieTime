@@ -188,15 +188,10 @@ public class PurchaseCancellationPageController {
 	
 	void sendMessageToServer(Message msg) {
 		try {
-			if(!isRegistered) {
-				EventBus.getDefault().register(this);
-				isRegistered = true;
-			}
+			EventBus.getDefault().register(this);
 			AppClient.getClient().sendToServer(msg);
-			waitingForMessageCounter++;
 		} catch (IOException e) {
 			System.out.println("failed to send msg to server from PurchaseCancellationPage");
-			waitingForMessageCounter--;
 			e.printStackTrace();
 		}
 	}
@@ -204,14 +199,10 @@ public class PurchaseCancellationPageController {
     @Subscribe
     public void onMessageEvent(Message msg){
     	
-    	
+    	System.out.println("got message in PurchaseCancellationPageController");
     	if(msg.getAction().equals("got purchase by serial")) {
+    		EventBus.getDefault().unregister(this);
     		Platform.runLater(() -> {
-    			waitingForMessageCounter--;
-            	if(waitingForMessageCounter == 0 && isRegistered) {
-            		EventBus.getDefault().unregister(this);
-            		isRegistered = false;
-            	}
     			orderNumber = "";
     			foundPurchase = msg.getPurchase();
     			if(foundPurchase == null) {
@@ -230,12 +221,8 @@ public class PurchaseCancellationPageController {
     	} 	
     	
     	if(msg.getAction().equals("got purchase cancelation by id")) {
+    		EventBus.getDefault().unregister(this);
     		Platform.runLater(() -> {
-    			waitingForMessageCounter--;
-            	if(waitingForMessageCounter == 0 && isRegistered) {
-            		EventBus.getDefault().unregister(this);
-            		isRegistered = false;
-            	}
     			try {
 					sendCancellationEmail();
 				} catch (IOException e) {
@@ -245,12 +232,8 @@ public class PurchaseCancellationPageController {
     	} 
     	
     	if(msg.getAction().equals("sent purchase cancellation mail")) {
+    		EventBus.getDefault().unregister(this);
     		Platform.runLater(() -> {
-    			waitingForMessageCounter--;
-            	if(waitingForMessageCounter == 0 && isRegistered) {
-            		EventBus.getDefault().unregister(this);
-            		isRegistered = false;
-            	}
     			try {
 					App.setContent("PurchaseCanceledPage");
 				} catch (IOException e) {

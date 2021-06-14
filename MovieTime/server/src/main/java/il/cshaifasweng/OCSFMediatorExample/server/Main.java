@@ -1107,8 +1107,9 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("cancellation of purchase")) {
 			try {
 				serverMsg = new Message();
-				currentMsg.getPurchase().getScreening().getCinema().getCanceledPurchases().add(currentMsg.getPurchase());
-
+				Purchase p = currentMsg.getPurchase();
+				if(p.isTicket())
+					currentMsg.getPurchase().getScreening().getCinema().getCanceledPurchases().add(p);
 				Float refund = CustomerController.ReturnOnPurchase(currentMsg.getPurchase(), LocalDateTime.now());
 				currentMsg.getPurchase().setIsCanceled(new Pair<Boolean, Float> (true, refund));
 				updateRowDB(currentMsg.getPurchase());

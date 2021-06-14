@@ -21,6 +21,7 @@ public class OpenPriceChangeRequestsController {
 	private Boolean isRegistered; 
 	private PriceRequest newPriceRequest;
 	private int requestType;
+	private float ticketPrice, linkPrice, cardPrice, oldPrice;
 	
     @FXML
     private Label ticketPriceLabel;
@@ -79,10 +80,10 @@ public class OpenPriceChangeRequestsController {
     	sendMessageToServer("get prices");
     }
     
-    void setPrices(float moviePrice, float viewingPackagePrice, float subscriptionCardPrice) {
-    	ticketPriceLabel.setText(String.valueOf(moviePrice) + " ₪");
-    	viewingPackagePriceLabel.setText(String.valueOf(viewingPackagePrice) + " ₪");
-    	subscriptionCardPriceLabel.setText(String.valueOf(subscriptionCardPrice) + " ₪");
+    void setPrices() {
+    	ticketPriceLabel.setText(String.valueOf(ticketPrice) + " ₪");
+    	viewingPackagePriceLabel.setText(String.valueOf(linkPrice) + " ₪");
+    	subscriptionCardPriceLabel.setText(String.valueOf(cardPrice) + " ₪");
     }
     
     @FXML
@@ -97,12 +98,18 @@ public class OpenPriceChangeRequestsController {
     	}
     	
     	else {
-    		if(requestTypeComboBox.getValue().equals("Movie Price Change"))
-        		requestType = 0;
-        	if(requestTypeComboBox.getValue().equals("Viewing Package Price Change"))
+    		if(requestTypeComboBox.getValue().equals("Movie Price Change")) {
+    			requestType = 0;
+    			oldPrice = ticketPrice;
+    		}
+        	if(requestTypeComboBox.getValue().equals("Viewing Package Price Change")) {
         		requestType = 1;
-        	if(requestTypeComboBox.getValue().equals("Subscription Card Price Change"))
+        		oldPrice = linkPrice;
+        	}
+        	if(requestTypeComboBox.getValue().equals("Subscription Card Price Change")) {
         		requestType = 2;
+        		oldPrice = cardPrice;
+        	}
     	}
     	
     	
@@ -119,7 +126,7 @@ public class OpenPriceChangeRequestsController {
     		warningLabel.setVisible(true);
     		return;
     	}
-    	
+    	newPriceRequest.setOldPrice(oldPrice);
     	newPriceRequest.setType(requestType);
     	newPriceRequest.setComment(commentsTextArea.getText());
     	newPriceRequest.setIsOpen(true);
@@ -159,7 +166,10 @@ public class OpenPriceChangeRequestsController {
 	public void onMessageEvent(Message msg) {
     	if (msg.getAction().equals("got prices")) {
 			Platform.runLater(() -> {
-				setPrices(msg.getMoviePrice(), msg.getViewingPackagePrice(), msg.getSubscriptionCardPrice());
+				ticketPrice = msg.getMoviePrice();
+				linkPrice = msg.getViewingPackagePrice();
+				cardPrice = msg.getSubscriptionCardPrice();
+				setPrices();
 			});
 		}
 		if (msg.getAction().equals("done to save price request")) {

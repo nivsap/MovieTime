@@ -17,21 +17,25 @@ public class PriceRequest implements Serializable {
 	private LocalDateTime date;
 	private int type; // 0 - ticket, 1 - link, 2 - subscription card
 	private String comment;
+	private Float oldPrice;
 	private Float newPrice;
 	private boolean isOpen;
+	private String administratorComment;
 	
 	public PriceRequest() {
 		super();
 		this.date = LocalDateTime.now();
 	}
 
-	public PriceRequest(int type, String comment, Float newPrice, boolean isOpen) {
+	public PriceRequest(int type, String comment, Float oldPrice, Float newPrice, boolean isOpen, String administratorComment) {
 		super();
 		this.date = LocalDateTime.now();
 		this.type = type;
 		this.comment = comment;
+		this.oldPrice = oldPrice;
 		this.newPrice = newPrice;
 		this.isOpen = isOpen;
+		this.setAdministratorComment(administratorComment);
 	}
 
 	public int getId() {
@@ -76,6 +80,14 @@ public class PriceRequest implements Serializable {
 		this.comment = comment;
 	}
 	
+	public Float getOldPrice() {
+		return oldPrice;
+	}
+	
+	public void setOldPrice(Float oldPrice) {
+		this.oldPrice = oldPrice;
+	}
+	
 	public Float getNewPrice() {
 		return newPrice;
 	}
@@ -90,5 +102,13 @@ public class PriceRequest implements Serializable {
 	
 	public void setIsOpen(boolean isOpen) {
 		this.isOpen = isOpen;
+	}
+
+	public String getAdministratorComment() {
+		return administratorComment;
+	}
+
+	public void setAdministratorComment(String administratorComment) {
+		this.administratorComment = administratorComment;
 	}
 }

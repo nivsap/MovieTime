@@ -827,19 +827,15 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("get purchase by serial")) {
 			try {
 				serverMsg = currentMsg;
-				System.out.println("a");
 				serverMsg.setPurchase(CustomerController.getPurchaseBySerial(currentMsg.getSerial()));
 				if (serverMsg.getPurchase() != null) {
 					serverMsg.setPayment(
 							CustomerController.ReturnOnPurchase(serverMsg.getPurchase(), LocalDateTime.now()));
-					System.out.println("b");
 				}
 				serverMsg.setAction("got purchase by serial");
 				if (serverMsg.getPurchase() != null && serverMsg.getPurchase().isCanceled()) {
-					System.out.println("c");
 					serverMsg.setPurchase(null);
 					}
-				System.out.println("d");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant get purchase by id");

@@ -22,4 +22,5 @@ public final class PageTitles {
 	static final String PurpleLimitPage = "Purple Limit Page";
 	static final String PriceChangePage = "Price Change Approvals";
 	static final String ComplaintHandling = "Complaint Handeling";
+	static final String CinemaMoviesPage = "Your Cinema's Movies";
 }

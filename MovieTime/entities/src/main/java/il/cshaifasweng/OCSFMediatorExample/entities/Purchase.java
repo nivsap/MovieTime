@@ -214,7 +214,7 @@ public class Purchase implements  Serializable{
 	}
 
 	public void setIsCanceled(Pair<Boolean, Float> isCanceled) {
-		if(purchaseType != 2)
+		//if(purchaseType != 2)
 			this.isCanceled = isCanceled;
 	}
 	

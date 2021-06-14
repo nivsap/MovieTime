@@ -27,6 +27,7 @@ public class MovieInfoPageController {
 	private Screening screeningChosen;
 	private ArrayList<Cinema> cinemas;
 	private ArrayList<Screening> screenings;
+	@SuppressWarnings("unused")
 	private ArrayList<Screening> filteredScreenings;
 	private int purchaseType;
 	private boolean isTavSagol = false;
@@ -37,6 +38,7 @@ public class MovieInfoPageController {
 	private String onlyDate;
 	private String onlyTime;
 	private String date, time;
+	private Hall hall;
 
 	@FXML
 	private ImageView movieLargeImageSrc;
@@ -236,7 +238,7 @@ public class MovieInfoPageController {
 		if (screeningChosen == null) {
 			System.out.println("Error in movieInfoPage, screeningChosen is null!!");
 		}
-		Hall hall = screeningChosen.getHall();
+		hall = screeningChosen.getHall();
 		if (isTavSagol) {
 
 			seatsLimit = hall.getRows() * hall.getCols();
@@ -270,12 +272,12 @@ public class MovieInfoPageController {
 	@FXML
 	void ChooseSeats(ActionEvent event) throws IOException {
 		try {
-			if (cinemaCombo.getValue().isEmpty() || dateCombo.getValue().isEmpty() || timeCombo.getValue().isEmpty()) {
+		/*	if (cinemaCombo.getValue().isEmpty() || dateCombo.getValue().isEmpty() || timeCombo.getValue().isEmpty()) {
 
 				JOptionPane.showMessageDialog(null, "You must fill all the fields");
 				return;
-			}
-			if (isTavSagol && numberOfSeatsCombo.getValue().isBlank()) {
+			}*/
+			if (isTavSagol && numberOfSeatsCombo.getValue().isBlank() || cinemaCombo.getValue().isEmpty() || dateCombo.getValue().isEmpty() || timeCombo.getValue().isEmpty()) {
 				JOptionPane.showMessageDialog(null, "You must fill all the fields");
 			}
 

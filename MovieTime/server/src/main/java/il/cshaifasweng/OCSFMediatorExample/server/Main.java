@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -342,10 +342,10 @@ public class Main extends AbstractServer {
 			System.out.println("hello server");
 		}
 		addDataToDB();
-		List<Purchase> list = getAllOfType(Purchase.class);
-		System.out.println(LocalDateTime.now());
 		Thread timerThread = new Thread(() -> {
+			synchronized (Purchase.class) {
 			while (true) {
+				List<Purchase> list = getAllOfType(Purchase.class);
 				for (Purchase i : list) {
 					if (i.isLink() && i.getViewingPackage().getDateTime().getDayOfYear() == LocalDateTime.now().getDayOfYear()
 							&& i.getViewingPackage().getDateTime().getHour() - 1 == LocalDateTime.now().getHour()
@@ -354,11 +354,25 @@ public class Main extends AbstractServer {
 					}
 				}
 				try {
-					Thread.sleep(35000); // 35 second
+					Thread.sleep(55000); // 55 second
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-			}
+				List<Complaint> listComplaints = getAllOfType(Complaint.class);
+				for (Complaint i : listComplaints) {
+					if(i.isOpen() && i.getComplaintDate().getDayOfYear() - 1 == LocalDate.now().getDayOfYear() && i.getComplaintTime().getHour() == LocalTime.now().getHour() && i.getComplaintTime().getMinute()  == LocalTime.now().getMinute()) {
+						JavaMailUtil.sendMessage(i.getEmail(), "close complain", "close complain");
+						System.out.println("123");
+						i.setIsOpen(false);
+						updateRowDB(i);
+					}
+				}
+				try {
+					Thread.sleep(55000); // 55 second
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}}
 		});
 		timerThread.start();
 	}
@@ -444,7 +458,6 @@ public class Main extends AbstractServer {
 			e.printStackTrace();
 		} finally {
 			session.close();
-			System.out.println("Complaint added to database");
 		}
 	}
 
@@ -814,14 +827,19 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("get purchase by serial")) {
 			try {
 				serverMsg = currentMsg;
+				System.out.println("a");
 				serverMsg.setPurchase(CustomerController.getPurchaseBySerial(currentMsg.getSerial()));
 				if (serverMsg.getPurchase() != null) {
 					serverMsg.setPayment(
 							CustomerController.ReturnOnPurchase(serverMsg.getPurchase(), LocalDateTime.now()));
+					System.out.println("b");
 				}
 				serverMsg.setAction("got purchase by serial");
-				if (serverMsg.getPurchase() != null && serverMsg.getPurchase().isCanceled())
+				if (serverMsg.getPurchase() != null && serverMsg.getPurchase().isCanceled()) {
+					System.out.println("c");
 					serverMsg.setPurchase(null);
+					}
+				System.out.println("d");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant get purchase by id");
@@ -1107,13 +1125,15 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("cancellation of purchase")) {
 			try {
 				serverMsg = new Message();
+				System.out.println("1");
 				Purchase p = currentMsg.getPurchase();
 				if(p.isTicket())
 					currentMsg.getPurchase().getScreening().getCinema().getCanceledPurchases().add(p);
 				Float refund = CustomerController.ReturnOnPurchase(currentMsg.getPurchase(), LocalDateTime.now());
 				currentMsg.getPurchase().setIsCanceled(new Pair<Boolean, Float> (true, refund));
 				updateRowDB(currentMsg.getPurchase());
-				updateRowDB(currentMsg.getPurchase().getScreening().getCinema());
+				if(p.isTicket())
+					updateRowDB(currentMsg.getPurchase().getScreening().getCinema());
 				serverMsg.setAction("got purchase cancelation by id");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {

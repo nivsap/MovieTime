@@ -267,6 +267,12 @@ public class AddContentPageController {
     		return;
     	}
     	
+    	if(!InputTests.isValidDate(launchDate.toString())) {
+    		movieWarningLabel.setText("Launch date is invalid");
+    		movieWarningLabel.setVisible(true);
+    		return;
+    	}
+
     	String rate = rateTextField.getText();
     	if(isLaunchedMovie && rate.equals("")) {
     		movieWarningLabel.setText("Please fill rate first");
@@ -366,6 +372,12 @@ public class AddContentPageController {
     		return;
     	}
     	
+    	if(!InputTests.isValidDate(datePicker.getValue().toString())) {
+    		viewingPackageWarningLabel.setText("Date is invalid");
+    		viewingPackageWarningLabel.setVisible(true);
+    		return;
+    	}
+    	
     	if(datePicker.getValue().isBefore(LocalDate.now())) {
     		viewingPackageWarningLabel.setText("Date has already passed");
     		viewingPackageWarningLabel.setVisible(true);
@@ -385,7 +397,14 @@ public class AddContentPageController {
     		return;
     	}
     	
-    	ViewingPackage newViewingPackage = new ViewingPackage(selectedMovie, LocalDateTime.of(datePicker.getValue(), LocalTime.of(Integer.parseInt(timeComboBox.getValue().substring(0,2)), 0)), link);
+    	LocalDateTime viewingPackageTime = LocalDateTime.of(datePicker.getValue(), LocalTime.of(Integer.parseInt(timeComboBox.getValue().substring(0,2)), 0));
+    	if(viewingPackageTime.isBefore(LocalDateTime.now())) {
+    		viewingPackageWarningLabel.setText("Time has already passed");
+    		viewingPackageWarningLabel.setVisible(true);
+    		return;
+    	}
+
+    	ViewingPackage newViewingPackage = new ViewingPackage(selectedMovie, viewingPackageTime, link);
     	sendViewingPackageToServer(newViewingPackage);
     }
     
@@ -479,7 +498,10 @@ public class AddContentPageController {
         			isRegistered = false;
     			}
     			clearForm();
-    			JOptionPane.showMessageDialog(null, "Viewing package added successfully");
+    			if(msg.getViewingPackage() != null)
+    				JOptionPane.showMessageDialog(null, "Viewing package added successfully");
+    			else
+    				JOptionPane.showMessageDialog(null, "Viewing package already exists");
     		});
     		
     	} 

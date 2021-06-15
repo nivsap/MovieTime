@@ -21,8 +21,8 @@ public class BranchManager extends Worker implements  Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Cinema cinema;
+//	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//	private Cinema cinema;
 	
 	public BranchManager() { 
 		super();

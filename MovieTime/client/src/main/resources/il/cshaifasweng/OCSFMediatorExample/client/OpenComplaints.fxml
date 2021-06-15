@@ -8,9 +8,9 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #1d1e22;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.OpenComplaintsController">
+<VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #1d1e22;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.OpenComplaintsController">
    <children>
-      <AnchorPane prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #1d1e22;">
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #1d1e22;">
          <children>
             <Label layoutX="20.0" layoutY="20.0" style="-fx-font-weight: bold;" text="List of Open Complaints" textFill="WHITE">
                <font>

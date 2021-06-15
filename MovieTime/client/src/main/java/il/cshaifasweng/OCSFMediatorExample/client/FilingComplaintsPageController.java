@@ -133,6 +133,13 @@ public class FilingComplaintsPageController  {
     	
     	String email = emailTextField.getText();
     	if(email.equals("")) {
+    		emailWarningLabel.setText("Email must be filled");
+    		emailWarningLabel.setVisible(true);
+    		return;
+    	}
+    	
+    	if(!InputTests.isValidEmail(email)) {
+    		emailWarningLabel.setText("Email is invalid");
     		emailWarningLabel.setVisible(true);
     		return;
     	}
@@ -140,6 +147,13 @@ public class FilingComplaintsPageController  {
     	
     	String phoneNumber = phoneNumberTextField.getText();
     	if(phoneNumber.equals("")) {
+    		phoneNumberWarningLabel.setText("Phone number must be filled");
+    		phoneNumberWarningLabel.setVisible(true);
+    		return;
+    	}
+    	
+    	if(!InputTests.isValidPhoneNumber(phoneNumber)) {
+    		phoneNumberWarningLabel.setText("Phone number is invalid");
     		phoneNumberWarningLabel.setVisible(true);
     		return;
     	}
@@ -172,13 +186,13 @@ public class FilingComplaintsPageController  {
     		orderNumberWarningLabel.setVisible(true);
     		return;
     	}
-    	getOrderByID((Integer.parseInt(orderNumber)));
+    	getOrderByID(((orderNumber)));
     }
  
-    public void getOrderByID(int orderNumber) {
+    public void getOrderByID(String orderNumber) {
 		Message msg = new Message();
-		msg.setAction("get purchase by id");
-		msg.setId(orderNumber);
+		msg.setAction("get purchase by serial");
+		msg.setSerial(orderNumber);
 		sendMessageToServer(msg);
     }
     
@@ -195,23 +209,19 @@ public class FilingComplaintsPageController  {
     
     void sendMessageToServer(Message msg) {
 		try {
-			if(!isRegistered) {
-				EventBus.getDefault().register(this);
-				isRegistered = true;
-			}
+			EventBus.getDefault().register(this);
 			AppClient.getClient().sendToServer(msg);
-			waitingForMessageCounter++;
 		} catch (IOException e) {
 			System.out.println("failed to send msg to server from FilingComplaintsPage");
-			waitingForMessageCounter--;
 			e.printStackTrace();
 		}
 	}
 
     @Subscribe
 	public void onMessageEvent(Message msg) throws IOException {
-    	
-       	if(msg.getAction().equals("got purchase by id")) {
+    	System.out.println("got msg in FilingComplaintPageController");
+       	if(msg.getAction().equals("got purchase by serial")) {
+       		EventBus.getDefault().unregister(this);
     		Platform.runLater(() -> {
     			Purchase foundPurchase = msg.getPurchase();
         		waitingForMessageCounter--;
@@ -229,12 +239,8 @@ public class FilingComplaintsPageController  {
     		});
     	} 	
     	if(msg.getAction().equals("added a complaint")) {
+    		EventBus.getDefault().unregister(this);
         	Platform.runLater(()-> {
-        		waitingForMessageCounter--;
-            	if(waitingForMessageCounter == 0 && isRegistered) {
-            		EventBus.getDefault().unregister(this);
-            		isRegistered = false;
-            	}
     			try {
     				App.setWindowTitle("Thank you");
     				ComplaintAddedPageController controller = (ComplaintAddedPageController) App.setContent("ComplaintAddedPage");

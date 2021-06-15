@@ -1,10 +1,19 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.BranchManager;
 import il.cshaifasweng.OCSFMediatorExample.entities.NetworkAdministrator;
+import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
 
 public class NetworkAdministratorController {
-	
+
 	public static NetworkAdministrator getAdministrator() {
-		return Main.getAllOfType(NetworkAdministrator.class).get(0);
+		NetworkAdministrator networkAdministrator = null;
+		for(Worker arr : Main.getAllOfType(Worker.class)) {
+			if(arr instanceof NetworkAdministrator) {
+				networkAdministrator =(NetworkAdministrator) arr;
+			}
+
+		}
+		return networkAdministrator;
 	}
 }

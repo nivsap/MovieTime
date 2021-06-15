@@ -62,7 +62,6 @@ public class PurpleLimitPageController {
     
     @FXML
     void initialize() {
-		EventBus.getDefault().register(this);
     	assert noRegulationsLabel != null : "fx:id=\"noRegulationsLabel\" was not injected: check your FXML file 'PurpleLimitPage.fxml'.";
         assert currentRegulationsContainer != null : "fx:id=\"currentRegulationsContainer\" was not injected: check your FXML file 'PurpleLimitPage.fxml'.";
         assert fromDatePicker != null : "fx:id=\"fromDatePicker\" was not injected: check your FXML file 'PurpleLimitPage.fxml'.";
@@ -80,6 +79,7 @@ public class PurpleLimitPageController {
     }
     
     void getActiveRegulations() {
+		EventBus.getDefault().register(this);
     	Message msg = new Message();
 		msg.setAction("get active purple limits");
  		try {
@@ -148,6 +148,12 @@ public class PurpleLimitPageController {
 			fromWarningLabel.setVisible(true);
 			return;
 		} else {
+			if(!InputTests.isValidDate(fromDate.toString())) {
+				fromWarningLabel.setText("From Date is invalid");
+				fromWarningLabel.setVisible(true);
+				return;
+			}
+			
 			if(fromDate.isBefore(LocalDate.now())) {
 				fromWarningLabel.setText("From Date has passed");
 				fromWarningLabel.setVisible(true);
@@ -161,6 +167,12 @@ public class PurpleLimitPageController {
 			toWarningLabel.setVisible(true);
 			return;
 		} else {
+			if(!InputTests.isValidDate(toDate.toString())) {
+				toWarningLabel.setText("To Date is invalid");
+				toWarningLabel.setVisible(true);
+				return;
+			}
+			
 			if(toDate.isBefore(fromDate)) {
 				toWarningLabel.setText("To Date must be after From Date");
 				toWarningLabel.setVisible(true);
@@ -173,7 +185,13 @@ public class PurpleLimitPageController {
 			yFactorWarningLabel.setText("Y Factor must be filled");
 			yFactorWarningLabel.setVisible(true);
 			return;
-    	}
+		} else {
+			if(!InputTests.isValidInt(yFactor)) {
+				yFactorWarningLabel.setText("Y Factor is invalid");
+				yFactorWarningLabel.setVisible(true);
+				return;
+			}
+		}
 		
 		PurpleLimit p = new PurpleLimit(fromDate, toDate, Integer.parseInt(yFactor));
 		if(!isLegalPurpleLimit(p)) {
@@ -181,6 +199,7 @@ public class PurpleLimitPageController {
 			setBtnWarningLabel.setVisible(true);
 			return;
 		}
+		EventBus.getDefault().register(this);
 		Message msg = new Message();
 		msg.setPurpleLimit(p);
 		msg.setAction("add purple limit");
@@ -204,7 +223,9 @@ public class PurpleLimitPageController {
     
     @Subscribe
     public void OnMessageEvent(Message msg) throws IOException { 
+    	System.out.println("got message in PurpleLimitPageController");
     	if(msg.getAction().equals("got active purple limits")) {
+    		EventBus.getDefault().unregister(this);
     		Platform.runLater(()-> {
     			activePurpleLimits = msg.getActivePurpleLimits();
     			setCurrentRegulations();
@@ -212,6 +233,7 @@ public class PurpleLimitPageController {
     	}   
     	if(msg.getAction().equals("added purple limit")) {
     		Platform.runLater(()-> {
+    			EventBus.getDefault().unregister(this);
     			isAdding = false;
     			activePurpleLimits = msg.getActivePurpleLimits();
     			setSuccessfullyAdded();

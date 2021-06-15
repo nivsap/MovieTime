@@ -123,14 +123,12 @@ public class ViewingPackagesInfoPageController {
 			}
 		}
    
-    	controller.setInfoLink(chosenView);
-    	
+    	controller.setInfoForPage(PurchaseTypes.VIEWING_PACKAGE, null, null, chosenView);    	
     
     }
    
     
     void InitPageInfo(Movie movie) {
-    	EventBus.getDefault().register(this);
     	currentlyDisplayed = movie;
     	purchaseType = PurchaseTypes.TICKET;
     	movieImageSrc.setImage(movie.getImage());
@@ -149,6 +147,7 @@ public class ViewingPackagesInfoPageController {
     	dateCombo.getItems().clear();
     	timeCombo.getItems().clear();
 
+    	EventBus.getDefault().register(this);
     	msg.setAction("get viewing packages by movie");
     	msg.setMovieName(movie.getName());
     	try {
@@ -163,6 +162,7 @@ public class ViewingPackagesInfoPageController {
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	@Subscribe
     public void OnMessageEvent(Message msg) {
+    	System.out.println("got msg in ViewingPackgeInfoPageController");
     	if(msg.getAction().equals("got viewing packages by movie")) {
     		EventBus.getDefault().unregister(this);
     		Platform.runLater(()-> {

@@ -16,6 +16,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.SubscriptionCard;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.ViewingPackage;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -129,8 +130,18 @@ public class PaymentPageController {
     	ticketPrice = 0f;
     	linkPrice = 0f;
     	cardPrice = 0f;
-    	getPrices();
+    	
     }
+	
+	
+	public void setInfoForPage(int purchaseType, Screening screening, ArrayList<Pair<Integer, Integer>> seatsChosen, ViewingPackage viewingPackage) {
+		this.purchaseType = purchaseType;
+		this.screening = screening;
+		this.seats = seatsChosen;
+		this.viewingPackage = viewingPackage;
+		getPrices();
+	}
+	
     @FXML
     void initialize() {
         assert firstNameTextField != null : "fx:id=\"firstNameTextField\" was not injected: check your FXML file 'PaymentPage.fxml'.";
@@ -194,7 +205,6 @@ public class PaymentPageController {
 		}
 		order += "Total price: " + price;
         orderSummeryTextArea.setText(order);
-        paymentLabel.setText(Double.toString(price));
     }
     
     public void setInfoSubscription() {
@@ -213,7 +223,7 @@ public class PaymentPageController {
 
 		paymentLabel.setText(Double.toString(linkPrice));
     	order = "Movie chosen: " + viewingPackage.getMovie().getName() + " on the date of:  " + viewingPackage.getDateTime().toString().substring(0,10) + " at: " + viewingPackage.getDateTime().toString().substring(11,16);
-		order += "\nTotal price: " + paymentLabel.getText();
+		order += "\nTotal price: " + linkPrice;
         orderSummeryTextArea.setText(order);	
     }
     
@@ -228,7 +238,7 @@ public class PaymentPageController {
         		screening.getSeats()[seat.getKey()][seat.getValue()] = 1;
         	}
     		purchase = new Purchase(firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), cityTextField.getText(), phoneNumberTextField.getText(),
-    								price, LocalDateTime.now(), screening, seats, null);
+    								price, LocalDateTime.now(), screening, seats, null,false);
     	}
     	
     	if(purchaseType == PurchaseTypes.VIEWING_PACKAGE) {
@@ -283,9 +293,22 @@ public class PaymentPageController {
     public void OnMessageEvent(Message msg) {
     	if(msg.getAction().equals("got prices")) {
     		EventBus.getDefault().unregister(this);
+    		Platform.runLater(() -> {
     		ticketPrice = msg.getMoviePrice();
     		linkPrice = msg.getViewingPackagePrice();
     		cardPrice = msg.getSubscriptionCardPrice();
+    		
+    		if(purchaseType == PurchaseTypes.TICKET) {
+    			setInfoTicket(screening, seats);
+    		}
+    		if(purchaseType == PurchaseTypes.SUBSCRIPTION_CARD) {
+    			setInfoSubscription();
+    		}
+    		if(purchaseType == PurchaseTypes.VIEWING_PACKAGE) {
+    			setInfoLink(viewingPackage);
+    		}
+    		});
+    		
     	}
     	
     	if(msg.getAction().equals("save customer done")) {
@@ -321,84 +344,125 @@ public class PaymentPageController {
     @FXML
     void padNow(ActionEvent event) {
     	hideWarningLabels();
-    	boolean emptyField = true;
     	
     	String firstName = firstNameTextField.getText();
     	if(firstName.equals("")) {
+    		firstNameWarningLabel.setText("First name must be filled");
     		firstNameWarningLabel.setVisible(true);
-    		emptyField = false;
+    		return;
     	}
     	
     	String lastName = lastNameTextField.getText();
     	if(lastName.equals("")) {
     		lastNameWarningLabel.setVisible(true);
-    		emptyField = false;
+    		return;
     	}
     	
     	String email = emailTextField.getText();
     	if(email.equals("")) {
+    		emailWarningLabel.setText("Email must be filled");
     		emailWarningLabel.setVisible(true);
-    		emptyField = false;
+    		return;
+    	}
+    	
+    	if(!InputTests.isValidEmail(email)) {
+    		emailWarningLabel.setText("Email is invalid");
+    		emailWarningLabel.setVisible(true);
+    		return;
     	}
     		
     	String address = addressTextField.getText();
     	if(address.equals("")) {
     		addressWarningLabel.setVisible(true);
-    		emptyField = false;
+    		return;
     	}
     	
     	String city = cityTextField.getText();
     	if(city.equals("")) {
     		cityWarningLabel.setVisible(true);
-    		emptyField = false;
+    		return;
     	}
     	
     	String phoneNumber = phoneNumberTextField.getText();
     	if(phoneNumber.equals("")) {
+    		phoneNumberWarningLabel.setText("Phone number must be filled");
     		phoneNumberWarningLabel.setVisible(true);
-    		emptyField = false;
+    		return;
+    	}
+    	
+    	if(!InputTests.isValidPhoneNumber(phoneNumber)) {
+    		phoneNumberWarningLabel.setText("Phone number is invalid");
+    		phoneNumberWarningLabel.setVisible(true);
+    		return;
     	}
     	
     	String cardHoldersName = cardHoldersNameTextField.getText();
     	if(cardHoldersName.equals("")) {
     		cardHoldersNameWarningLabel.setVisible(true);
-    		emptyField = false;
+    		return;
     	}
     	
     	String cardHoldersID = cardHoldersIDTextField.getText();
     	if(cardHoldersID.equals("")) {
+    		cardHoldersIDWarningLabel.setText("Card holder's name must be filled");
     		cardHoldersIDWarningLabel.setVisible(true);
-    		emptyField = false;
+    		return;
+    	}
+    	
+    	if(!InputTests.isValidId(cardHoldersID)) {
+    		cardHoldersIDWarningLabel.setText("Card holder's name is invalid");
+    		cardHoldersIDWarningLabel.setVisible(true);
+    		return;
     	}
     	
     	String cardNumber = cardNumberTextField.getText();
     	if(cardNumber.equals("")) {
+    		cardNumberWarningLabel.setText("Card number must be filled");
     		cardNumberWarningLabel.setVisible(true);
-    		emptyField = false;
+    		return;
+    	}
+    	
+    	if(!InputTests.isValidCreditCard(cardNumber)) {
+    		cardNumberWarningLabel.setText("Card number is invalid");
+    		cardNumberWarningLabel.setVisible(true);
+    		return;
     	}
     	
     	LocalDate cardExpirationDate = cardExpirationDatePicker.getValue();
     	if(cardExpirationDate == null) {
+    		cardExpirationDateWarningLabel.setText("Card expiration date must be filled");
     		cardExpirationDateWarningLabel.setVisible(true);
-    		emptyField = false;
+    		return;
+    	}
+    	
+    	if(!InputTests.isValidDate(cardExpirationDate.toString())) {
+    		cardExpirationDateWarningLabel.setText("Card expiration date is invalid");
+    		cardExpirationDateWarningLabel.setVisible(true);
+    		return;
+    	}
+    	
+    	if(cardExpirationDate.isBefore(LocalDate.now())) {
+    		cardExpirationDateWarningLabel.setText("Card expiration date has passed");
+    		cardExpirationDateWarningLabel.setVisible(true);
+    		return;
     	}
     	
     	String cardCVV = cardCVVTextField.getText();
     	if(cardCVV.equals("")) {
+    		cardExpirationDateWarningLabel.setText("Card CVV must be filled");
     		cardCVVWarningLabel.setVisible(true);
-    		emptyField = false;
+    		return;
     	}
     	
-    	if(emptyField == false) {
+    	if(!InputTests.isValidCVV(cardCVV)) {
+    		cardExpirationDateWarningLabel.setText("Card CVV is invalid");
+    		cardCVVWarningLabel.setVisible(true);
     		return;
     	}
     	
     	if(paymentNumberComboBox.getValue() == null) {
     		numberOfPaymentsWarningLabel.setVisible(true);
-    		emptyField = false;
-    		if(emptyField == false) {
-        		return;
-        	}
+    		return;
     	}
     	
     	createPurchase();

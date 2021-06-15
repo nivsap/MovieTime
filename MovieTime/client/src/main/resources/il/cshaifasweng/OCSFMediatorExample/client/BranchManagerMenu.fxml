@@ -14,7 +14,7 @@
                   <Image url="@images/FinalLogo.png" />
                </image>
             </ImageView>
-            <Button fx:id="cinemaMoviesMenuBtn" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="2.0" layoutY="200.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="195.0" styleClass="menuButton" stylesheets="@style.css" text="Cinema Movies" textFill="WHITE">
+            <Button fx:id="cinemaMoviesMenuBtn" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="2.0" layoutY="200.0" mnemonicParsing="false" onAction="#loadCinemaMovies" prefHeight="52.0" prefWidth="195.0" styleClass="menuButton" stylesheets="@style.css" text="Cinema Movies" textFill="WHITE">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
                      <image>

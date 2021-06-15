@@ -63,7 +63,6 @@ public class UpdateMoviesPageController{
 	@FXML
 	public void initialize() {
 		System.out.println("initializing UpdateMoviesPage");
-		EventBus.getDefault().register(this);
 		PullScreenings();
 		
 		
@@ -140,6 +139,7 @@ public class UpdateMoviesPageController{
 	}
 	
 	private void PullScreenings() {
+		EventBus.getDefault().register(this);
 		Message msg= new Message();
 		msg.setAction("get all screenings");
 		try {
@@ -217,16 +217,16 @@ public class UpdateMoviesPageController{
 	
 	@Subscribe
 	public void onMessageEvent(Message msg) throws IOException {
-		EventBus.getDefault().unregister(this);
+		System.out.println("got msg in UpdateMoviesPageController");
     		if(msg.getAction().equals("got all screenings")) {
-    			
+    			EventBus.getDefault().unregister(this);
     			Platform.runLater(()-> {
     				screenings = msg.getScreenings();
     				SetData();
     			});
     		}
     		if(msg.getAction().equals("updated movie time")) {
-    			
+    			EventBus.getDefault().unregister(this);
     			Platform.runLater(()-> {
     				screenings = msg.getScreenings();
 					onChoiceCB();
@@ -234,6 +234,7 @@ public class UpdateMoviesPageController{
     			});
     		}
     		if(msg.getAction().equals("update movie time error")) {
+    			EventBus.getDefault().unregister(this);
     			JOptionPane.showMessageDialog(null, msg.getError());
     			
     		}
@@ -256,14 +257,13 @@ public class UpdateMoviesPageController{
 	@FXML
 	private void UpdateMovieTime(ActionEvent event)
 	{
-		EventBus.getDefault().register(this);
 		boolean timeChanged = false;
-		if(cb_movie.getSelectionModel().isEmpty() ||  
-				!dateCard.getValue().toString().equals("") ||
-				cb_time.getSelectionModel().isEmpty() ||
-				cb_cinema.getSelectionModel().isEmpty() ||
-				cb_removal_addition.getSelectionModel().isEmpty()
-				||cb_hall.getValue().isBlank() ) {
+		if(cb_movie.getValue().isEmpty() ||  
+				dateCard.getValue() == null ||
+				cb_time.getValue().isEmpty() ||
+				cb_cinema.getValue().isEmpty() ||
+				cb_removal_addition.getValue().isEmpty()
+				||cb_hall.getValue().isEmpty() ) {
 			
 			JOptionPane.showMessageDialog(null, "You must fill all the fields");
 		}else {
@@ -272,7 +272,7 @@ public class UpdateMoviesPageController{
 				if(cb_removal_addition.getValue().equals("addition") && filteredScreenings.size() == 1) {
 					JOptionPane.showMessageDialog(null, "screening already exists!");
 				}
-				
+				EventBus.getDefault().register(this);
 				Message msg = new Message();
 				if(cb_removal_addition.getValue().equals("removal") && filteredScreenings.size() == 1) {
 					msg.setScreening(filteredScreenings.get(0));

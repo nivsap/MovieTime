@@ -86,6 +86,7 @@ public class SearchBarController {
 	
 	@Subscribe
 	public void OnMessageEvent(Message msg) {
+		System.out.println("got message in SearchBarController");
 		if(msg.getAction().equals("got genres")) {
 			genreComboBox.getItems().clear();
 			EventBus.getDefault().unregister(this);

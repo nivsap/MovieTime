@@ -47,6 +47,7 @@ public class ComingSoonSearchBarController {
 	
 	@FXML
 	void onComboBoxEvent() {
+		EventBus.getDefault().register(this);
 		Message msg = new Message();
 		msg.setAction("search bar update");
 		msg.setActionType(actionType);
@@ -63,6 +64,7 @@ public class ComingSoonSearchBarController {
 	
 	@Subscribe
 	public void onMessageEvent(Message msg) {
+		System.out.println("got msg in ComingSoonSearchBarController");
 		if(msg.getAction().equals("got genres")) {
 			EventBus.getDefault().unregister(this);
 			genreComboBox.getItems().clear();

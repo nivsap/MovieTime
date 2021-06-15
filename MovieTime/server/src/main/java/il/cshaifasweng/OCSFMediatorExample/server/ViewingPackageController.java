@@ -15,6 +15,8 @@ public class ViewingPackageController {
 		ArrayList<Movie> toReturnArrayList = new ArrayList<>();
 		viewingPackageMovies = Main.getAllOfType(ViewingPackage.class);
 		for(int i = 0 ; i < viewingPackageMovies.size() ; i++) {
+			if(viewingPackageMovies.get(i).isDeleted())
+				continue;
 			Movie currentMovie = viewingPackageMovies.get(i).getMovie();
 			if(!toReturnArrayList.contains(currentMovie))
 				toReturnArrayList.add(currentMovie);
@@ -27,7 +29,7 @@ public class ViewingPackageController {
 		Iterator<ViewingPackage> iter = viewingPackages.iterator();
 		while (iter.hasNext()) {
 			ViewingPackage s = iter.next();
-			if (!s.getMovie().getName().equals(movieName)) {
+			if (!s.getMovie().getName().equals(movieName) || s.isDeleted()) {
 				iter.remove();
 			}
 		}
@@ -45,5 +47,26 @@ public class ViewingPackageController {
 			}
 		}
 		return toReturn;
+	}
+	
+	public static ArrayList<ViewingPackage> getAllNotDeletedPackages() {
+		ArrayList<ViewingPackage> allViewingPackages = new ArrayList<>();
+		ArrayList<ViewingPackage> toReturn = new ArrayList<>();
+		allViewingPackages = Main.getAllOfType(ViewingPackage.class);
+		for(ViewingPackage v : allViewingPackages) {
+			if(!v.isDeleted()) 
+				toReturn.add(v);
+		}
+		return toReturn;
+	}
+	
+	public static Boolean checkIfViewingPackageExists(ViewingPackage viewingPackage) {
+		ArrayList<ViewingPackage> allViewingPackages = new ArrayList<>();
+		allViewingPackages = Main.getAllOfType(ViewingPackage.class);
+		for(ViewingPackage v : allViewingPackages) {
+			if(v.getMovie().getId() == viewingPackage.getMovie().getId() && v.getDateTime().equals(viewingPackage.getDateTime()) && !v.isDeleted())
+				return true;
+		}
+		return false;
 	}
 }

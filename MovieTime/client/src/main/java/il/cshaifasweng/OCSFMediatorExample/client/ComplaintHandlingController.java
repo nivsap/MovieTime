@@ -44,7 +44,6 @@ public class ComplaintHandlingController {
    
     @FXML
     void initialize() {
-    	EventBus.getDefault().register(this);
     	warningLabel.setVisible(false);
     }
     
@@ -190,6 +189,12 @@ public class ComplaintHandlingController {
     		warningLabel.setVisible(true);
     		return;
     	}
+    	if(!InputTests.isValidFloat(compensationString)) {
+    		warningLabel.setText("Compensation is invalid");
+    		warningLabel.setVisible(true);
+    		return;
+    	}
+    	
     	
     	float compensation = Float.parseFloat(compensationString);
     	String closedComplaintString;
@@ -215,6 +220,7 @@ public class ComplaintHandlingController {
     	}
     	closedComplaintString += "\n\nMany thanks,\nThe Sirtiya";
 		
+    	EventBus.getDefault().register(this);
     	Message msg = new Message();
 		msg.setAction("send successful purchase mail");
  		msg.setCustomerEmail(complaint.getEmail());
@@ -238,7 +244,9 @@ public class ComplaintHandlingController {
     
     @Subscribe
     public void OnMessageEvent(Message msg) throws IOException {  	
+    	System.out.println("got msg in ComplaintHandlingController");
     	if(msg.getAction().equals("sent successful purchase mail")) {
+			EventBus.getDefault().unregister(this);
     		Platform.runLater(()-> {
 	        	App.setWindowTitle(PageTitles.OpenComplaintsPage);
 	        	try {

@@ -39,6 +39,7 @@ public class MovieInfoPageController {
 	private String onlyTime;
 	private String date, time;
 	private Hall hall;
+	private boolean isRegistered = false;
 
 	@FXML
 	private ImageView movieLargeImageSrc;
@@ -119,14 +120,10 @@ public class MovieInfoPageController {
 	}
 
 	private void getCinemas(int id) {
-		EventBus.getDefault().register(this);
 		msg.setAction("cinema contained movies");
 		msg.setMovieId(id);
-		try {
-			AppClient.getClient().sendToServer(msg);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		sendMsg(msg);
+
 	}
 
 	public void setPurchaseType(int type) {
@@ -137,11 +134,28 @@ public class MovieInfoPageController {
 		return this.purchaseType;
 	}
 
+	private void sendMsg(Message msg) {
+		
+		if(!isRegistered) {
+			EventBus.getDefault().register(this);
+			isRegistered = true;
+		}
+		try {
+			AppClient.getClient().sendToServer(msg);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	@Subscribe
 	public void onMessageEvent(Message msg) {
 		System.out.println("got message in movieInfoPageController");
 		if (msg.getAction().equals("cinema contained movies done")) {
-			EventBus.getDefault().unregister(this);
+			if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			}
+			
 			Platform.runLater(() -> {
 				cinemaCombo.getItems().clear();
 				cinemas = msg.getCinemas();
@@ -155,7 +169,10 @@ public class MovieInfoPageController {
 		}
 
 		if (msg.getAction().equals("screening for movie done")) {
-			EventBus.getDefault().unregister(this);
+			if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			}
 			Platform.runLater(() -> {
 				screenings = msg.getScreenings();
 				dateCombo.getItems().clear();
@@ -168,7 +185,10 @@ public class MovieInfoPageController {
 		}
 
 		if (msg.getAction().equals("done check purple limit")) {
-			EventBus.getDefault().unregister(this);
+			if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			}
 			isTavSagol = msg.getStatus();
 			tavSagolLimit = msg.getTavSagolLimit();
 			System.out.println(isTavSagol);
@@ -184,7 +204,9 @@ public class MovieInfoPageController {
 
 	@FXML
 	private void cinemaChosen() {
-		EventBus.getDefault().register(this);
+		if(cinemaCombo.getValue() == null) {
+			return;
+		}
 		dateCombo.getItems().clear();
 		timeCombo.getItems().clear();
 		filteredScreenings = screenings;
@@ -201,25 +223,25 @@ public class MovieInfoPageController {
 		msg.setAction("screening for movie");
 		msg.setCinemaId(cinemaId);
 		msg.setMovieId(movie.getId());
-		try {
-			AppClient.getClient().sendToServer(msg);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		sendMsg(msg);
 
 	}
 
 	@FXML
 	void dateChosen() {
-		EventBus.getDefault().register(this);
+		if(dateCombo.getValue() == null) {
+			return;
+		}
 		timeCombo.getItems().clear();
 		msg.setAction("check purple limit");
-		msg.setScreeningDate(screenings.get(0).getDateAndTime());
-		try {
-			AppClient.getClient().sendToServer(msg);
-		} catch (IOException e) {
-			e.printStackTrace();
+		
+		for(Screening screening : screenings) {
+			if(screening.getDateAndTime().toString().substring(0,10).equals(dateCombo.getValue())) {
+				msg.setScreeningDate(screening.getDateAndTime());
+			}
 		}
+		
+		sendMsg(msg);
 
 		if (dateCombo.getValue().isEmpty()) {
 			return;
@@ -230,6 +252,9 @@ public class MovieInfoPageController {
 
 	@FXML
 	void timeChosen() {
+		if(timeCombo.getValue() == null) {
+			return;
+		}
 		for (Screening screening : screenings) {
 			if (screening.getCinema().getName().equals(cinemaCombo.getValue())) {
 				date = screening.getDate().toString();

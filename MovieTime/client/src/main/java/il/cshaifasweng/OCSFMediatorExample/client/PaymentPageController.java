@@ -228,7 +228,7 @@ public class PaymentPageController {
         		screening.getSeats()[seat.getKey()][seat.getValue()] = 1;
         	}
     		purchase = new Purchase(firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), cityTextField.getText(), phoneNumberTextField.getText(),
-    								price, LocalDateTime.now(), screening, seats, null);
+    								price, LocalDateTime.now(), screening, seats, null,false);
     	}
     	
     	if(purchaseType == PurchaseTypes.VIEWING_PACKAGE) {

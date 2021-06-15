@@ -28,6 +28,13 @@ public class NetworkAdministratorMenuController {
     }
     
     @FXML
+    void reports(ActionEvent event) throws IOException {
+    	App.setWindowTitle(PageTitles.ReportsPage);
+    	ReportsPageController controller = (ReportsPageController) App.setContent("ReportsPage");
+    	controller.SetUserType(true, null);
+    }
+    
+    @FXML
     void logout(ActionEvent event) throws IOException {
     	App.logout(true);
     	App.setWindowTitle(PageTitles.MainPage);

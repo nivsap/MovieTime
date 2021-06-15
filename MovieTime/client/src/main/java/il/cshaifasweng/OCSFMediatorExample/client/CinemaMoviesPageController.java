@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.Cinema;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -56,6 +57,11 @@ public class CinemaMoviesPageController {
         assert cell6 != null : "fx:id=\"cell6\" was not injected: check your FXML file 'CinemaMoviesPage.fxml'.";
         assert loadMoreBtn != null : "fx:id=\"loadMoreBtn\" was not injected: check your FXML file 'CinemaMoviesPage.fxml'.";
 
+    }
+    
+    
+    public void getCinemaMovies(Cinema cinema) {
+    	
     }
     
     public void setMovies(int displayFrom) {

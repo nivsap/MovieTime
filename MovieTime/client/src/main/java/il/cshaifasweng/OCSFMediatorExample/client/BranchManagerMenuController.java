@@ -35,7 +35,8 @@ public class BranchManagerMenuController {
     @FXML
     void loadCinemaMovies(ActionEvent event) throws IOException {
     	App.setWindowTitle(PageTitles.ReportsPage);
-    	App.setContent("CinemaMoviesPage");
+    	CinemaMoviesPageController controller = (CinemaMoviesPageController) App.setContent("CinemaMoviesPage");;
+    	controller.getCinemaMovies(currentManager.getCinema());
     }
     
     @FXML
@@ -44,9 +45,7 @@ public class BranchManagerMenuController {
     	ReportsPageController controller = (ReportsPageController) App.setContent("ReportsPage");
     	controller.SetUserType(false, currentManager.getCinema());
     }
-    
-    
-    
+
     @FXML
     void logout(ActionEvent event) throws IOException {
     	App.logout(true);

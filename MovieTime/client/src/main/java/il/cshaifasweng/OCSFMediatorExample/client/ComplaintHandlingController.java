@@ -189,6 +189,12 @@ public class ComplaintHandlingController {
     		warningLabel.setVisible(true);
     		return;
     	}
+    	if(!InputTests.isValidFloat(compensationString)) {
+    		warningLabel.setText("Compensation is invalid");
+    		warningLabel.setVisible(true);
+    		return;
+    	}
+    	
     	
     	float compensation = Float.parseFloat(compensationString);
     	String closedComplaintString;

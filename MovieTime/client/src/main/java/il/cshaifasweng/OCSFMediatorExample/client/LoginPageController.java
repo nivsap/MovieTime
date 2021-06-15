@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.BranchManager;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 
 import javafx.application.Platform;
@@ -124,6 +125,7 @@ public class LoginPageController {
 	    				
 	    				if(workerType.equals("BranchManager"))  {
 	    					App.setBarAndGridLayout("BranchManagerMainPage");
+	    					
 	    				}
 
 	    				if(workerType.equals("CustomerService")) {
@@ -131,7 +133,18 @@ public class LoginPageController {
 	    				}
 	    				
 	    				App.setWindowTitle(PageTitles.MainPage);
-	    				App.setMenu(workerType + "Menu");
+	    				
+	    				if(workerType.equals("BranchManager")) {
+		    				BranchManagerMenuController controller = (BranchManagerMenuController) App.setMenu(workerType + "Menu");
+		    				System.out.println("setting branch manager");
+		    				System.out.println("with cinema: " + ((BranchManager)(msg.getWorker())).getCinema().getName());
+		    				controller.setManager((BranchManager)(msg.getWorker()));
+	    				}else {
+	    					 App.setMenu(workerType + "Menu");
+	    				}
+	    				
+	    				
+	    				
 					} catch (IOException e) {
 						e.printStackTrace();
 					}

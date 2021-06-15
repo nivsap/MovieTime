@@ -498,7 +498,10 @@ public class AddContentPageController {
         			isRegistered = false;
     			}
     			clearForm();
-    			JOptionPane.showMessageDialog(null, "Viewing package added successfully");
+    			if(msg.getViewingPackage() != null)
+    				JOptionPane.showMessageDialog(null, "Viewing package added successfully");
+    			else
+    				JOptionPane.showMessageDialog(null, "Viewing package already exists");
     		});
     		
     	} 

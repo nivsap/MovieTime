@@ -80,8 +80,14 @@ public class ComplaintHandlingController {
     	
     	complaintInfo += "\n\n";
     	complaintInfo += "Complaint Type: ";
-		if(complaint.getComplaintType()!=null)
-			complaintInfo+=complaint.getComplaintType();
+		if(complaint.getComplaintType() < 4) {
+			if(complaint.getPurchase().isTicket())
+				complaintInfo += "Issues with tickets order";
+	        if(complaint.getPurchase().isLink())
+	        	complaintInfo += "Issues with viewing packages";
+	        if(complaint.getPurchase().isCard())
+	        	complaintInfo += "Issues with subscription cards";
+		}
     	else
     		complaintInfo += "Unknown";
 		
@@ -255,7 +261,18 @@ public class ComplaintHandlingController {
 					e.printStackTrace();
 				}
     		});
-    	} 	
+    	} 
+    	if(msg.getAction().equals("done close complaint")) {
+			EventBus.getDefault().unregister(this);
+    		Platform.runLater(()-> {
+	        	App.setWindowTitle(PageTitles.OpenComplaintsPage);
+	        	try {
+					App.setContent("OpenComplaints");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+    		});
+    	} 
     }
 }
 

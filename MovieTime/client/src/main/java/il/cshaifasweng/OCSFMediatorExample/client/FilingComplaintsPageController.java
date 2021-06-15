@@ -46,12 +46,6 @@ public class FilingComplaintsPageController  {
     private Label phoneNumberWarningLabel;
 
     @FXML
-    private ComboBox<String> complaintTypeComboBox;
-
-    @FXML
-    private Label complaintTypeWarningLabel;
-
-    @FXML
     private TextField orderNumberTextField;
 
     @FXML
@@ -88,8 +82,6 @@ public class FilingComplaintsPageController  {
         assert emailWarningLabel != null : "fx:id=\"emailWarningLabel\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
         assert phoneNumberTextField != null : "fx:id=\"phoneNumberTextField\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
         assert phoneNumberWarningLabel != null : "fx:id=\"phoneNumberWarningLabel\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
-        assert complaintTypeComboBox != null : "fx:id=\"complaintTypeComboBox\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
-        assert complaintTypeWarningLabel != null : "fx:id=\"complaintTypeWarningLabel\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
         assert orderNumberTextField != null : "fx:id=\"orderNumberTextField\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
         assert orderNumberWarningLabel != null : "fx:id=\"orderNumberWarningLabel\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
         assert complaintTitleTextField != null : "fx:id=\"complaintTitleTextField\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
@@ -97,8 +89,7 @@ public class FilingComplaintsPageController  {
         assert complaintDetailsTextArea != null : "fx:id=\"complaintDetailsTextArea\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
         assert complaintDetailsWarningLabel != null : "fx:id=\"complaintDetailsWarningLabel\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
         assert fileComplaintBtn != null : "fx:id=\"fileComplaintBtn\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
-        
-        complaintTypeComboBox.getItems().addAll(Complaint.getComplaintTypes());
+     
         hideWarningLabels();
     }
     
@@ -107,7 +98,6 @@ public class FilingComplaintsPageController  {
 		lastNameWarningLabel.setVisible(false);
 		emailWarningLabel.setVisible(false);
 		phoneNumberWarningLabel.setVisible(false);
-		complaintTypeWarningLabel.setVisible(false);
 		orderNumberWarningLabel.setVisible(false);
 		complaintTitleWarningLabel.setVisible(false);
 		complaintDetailsWarningLabel.setVisible(false);
@@ -158,13 +148,6 @@ public class FilingComplaintsPageController  {
     		return;
     	}
     	newComplaint.setPhoneNumber(phoneNumber);
-    	
-    	String complaintType = (String) complaintTypeComboBox.getValue();
-    	if(complaintType.equals("")) {
-    		complaintTypeWarningLabel.setVisible(true);
-    		return;
-    	}
-    	newComplaint.setComplaintType(complaintType);
 
     	String complaintTitle = complaintTitleTextField.getText();
     	if(complaintTitle.equals("")) {

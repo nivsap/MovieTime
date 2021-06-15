@@ -65,6 +65,7 @@ public class SearchBarController {
 		}
 
 		if(namePage.equals("ViewingPackagesPage")) {
+			theaterComboBox.setVisible(false);
 			disableCards = false;
 			actionType = "pull movies from home";
 			moviesType = "got movies from home";

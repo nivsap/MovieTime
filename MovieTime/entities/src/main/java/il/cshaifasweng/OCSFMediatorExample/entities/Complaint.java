@@ -2,9 +2,7 @@ package il.cshaifasweng.OCSFMediatorExample.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -28,7 +26,7 @@ public class Complaint implements  Serializable {
 	private String lastName;
 	private String email;
 	private String phoneNumber;
-	private String complaintType;
+	private int complaintType; 
 	private LocalDate complaintDate;
 	private LocalTime complaintTime;
 	private String complaintTitle;
@@ -39,13 +37,12 @@ public class Complaint implements  Serializable {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "cinema_id")
 	private Cinema cinema;
-	private static String[] complaintTypes = { "Movie screening issues", "Viewing package issues", "Subscription card issues", "Payment issues" };
 	
 	public Complaint() {
 		super();
 	}
 	
-	public Complaint(String firstName, String lastName, String email, String phoneNumber, String complaintType, String complaintTitle, String complaintDetails, Purchase purchase, boolean isOpen) {
+	public Complaint(String firstName, String lastName, String email, String phoneNumber, String complaintTitle, String complaintDetails, Purchase purchase, boolean isOpen) {
 		super();
 		complaintDate = LocalDate.now();
 		complaintTime = LocalTime.now();
@@ -53,15 +50,21 @@ public class Complaint implements  Serializable {
 		this.lastName = lastName;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
-		this.complaintType = complaintType; 
+		
 		this.complaintTitle = complaintTitle;
 		this.complaintDetails = complaintDetails;
 		this.purchase = purchase;
 		this.isOpen = isOpen;
-		if(purchase != null)
+		
+		if(purchase != null) {
+			this.complaintType = purchase.getPurchaseType(); 
 			cinema = purchase.getCinema();
-		else
+		}
+		else {
+			this.complaintType = 4;
 			cinema = null;
+		}
+			
 	}
 	
 	public int getId() {
@@ -116,12 +119,8 @@ public class Complaint implements  Serializable {
 		this.phoneNumber = phoneNumber;
 	}
 	
-	public String getComplaintType() {
+	public int getComplaintType() {
 		return complaintType;
-	}
-	
-	public void setComplaintType(String complaintType) {
-		this.complaintType = complaintType;
 	}
 	
 	public String getComplaintTitle() {
@@ -146,8 +145,10 @@ public class Complaint implements  Serializable {
 
 	public void setPurchase(Purchase purchase) {
 		this.purchase = purchase;
-		if(purchase != null)
+		if(purchase != null) {
+			complaintType = purchase.getPurchaseType();
 			cinema = purchase.getCinema();
+		}
 	}
 	
 	public Cinema getCinema() {
@@ -161,11 +162,7 @@ public class Complaint implements  Serializable {
 	public void setIsOpen(Boolean isOpen) {
 		this.isOpen = isOpen;
 	}
-	
-	public static String[] getComplaintTypes() {
-		return complaintTypes;
-	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -195,11 +192,9 @@ public class Complaint implements  Serializable {
 				return false;
 		} else if (!phoneNumber.equals(other.phoneNumber))
 			return false;
-		if (complaintType == null) {
-			if (other.complaintType != null)
-				return false;
-		} else if (!complaintType.equals(other.complaintType))
+		if (complaintType != other.complaintType) {
 			return false;
+		}
 		if (complaintDate == null) {
 			if (other.complaintDate != null)
 				return false;

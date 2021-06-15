@@ -123,8 +123,7 @@ public class ViewingPackagesInfoPageController {
 			}
 		}
    
-    	controller.setInfoLink(chosenView);
-    	
+    	controller.setInfoForPage(PurchaseTypes.VIEWING_PACKAGE, null, null, chosenView);    	
     
     }
    

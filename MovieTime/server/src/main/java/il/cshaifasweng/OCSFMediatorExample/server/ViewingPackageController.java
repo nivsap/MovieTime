@@ -59,4 +59,14 @@ public class ViewingPackageController {
 		}
 		return toReturn;
 	}
+	
+	public static Boolean checkIfViewingPackageExists(ViewingPackage viewingPackage) {
+		ArrayList<ViewingPackage> allViewingPackages = new ArrayList<>();
+		allViewingPackages = Main.getAllOfType(ViewingPackage.class);
+		for(ViewingPackage v : allViewingPackages) {
+			if(v.getMovie().getId() == viewingPackage.getMovie().getId() && v.getDateTime().equals(viewingPackage.getDateTime()) && !v.isDeleted())
+				return true;
+		}
+		return false;
+	}
 }

@@ -79,7 +79,7 @@ public class OrderTicketsPageController {
     	this.numOfSeats = numOfSeats;
     	ArrayList<Pair<Integer,Integer>> tavSeats = new ArrayList<Pair<Integer, Integer>>();
     	if(isTavSagol) {
-    		if(taken + numOfSeats < limit) {
+    		if(taken + numOfSeats <= limit) {
     	    	for(int i = 0 ; i < screening.getHall().getRows(); i++) {
     	    		for(int j = 0 ; j < screening.getHall().getCols() ; j++) {
     	    			if(screening.getSeats()[i][j] == 0) {

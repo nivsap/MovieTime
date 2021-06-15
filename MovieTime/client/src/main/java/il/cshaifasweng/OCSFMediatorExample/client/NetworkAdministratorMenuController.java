@@ -41,5 +41,11 @@ public class NetworkAdministratorMenuController {
     	App.setBarAndGridLayout("MainPage");
     	App.setMenu("SystemMenu");
     }
+    
+    @FXML
+    void showReports(ActionEvent event) throws IOException {
+    	App.setWindowTitle(PageTitles.ReportsPage);
+    	App.setContent("ReportsPage");
+    }
 
 }

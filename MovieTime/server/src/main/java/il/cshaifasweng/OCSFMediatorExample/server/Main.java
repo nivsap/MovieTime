@@ -257,7 +257,7 @@ public class Main extends AbstractServer {
 			PriceRequest request1 = new PriceRequest(0, "I think the price is too low.", 40f, 50f, true, null);
 			PriceRequest request2 = new PriceRequest(1, "I think the price is too high.", 30f, 20f, true, null);		
 			/* ---------- Saving Workers To Data Base ---------- */
-		//	session.save(hadarWorker);
+			session.save(hadarWorker);
 			session.save(shirWorker);
 			session.save(nivWorker);
 			session.save(lielWorker);
@@ -365,7 +365,6 @@ public class Main extends AbstractServer {
 			System.out.println("hello server");
 		}
 		addDataToDB();
-		System.out.println(getAllOfType(Worker.class).get(0).getCinema().getName());
 		Thread timerThread = new Thread(() -> {
 			synchronized (Purchase.class) {
 			while (true) {

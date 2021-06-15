@@ -278,8 +278,19 @@ public class MovieInfoPageController {
 				JOptionPane.showMessageDialog(null, "You must fill all the fields");
 				return;
 			}*/
-			if (isTavSagol && numberOfSeatsCombo.getValue().isBlank() || cinemaCombo.getValue().isEmpty() || dateCombo.getValue().isEmpty() || timeCombo.getValue().isEmpty()) {
+			
+			if(isTavSagol && numberOfSeatsCombo.getValue() == null  || isTavSagol && numberOfSeatsCombo.getValue().isEmpty()) {
 				JOptionPane.showMessageDialog(null, "You must fill all the fields");
+				return;
+			}
+			if (cinemaCombo.getValue() == null || dateCombo.getValue() == null || timeCombo.getValue() == null) {
+				JOptionPane.showMessageDialog(null, "You must fill all the fields");
+				return;
+			}
+			
+			if (cinemaCombo.getValue().isEmpty() || dateCombo.getValue().isEmpty() || timeCombo.getValue().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "You must fill all the fields");
+				return;
 			}
 
 		} catch (Exception e) {

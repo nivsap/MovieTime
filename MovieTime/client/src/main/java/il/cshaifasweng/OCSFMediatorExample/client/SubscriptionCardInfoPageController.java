@@ -81,7 +81,7 @@ public class SubscriptionCardInfoPageController {
     void buySubscriptionCard(ActionEvent event) throws IOException {
     	App.setWindowTitle(PageTitles.PaymentPage);
     	PaymentPageController controller = (PaymentPageController) App.setContent("PaymentPage");
-    	controller.setInfoSubscription();
+    	controller.setInfoForPage(PurchaseTypes.SUBSCRIPTION_CARD, null, null, null);
     }
 
     @FXML

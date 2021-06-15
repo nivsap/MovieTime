@@ -367,7 +367,7 @@ public class Main extends AbstractServer {
 		}
 		addDataToDB();
 		Thread timerThread = new Thread(() -> {
-			//synchronized (Purchase.class) {
+			synchronized (Purchase.class) {
 			while (true) {
 				if(threadFlag == 0) {
 					//threadFlag = 1;
@@ -397,7 +397,7 @@ public class Main extends AbstractServer {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-				}//}
+				}}
 			}});
 		timerThread.start();
 	}
@@ -1161,8 +1161,13 @@ public class Main extends AbstractServer {
 				Float refund = CustomerController.ReturnOnPurchase(currentMsg.getPurchase(), LocalDateTime.now());
 				currentMsg.getPurchase().setIsCanceled(new Pair<Boolean, Float> (true, refund));
 				updateRowDB(currentMsg.getPurchase());
-				if(p.isTicket())
+				if(p.isTicket()) {
+					for(Pair<Integer, Integer> i : currentMsg.getPurchase().getSeatsList()) {
+						currentMsg.getPurchase().getScreening().getSeats()[i.getKey()][i.getValue()] = 0;
+					}
+					updateRowDB(currentMsg.getPurchase().getScreening());
 					updateRowDB(currentMsg.getPurchase().getScreening().getCinema());
+				}
 				serverMsg.setAction("got purchase cancelation by id");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {

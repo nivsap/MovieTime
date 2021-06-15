@@ -94,9 +94,10 @@ public class Main extends AbstractServer {
 			Worker eitanWorker = new CustomerService("Eitan", "Sharabi", null, "asaf", "asaf", false);
 			Worker alonWorker = new CustomerService("Alon", "Latman", null, "alon", "alon", false);
 			/* ---------- Setting Cinema For Data Base ---------- */
-			Cinema haifaCinema = new Cinema("Haifa", "Haifa, Carmel st.", (BranchManager)shirWorker, new ArrayList<Worker>(Arrays.asList(shirWorker, alonWorker)), null, null, null, null, null);
-			Cinema telAvivCinema = new Cinema("Tel-Aviv", "Tel-Aviv, Wieztman st.", (BranchManager)nivWorker, new ArrayList<Worker>(Arrays.asList(nivWorker, eitanWorker)), null, null, null, null, null);
-			shirWorker.setCinema(haifaCinema); alonWorker.setCinema(haifaCinema); nivWorker.setCinema(telAvivCinema); eitanWorker.setCinema(telAvivCinema);
+			Cinema haifaCinema = new Cinema("Haifa", "Haifa", new ArrayList<Worker>(Arrays.asList(shirWorker, alonWorker)), null, null, null, null, null);
+			Cinema telAvivCinema = new Cinema("Tel-Aviv", "Tel-Aviv", new ArrayList<Worker>(Arrays.asList(nivWorker, eitanWorker)), null, null, null, null, null);
+			shirWorker.setCinema(haifaCinema); alonWorker.setCinema(haifaCinema); nivWorker.setCinema(telAvivCinema); eitanWorker.setCinema(telAvivCinema); lielWorker.setCinema(telAvivCinema); hadarWorker.setCinema(telAvivCinema);
+
 			/* ---------- Setting Halls For Data Base ---------- */
 			Hall hall1 = new Hall(5, 10, haifaCinema, null);
 			Hall hall2 = new Hall(7, 10, haifaCinema, null);
@@ -225,10 +226,10 @@ public class Main extends AbstractServer {
 			SubscriptionCard card3 = new SubscriptionCard(); card3.setRemaining(20);
 			/* ---------- Setting Purchases For Data Base ---------- */
 			// Tickets Purchases
-			Purchase customer1 = new Purchase("Shir", "Avneri", "shiravneri@gmail.com", "street 1, city", "0523456789", 40.0, getTime(2021, 6, 10), screening1, new ArrayList<>(), null);
-			Purchase customer2 = new Purchase("Eitan", "Sharabi", "shiravneri@gmail.com", "street 2, city", "0523456789", 40.0, getTime(2021, 6, 10), screening5, new ArrayList<>(), null);
-			Purchase customer3 = new Purchase("Niv", "Sapir", "eitansharabi@gmail.com", "street 3, city", "0523456789", 40.0, getTime(2021, 6, 10), screening3, new ArrayList<>(), null);
-			Purchase customer4 = new Purchase("Hadar", "Manor", "shiravneri@gmail.com", "street 4, city", "0523456789", 40.0, getTime(2021, 6, 10), screening20, new ArrayList<>(), null);
+			Purchase customer1 = new Purchase("Shir", "Avneri", "shiravneri@gmail.com", "street 1, city", "0523456789", 40.0, getTime(2021, 6, 10), screening1, new ArrayList<>(), null,false);
+			Purchase customer2 = new Purchase("Eitan", "Sharabi", "shiravneri@gmail.com", "street 2, city", "0523456789", 40.0, getTime(2021, 6, 10), screening5, new ArrayList<>(), null,false);
+			Purchase customer3 = new Purchase("Niv", "Sapir", "eitansharabi@gmail.com", "street 3, city", "0523456789", 40.0, getTime(2021, 6, 10), screening3, new ArrayList<>(), null,false);
+			Purchase customer4 = new Purchase("Hadar", "Manor", "shiravneri@gmail.com", "street 4, city", "0523456789", 40.0, getTime(2021, 6, 10), screening20, new ArrayList<>(), null,false);
 			
 			screening1.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer1))); screening3.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer3))); 
 			screening5.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer2))); screening20.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer4)));

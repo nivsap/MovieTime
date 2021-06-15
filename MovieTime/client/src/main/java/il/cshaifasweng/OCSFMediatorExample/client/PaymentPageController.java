@@ -412,6 +412,12 @@ public class PaymentPageController {
     		return;
     	}
     	
+    	if(!InputTests.isValidDate(cardExpirationDate.toString())) {
+    		cardExpirationDateWarningLabel.setText("Card expiration date is invalid");
+    		cardExpirationDateWarningLabel.setVisible(true);
+    		return;
+    	}
+    	
     	if(cardExpirationDate.isBefore(LocalDate.now())) {
     		cardExpirationDateWarningLabel.setText("Card expiration date has passed");
     		cardExpirationDateWarningLabel.setVisible(true);

@@ -1,5 +1,8 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -63,6 +66,24 @@ public class InputTests {
 		Pattern pattern = Pattern.compile(regex);  
 		Matcher matcher = pattern.matcher(cvv);
 		return matcher.matches();
+	}
+	
+	public static Boolean isValidDate(String date) {
+		try {
+		    LocalDate.parse(date);
+		    return true;
+		} catch (DateTimeParseException e) {
+			return false;
+		}
+	}
+	
+	public static Boolean isValidDateTime(String dateTime) {
+		try {
+		    LocalDateTime.parse(dateTime);
+		    return true;
+		} catch (DateTimeParseException e) {
+			return false;
+		}
 	}
 	
 	public static Boolean isValidInt(String number) {

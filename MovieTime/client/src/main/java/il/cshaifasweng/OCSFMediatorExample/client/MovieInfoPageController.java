@@ -171,12 +171,22 @@ public class MovieInfoPageController {
 			EventBus.getDefault().unregister(this);
 			isTavSagol = msg.getStatus();
 			tavSagolLimit = msg.getTavSagolLimit();
+			System.out.println(isTavSagol);
+			for (Screening screening : screenings) {
+				if (screening.getDate().toString().equals(dateCombo.getValue())) {
+					onlyTime = screening.getTime().toString();
+					timeCombo.getItems().add(onlyTime);
+				}
+
+			}
 		}
 	}
 
 	@FXML
 	private void cinemaChosen() {
 		EventBus.getDefault().register(this);
+		dateCombo.getItems().clear();
+		timeCombo.getItems().clear();
 		filteredScreenings = screenings;
 		int cinemaId = -1;
 		if (cinemaCombo.getValue().isEmpty()) {
@@ -202,6 +212,7 @@ public class MovieInfoPageController {
 	@FXML
 	void dateChosen() {
 		EventBus.getDefault().register(this);
+		timeCombo.getItems().clear();
 		msg.setAction("check purple limit");
 		msg.setScreeningDate(screenings.get(0).getDateAndTime());
 		try {
@@ -213,13 +224,7 @@ public class MovieInfoPageController {
 		if (dateCombo.getValue().isEmpty()) {
 			return;
 		}
-		for (Screening screening : screenings) {
-			if (screening.getDate().toString().equals(dateCombo.getValue())) {
-				onlyTime = screening.getTime().toString();
-				timeCombo.getItems().add(onlyTime);
-			}
-
-		}
+		
 
 	}
 

@@ -1392,7 +1392,7 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("get prices")) {
 			try {
 				System.out.println(LocalDateTime.now());
-				NetworkAdministrator n = getAllOfType(NetworkAdministrator.class).get(0);
+				NetworkAdministrator n = NetworkAdministratorController.getAdministrator();
 				System.out.println(LocalDateTime.now());
 				serverMsg = currentMsg;
 				

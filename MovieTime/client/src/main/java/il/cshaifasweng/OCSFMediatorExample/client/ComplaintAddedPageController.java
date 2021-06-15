@@ -47,7 +47,12 @@ public class ComplaintAddedPageController {
         lastNameLabel.setText(complaint.getLastName());
         emailLabel.setText(complaint.getEmail());
         phoneNumberLabel.setText(complaint.getPhoneNumber());
-        complaintTypeLabel.setText(complaint.getComplaintType());
+        if(complaint.getPurchase().isTicket())
+        	complaintTypeLabel.setText("Issues with tickets order");
+        if(complaint.getPurchase().isLink())
+        	complaintTypeLabel.setText("Issues with viewing packages");
+        if(complaint.getPurchase().isCard())
+        	complaintTypeLabel.setText("Issues with subscription cards");
         orderNumberLabel.setText(String.valueOf(complaint.getPurchase().getId()));
         complaintTitleLabel.setText(complaint.getComplaintTitle());
         complaintDetailsLabel.setText(complaint.getComplaintDetails());

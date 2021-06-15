@@ -48,7 +48,13 @@ public class ScreeningCardController {
 
     public void SetComplaintData(Complaint complaint) {
 		label_title.setText(complaint.getComplaintTitle());
-    	label_type.setText(complaint.getComplaintType());
+        if(complaint.getPurchase().isTicket())
+        	label_type.setText("Issues with tickets order");
+        if(complaint.getPurchase().isLink())
+        	label_type.setText("Issues with viewing packages");
+        if(complaint.getPurchase().isCard())
+        	label_type.setText("Issues with subscription cards");
+   
     	label_sender.setText(complaint.getFirstName() + " " + complaint.getLastName());
     	label_date.setText(complaint.getComplaintDate().toString());
     	label_time.setText(complaint.getComplaintTime().toString());

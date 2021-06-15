@@ -116,30 +116,35 @@ public class LoginPageController {
     				App.setPassword(msg.getPassword());
 	    			try {
 	    				if(workerType.equals("NetworkAdministrator")) {
+	    					App.setWindowTitle(PageTitles.MainPage);
 	    					App.setBarAndGridLayout("NetworkAdministratorMainPage");
 	    					
 	    				}
 	    				if(workerType.equals("ContentManager")) {
+	    					App.setWindowTitle(PageTitles.MainPage);
 	    					App.setContent("DeleteMoviePage");
 	    				}
 	    				
 	    				if(workerType.equals("BranchManager"))  {
-	    					App.setBarAndGridLayout("BranchManagerMainPage");
+	    					App.setWindowTitle(PageTitles.CinemaMoviesPage);
+	    			    	CinemaMoviesPageController controller = (CinemaMoviesPageController) App.setContent("CinemaMoviesPage");;
+	    			    	controller.getCinemaMovies(((BranchManager)(msg.getWorker())).getCinema());
 	    					
 	    				}
 
 	    				if(workerType.equals("CustomerService")) {
+	    					App.setWindowTitle(PageTitles.PurpleLimitPage);
 	    					App.setContent("PurpleLimitPage");
 	    				}
 	    				
-	    				App.setWindowTitle(PageTitles.MainPage);
-	    				
+
 	    				if(workerType.equals("BranchManager")) {
 		    				BranchManagerMenuController controller = (BranchManagerMenuController) App.setMenu(workerType + "Menu");
 		    				System.out.println("setting branch manager");
 		    				System.out.println("with cinema: " + ((BranchManager)(msg.getWorker())).getCinema().getName());
 		    				controller.setManager((BranchManager)(msg.getWorker()));
-	    				}else {
+	    				}
+	    				else {
 	    					 App.setMenu(workerType + "Menu");
 	    				}
 	    				

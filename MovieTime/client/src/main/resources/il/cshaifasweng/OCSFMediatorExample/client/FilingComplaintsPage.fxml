@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
@@ -35,12 +34,12 @@
             <Label fx:id="phoneNumberWarningLabel" layoutX="375.0" layoutY="205.0" text="Phone number must be filled" textFill="RED" />
             <Label layoutX="15.0" layoutY="230.0" style="-fx-font-weight: bold;" text="Complaint Information" textFill="WHITE" />
             <Line endX="575.0" layoutX="115.0" layoutY="250.0" startX="-100.0" stroke="WHITE" />
-            <Label layoutX="130.0" layoutY="270.0" text="Complaint Type *" textFill="WHITE" />
-            <ComboBox fx:id="complaintTypeComboBox" layoutX="130.0" layoutY="290.0" prefHeight="30.0" prefWidth="200.0" promptText="Complaint type" styleClass="orangeComboBox" />
-            <Label fx:id="complaintTypeWarningLabel" layoutX="130.0" layoutY="320.0" text="Complaint type must be filled" textFill="RED" />
-            <Label layoutX="370.0" layoutY="270.0" text="Order Number *" textFill="WHITE" />
-            <TextField fx:id="orderNumberTextField" layoutX="370.0" layoutY="290.0" prefHeight="25.0" prefWidth="200.0" promptText="Order number" />
-            <Label fx:id="orderNumberWarningLabel" layoutX="370.0" layoutY="320.0" text="Order number must be filled" textFill="RED" />
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="225.0" layoutY="270.0" prefWidth="250.0" text="Order Number *" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <TextField fx:id="orderNumberTextField" layoutX="225.0" layoutY="290.0" prefHeight="25.0" prefWidth="250.0" promptText="Order number" />
+            <Label fx:id="orderNumberWarningLabel" layoutX="225.0" layoutY="315.0" text="Order number must be filled" textFill="RED" />
             <Label alignment="CENTER" layoutY="345.0" prefWidth="700.0" style="-fx-font-weight: bold;" text="Complaint Title *" textFill="WHITE" />
             <TextField fx:id="complaintTitleTextField" layoutX="100.0" layoutY="365.0" prefWidth="500.0" promptText="Complaint title" />
             <Label fx:id="complaintTitleWarningLabel" layoutX="100.0" layoutY="390.0" text="Complaint title must be filled" textFill="RED" />

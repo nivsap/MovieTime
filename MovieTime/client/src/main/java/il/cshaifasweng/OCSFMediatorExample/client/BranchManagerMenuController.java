@@ -34,7 +34,7 @@ public class BranchManagerMenuController {
     
     @FXML
     void loadCinemaMovies(ActionEvent event) throws IOException {
-    	App.setWindowTitle(PageTitles.ReportsPage);
+    	App.setWindowTitle(PageTitles.CinemaMoviesPage);
     	CinemaMoviesPageController controller = (CinemaMoviesPageController) App.setContent("CinemaMoviesPage");;
     	controller.getCinemaMovies(currentManager.getCinema());
     }

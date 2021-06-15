@@ -1,13 +1,13 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Cinema;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
-import javafx.event.ActionEvent;
+import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -44,6 +44,10 @@ public class CinemaMoviesPageController {
 
     @FXML
     private Button loadMoreBtn;
+    
+    public CinemaMoviesPageController() {
+    	recentlyAdded = new ArrayList<Movie>();
+    }
 
     @FXML
     void initialize() {
@@ -59,9 +63,21 @@ public class CinemaMoviesPageController {
 
     }
     
-    
     public void getCinemaMovies(Cinema cinema) {
-    	
+    	List<Screening> screenings = cinema.getScreenings();
+    	for(Screening s: screenings) {
+    		Boolean isContained = false;
+    		for(Movie m: recentlyAdded) {
+    			if(s.getMovie().getName().equals(m.getName())) {
+    				isContained = true;
+    				continue;
+    			}
+    		}
+    		if(!isContained)
+    			recentlyAdded.add(s.getMovie());
+    	}
+    	moviesNumber = recentlyAdded.size();
+    	setMovies(0);
     }
     
     public void setMovies(int displayFrom) {

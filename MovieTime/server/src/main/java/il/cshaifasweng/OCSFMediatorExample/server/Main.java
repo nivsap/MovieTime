@@ -1207,11 +1207,18 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("add viewing package")) {
 			try {
 				serverMsg = currentMsg;
-				saveRowInDB(serverMsg.getViewingPackage());
+				ViewingPackage v = serverMsg.getViewingPackage();
+				if(ViewingPackageController.checkIfViewingPackageExists(v)) {
+					serverMsg.setViewingPackage(null);
+				}
+				else {	
+					serverMsg.setViewingPackage(v);
+					saveRowInDB(v);
+				}
 				serverMsg.setAction("added viewing package");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
-				System.out.println("cant selection of seats under restrictions");
+				System.out.println("can't add viewing package");
 				e.printStackTrace();
 			}
 		}

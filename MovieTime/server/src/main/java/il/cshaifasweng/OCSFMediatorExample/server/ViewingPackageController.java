@@ -29,7 +29,7 @@ public class ViewingPackageController {
 		Iterator<ViewingPackage> iter = viewingPackages.iterator();
 		while (iter.hasNext()) {
 			ViewingPackage s = iter.next();
-			if (!s.getMovie().getName().equals(movieName)) {
+			if (!s.getMovie().getName().equals(movieName) || s.isDeleted()) {
 				iter.remove();
 			}
 		}

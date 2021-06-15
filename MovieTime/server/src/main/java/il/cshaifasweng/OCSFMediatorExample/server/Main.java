@@ -607,7 +607,9 @@ public class Main extends AbstractServer {
 				} else {
 					UserController.getUser((Message) msg);
 					serverMsg = (Message) msg;
+					//System.out.println("cinema is: " + serverMsg.getWorker().getCinema().getName());
 					serverMsg.setAction("login done");
+					
 					client.sendToClient(serverMsg);
 				}
 			} catch (IOException e) {

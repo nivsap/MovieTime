@@ -41,7 +41,8 @@ public class BranchManagerMenuController {
     @FXML
     void reports(ActionEvent event) throws IOException {
     	App.setWindowTitle(PageTitles.ReportsPage);
-    	App.setContent("ReportsPage");
+    	ReportsPageController controller = (ReportsPageController) App.setContent("ReportsPage");
+    	controller.SetUserType(false, currentManager.getCinema());
     }
     
     

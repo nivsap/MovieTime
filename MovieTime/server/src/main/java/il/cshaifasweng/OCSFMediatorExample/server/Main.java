@@ -368,36 +368,37 @@ public class Main extends AbstractServer {
 		addDataToDB();
 		Thread timerThread = new Thread(() -> {
 			synchronized (Purchase.class) {
-			while (true) {
-				if(threadFlag == 0) {
-					//threadFlag = 1;
-					List<Purchase> list = getAllOfType(Purchase.class);
-					for (Purchase i : list) {
-						if (i.isLink() && i.getViewingPackage().getDateTime().getDayOfYear() == LocalDateTime.now().getDayOfYear()
-								&& i.getViewingPackage().getDateTime().getHour() - 1 == LocalDateTime.now().getHour()
-								&& i.getViewingPackage().getDateTime().getMinute() == LocalDateTime.now().getMinute()) {
-							JavaMailUtil.sendMessage(i.getEmail(), "hadye", "hadye");
+				while (true) {
+					if(threadFlag == 0) {
+						try {
+							List<Purchase> list = getAllOfType(Purchase.class);
+							if(list != null) {
+								for (Purchase i : list) {
+									if (i.isLink() && i.getViewingPackage().getDateTime().getDayOfYear() == LocalDateTime.now().getDayOfYear()
+											&& i.getViewingPackage().getDateTime().getHour() - 1 == LocalDateTime.now().getHour()
+											&& i.getViewingPackage().getDateTime().getMinute() == LocalDateTime.now().getMinute()) {
+										JavaMailUtil.sendMessage(i.getEmail(), "Link is ready", "The link to watch the movie will open in an hour, enjoy very much" +"link : " +i.getViewingPackage().getLink());
+									}
+								}}
+							Thread.sleep(0); 
+						} catch (InterruptedException e) {
+							e.printStackTrace();
 						}
-					}
-					try {
-						Thread.sleep(0); 
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					List<Complaint> listComplaints = getAllOfType(Complaint.class);
-					for (Complaint i : listComplaints) {
-						if(i.isOpen() && i.getComplaintDate().getDayOfYear() - 1 == LocalDate.now().getDayOfYear() && i.getComplaintTime().getHour() == LocalTime.now().getHour() && i.getComplaintTime().getMinute()  == LocalTime.now().getMinute()) {
-							JavaMailUtil.sendMessage(i.getEmail(), "close complain", "close complain");
-							i.setIsOpen(false);
-							updateRowDB(i);
+						try {
+							List<Complaint> listComplaints = getAllOfType(Complaint.class);
+							if(listComplaints != null) {
+								for (Complaint i : listComplaints) {
+									if(i.isOpen() && i.getComplaintDate().getDayOfYear() + 1 == LocalDate.now().getDayOfYear() && i.getComplaintTime().getHour() == LocalTime.now().getHour() && i.getComplaintTime().getMinute()  == LocalTime.now().getMinute()) {
+										JavaMailUtil.sendMessage(i.getEmail(), "Complaint accepted","We are sorry for the inconvenience the complaint you sent was received and the money is returned to you. Thank you very much hope to see you again");
+										i.setIsOpen(false);
+										updateRowDB(i);
+									}
+								}}
+							Thread.sleep(60000); // 55 second
+						} catch (InterruptedException e) {
+							e.printStackTrace();
 						}
-					}
-					try {
-						Thread.sleep(60000); // 55 second
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}}
+					}}
 			}});
 		timerThread.start();
 	}
@@ -442,7 +443,6 @@ public class Main extends AbstractServer {
 		} finally {
 			// assert session != null;
 			session.close();
-			System.out.println("save screening in database");
 		}
 	}
 
@@ -463,7 +463,6 @@ public class Main extends AbstractServer {
 		} finally {
 			// assert session != null;
 			session.close();
-			System.out.println("deleteRowInDB");
 		}
 	}
 

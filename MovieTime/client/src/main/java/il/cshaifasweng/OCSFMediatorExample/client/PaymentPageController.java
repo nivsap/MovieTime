@@ -16,6 +16,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.SubscriptionCard;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.ViewingPackage;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -129,8 +130,18 @@ public class PaymentPageController {
     	ticketPrice = 0f;
     	linkPrice = 0f;
     	cardPrice = 0f;
-    	getPrices();
+    	
     }
+	
+	
+	public void setInfoForPage(int purchaseType, Screening screening, ArrayList<Pair<Integer, Integer>> seatsChosen, ViewingPackage viewingPackage) {
+		this.purchaseType = purchaseType;
+		this.screening = screening;
+		this.seats = seatsChosen;
+		this.viewingPackage = viewingPackage;
+		getPrices();
+	}
+	
     @FXML
     void initialize() {
         assert firstNameTextField != null : "fx:id=\"firstNameTextField\" was not injected: check your FXML file 'PaymentPage.fxml'.";
@@ -194,7 +205,6 @@ public class PaymentPageController {
 		}
 		order += "Total price: " + price;
         orderSummeryTextArea.setText(order);
-        paymentLabel.setText(Double.toString(price));
     }
     
     public void setInfoSubscription() {
@@ -213,7 +223,7 @@ public class PaymentPageController {
 
 		paymentLabel.setText(Double.toString(linkPrice));
     	order = "Movie chosen: " + viewingPackage.getMovie().getName() + " on the date of:  " + viewingPackage.getDateTime().toString().substring(0,10) + " at: " + viewingPackage.getDateTime().toString().substring(11,16);
-		order += "\nTotal price: " + paymentLabel.getText();
+		order += "\nTotal price: " + linkPrice;
         orderSummeryTextArea.setText(order);	
     }
     
@@ -283,9 +293,22 @@ public class PaymentPageController {
     public void OnMessageEvent(Message msg) {
     	if(msg.getAction().equals("got prices")) {
     		EventBus.getDefault().unregister(this);
+    		Platform.runLater(() -> {
     		ticketPrice = msg.getMoviePrice();
     		linkPrice = msg.getViewingPackagePrice();
     		cardPrice = msg.getSubscriptionCardPrice();
+    		
+    		if(purchaseType == PurchaseTypes.TICKET) {
+    			setInfoTicket(screening, seats);
+    		}
+    		if(purchaseType == PurchaseTypes.SUBSCRIPTION_CARD) {
+    			setInfoSubscription();
+    		}
+    		if(purchaseType == PurchaseTypes.VIEWING_PACKAGE) {
+    			setInfoLink(viewingPackage);
+    		}
+    		});
+    		
     	}
     	
     	if(msg.getAction().equals("save customer done")) {

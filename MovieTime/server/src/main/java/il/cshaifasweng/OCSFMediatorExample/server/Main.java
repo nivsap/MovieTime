@@ -45,9 +45,10 @@ import javafx.util.Pair;
 public class Main extends AbstractServer {
 	private static SessionFactory sessionFactory = getSessionFactory();
 	private static Session session;
+	private static int threadFlag = 0;
 	private static ArrayList<String> genres = new ArrayList<String>(Arrays.asList("Action", "Adventure", "Animation", "Comedy", "Crime", "Drama", "Fiction", "Fantasy", "Horror", "Mystery", "Romance", "Science", "Thriller", "Other"));
 	private Message serverMsg;
-	
+
 	public Main(int port) {
 		super(port);
 	}
@@ -202,7 +203,7 @@ public class Main extends AbstractServer {
 			Screening screening22 = new Screening(getExactTime(2021, 6, 20, 20, 00), toyStory, hall2, haifaCinema, null);
 			Screening screening23 = new Screening(getExactTime(2021, 6, 20, 17, 00), minions, hall4, telAvivCinema, null);
 			Screening screening24 = new Screening(getExactTime(2021, 6, 20, 20, 00), minions, hall4, telAvivCinema, null);
-			
+
 			avengersEndgame.setScreenings(new ArrayList<Screening>(Arrays.asList(screening1, screening2, screening3, screening4)));
 			sherlockHolmes.setScreenings(new ArrayList<Screening>(Arrays.asList(screening5, screening6, screening7, screening8)));
 			babyDriver.setScreenings(new ArrayList<Screening>(Arrays.asList(screening9, screening10, screening11, screening12)));
@@ -230,10 +231,10 @@ public class Main extends AbstractServer {
 			Purchase customer2 = new Purchase("Eitan", "Sharabi", "shiravneri@gmail.com", "street 2, city", "0523456789", 40.0, getTime(2021, 6, 10), screening5, new ArrayList<>(), null,false);
 			Purchase customer3 = new Purchase("Niv", "Sapir", "eitansharabi@gmail.com", "street 3, city", "0523456789", 40.0, getTime(2021, 6, 10), screening3, new ArrayList<>(), null,false);
 			Purchase customer4 = new Purchase("Hadar", "Manor", "shiravneri@gmail.com", "street 4, city", "0523456789", 40.0, getTime(2021, 6, 10), screening20, new ArrayList<>(), null,false);
-			
+
 			screening1.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer1))); screening3.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer3))); 
 			screening5.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer2))); screening20.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer4)));
-			
+
 			haifaCinema.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer1, customer2))); 
 			telAvivCinema.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer3, customer4)));
 			// Viewing Package Purchases
@@ -250,7 +251,7 @@ public class Main extends AbstractServer {
 			Complaint complaint1 = new Complaint("Shir", "Avneri", "shiravneri@gmail.com", "0523456789", Complaint.getComplaintTypes()[0], "I'm very upset", "I want to finish this project", customer1, true);
 			Complaint complaint2 = new Complaint("Niv", "Sapir", "shiravneri@gmail.com", "0523456789", Complaint.getComplaintTypes()[0], "I want to complain", "I am very upset", customer2, true);
 			Complaint complaint3 = new Complaint("Hadar", "Manor", "shiravneri@gmail.com", "0523456789", Complaint.getComplaintTypes()[0], "Some title", "Some details", customer3, false);
-			
+
 			haifaCinema.setComplaints(new ArrayList<Complaint>(Arrays.asList(complaint1, complaint2))); 
 			telAvivCinema.setComplaints(new ArrayList<Complaint>(Arrays.asList(complaint3)));
 			/* ---------- Setting Price Request For Data Base ---------- */
@@ -366,37 +367,38 @@ public class Main extends AbstractServer {
 		}
 		addDataToDB();
 		Thread timerThread = new Thread(() -> {
-			synchronized (Purchase.class) {
+			//synchronized (Purchase.class) {
 			while (true) {
-				List<Purchase> list = getAllOfType(Purchase.class);
-				for (Purchase i : list) {
-					if (i.isLink() && i.getViewingPackage().getDateTime().getDayOfYear() == LocalDateTime.now().getDayOfYear()
-							&& i.getViewingPackage().getDateTime().getHour() - 1 == LocalDateTime.now().getHour()
-							&& i.getViewingPackage().getDateTime().getMinute() == LocalDateTime.now().getMinute()) {
-						JavaMailUtil.sendMessage(i.getEmail(), "hadye", "hadye");
+				if(threadFlag == 0) {
+					//threadFlag = 1;
+					List<Purchase> list = getAllOfType(Purchase.class);
+					for (Purchase i : list) {
+						if (i.isLink() && i.getViewingPackage().getDateTime().getDayOfYear() == LocalDateTime.now().getDayOfYear()
+								&& i.getViewingPackage().getDateTime().getHour() - 1 == LocalDateTime.now().getHour()
+								&& i.getViewingPackage().getDateTime().getMinute() == LocalDateTime.now().getMinute()) {
+							JavaMailUtil.sendMessage(i.getEmail(), "hadye", "hadye");
+						}
 					}
-				}
-				try {
-					Thread.sleep(55000); // 55 second
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				List<Complaint> listComplaints = getAllOfType(Complaint.class);
-				for (Complaint i : listComplaints) {
-					if(i.isOpen() && i.getComplaintDate().getDayOfYear() - 1 == LocalDate.now().getDayOfYear() && i.getComplaintTime().getHour() == LocalTime.now().getHour() && i.getComplaintTime().getMinute()  == LocalTime.now().getMinute()) {
-						JavaMailUtil.sendMessage(i.getEmail(), "close complain", "close complain");
-						System.out.println("123");
-						i.setIsOpen(false);
-						updateRowDB(i);
+					try {
+						Thread.sleep(0); 
+					} catch (InterruptedException e) {
+						e.printStackTrace();
 					}
-				}
-				try {
-					Thread.sleep(55000); // 55 second
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}}
-		});
+					List<Complaint> listComplaints = getAllOfType(Complaint.class);
+					for (Complaint i : listComplaints) {
+						if(i.isOpen() && i.getComplaintDate().getDayOfYear() - 1 == LocalDate.now().getDayOfYear() && i.getComplaintTime().getHour() == LocalTime.now().getHour() && i.getComplaintTime().getMinute()  == LocalTime.now().getMinute()) {
+							JavaMailUtil.sendMessage(i.getEmail(), "close complain", "close complain");
+							i.setIsOpen(false);
+							updateRowDB(i);
+						}
+					}
+					try {
+						Thread.sleep(60000); // 55 second
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}//}
+			}});
 		timerThread.start();
 	}
 
@@ -485,6 +487,7 @@ public class Main extends AbstractServer {
 	}
 
 	public static <T> ArrayList<T> getAllOfType(Class<T> objectType) {
+		threadFlag = 1;
 		session = sessionFactory.openSession();
 		session.beginTransaction();
 		ArrayList<T> returnedList = null;
@@ -501,6 +504,7 @@ public class Main extends AbstractServer {
 			System.out.println("catch in getalloftypes");
 		} finally {
 			session.close();
+			threadFlag = 0;
 		}
 		return returnedList;
 	}
@@ -610,7 +614,7 @@ public class Main extends AbstractServer {
 					serverMsg = (Message) msg;
 					//System.out.println("cinema is: " + serverMsg.getWorker().getCinema().getName());
 					serverMsg.setAction("login done");
-					
+
 					client.sendToClient(serverMsg);
 				}
 			} catch (IOException e) {
@@ -848,7 +852,7 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		
+
 		if (currentMsg.getAction().equals("get purchase by serial")) {
 			try {
 				serverMsg = currentMsg;
@@ -860,14 +864,14 @@ public class Main extends AbstractServer {
 				serverMsg.setAction("got purchase by serial");
 				if (serverMsg.getPurchase() != null && serverMsg.getPurchase().isCanceled()) {
 					serverMsg.setPurchase(null);
-					}
+				}
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
 				System.out.println("cant get purchase by id");
 				e.printStackTrace();
 			}
 		}
-		
+
 		if (currentMsg.getAction().equals("get purchases")) {
 			try {
 				serverMsg = currentMsg;
@@ -942,7 +946,7 @@ public class Main extends AbstractServer {
 		}
 
 
-		
+
 		if (currentMsg.getAction().equals("send purchase cancellation mail")) {
 			try {
 				serverMsg = currentMsg;
@@ -1007,7 +1011,7 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		
+
 		if (currentMsg.getAction().equals("get active purple limits")) {
 			try {
 				serverMsg = currentMsg;
@@ -1166,7 +1170,7 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		
+
 		if (currentMsg.getAction().equals("check purple limit")) {
 			try {
 				serverMsg = currentMsg;
@@ -1207,11 +1211,18 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("add viewing package")) {
 			try {
 				serverMsg = currentMsg;
-				saveRowInDB(serverMsg.getViewingPackage());
+				ViewingPackage v = serverMsg.getViewingPackage();
+				if(ViewingPackageController.checkIfViewingPackageExists(v)) {
+					serverMsg.setViewingPackage(null);
+				}
+				else {	
+					serverMsg.setViewingPackage(v);
+					saveRowInDB(v);
+				}
 				serverMsg.setAction("added viewing package");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
-				System.out.println("cant selection of seats under restrictions");
+				System.out.println("can't add viewing package");
 				e.printStackTrace();
 			}
 		}
@@ -1261,7 +1272,7 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		
+
 		if (currentMsg.getAction().equals("approve price request")) {
 			try {
 				serverMsg = currentMsg;
@@ -1283,7 +1294,7 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		
+
 		if (currentMsg.getAction().equals("decline price request")) {
 			try {
 				serverMsg = currentMsg;
@@ -1296,7 +1307,7 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		
+
 		if (currentMsg.getAction().equals("save price request")) {
 			try {
 				serverMsg = currentMsg;
@@ -1363,8 +1374,8 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		
-		
+
+
 		if (currentMsg.getAction().equals("get viewing packages by movie")) {
 			try {
 				serverMsg = currentMsg;
@@ -1376,7 +1387,7 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		
+
 		if (currentMsg.getAction().equals("get subscription card")) {
 			try {
 				serverMsg = currentMsg;
@@ -1388,14 +1399,14 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		
+
 		if (currentMsg.getAction().equals("get prices")) {
 			try {
 				System.out.println(LocalDateTime.now());
 				NetworkAdministrator n = NetworkAdministratorController.getAdministrator();
 				System.out.println(LocalDateTime.now());
 				serverMsg = currentMsg;
-				
+
 				serverMsg.setMoviePrice(n.getMoviePrice());
 				serverMsg.setViewingPackagePrice(n.getViewingPackagePrice());
 				serverMsg.setSubscriptionCardPrice(n.getSubscriptionCardPrice());
@@ -1406,7 +1417,7 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		
+
 		if (currentMsg.getAction().equals("get all valid for viewing package movies")) {
 			try {
 				serverMsg = currentMsg;

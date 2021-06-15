@@ -994,11 +994,15 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("delete a viewing package")) {
 			try {
 				serverMsg = currentMsg;
-				updateRowDB(serverMsg.getMovie());
+				ArrayList<ViewingPackage> toDelete = ViewingPackageController.getViewingPackagesByMovie(serverMsg.getMovie().getName());
+				for(ViewingPackage v: toDelete) {
+					v.setIsDeleted(true);
+					updateRowDB(v);
+				}
 				serverMsg.setAction("deleted a viewing package");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
-				System.out.println("cant deleted movie");
+				System.out.println("can't delete a viewing package");
 				e.printStackTrace();
 			}
 		}
@@ -1339,11 +1343,11 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("get all viewing package")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.setViewingPackages(getAllOfType(ViewingPackage.class));
+				serverMsg.setMovies(ViewingPackageController.getViewingPackageMovies());
 				serverMsg.setAction("got all viewing package");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
-				System.out.println("cant get all viewing package");
+				System.out.println("can't get all viewing package");
 				e.printStackTrace();
 			}
 		}
@@ -1410,6 +1414,17 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+
+		if(currentMsg.getAction().equals("get all movies for delete page")) {
+			try {
+				serverMsg = currentMsg;
+				serverMsg.setMovies(MovieController.getNotDeletedMovies());
+				serverMsg.setAction("got all movies for delete page");
+				client.sendToClient(serverMsg);
+			} catch (IOException e) {
+				System.out.println("can't get all movies for delete page");
+				e.printStackTrace();
+			}
+		}
 	}
-	
 }

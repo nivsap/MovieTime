@@ -37,7 +37,7 @@ public class PurpleLimitController {
 				LocalDate screeningDate = screening.getDate();
 				if(screeningDate.isAfter(fromDate) && screeningDate.isBefore(toDate)) {
 					screening.getCinema().getCanceledPurchases().addAll(screening.getPurchases());
-					screening.initSeats(); //need to check if its working
+					screening.initSeats(); 
 					for(Purchase purchase : screening.getPurchases()) {
 						purchase.setCancelByPurpleLimit(true);
 						Main.updateRowDB(purchase);

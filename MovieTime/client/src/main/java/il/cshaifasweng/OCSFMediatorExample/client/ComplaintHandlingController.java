@@ -255,7 +255,18 @@ public class ComplaintHandlingController {
 					e.printStackTrace();
 				}
     		});
-    	} 	
+    	} 
+    	if(msg.getAction().equals("done close complaint")) {
+			EventBus.getDefault().unregister(this);
+    		Platform.runLater(()-> {
+	        	App.setWindowTitle(PageTitles.OpenComplaintsPage);
+	        	try {
+					App.setContent("OpenComplaints");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+    		});
+    	} 
     }
 }
 

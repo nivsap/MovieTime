@@ -62,7 +62,6 @@ public class PurpleLimitPageController {
     
     @FXML
     void initialize() {
-		EventBus.getDefault().register(this);
     	assert noRegulationsLabel != null : "fx:id=\"noRegulationsLabel\" was not injected: check your FXML file 'PurpleLimitPage.fxml'.";
         assert currentRegulationsContainer != null : "fx:id=\"currentRegulationsContainer\" was not injected: check your FXML file 'PurpleLimitPage.fxml'.";
         assert fromDatePicker != null : "fx:id=\"fromDatePicker\" was not injected: check your FXML file 'PurpleLimitPage.fxml'.";
@@ -80,6 +79,7 @@ public class PurpleLimitPageController {
     }
     
     void getActiveRegulations() {
+		EventBus.getDefault().register(this);
     	Message msg = new Message();
 		msg.setAction("get active purple limits");
  		try {
@@ -187,6 +187,7 @@ public class PurpleLimitPageController {
 			setBtnWarningLabel.setVisible(true);
 			return;
 		}
+		EventBus.getDefault().register(this);
 		Message msg = new Message();
 		msg.setPurpleLimit(p);
 		msg.setAction("add purple limit");
@@ -210,7 +211,9 @@ public class PurpleLimitPageController {
     
     @Subscribe
     public void OnMessageEvent(Message msg) throws IOException { 
+    	System.out.println("got message in PurpleLimitPageController");
     	if(msg.getAction().equals("got active purple limits")) {
+    		EventBus.getDefault().unregister(this);
     		Platform.runLater(()-> {
     			activePurpleLimits = msg.getActivePurpleLimits();
     			setCurrentRegulations();
@@ -218,6 +221,7 @@ public class PurpleLimitPageController {
     	}   
     	if(msg.getAction().equals("added purple limit")) {
     		Platform.runLater(()-> {
+    			EventBus.getDefault().unregister(this);
     			isAdding = false;
     			activePurpleLimits = msg.getActivePurpleLimits();
     			setSuccessfullyAdded();

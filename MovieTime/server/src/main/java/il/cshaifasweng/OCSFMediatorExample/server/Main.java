@@ -965,6 +965,8 @@ public class Main extends AbstractServer {
 			try {
 				serverMsg = currentMsg;
 				serverMsg.setScreenings(getAllOfType(Screening.class));
+				serverMsg.setCinemas((getAllOfType(Cinema.class)));
+				serverMsg.setMovies((getAllOfType(Movie.class)));
 				serverMsg.setAction("got all screenings");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {

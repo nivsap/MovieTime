@@ -148,6 +148,12 @@ public class PurpleLimitPageController {
 			fromWarningLabel.setVisible(true);
 			return;
 		} else {
+			if(!InputTests.isValidDate(fromDate.toString())) {
+				fromWarningLabel.setText("From Date is invalid");
+				fromWarningLabel.setVisible(true);
+				return;
+			}
+			
 			if(fromDate.isBefore(LocalDate.now())) {
 				fromWarningLabel.setText("From Date has passed");
 				fromWarningLabel.setVisible(true);
@@ -161,6 +167,12 @@ public class PurpleLimitPageController {
 			toWarningLabel.setVisible(true);
 			return;
 		} else {
+			if(!InputTests.isValidDate(toDate.toString())) {
+				toWarningLabel.setText("To Date is invalid");
+				toWarningLabel.setVisible(true);
+				return;
+			}
+			
 			if(toDate.isBefore(fromDate)) {
 				toWarningLabel.setText("To Date must be after From Date");
 				toWarningLabel.setVisible(true);

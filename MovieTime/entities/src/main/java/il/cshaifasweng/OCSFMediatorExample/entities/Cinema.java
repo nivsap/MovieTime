@@ -22,8 +22,8 @@ public class Cinema implements  Serializable{
 	private int id;
 	private String name;
 	private String address;
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private BranchManager manager;
+	//@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	//private BranchManager manager;
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "cinema")
 	private List<Worker> workers;
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "cinema")
@@ -40,19 +40,15 @@ public class Cinema implements  Serializable{
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "cinema")
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Complaint> complaints;
+
 	
-	public Cinema() {
-		super();
-		nextHallNumber = 1;
-	}
-	
-	public Cinema(String name, String address, BranchManager manager,  ArrayList<Worker> workers,
+	public Cinema(String name, String address,List<Worker> workers,
 				  ArrayList<Hall> halls, ArrayList<Screening> screenings,
 				  ArrayList<Purchase> purchases, ArrayList<Purchase> canceledPurchases , ArrayList<Complaint> complaints) {
 		super();
 		this.name = name;
 		this.address = address;
-		this.manager = manager;
+	//	this.manager = manager;
 		this.screenings = new ArrayList<>();
 		this.halls = new ArrayList<>();
 		this.workers = new ArrayList<>();
@@ -61,7 +57,7 @@ public class Cinema implements  Serializable{
 		this.complaints = new ArrayList<>();	
 		nextHallNumber = 1;
 	}
-	
+	public Cinema() {}
 	public int getId() {
 		return id;
 	}
@@ -82,13 +78,13 @@ public class Cinema implements  Serializable{
 		this.address = address;
 	}
 	
-	public BranchManager getManager() {
-		return manager;
-	}
-
-	public void setManager(BranchManager manager) {
-		this.manager = manager;
-	}
+//	public BranchManager getManager() {
+//		return manager;
+//	}
+//
+//	public void setManager(BranchManager manager) {
+//		this.manager = manager;
+//	}
 	
 	public List<Worker> getWorkers() {
 		return workers;

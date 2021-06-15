@@ -24,7 +24,7 @@ public class Worker implements  Serializable{
 	private String userName;
 	private String password;
 	private boolean isLoggedIn;
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "cinema_id")
 	private Cinema cinema;
 

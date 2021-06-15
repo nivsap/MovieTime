@@ -31,7 +31,7 @@ public class MovieController {
 		return toReturn;				
 	}
 	
-	public static List<Movie> getNotDeletedMovies() {
+	public static ArrayList<Movie> getNotDeletedMovies() {
 		ArrayList<Movie> allMovies = new ArrayList<>();
 		ArrayList<Movie> toReturn = new ArrayList<>();
 		allMovies = Main.getAllOfType(Movie.class);

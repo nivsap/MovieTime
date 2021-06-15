@@ -56,14 +56,14 @@ public class Purchase implements  Serializable{
 	private SubscriptionCard subscriptionCard;
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Complaint complaint;
-
+	private boolean cancelByPurpleLimit;
 	public Purchase() {
 		super();
 	}
 	
 	public Purchase(String firstName, String lastName, String email, String city, String phone,
 					double payment, LocalDateTime purchaseTime, Screening screening, ArrayList<Pair<Integer , Integer>> seatsList, 
-					Complaint complaint) { // Tickets Purchase
+					Complaint complaint,boolean cancelByPurpleLimit) { // Tickets Purchase
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -87,7 +87,7 @@ public class Purchase implements  Serializable{
 		this.viewingPackage = null;
 		this.subscriptionCard = null;
 		this.complaint = complaint;	
-		
+		this.cancelByPurpleLimit = cancelByPurpleLimit;
 		serial = getAlphaNumericString(serialSize);
 	}
 	
@@ -139,6 +139,22 @@ public class Purchase implements  Serializable{
 	
 	public int getId() {
 		return id;
+	}
+
+	public boolean isCancelByPurpleLimit() {
+		return cancelByPurpleLimit;
+	}
+
+	public void setCancelByPurpleLimit(boolean cancelByPurpleLimit) {
+		this.cancelByPurpleLimit = cancelByPurpleLimit;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setCinema(Cinema cinema) {
+		this.cinema = cinema;
 	}
 
 	public String getFirstName() {

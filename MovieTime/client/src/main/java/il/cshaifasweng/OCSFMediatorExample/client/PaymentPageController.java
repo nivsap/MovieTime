@@ -228,7 +228,7 @@ public class PaymentPageController {
         		screening.getSeats()[seat.getKey()][seat.getValue()] = 1;
         	}
     		purchase = new Purchase(firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), cityTextField.getText(), phoneNumberTextField.getText(),
-    								price, LocalDateTime.now(), screening, seats, null);
+    								price, LocalDateTime.now(), screening, seats, null,false);
     	}
     	
     	if(purchaseType == PurchaseTypes.VIEWING_PACKAGE) {
@@ -408,6 +408,12 @@ public class PaymentPageController {
     	LocalDate cardExpirationDate = cardExpirationDatePicker.getValue();
     	if(cardExpirationDate == null) {
     		cardExpirationDateWarningLabel.setText("Card expiration date must be filled");
+    		cardExpirationDateWarningLabel.setVisible(true);
+    		return;
+    	}
+    	
+    	if(!InputTests.isValidDate(cardExpirationDate.toString())) {
+    		cardExpirationDateWarningLabel.setText("Card expiration date is invalid");
     		cardExpirationDateWarningLabel.setVisible(true);
     		return;
     	}

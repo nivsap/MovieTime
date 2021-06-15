@@ -63,7 +63,7 @@ public class DeleteMoviePageController {
         assert cell5 != null : "fx:id=\"cell5\" was not injected: check your FXML file 'DeleteMoviePage.fxml'.";
         assert cell6 != null : "fx:id=\"cell6\" was not injected: check your FXML file 'DeleteMoviePage.fxml'.";
         assert loadMoreBtn != null : "fx:id=\"loadMoreBtn\" was not injected: check your FXML file 'DeleteMoviePage.fxml'.";
-        sendMessageToServer("pull screening movies", null);
+        sendMessageToServer("get all movies for delete page", null);
     }
     
     public void setMovies(int displayFrom) {
@@ -140,7 +140,7 @@ public class DeleteMoviePageController {
 	public void onMessageEvent(Message msg) {
     	System.out.println("got message in DeleteMoviePageController");
 		System.out.println(msg.getAction());
-    	if(msg.getAction().equals("got screening movies")) {
+    	if(msg.getAction().equals("got all movies for delete page")) {
     		EventBus.getDefault().unregister(this);
     		Platform.runLater(()-> {
     			movieContainer.getChildren().clear();

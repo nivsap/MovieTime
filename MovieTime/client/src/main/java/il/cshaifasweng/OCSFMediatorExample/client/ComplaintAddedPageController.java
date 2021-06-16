@@ -30,7 +30,7 @@ public class ComplaintAddedPageController {
     private Label complaintDetailsLabel;
 
     @FXML
-    void initialize() {
+    void initialize() throws Exception{
         assert firstNameLabel != null : "fx:id=\"firstNameLabel\" was not injected: check your FXML file 'ComplaintAddedPage.fxml'.";
         assert lastNameLabel != null : "fx:id=\"lastNameLabel\" was not injected: check your FXML file 'ComplaintAddedPage.fxml'.";
         assert emailLabel != null : "fx:id=\"emailLabel\" was not injected: check your FXML file 'ComplaintAddedPage.fxml'.";
@@ -42,6 +42,7 @@ public class ComplaintAddedPageController {
     }
      
     void setData(Complaint complaint) {
+    	try {
     	complaintDetailsLabel.setWrapText(true);
         firstNameLabel.setText(complaint.getFirstName());
         lastNameLabel.setText(complaint.getLastName());
@@ -56,5 +57,9 @@ public class ComplaintAddedPageController {
         orderNumberLabel.setText(String.valueOf(complaint.getPurchase().getId()));
         complaintTitleLabel.setText(complaint.getComplaintTitle());
         complaintDetailsLabel.setText(complaint.getComplaintDetails());
+    	} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 }

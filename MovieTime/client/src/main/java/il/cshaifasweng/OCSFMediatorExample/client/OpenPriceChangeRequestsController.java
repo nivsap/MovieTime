@@ -57,7 +57,7 @@ public class OpenPriceChangeRequestsController {
     }
     
     @FXML
-    void initialize() {
+    void initialize() throws Exception{
     	assert ticketPriceLabel != null : "fx:id=\"ticketPriceLabel\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
         assert viewingPackagePriceLabel != null : "fx:id=\"viewingPackagePriceLabel\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
         assert subscriptionCardPriceLabel != null : "fx:id=\"subscriptionCardPriceLabel\" was not injected: check your FXML file 'OpenPriceChangeRequests.fxml'.";
@@ -88,6 +88,7 @@ public class OpenPriceChangeRequestsController {
     
     @FXML
     void request(ActionEvent event) {
+    	try {
     	warningLabel.setVisible(false);
     	successLabel.setVisible(false);
     	
@@ -137,10 +138,14 @@ public class OpenPriceChangeRequestsController {
     	newPriceRequest.setComment(commentsTextArea.getText());
     	newPriceRequest.setIsOpen(true);
     	sendMessageToServer("save price request");
-    	
+    	} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     void clearForm() {
+    	try {
     	if(isRegistered) {
     		EventBus.getDefault().unregister(this);
     		isRegistered = false;
@@ -150,9 +155,13 @@ public class OpenPriceChangeRequestsController {
         newPriceTextField.clear();
         commentsTextArea.clear();
         warningLabel.setVisible(false);
+    	} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
     
     void sendMessageToServer(String type) {
+    	try {
     	if(!isRegistered) {
 			EventBus.getDefault().register(this);
 			isRegistered = true;
@@ -161,7 +170,6 @@ public class OpenPriceChangeRequestsController {
     	msg.setAction(type);
     	if(type.equals("save price request"))
     		msg.setPriceRequest(newPriceRequest);
-    	try {
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -170,6 +178,7 @@ public class OpenPriceChangeRequestsController {
     
     @Subscribe
 	public void onMessageEvent(Message msg) {
+    	try {
     	System.out.println("got message in OpenPriceChangeRequest");
     	if (msg.getAction().equals("got prices")) {
     		if(isRegistered) {
@@ -192,6 +201,8 @@ public class OpenPriceChangeRequestsController {
 				successLabel.setVisible(true);
 				clearForm();
 			});
+		}} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }

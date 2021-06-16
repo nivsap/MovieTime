@@ -49,6 +49,7 @@ public class ComplaintHandlingController {
     }
     
     public void setComplaintInfo(Complaint currentComplaint) {
+    	try {
     	complaint = currentComplaint;
     	
     	if(complaint == null)
@@ -109,9 +110,14 @@ public class ComplaintHandlingController {
     	
     	complaintInfoLabel.setText(complaintInfo);
     	setPurchaseInfo();
+    	} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     void setPurchaseInfo() {
+    	try {
     	if(complaint == null)
     		return;
     	
@@ -177,11 +183,16 @@ public class ComplaintHandlingController {
     		purchaseInfo += "No";
 
     	orderInfoLabel.setText(purchaseInfo);
+    	} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     
     @FXML
     void closeComplaint() {
+    	try {
     	warningLabel.setVisible(false);
     	String response = responseTextArea.getText();
     	if(response.equals("")) {
@@ -247,6 +258,10 @@ public class ComplaintHandlingController {
  			AppClient.getClient().sendToServer(msg);
 		} 
  		catch (IOException e) {
+			e.printStackTrace();
+		}
+    	} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }

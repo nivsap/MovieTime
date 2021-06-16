@@ -62,7 +62,7 @@ public class PurpleLimitPageController {
     
     
     @FXML
-    void initialize() {
+    void initialize()throws Exception {
     	assert noRegulationsLabel != null : "fx:id=\"noRegulationsLabel\" was not injected: check your FXML file 'PurpleLimitPage.fxml'.";
         assert currentRegulationsContainer != null : "fx:id=\"currentRegulationsContainer\" was not injected: check your FXML file 'PurpleLimitPage.fxml'.";
         assert fromDatePicker != null : "fx:id=\"fromDatePicker\" was not injected: check your FXML file 'PurpleLimitPage.fxml'.";
@@ -80,13 +80,13 @@ public class PurpleLimitPageController {
     }
     
     void getActiveRegulations() {
+    	try {
     	if(!isRegistered) {
 			EventBus.getDefault().register(this);
 			isRegistered = true;
 		}
     	Message msg = new Message();
 		msg.setAction("get active purple limits");
- 		try {
 			AppClient.getClient().sendToServer(msg);
 		} 
  		catch (IOException e) {
@@ -129,7 +129,7 @@ public class PurpleLimitPageController {
     	successLabel.setVisible(false);
 	}
     
-    Boolean isLegalPurpleLimit(PurpleLimit purpleLimit) {
+    Boolean isLegalPurpleLimit(PurpleLimit purpleLimit) throws Exception{
     	for(PurpleLimit p: activePurpleLimits) {
     		if(p.getFromDate() == purpleLimit.getFromDate() || p.getToDate() == purpleLimit.getToDate())
     			return false;
@@ -140,7 +140,8 @@ public class PurpleLimitPageController {
     }
     
     @FXML
-    void addPurpleLimit(ActionEvent event) {
+    void addPurpleLimit(ActionEvent event)throws Exception {
+    	try {
     	if(isAdding)
     		return;
     	
@@ -217,6 +218,9 @@ public class PurpleLimitPageController {
 		} 
  		catch (IOException e) {
 			e.printStackTrace();
+		}} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}	
     }
     
@@ -231,7 +235,6 @@ public class PurpleLimitPageController {
     
     @Subscribe
     public void OnMessageEvent(Message msg) throws IOException { 
-    	System.out.println("got message in PurpleLimitPageController");
     	if(msg.getAction().equals("got active purple limits")) {
     		if(isRegistered) {
 				EventBus.getDefault().unregister(this);

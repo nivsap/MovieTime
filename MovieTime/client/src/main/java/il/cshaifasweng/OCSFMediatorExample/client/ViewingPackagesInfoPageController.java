@@ -94,6 +94,7 @@ public class ViewingPackagesInfoPageController {
     
     @FXML
     void dateChosen() {
+    	try {
     	timeCombo.getItems().clear();
     	for(ViewingPackage view : viewingPackages) {
 			time = view.getDateTime().toString().substring(11,16);
@@ -101,7 +102,9 @@ public class ViewingPackagesInfoPageController {
 				timeCombo.getItems().add(time);
 			}
 		}
-    	
+    	} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
     
     
@@ -130,6 +133,7 @@ public class ViewingPackagesInfoPageController {
    
     
     void InitPageInfo(Movie movie) {
+    	try {
     	currentlyDisplayed = movie;
     	purchaseType = PurchaseTypes.TICKET;
     	movieImageSrc.setImage(movie.getImage());
@@ -154,7 +158,6 @@ public class ViewingPackagesInfoPageController {
 		}
     	msg.setAction("get viewing packages by movie");
     	msg.setMovieName(movie.getName());
-    	try {
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -166,6 +169,7 @@ public class ViewingPackagesInfoPageController {
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	@Subscribe
     public void OnMessageEvent(Message msg) {
+    	try {
     	System.out.println("got msg in ViewingPackgeInfoPageController");
     	if(msg.getAction().equals("got viewing packages by movie")) {
     		if(isRegistered) {
@@ -183,7 +187,9 @@ public class ViewingPackagesInfoPageController {
 	    		}
     		});
     		
-    	}
+    	}} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
     
 }

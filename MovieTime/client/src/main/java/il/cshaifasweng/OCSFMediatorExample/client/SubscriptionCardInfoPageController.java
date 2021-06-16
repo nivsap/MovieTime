@@ -88,6 +88,7 @@ public class SubscriptionCardInfoPageController {
 
     @FXML
     void checkRemaining(ActionEvent event) {
+    	try {
     	hideLabels();
     	String subscriptionCardNumber = subscriptionCardNumberTextField.getText();
     	if(subscriptionCardNumber.equals("")) {
@@ -103,7 +104,6 @@ public class SubscriptionCardInfoPageController {
     	Message msg = new Message();
     	msg.setAction("get subscription card");
     	msg.setId(Integer.parseInt(subscriptionCardNumber));
-    	try {
     		AppClient.getClient().sendToServer(msg);
     	} catch (IOException e) {
     		System.out.println("failed to send msg to server from SubscriptionCardInfoPage");
@@ -112,6 +112,7 @@ public class SubscriptionCardInfoPageController {
     }
     
     void setRemaining(SubscriptionCard subscriptionCard) {
+    	try {
     	hideLabels();
     	if(subscriptionCard == null) {
     		subscriptionCardNumberWarningLabel.setText("Subscription card number not found");
@@ -121,12 +122,15 @@ public class SubscriptionCardInfoPageController {
     	remainingTitleLabel.setVisible(true);
         remainingLabel.setText(Integer.toString(subscriptionCard.getRemaining()));
         remainingLabel.setVisible(true);
+    	} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
 
     
     @Subscribe
     public void onMessageEvent(Message msg){
-    	System.out.println("got msg in SubscriptionCardInfoPageController");
+try {
     	if(msg.getAction().equals("got subscription card")) {
     		Platform.runLater(() -> {
     			if(isRegistered) {
@@ -135,6 +139,8 @@ public class SubscriptionCardInfoPageController {
     			}
     			setRemaining(msg.getSubscriptionCard());
     		});
-    	} 	
+    	} } catch (Exception e) {
+			e.printStackTrace();
+		}	
     }
 }

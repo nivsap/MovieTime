@@ -73,7 +73,7 @@ public class PurchaseCancellationPageController {
 	}
 	
     @FXML
-    void initialize() {
+    void initialize() throws Exception{
     	 assert OrderNumberTextField != null : "fx:id=\"OrderNumberTextField\" was not injected: check your FXML file 'PurchaseCancellationPage.fxml'.";
          assert orderNumberWarningLabel != null : "fx:id=\"orderNumberWarningLabel\" was not injected: check your FXML file 'PurchaseCancellationPage.fxml'.";
          assert searchBtn != null : "fx:id=\"searchBtn\" was not injected: check your FXML file 'PurchaseCancellationPage.fxml'.";
@@ -112,7 +112,7 @@ public class PurchaseCancellationPageController {
 	}
     
     void setPurchaseInfo() { // Still need to deal with orderTypeLabel
-    	
+    	try {
     	String firstName = foundPurchase.getFirstName();
     	if(!firstName.equals(""))
     		firstNameLabel.setText(firstName);
@@ -164,6 +164,9 @@ public class PurchaseCancellationPageController {
     
     	refundAmountLabel.setText(String.valueOf(refundAmount));
     	weAreSorryLabel.setVisible(false);
+    	} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
     
 	@FXML
@@ -194,15 +197,13 @@ public class PurchaseCancellationPageController {
 			}
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
-			System.out.println("failed to send msg to server from PurchaseCancellationPage");
 			e.printStackTrace();
 		}
 	}
 	
     @Subscribe
     public void onMessageEvent(Message msg){
-    	
-    	System.out.println("got message in PurchaseCancellationPageController");
+    	try {
     	if(msg.getAction().equals("got purchase by serial")) {
     		if(isRegistered) {
 				EventBus.getDefault().unregister(this);
@@ -224,7 +225,9 @@ public class PurchaseCancellationPageController {
     				setPurchaseInfo();
     			}
     		});
-    	} 	
+    	} 	} catch (Exception e) {
+			e.printStackTrace();
+		}
     	
     	if(msg.getAction().equals("got purchase cancelation by id")) {
     		if(isRegistered) {

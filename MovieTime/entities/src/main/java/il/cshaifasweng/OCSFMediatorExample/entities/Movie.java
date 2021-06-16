@@ -84,7 +84,13 @@ public class Movie implements  Serializable
 	     this.largeImage = largeImage;
 	     this.isDeleted = isDeleted;
 	     this.screenings = screenings;
+	     if(screenings == null) {
+	    	 screenings = new ArrayList<Screening>();
+	     }
 		 this.viewingPackages = viewingPackages;
+		 if(viewingPackages == null) {
+			 viewingPackages = new ArrayList<ViewingPackage>();
+		 }
 	   	 if(launchDate.isAfter(LocalDate.now())) {
 	   		 this.rate = 0f;
 	   		 this.isComingSoon = true;
@@ -109,8 +115,13 @@ public class Movie implements  Serializable
 	     setImage(image);
 	     setLargeImage(largeImage);
 	     this.isDeleted = isDeleted;
-	     this.screenings = screenings;
+	     if(screenings == null) {
+	    	 screenings = new ArrayList<Screening>();
+	     }
 		 this.viewingPackages = viewingPackages;
+		 if(viewingPackages == null) {
+			 viewingPackages = new ArrayList<ViewingPackage>();
+		 }
 	   	 if(launchDate.isAfter(LocalDate.now())) {
 	   		 this.rate = 0f;
 	   		 this.isComingSoon = true;
@@ -274,6 +285,10 @@ public class Movie implements  Serializable
 		   	else 
 		   		this.isComingSoon = isComingSoon;
 		}
+	}
+	
+	public void setIsComingSoon(boolean isComingSoon) {
+		isComingSoon = true;
 	}
 
 	public boolean isDeleted() {

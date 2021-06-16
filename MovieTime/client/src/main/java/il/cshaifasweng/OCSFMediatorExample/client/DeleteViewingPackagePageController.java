@@ -19,6 +19,7 @@ import javafx.scene.layout.VBox;
 public class DeleteViewingPackagePageController {
 	int NUM_ROWS = 2, NUM_COLS = 3, currentlyDisplayedFrom = 0, moviesNumber = 0;
 	private List<Movie> recentlyAdded;
+	private boolean isRegistered = false;
 
 
     @FXML
@@ -119,8 +120,11 @@ public class DeleteViewingPackagePageController {
     
     public void sendMessageToServer(String actionType, Movie movie) {
     	try {
-    		EventBus.getDefault().register(this);
-			Message msg = new Message();
+    		if(!isRegistered) {
+    			EventBus.getDefault().register(this);
+    			isRegistered = true;
+    		}
+    		Message msg = new Message();
 			if(actionType.equals("delete a viewing package")) {
 				msg.setMovie(movie); 
 			}
@@ -141,7 +145,10 @@ public class DeleteViewingPackagePageController {
     	System.out.println("got msg in DeleteViewingPackagePageController");
 		System.out.println(msg.getAction());
     	if(msg.getAction().equals("got all movies from viewing packages")) {
-    		EventBus.getDefault().unregister(this);
+    		if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			}
     		Platform.runLater(()-> {
     			movieContainer.getChildren().clear();
     			recentlyAdded = msg.getMovies();
@@ -151,7 +158,10 @@ public class DeleteViewingPackagePageController {
     		});
     	}
     	if(msg.getAction().equals("deleted a viewing package")) {
-    		EventBus.getDefault().unregister(this);
+    		if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			}
     		Platform.runLater(()-> {
     			movieContainer.getChildren().clear();
     			currentlyDisplayedFrom = 0;

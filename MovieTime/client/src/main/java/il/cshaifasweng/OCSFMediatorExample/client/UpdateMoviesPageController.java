@@ -28,7 +28,8 @@ import javafx.scene.layout.VBox;
 
 public class UpdateMoviesPageController{
 
-	
+	private boolean isRegistered = false;
+
 	private List<Movie> allMovies;
 	private List<Movie> movies;
 	private List<Cinema> cinemas;
@@ -154,7 +155,10 @@ public class UpdateMoviesPageController{
 	}
 	
 	private void PullScreenings() {
-		EventBus.getDefault().register(this);
+		if(!isRegistered) {
+			EventBus.getDefault().register(this);
+			isRegistered = true;
+		}
 		Message msg= new Message();
 		msg.setAction("get all screenings");
 		try {
@@ -229,7 +233,10 @@ public class UpdateMoviesPageController{
 	public void onMessageEvent(Message msg) throws IOException {
 		System.out.println("got msg in UpdateMoviesPageController");
     		if(msg.getAction().equals("got all screenings")) {
-    			EventBus.getDefault().unregister(this);
+    			if(isRegistered) {
+    				EventBus.getDefault().unregister(this);
+    				isRegistered = false;
+    			}
     			Platform.runLater(()-> {
     				screenings = msg.getScreenings();
     				movies = msg.getMovies();
@@ -238,7 +245,10 @@ public class UpdateMoviesPageController{
     			});
     		}
     		if(msg.getAction().equals("updated movie time")) {
-    			EventBus.getDefault().unregister(this);
+    			if(isRegistered) {
+    				EventBus.getDefault().unregister(this);
+    				isRegistered = false;
+    			}
     			Platform.runLater(()-> {
     				screenings = msg.getScreenings();
 					onChoiceCB();
@@ -246,7 +256,10 @@ public class UpdateMoviesPageController{
     			});
     		}
     		if(msg.getAction().equals("update movie time error")) {
-    			EventBus.getDefault().unregister(this);
+    			if(isRegistered) {
+    				EventBus.getDefault().unregister(this);
+    				isRegistered = false;
+    			}
     			JOptionPane.showMessageDialog(null, msg.getError());
     			
     		}
@@ -285,7 +298,10 @@ public class UpdateMoviesPageController{
 					JOptionPane.showMessageDialog(null, "screening already exists!");
 					return;
 				}
-				EventBus.getDefault().register(this);
+				if(!isRegistered) {
+					EventBus.getDefault().register(this);
+					isRegistered = true;
+				}
 				Message msg = new Message();
 				if(cb_removal_addition.getValue().equals("removal") && filteredScreenings.size() == 1) {
 					msg.setScreening(filteredScreenings.get(0));

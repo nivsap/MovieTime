@@ -18,6 +18,7 @@ public class ComingSoonSearchBarController {
 	private CardContainerController cardController;
 	
 	String [] currentType;
+	private boolean isRegistered = false;
 
 
 	
@@ -27,7 +28,10 @@ public class ComingSoonSearchBarController {
 	@FXML
 	public void initialize() {
 		// TODO Auto-generated method stub
-		EventBus.getDefault().register(this);
+		if(!isRegistered) {
+			EventBus.getDefault().register(this);
+			isRegistered = true;
+		}
 		disableCards = false;
 		actionType = "pull soon movies";
 		moviesType = "got soon movies";
@@ -47,14 +51,20 @@ public class ComingSoonSearchBarController {
 	
 	@FXML
 	void onComboBoxEvent() {
-		EventBus.getDefault().register(this);
+		if(!isRegistered) {
+			EventBus.getDefault().register(this);
+			isRegistered = true;
+		}
 		Message msg = new Message();
 		msg.setAction("search bar update");
 		msg.setActionType(actionType);
 		msg.setMoviesType(moviesType);
 		msg.setGenre(genreComboBox.getValue());
 		try {
-			EventBus.getDefault().register(this);
+			if(!isRegistered) {
+				EventBus.getDefault().register(this);
+				isRegistered = true;
+			}
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -66,14 +76,19 @@ public class ComingSoonSearchBarController {
 	public void onMessageEvent(Message msg) {
 		System.out.println("got msg in ComingSoonSearchBarController");
 		if(msg.getAction().equals("got genres")) {
-			EventBus.getDefault().unregister(this);
-			genreComboBox.getItems().clear();
+			if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			}			genreComboBox.getItems().clear();
 			for(String genre : msg.getGenres()) {
 				genreComboBox.getItems().add(genre);
 			}
 		}
 		if(msg.getAction().equals(moviesType)) {
-			EventBus.getDefault().unregister(this);
+			if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			}
 			Platform.runLater(()-> {
 			cardController.setMoviesBySearchBar(msg.getMovies());
 			});

@@ -31,7 +31,7 @@ public class MovieInfoPageController {
 	private ArrayList<Screening> filteredScreenings;
 	private int purchaseType;
 	private boolean isTavSagol = false;
-	private int tavSagolLimit;
+	private int tavSagolLimit = -1;
 	private double seatsLimit;
 	private int seatsTaken;
 	private Message msg = new Message();
@@ -191,6 +191,10 @@ public class MovieInfoPageController {
 			}
 			isTavSagol = msg.getStatus();
 			tavSagolLimit = msg.getTavSagolLimit();
+			if(isTavSagol && tavSagolLimit == 0) {
+				JOptionPane.showMessageDialog(null, "Due to tav sagol restrictions, this screening is currently not available");
+				return;
+			}
 			System.out.println(isTavSagol);
 			for (Screening screening : screenings) {
 				if (screening.getDate().toString().equals(dateCombo.getValue())) {
@@ -321,6 +325,10 @@ public class MovieInfoPageController {
 			if (cinemaCombo.getValue().isEmpty() || dateCombo.getValue().isEmpty() || timeCombo.getValue().isEmpty()) {
 				JOptionPane.showMessageDialog(null, "You must fill all the fields");
 				return;
+			}
+			
+			if(isTavSagol && tavSagolLimit == 0) {
+				JOptionPane.showMessageDialog(null, "Due to tav sagol restrictions, this screening is currently not available");
 			}
 
 		} catch (Exception e) {

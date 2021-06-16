@@ -571,6 +571,34 @@ public class Main extends AbstractServer {
 					CinemaController.getCinemaByName(currentMsg.getCinemaName()), null);
 
 			if (currentMsg.getDBAction().equals("removal")) {
+				
+				Screening temp = currentMsg.getScreening();
+				ArrayList<Screening> screenings = getAllOfType(Screening.class);
+				for(Screening screening : screenings) {
+					 if (screening.getDateAndTime().equals(newScreening.getDateAndTime())
+						&& screening.getCinema().getName().equals(newScreening.getCinema().getName())
+						&& screening.getMovie().getName().equals(newScreening.getMovie().getName())
+						&& screening.getHall().getHallId() == (newScreening.getHall().getHallId())){
+							temp = screening;
+							break;
+						}
+				}
+				
+				for (int i = 0; i < temp.getHall().getRows(); i++) {
+					for (int j = 0; j < temp.getHall().getCols(); j++) {
+						if (temp.getSeats()[i][j] == 1) {
+							serverMsg = new Message();
+							serverMsg.setAction("update movie time error");
+							serverMsg.setError("cant delete a screening with sold seats");
+							try {
+								client.sendToClient(serverMsg);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+							return;
+						}
+					}
+				}
 				deleteRowInDB(currentMsg.getScreening());
 				serverMsg = new Message();
 				currentMsg.setAction("updated movie time");

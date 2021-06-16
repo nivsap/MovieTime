@@ -43,19 +43,21 @@ public class ReportsPageController {
     }
     
 
-    public void SetUserType(boolean isAdministrator, Cinema cinema) {
+    public void SetUserType(boolean isAdministrator, Cinema cinema){
+    	try {
     	this.isAdministrator = isAdministrator;
     	personalCinema = cinema;
     	if(!isAdministrator) {
     		reportNameComboBox.getItems().clear();
     		reportNameComboBox.getItems().addAll("Ticket Sales", "Tav Sagol Refunds", "Complaints by day");
         	
-    	}
+    	}} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
     @Subscribe
     public void OnMessageEvent(Message msg) {
-    	System.out.println("got message in ReportsPageController");
-    	
+    	try {
     	if(msg.getAction().equals("got cinemas and purchases and complaints")) {
     		if(isRegistered) {
     			EventBus.getDefault().unregister(this);
@@ -73,15 +75,16 @@ public class ReportsPageController {
     			//setData();
     		});
     		
-    	}  	
+    	}  	} catch (Exception e) {
+			e.printStackTrace();
+		}
     	
     }
     
     
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	private void setData() {
-    	
-    	//ArrayList<Integer> count = new ArrayList<Integer>(cinemas.size());
+    	try {
     	reportChart.getData().clear();
     	
     	if(reportNameComboBox.getValue().equals("Ticket Sales")){
@@ -184,7 +187,9 @@ public class ReportsPageController {
     	
     	
     	
-    	
+    	} catch (Exception e) {
+			e.printStackTrace();
+		}
     	
     	//set1.getData().add(new XYChart.Data("haifa", 1000));
     	//set1.getData().add(new XYChart.Data("tel-aviv", 500));
@@ -194,7 +199,7 @@ public class ReportsPageController {
     
     @FXML
 	public void initialize() {
-    	
+    	try {
     	monthComboBox.getItems().clear();
     	reportChart.getData().clear();
     	reportChart.setAnimated(false);
@@ -212,7 +217,7 @@ public class ReportsPageController {
 		}
     	Message msg = new Message();
     	msg.setAction("get cinemas and purchases and complaints");
-    	try {
+
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

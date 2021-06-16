@@ -116,15 +116,16 @@ public class AddContentPageController {
     @FXML
     private Label viewingPackageWarningLabel;
     
-    public AddContentPageController() {
+    public AddContentPageController() throws IOException {
     	isRegistered = false;
     	genreCheckBoxContainer = new VBox();
     	imagePickerController = new FilePickerController();
-    	largeImagePickerController = new FilePickerController();
+    	largeImagePickerController = new FilePickerController(); 
     }
 
     @FXML
     void initialize() {
+    	try {
     	assert nameTextField != null : "fx:id=\"nameTextField\" was not injected: check your FXML file 'AddContentPage.fxml'.";
         assert mainActorsTextField != null : "fx:id=\"mainActorsTextField\" was not injected: check your FXML file 'AddContentPage.fxml'.";
         assert producersTextField != null : "fx:id=\"producersTextField\" was not injected: check your FXML file 'AddContentPage.fxml'.";
@@ -165,9 +166,13 @@ public class AddContentPageController {
         timeComboBox.getItems().addAll(Arrays.asList("08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00"));
         
         getMovies();
+    	} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
     
     void setEventListeners() {
+    	try {
     	for(CheckBox cb: allGenres) {
     		cb.selectedProperty().addListener( (options, oldValue, newValue)-> {
     			if(newValue.booleanValue()) {
@@ -176,12 +181,15 @@ public class AddContentPageController {
     			else {
     				selectedGenres.remove(cb.getText());
     			}
-    			System.out.println(selectedGenres);
     		});
     	}
+    	} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
     
-    void loadFileLoaderButtons() throws IOException {
+    void loadFileLoaderButtons() {
+    	try {
 		FXMLLoader imageLoader = new FXMLLoader();
 		imageLoader.setLocation(getClass().getResource("FilePicker.fxml"));
 		VBox imagePicker = (VBox) imageLoader.load();
@@ -193,10 +201,14 @@ public class AddContentPageController {
 		VBox largeImagePicker = (VBox) largeImageLoader.load();
 		largeImagePickerController = largeImageLoader.getController();
 		largeImageLoaderBtnContainer.getChildren().add(largeImagePicker);
+    	} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
 
     @FXML
     void loadRate(ActionEvent event) {
+    	try {
     	launchDate = launchDatePicker.getValue();
     	if((launchDate.getYear() < LocalDate.now().getYear()) ||
     		(launchDate.getYear() == LocalDate.now().getYear() && launchDate.getDayOfYear() <= LocalDate.now().getDayOfYear())) {
@@ -211,7 +223,9 @@ public class AddContentPageController {
             rateTextField.setVisible(false);
     		noRadioBtn.setDisable(true);
             yesRadioBtn.setSelected(true);
-    	}
+    	}} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
     
     @FXML
@@ -323,29 +337,34 @@ public class AddContentPageController {
     }
 
     void getMovies() {
+    	try {
     	if(!isRegistered) {
     		EventBus.getDefault().register(this);
     		isRegistered = true;
     	}
     	Message msg = new Message();
     	msg.setAction("get all valid for viewing package movies");
-    	try {
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
-			System.out.println("failed to send msg to server from AddContentPageController");
 			e.printStackTrace();
 		} 	
     }
     
-    void setMovies() {
+    void setMovies()  {
+    	try {
     	movieComboBox.getItems().clear();
     	for(Movie m: moviesForViewingPackage) {
     		movieComboBox.getItems().add(m.getName());
-    	}
+    		} 
+    	} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	
     }
     
     @FXML
     void setSelectedMovie(ActionEvent event) {
+    	try {
     	String movieName = movieComboBox.getValue();
     	for(Movie m: moviesForViewingPackage) {
     		if(m.getName().equals(movieName)) {
@@ -354,10 +373,14 @@ public class AddContentPageController {
     		}
     	}
     	selectedMovie = null;
+    	} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
     
     @FXML
     void addViewingPackage(ActionEvent event) {
+    	try {
     	viewingPackageWarningLabel.setVisible(false);
 
     	if(selectedMovie == null) {
@@ -406,11 +429,15 @@ public class AddContentPageController {
 
     	ViewingPackage newViewingPackage = new ViewingPackage(selectedMovie, viewingPackageTime, link);
     	sendViewingPackageToServer(newViewingPackage);
+    	} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
     
 
     
     void sendMovieToServer(Movie newMovie) {
+    	try {
     	if(!isRegistered) {
     		EventBus.getDefault().register(this);
     		isRegistered = true;
@@ -418,15 +445,14 @@ public class AddContentPageController {
     	Message msg = new Message();
     	msg.setAction("add movie");
     	msg.setMovie(newMovie);
-    	try {
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
-			System.out.println("failed to send msg to server from AddContentPageController");
 			e.printStackTrace();
 		}
     }
     
     void sendViewingPackageToServer(ViewingPackage newViewingPackage) {
+    	try {
     	if(!isRegistered) {
     		EventBus.getDefault().register(this);
     		isRegistered = true;
@@ -434,15 +460,14 @@ public class AddContentPageController {
     	Message msg = new Message();
     	msg.setAction("add viewing package");
     	msg.setViewingPackage(newViewingPackage);
-    	try {
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
-			System.out.println("failed to send msg to server from AddContentPageController");
 			e.printStackTrace();
 		}
     }
     
     void clearForm() {
+    	try {
     	nameTextField.clear();
     	mainActorsTextField.clear();
     	producersTextField.clear();
@@ -465,22 +490,30 @@ public class AddContentPageController {
     	timeComboBox.valueProperty().set(null);
     	linkTextField.clear();
     	viewingPackageWarningLabel.setVisible(false);
+    	} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
     
     @Subscribe 
-    public void onMessageEvent(Message msg){
+    public void onMessageEvent(Message msg) throws IOException{
     	if(msg.getAction().equals("got all valid for viewing package movies")) {
     		Platform.runLater(()-> {
+    			try {
     			if(isRegistered) {
         			EventBus.getDefault().unregister(this);
         			isRegistered = false;
     			}
     			moviesForViewingPackage = msg.getMovies();
-    			setMovies();
+					setMovies();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
     		});
     		
     	}   
     	if(msg.getAction().equals("added movie")) {
+    		try {
     		Platform.runLater(()-> {
     			if(isRegistered) {
         			EventBus.getDefault().unregister(this);
@@ -489,9 +522,12 @@ public class AddContentPageController {
     			clearForm();
     			JOptionPane.showMessageDialog(null, "Movie added successfully");
     		});
-    		
+    		} catch (Exception e) {
+				e.printStackTrace();
+			}
     	}   
     	if(msg.getAction().equals("added viewing package")) {
+    		try {
     		Platform.runLater(()-> {
     			if(isRegistered) {
         			EventBus.getDefault().unregister(this);
@@ -503,7 +539,9 @@ public class AddContentPageController {
     			else
     				JOptionPane.showMessageDialog(null, "Viewing package already exists");
     		});
-    		
-    	} 
+    		} catch (Exception e) {
+				e.printStackTrace();
+			}
+    	} 	
     }
 }

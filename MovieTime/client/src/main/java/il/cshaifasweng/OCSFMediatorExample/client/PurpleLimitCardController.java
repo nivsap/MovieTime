@@ -16,7 +16,7 @@ public class PurpleLimitCardController {
     private Label yLabel;
 
     @FXML
-    void initialize() {
+    void initialize() throws Exception{
         assert fromLabel != null : "fx:id=\"fromLabel\" was not injected: check your FXML file 'PurpleLimitCard.fxml'.";
         assert toLabel != null : "fx:id=\"toLabel\" was not injected: check your FXML file 'PurpleLimitCard.fxml'.";
         assert yLabel != null : "fx:id=\"yLabel\" was not injected: check your FXML file 'PurpleLimitCard.fxml'.";

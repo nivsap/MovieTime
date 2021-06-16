@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class InputTests {
-	public static Boolean isValidEmail(String email) {
+	public static Boolean isValidEmail(String email)throws Exception {
 		if(email == null)
 			return false;
 		String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}";  
@@ -16,7 +16,7 @@ public class InputTests {
 		return matcher.matches();
 	}
 	
-	public static Boolean isValidPhoneNumber(String phoneNumber) {
+	public static Boolean isValidPhoneNumber(String phoneNumber)throws Exception {
 		if(phoneNumber == null || phoneNumber.length() != 10)
 			return false;
 		String regex = "[0-9]+";
@@ -29,7 +29,7 @@ public class InputTests {
 		return true;
 	}
 	
-	public static Boolean isValidId(String id) {
+	public static Boolean isValidId(String id)throws Exception {
 		if(id == null || id.length() != 9)
 			return false;
 		String regex = "[0-9]+";
@@ -38,7 +38,7 @@ public class InputTests {
 		return matcher.matches();
 	}
 	
-	public static Boolean isValidCreditCard(String creditCard) {
+	public static Boolean isValidCreditCard(String creditCard) throws Exception{
 		try {
 			int[] ints = new int[creditCard.length()];
 			int sum = 0;
@@ -64,7 +64,7 @@ public class InputTests {
 		}
 	}
 
-	public static Boolean isValidCVV(String cvv) {
+	public static Boolean isValidCVV(String cvv) throws Exception{
 		if(cvv == null || cvv.length() != 3)
 			return false;
 		String regex = "[0-9]+";
@@ -73,7 +73,7 @@ public class InputTests {
 		return matcher.matches();
 	}
 	
-	public static Boolean isValidDate(String date) {
+	public static Boolean isValidDate(String date){
 		try {
 		    LocalDate.parse(date);
 		    return true;
@@ -82,7 +82,7 @@ public class InputTests {
 		}
 	}
 	
-	public static Boolean isValidDateTime(String dateTime) {
+	public static Boolean isValidDateTime(String dateTime){
 		try {
 		    LocalDateTime.parse(dateTime);
 		    return true;
@@ -91,7 +91,7 @@ public class InputTests {
 		}
 	}
 	
-	public static Boolean isValidInt(String number) {
+	public static Boolean isValidInt(String number){
 		try {
 		    Integer.parseInt(number);
 		    return true;
@@ -100,7 +100,7 @@ public class InputTests {
 		}
 	}
 	
-	public static Boolean isValidFloat(String number) {
+	public static Boolean isValidFloat(String number){
 		try {
 		    Float.parseFloat(number);
 		    return true;

@@ -28,6 +28,7 @@ public class ComingSoonSearchBarController {
 	@FXML
 	public void initialize() {
 		// TODO Auto-generated method stub
+		try {
 		if(!isRegistered) {
 			EventBus.getDefault().register(this);
 			isRegistered = true;
@@ -38,7 +39,6 @@ public class ComingSoonSearchBarController {
 		purchaseType = PurchaseTypes.NOT_AVAILABLE;
 		Message msg = new Message();
 		msg.setAction("get genres");
-		try {
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -51,6 +51,7 @@ public class ComingSoonSearchBarController {
 	
 	@FXML
 	void onComboBoxEvent() {
+		try {
 		if(!isRegistered) {
 			EventBus.getDefault().register(this);
 			isRegistered = true;
@@ -60,7 +61,6 @@ public class ComingSoonSearchBarController {
 		msg.setActionType(actionType);
 		msg.setMoviesType(moviesType);
 		msg.setGenre(genreComboBox.getValue());
-		try {
 			if(!isRegistered) {
 				EventBus.getDefault().register(this);
 				isRegistered = true;
@@ -74,7 +74,7 @@ public class ComingSoonSearchBarController {
 	
 	@Subscribe
 	public void onMessageEvent(Message msg) {
-		System.out.println("got msg in ComingSoonSearchBarController");
+		try {
 		if(msg.getAction().equals("got genres")) {
 			if(isRegistered) {
 				EventBus.getDefault().unregister(this);
@@ -92,6 +92,9 @@ public class ComingSoonSearchBarController {
 			Platform.runLater(()-> {
 			cardController.setMoviesBySearchBar(msg.getMovies());
 			});
+		}} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }

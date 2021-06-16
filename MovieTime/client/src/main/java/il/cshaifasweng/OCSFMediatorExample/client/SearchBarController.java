@@ -37,6 +37,7 @@ public class SearchBarController {
 
 	@FXML
 	public void initialize() {
+		try {
 		if(!isRegistered) {
 			EventBus.getDefault().register(this);
 			isRegistered = true;
@@ -48,7 +49,6 @@ public class SearchBarController {
 		rateComboBox.getItems().addAll("5.0","4.5","4.0","3.5","3.0","2.5");
 		Message msg = new Message();
 		msg.setAction("get genres");
-		try {
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -91,7 +91,7 @@ public class SearchBarController {
 	
 	@Subscribe
 	public void OnMessageEvent(Message msg) {
-		System.out.println("got message in SearchBarController");
+		try {
 		if(msg.getAction().equals("got genres")) {
 			genreComboBox.getItems().clear();
 			if(isRegistered) {
@@ -110,6 +110,8 @@ public class SearchBarController {
 				}
 				cardController.setMoviesBySearchBar(msg.getMovies());
 			});
+		}} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -140,16 +142,6 @@ public class SearchBarController {
 			e.printStackTrace();
 		}
 	}
-
-
-
-
-
-
-
-
-
-
 
 
 }

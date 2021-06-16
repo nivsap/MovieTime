@@ -303,6 +303,7 @@ public class MovieInfoPageController {
 				numberOfSeatsCombo.getItems().add(Integer.toString(i));
 
 			}
+			JOptionPane.showMessageDialog(null, "Due to tav sagol limits, seats will be chosen for you.\nplease choose the number of seats");
 			numberOfSeatsCombo.setVisible(true);
 
 		}} catch (Exception e) {

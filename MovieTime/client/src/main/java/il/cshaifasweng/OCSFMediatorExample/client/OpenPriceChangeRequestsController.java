@@ -153,7 +153,10 @@ public class OpenPriceChangeRequestsController {
     }
     
     void sendMessageToServer(String type) {
-   		EventBus.getDefault().register(this);
+    	if(!isRegistered) {
+			EventBus.getDefault().register(this);
+			isRegistered = true;
+		}
     	Message msg = new Message();
     	msg.setAction(type);
     	if(type.equals("save price request"))
@@ -169,8 +172,11 @@ public class OpenPriceChangeRequestsController {
 	public void onMessageEvent(Message msg) {
     	System.out.println("got message in OpenPriceChangeRequest");
     	if (msg.getAction().equals("got prices")) {
-    		EventBus.getDefault().unregister(this);
-			Platform.runLater(() -> {
+    		if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			}
+    		Platform.runLater(() -> {
 				ticketPrice = msg.getMoviePrice();
 				linkPrice = msg.getViewingPackagePrice();
 				cardPrice = msg.getSubscriptionCardPrice();
@@ -178,7 +184,10 @@ public class OpenPriceChangeRequestsController {
 			});
 		}
 		if (msg.getAction().equals("done to save price request")) {
-			EventBus.getDefault().unregister(this);
+			if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			}
 			Platform.runLater(() -> {
 				successLabel.setVisible(true);
 				clearForm();

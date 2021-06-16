@@ -61,8 +61,10 @@ public class CardContainerController {
     
     public void setGridContent(String namePage) {
 		String actionType = null;
-		EventBus.getDefault().register(this);
-
+		if(!isRegistered) {
+			EventBus.getDefault().register(this);
+			isRegistered = true;
+		}
     	if(namePage.equals("MainPage")) {
     		disableCards = false;
     		actionType = "pull screening movies";
@@ -101,7 +103,7 @@ public class CardContainerController {
     public void sendMessageToServer(Message msg) {
     	try {
     		if(!isRegistered) {
-				isRegistered = true;
+				isRegistered=false ;
 			}
 			AppClient.getClient().sendToServer(msg);
 			waitingForMessageCounter++;
@@ -118,7 +120,10 @@ public class CardContainerController {
     	System.out.println("got msg in CardContainerController");
 		System.out.println(msg.getAction());
     	if(msg.getAction().equals(moviesType)) {
-    		EventBus.getDefault().unregister(this);
+    		if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			}
     		Platform.runLater(()-> {
         		if(msg.getMovies() != null) {
         			movieContainer.getChildren().clear();

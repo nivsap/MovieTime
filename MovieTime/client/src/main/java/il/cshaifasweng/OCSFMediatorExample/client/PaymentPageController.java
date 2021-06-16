@@ -116,7 +116,8 @@ public class PaymentPageController {
     @FXML
     private Button payNowBtn;
     
-	
+	private boolean isRegistered = false;
+
     @FXML
     private Label numberOfPaymentsWarningLabel;
 
@@ -179,7 +180,10 @@ public class PaymentPageController {
     }
     
     public void getPrices() {
-    	EventBus.getDefault().register(this);
+    	if(!isRegistered) {
+			EventBus.getDefault().register(this);
+			isRegistered = true;
+		}
     	Message msg = new Message();
     	msg.setAction("get prices");
     	msg.setPurchase(purchase);
@@ -292,7 +296,10 @@ public class PaymentPageController {
     @Subscribe
     public void OnMessageEvent(Message msg) {
     	if(msg.getAction().equals("got prices")) {
-    		EventBus.getDefault().unregister(this);
+    		if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			}
     		Platform.runLater(() -> {
     		ticketPrice = msg.getMoviePrice();
     		linkPrice = msg.getViewingPackagePrice();
@@ -312,8 +319,10 @@ public class PaymentPageController {
     	}
     	
     	if(msg.getAction().equals("save customer done")) {
-    		EventBus.getDefault().unregister(this);
-    		
+    		if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			}    		
     	}
     }
     

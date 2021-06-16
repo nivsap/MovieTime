@@ -78,8 +78,10 @@ public class LoginPageController {
 	
 	public void sendMessageToServer(String username, String password) {
 
-		EventBus.getDefault().register(this); 
-		
+		if(!isRegistered) {
+			EventBus.getDefault().register(this);
+			isRegistered = true;
+		}		
 		Message msg = new Message();
 		msg.setUsername(username);
 		msg.setPassword(password);
@@ -97,7 +99,10 @@ public class LoginPageController {
 	public void onMessageEvent(Message msg) {
 		System.out.println("got message in loginPageController");
     	if(msg.getAction().equals("login done")) {
-    		EventBus.getDefault().unregister(this);
+    		if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			}
     		Platform.runLater(()-> {
     			String workerType = msg.getTypeOfWorker();
     			if(workerType != null) {

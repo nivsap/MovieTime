@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
 public class SearchBarController {
+	private boolean isRegistered = false;
 
 	private int purchaseType;
 	private String moviesType;
@@ -36,7 +37,10 @@ public class SearchBarController {
 
 	@FXML
 	public void initialize() {
-		EventBus.getDefault().register(this);
+		if(!isRegistered) {
+			EventBus.getDefault().register(this);
+			isRegistered = true;
+		}
 		genreComboBox.getItems().clear();
 		theaterComboBox.getItems().clear();
 		rateComboBox.getItems().clear();
@@ -90,15 +94,21 @@ public class SearchBarController {
 		System.out.println("got message in SearchBarController");
 		if(msg.getAction().equals("got genres")) {
 			genreComboBox.getItems().clear();
-			EventBus.getDefault().unregister(this);
+			if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			}
 			for(String genre : msg.getGenres()) {
 				genreComboBox.getItems().add(genre);
 			}
 		}
 		if(msg.getAction().equals(moviesType)) {
 			Platform.runLater(()-> {
-			EventBus.getDefault().unregister(this);
-			cardController.setMoviesBySearchBar(msg.getMovies());
+				if(isRegistered) {
+					EventBus.getDefault().unregister(this);
+					isRegistered = false;
+				}
+				cardController.setMoviesBySearchBar(msg.getMovies());
 			});
 		}
 	}
@@ -120,7 +130,10 @@ public class SearchBarController {
 		msg.setRate(rateComboBox.getValue());
 		msg.setSearch(mainSearchBar.getText());
 		try {
-			EventBus.getDefault().register(this);
+			if(!isRegistered) {
+				EventBus.getDefault().register(this);
+				isRegistered = true;
+			}
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

@@ -18,6 +18,8 @@ import javafx.scene.layout.AnchorPane;
 
 public class SubscriptionCardInfoPageController {
 
+	private boolean isRegistered = false;
+
     @FXML
     private VBox slideShowContainer;
 
@@ -94,7 +96,10 @@ public class SubscriptionCardInfoPageController {
     		return;
     	}
     	
-    	EventBus.getDefault().register(this);
+    	if(!isRegistered) {
+			EventBus.getDefault().register(this);
+			isRegistered = true;
+		}
     	Message msg = new Message();
     	msg.setAction("get subscription card");
     	msg.setId(Integer.parseInt(subscriptionCardNumber));
@@ -124,7 +129,10 @@ public class SubscriptionCardInfoPageController {
     	System.out.println("got msg in SubscriptionCardInfoPageController");
     	if(msg.getAction().equals("got subscription card")) {
     		Platform.runLater(() -> {
-    			EventBus.getDefault().unregister(this);
+    			if(isRegistered) {
+    				EventBus.getDefault().unregister(this);
+    				isRegistered = false;
+    			}
     			setRemaining(msg.getSubscriptionCard());
     		});
     	} 	

@@ -67,7 +67,8 @@ public class OrderTicketsPageController {
     @FXML
     private Button orderTicketsBtn;
     
-   
+	private boolean isRegistered = false;
+
     
     public OrderTicketsPageController() {
     	hallMapContainer = new VBox();
@@ -79,7 +80,7 @@ public class OrderTicketsPageController {
     	this.numOfSeats = numOfSeats;
     	ArrayList<Pair<Integer,Integer>> tavSeats = new ArrayList<Pair<Integer, Integer>>();
     	if(isTavSagol) {
-    		if(taken + numOfSeats < limit) {
+    		if(taken + numOfSeats <= limit) {
     	    	for(int i = 0 ; i < screening.getHall().getRows(); i++) {
     	    		for(int j = 0 ; j < screening.getHall().getCols() ; j++) {
     	    			if(screening.getSeats()[i][j] == 0) {
@@ -149,7 +150,10 @@ public class OrderTicketsPageController {
     		JOptionPane.showMessageDialog(null, "Please choose a Seat");
     		return;
     	}else {
-        	EventBus.getDefault().register(this);
+    		if(!isRegistered) {
+    			EventBus.getDefault().register(this);
+    			isRegistered = true;
+    		}
     		Message msg  = new Message();
     		msg.setAction("picking chair");
     		msg.setScreening(screeningChosen);
@@ -167,13 +171,19 @@ public class OrderTicketsPageController {
     public void onMessageEvene(Message msg){
 
     	if(msg.getAction().equals("picking seats success")) {
-    		EventBus.getDefault().unregister(this);
+    		if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			}
     		Platform.runLater(() ->{;
     			orderTicketsSuccess();
     		});
     	}
     	if(msg.getAction().equals("picking seats error")) {
-    		EventBus.getDefault().unregister(this);
+    		if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			}
     		JOptionPane.showMessageDialog(null, msg.getError());
     		Platform.runLater(()->{
 				screeningChosen = msg.getScreening();

@@ -17,7 +17,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class ComplaintHandlingController {
-	
+	private boolean isRegistered = false;
+
 	private Complaint complaint;
 	
     @FXML
@@ -226,8 +227,10 @@ public class ComplaintHandlingController {
     	}
     	closedComplaintString += "\n\nMany thanks,\nThe Sirtiya";
 		
-    	EventBus.getDefault().register(this);
-    	Message msg = new Message();
+    	if(!isRegistered) {
+			EventBus.getDefault().register(this);
+			isRegistered = true;
+		}    	Message msg = new Message();
 		msg.setAction("send successful purchase mail");
  		msg.setCustomerEmail(complaint.getEmail());
  		msg.setEmailMessage(closedComplaintString);
@@ -252,7 +255,10 @@ public class ComplaintHandlingController {
     public void OnMessageEvent(Message msg) throws IOException {  	
     	System.out.println("got msg in ComplaintHandlingController");
     	if(msg.getAction().equals("sent successful purchase mail")) {
-			EventBus.getDefault().unregister(this);
+    		if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			}
     		Platform.runLater(()-> {
 	        	App.setWindowTitle(PageTitles.OpenComplaintsPage);
 	        	try {
@@ -263,7 +269,10 @@ public class ComplaintHandlingController {
     		});
     	} 
     	if(msg.getAction().equals("done close complaint")) {
-			EventBus.getDefault().unregister(this);
+    		if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			}
     		Platform.runLater(()-> {
 	        	App.setWindowTitle(PageTitles.OpenComplaintsPage);
 	        	try {

@@ -17,7 +17,8 @@ import javafx.scene.layout.VBox;
 
 public class OpenComplaintsController {
 	private List<Complaint> allComplaints;
-	
+	private boolean isRegistered = false;
+
     @FXML
     private VBox complaints_container;
     
@@ -31,7 +32,10 @@ public class OpenComplaintsController {
 	}
 
 	private void PullComplaint() {
-		EventBus.getDefault().register(this);
+		if(!isRegistered) {
+			EventBus.getDefault().register(this);
+			isRegistered = true;
+		}
 		Message msg= new Message();
 		msg.setAction("pull current complaint");
 		try {
@@ -73,7 +77,10 @@ public class OpenComplaintsController {
 	public void onMessageEvent(Message msg) throws IOException {
 		System.out.println("got message in OpenComplaintsController");
     	if(msg.getAction().equals("got complaints")) {
-    		EventBus.getDefault().unregister(this);
+    		if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			}
     		Platform.runLater(()-> {
 	    		allComplaints = msg.getComplaints();
 	    		InitPage();

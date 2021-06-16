@@ -24,7 +24,8 @@ import javafx.scene.layout.VBox;
 public class PurpleLimitPageController {
 	private ArrayList<PurpleLimit> activePurpleLimits;
 	private Boolean isAdding = false;
-	
+	private boolean isRegistered = false;
+
     @FXML
     private Label noRegulationsLabel;
 
@@ -79,7 +80,10 @@ public class PurpleLimitPageController {
     }
     
     void getActiveRegulations() {
-		EventBus.getDefault().register(this);
+    	if(!isRegistered) {
+			EventBus.getDefault().register(this);
+			isRegistered = true;
+		}
     	Message msg = new Message();
 		msg.setAction("get active purple limits");
  		try {
@@ -199,7 +203,11 @@ public class PurpleLimitPageController {
 			setBtnWarningLabel.setVisible(true);
 			return;
 		}
-		EventBus.getDefault().register(this);
+		
+		if(!isRegistered) {
+			EventBus.getDefault().register(this);
+			isRegistered = true;
+		}
 		Message msg = new Message();
 		msg.setPurpleLimit(p);
 		msg.setAction("add purple limit");
@@ -225,7 +233,10 @@ public class PurpleLimitPageController {
     public void OnMessageEvent(Message msg) throws IOException { 
     	System.out.println("got message in PurpleLimitPageController");
     	if(msg.getAction().equals("got active purple limits")) {
-    		EventBus.getDefault().unregister(this);
+    		if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			} 
     		Platform.runLater(()-> {
     			activePurpleLimits = msg.getActivePurpleLimits();
     			setCurrentRegulations();
@@ -233,7 +244,10 @@ public class PurpleLimitPageController {
     	}   
     	if(msg.getAction().equals("added purple limit")) {
     		Platform.runLater(()-> {
-    			EventBus.getDefault().unregister(this);
+    			if(isRegistered) {
+    				EventBus.getDefault().unregister(this);
+    				isRegistered = false;
+    			}  
     			isAdding = false;
     			activePurpleLimits = msg.getActivePurpleLimits();
     			setSuccessfullyAdded();

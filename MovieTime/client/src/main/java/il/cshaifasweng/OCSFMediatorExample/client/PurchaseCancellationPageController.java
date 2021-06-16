@@ -188,7 +188,10 @@ public class PurchaseCancellationPageController {
 	
 	void sendMessageToServer(Message msg) {
 		try {
-			EventBus.getDefault().register(this);
+			if(!isRegistered) {
+				EventBus.getDefault().register(this);
+				isRegistered = true;
+			}
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
 			System.out.println("failed to send msg to server from PurchaseCancellationPage");
@@ -201,7 +204,10 @@ public class PurchaseCancellationPageController {
     	
     	System.out.println("got message in PurchaseCancellationPageController");
     	if(msg.getAction().equals("got purchase by serial")) {
-    		EventBus.getDefault().unregister(this);
+    		if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			}
     		Platform.runLater(() -> {
     			orderNumber = "";
     			foundPurchase = msg.getPurchase();
@@ -221,7 +227,10 @@ public class PurchaseCancellationPageController {
     	} 	
     	
     	if(msg.getAction().equals("got purchase cancelation by id")) {
-    		EventBus.getDefault().unregister(this);
+    		if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			}
     		Platform.runLater(() -> {
     			try {
 					sendCancellationEmail();
@@ -232,7 +241,10 @@ public class PurchaseCancellationPageController {
     	} 
     	
     	if(msg.getAction().equals("sent purchase cancellation mail")) {
-    		EventBus.getDefault().unregister(this);
+    		if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			}
     		Platform.runLater(() -> {
     			try {
 					App.setContent("PurchaseCanceledPage");

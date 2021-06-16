@@ -31,7 +31,7 @@ public class MovieInfoPageController {
 	private ArrayList<Screening> filteredScreenings;
 	private int purchaseType;
 	private boolean isTavSagol = false;
-	private int tavSagolLimit;
+	private int tavSagolLimit = -1;
 	private double seatsLimit;
 	private int seatsTaken;
 	private Message msg = new Message();
@@ -39,6 +39,7 @@ public class MovieInfoPageController {
 	private String onlyTime;
 	private String date, time;
 	private Hall hall;
+	private boolean isRegistered = false;
 
 	@FXML
 	private ImageView movieLargeImageSrc;
@@ -119,14 +120,10 @@ public class MovieInfoPageController {
 	}
 
 	private void getCinemas(int id) {
-		EventBus.getDefault().register(this);
 		msg.setAction("cinema contained movies");
 		msg.setMovieId(id);
-		try {
-			AppClient.getClient().sendToServer(msg);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		sendMsg(msg);
+
 	}
 
 	public void setPurchaseType(int type) {
@@ -137,11 +134,28 @@ public class MovieInfoPageController {
 		return this.purchaseType;
 	}
 
+	private void sendMsg(Message msg) {
+		
+		if(!isRegistered) {
+			EventBus.getDefault().register(this);
+			isRegistered = true;
+		}
+		try {
+			AppClient.getClient().sendToServer(msg);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	@Subscribe
 	public void onMessageEvent(Message msg) {
 		System.out.println("got message in movieInfoPageController");
 		if (msg.getAction().equals("cinema contained movies done")) {
-			EventBus.getDefault().unregister(this);
+			if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			}
+			
 			Platform.runLater(() -> {
 				cinemaCombo.getItems().clear();
 				cinemas = msg.getCinemas();
@@ -155,7 +169,10 @@ public class MovieInfoPageController {
 		}
 
 		if (msg.getAction().equals("screening for movie done")) {
-			EventBus.getDefault().unregister(this);
+			if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			}
 			Platform.runLater(() -> {
 				screenings = msg.getScreenings();
 				dateCombo.getItems().clear();
@@ -168,15 +185,34 @@ public class MovieInfoPageController {
 		}
 
 		if (msg.getAction().equals("done check purple limit")) {
-			EventBus.getDefault().unregister(this);
+			if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			}
 			isTavSagol = msg.getStatus();
 			tavSagolLimit = msg.getTavSagolLimit();
+			if(isTavSagol && tavSagolLimit == 0) {
+				JOptionPane.showMessageDialog(null, "Due to tav sagol restrictions, this screening is currently not available");
+				return;
+			}
+			System.out.println(isTavSagol);
+			for (Screening screening : screenings) {
+				if (screening.getDate().toString().equals(dateCombo.getValue())) {
+					onlyTime = screening.getTime().toString();
+					timeCombo.getItems().add(onlyTime);
+				}
+
+			}
 		}
 	}
 
 	@FXML
 	private void cinemaChosen() {
-		EventBus.getDefault().register(this);
+		if(cinemaCombo.getValue() == null) {
+			return;
+		}
+		dateCombo.getItems().clear();
+		timeCombo.getItems().clear();
 		filteredScreenings = screenings;
 		int cinemaId = -1;
 		if (cinemaCombo.getValue().isEmpty()) {
@@ -191,40 +227,38 @@ public class MovieInfoPageController {
 		msg.setAction("screening for movie");
 		msg.setCinemaId(cinemaId);
 		msg.setMovieId(movie.getId());
-		try {
-			AppClient.getClient().sendToServer(msg);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		sendMsg(msg);
 
 	}
 
 	@FXML
 	void dateChosen() {
-		EventBus.getDefault().register(this);
-		msg.setAction("check purple limit");
-		msg.setScreeningDate(screenings.get(0).getDateAndTime());
-		try {
-			AppClient.getClient().sendToServer(msg);
-		} catch (IOException e) {
-			e.printStackTrace();
+		if(dateCombo.getValue() == null) {
+			return;
 		}
+		timeCombo.getItems().clear();
+		msg.setAction("check purple limit");
+		
+		for(Screening screening : screenings) {
+			if(screening.getDateAndTime().toString().substring(0,10).equals(dateCombo.getValue())) {
+				msg.setScreeningDate(screening.getDateAndTime());
+			}
+		}
+		
+		sendMsg(msg);
 
 		if (dateCombo.getValue().isEmpty()) {
 			return;
 		}
-		for (Screening screening : screenings) {
-			if (screening.getDate().toString().equals(dateCombo.getValue())) {
-				onlyTime = screening.getTime().toString();
-				timeCombo.getItems().add(onlyTime);
-			}
-
-		}
+		
 
 	}
 
 	@FXML
 	void timeChosen() {
+		if(timeCombo.getValue() == null) {
+			return;
+		}
 		for (Screening screening : screenings) {
 			if (screening.getCinema().getName().equals(cinemaCombo.getValue())) {
 				date = screening.getDate().toString();
@@ -291,6 +325,10 @@ public class MovieInfoPageController {
 			if (cinemaCombo.getValue().isEmpty() || dateCombo.getValue().isEmpty() || timeCombo.getValue().isEmpty()) {
 				JOptionPane.showMessageDialog(null, "You must fill all the fields");
 				return;
+			}
+			
+			if(isTavSagol && tavSagolLimit == 0) {
+				JOptionPane.showMessageDialog(null, "Due to tav sagol restrictions, this screening is currently not available");
 			}
 
 		} catch (Exception e) {

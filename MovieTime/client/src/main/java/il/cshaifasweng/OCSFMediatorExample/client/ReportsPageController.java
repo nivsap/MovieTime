@@ -28,6 +28,7 @@ public class ReportsPageController {
 	private Cinema personalCinema;
     @FXML
     private BarChart<Integer, String> reportChart;
+	private boolean isRegistered = false;
 
     @FXML
     private ComboBox<String> reportNameComboBox;
@@ -54,8 +55,12 @@ public class ReportsPageController {
     @Subscribe
     public void OnMessageEvent(Message msg) {
     	System.out.println("got message in ReportsPageController");
-    	EventBus.getDefault().unregister(this);
+    	
     	if(msg.getAction().equals("got cinemas and purchases and complaints")) {
+    		if(isRegistered) {
+    			EventBus.getDefault().unregister(this);
+    			isRegistered = false;
+    		}
     		Platform.runLater(()-> {
     			this.purchases = msg.getPurchases();
     			this.cinemas = msg.getCinemas();
@@ -189,7 +194,7 @@ public class ReportsPageController {
     
     @FXML
 	public void initialize() {
-    	EventBus.getDefault().register(this);
+    	
     	monthComboBox.getItems().clear();
     	reportChart.getData().clear();
     	reportChart.setAnimated(false);
@@ -201,7 +206,10 @@ public class ReportsPageController {
         	monthComboBox.getItems().add(Integer.toString(i));
         }
     	
-    	
+    	if(!isRegistered) {
+			EventBus.getDefault().register(this);
+			isRegistered = true;
+		}
     	Message msg = new Message();
     	msg.setAction("get cinemas and purchases and complaints");
     	try {

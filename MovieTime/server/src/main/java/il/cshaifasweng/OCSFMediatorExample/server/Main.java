@@ -365,7 +365,7 @@ public class Main extends AbstractServer {
 			server.listen();
 			System.out.println("hello server");
 		}
-		//addDataToDB();
+		addDataToDB();
 		Thread timerThread = new Thread(() -> {
 			synchronized (Purchase.class) {
 				while (true) {
@@ -380,8 +380,7 @@ public class Main extends AbstractServer {
 										JavaMailUtil.sendMessage(i.getEmail(), "Link is ready", "The link to watch the movie will open in an hour, enjoy very much" +"link : " +i.getViewingPackage().getLink());
 									}
 								}}
-							Thread.sleep(0); 
-						} catch (InterruptedException e) {
+						}catch(Exception e){
 							e.printStackTrace();
 						}
 						try {

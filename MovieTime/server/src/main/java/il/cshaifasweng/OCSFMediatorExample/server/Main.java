@@ -393,7 +393,7 @@ public class Main extends AbstractServer {
 										updateRowDB(i);
 									}
 								}}
-							Thread.sleep(60000); // 55 second
+							Thread.sleep(55000); // 55 second
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -873,7 +873,7 @@ public class Main extends AbstractServer {
 					saveRowInDB(subscriptionCard);
 					serverMsg.setSubscriptionCard(subscriptionCard);
 				}
-				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Customer Of The Sirtiya, Order Number :" , serverMsg.getEmailMessage());
+				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Customer Of The Sirtiya" , serverMsg.getEmailMessage());
 				serverMsg.setPurchase(purchase);
 				serverMsg.setAction("save customer done");
 				client.sendToClient(serverMsg);
@@ -919,6 +919,11 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		
+		if(currentMsg.getAction().equals("send successful purchase mail")) {
+			JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Customer Of The Sirtiya" , serverMsg.getEmailMessage());
+			
+	}
 
 		if (currentMsg.getAction().equals("get purchases")) {
 			try {

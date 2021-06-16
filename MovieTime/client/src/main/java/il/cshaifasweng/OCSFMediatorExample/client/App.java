@@ -64,19 +64,7 @@ public class App extends Application {
 		}
         
         
-	  pageLayout = new BorderPane(); 
-	  try {
-		content = (VBox) loadFXML("ConnectionLogin").getKey();
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-	  pageLayout.setCenter(content); 
-	  scene = new Scene(pageLayout, 900, 700);
-	  stage.setTitle("Establish Connection"); 
-	  stage.setScene(scene); 
-	  stage.show();
-		  
+	 
 
     }
     

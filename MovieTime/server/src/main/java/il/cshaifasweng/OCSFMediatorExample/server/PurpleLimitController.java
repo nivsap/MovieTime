@@ -22,10 +22,9 @@ public class PurpleLimitController {
 	}
 	
 	public static Pair<Boolean,Integer> checkPurpleLimit(LocalDate date) {
-		LocalDate dayBefore = LocalDate.of(date.getYear(), date.getMonth(), date.getDayOfMonth()-1);
 		ArrayList<PurpleLimit> purpleLimits = Main.getAllOfType(PurpleLimit.class);
 		for(PurpleLimit p: purpleLimits) {
-			if(dayBefore.isAfter(p.getFromDate()) && date.isBefore(p.getToDate()))
+			if((date.isEqual(p.getFromDate()) || date.isAfter(p.getFromDate())) && date.isBefore(p.getToDate()))
 				return new Pair<Boolean,Integer>(true, p.getY());
 		}
 		return new Pair<Boolean,Integer>(false, 0);
@@ -36,7 +35,7 @@ public class PurpleLimitController {
 			ArrayList<Screening> allScreenings = Main.getAllOfType(Screening.class);
 			for(Screening screening : allScreenings) {
 				LocalDate screeningDate = screening.getDate();
-				if(screeningDate.isAfter(fromDate) && screeningDate.isBefore(toDate)) {
+				if((screeningDate.isEqual(fromDate) || screeningDate.isAfter(fromDate)) && screeningDate.isBefore(toDate)) {
 					screening.getCinema().getCanceledPurchases().addAll(screening.getPurchases());
 					screening.initSeats(); 
 					for(Purchase purchase : screening.getPurchases()) {

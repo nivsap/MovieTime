@@ -267,6 +267,10 @@ public class PaymentPageController {
 
     	order += "\nPuchase Id for cancelations: " + purchase.getSerial();
     	Message msg = new Message();
+    	if(isRegistered) {
+			EventBus.getDefault().unregister(this);
+			isRegistered = false;
+		}
     	msg.setAction("save customer");
     	msg.setPurchase(purchase);
     	msg.setCustomerEmail(emailTextField.getText());

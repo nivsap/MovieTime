@@ -288,7 +288,7 @@ public class Movie implements  Serializable
 	}
 	
 	public void setIsComingSoon(boolean isComingSoon) {
-		isComingSoon = true;
+		this.isComingSoon = isComingSoon;
 	}
 
 	public boolean isDeleted() {

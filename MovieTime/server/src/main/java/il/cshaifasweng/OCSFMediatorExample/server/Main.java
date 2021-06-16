@@ -365,7 +365,7 @@ public class Main extends AbstractServer {
 			server.listen();
 			System.out.println("hello server");
 		}
-		addDataToDB();
+		//addDataToDB();
 		Thread timerThread = new Thread(() -> {
 			synchronized (Purchase.class) {
 				while (true) {
@@ -522,10 +522,11 @@ public class Main extends AbstractServer {
 
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
+		
+		try {
+		
 		System.out.println("message recieved " + ((Message) msg).getAction());
-
 		Message currentMsg = ((Message) msg);
-
 		serverMsg = new Message();
 		if (currentMsg.getAction().equals("pull movies")) {
 			ArrayList<Movie> screeningMoviesArrayList = new ArrayList<>();
@@ -563,9 +564,6 @@ public class Main extends AbstractServer {
 			}
 			
 	
-			
-			
-			
 			Screening newScreening = new Screening(currentMsg.getScreeningDate(), MovieController.getMovieByName(currentMsg.getMovieName()),
 					ScreeningController.getHallById(currentMsg.getHallId()),
 					CinemaController.getCinemaByName(currentMsg.getCinemaName()), null);
@@ -1499,5 +1497,11 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+	}catch(Exception e) {
+		
+		e.printStackTrace();
+		
+	}
+		
 	}
 }

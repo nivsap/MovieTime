@@ -39,24 +39,29 @@ public class InputTests {
 	}
 	
 	public static Boolean isValidCreditCard(String creditCard) {
-		int[] ints = new int[creditCard.length()];
-		int sum = 0;
-		
-		for (int i = 0; i < creditCard.length(); i++) 
-			ints[i] = Integer.parseInt(creditCard.substring(i, i + 1));
-		
-		for (int i = ints.length - 2; i >= 0; i = i - 2) {
-			int j = ints[i];
-			j *= 2;
-			if (j > 9) 
-				j = j % 10 + 1;
-			ints[i] = j;
+		try {
+			int[] ints = new int[creditCard.length()];
+			int sum = 0;
+			
+			for (int i = 0; i < creditCard.length(); i++) 
+				ints[i] = Integer.parseInt(creditCard.substring(i, i + 1));
+			
+			for (int i = ints.length - 2; i >= 0; i = i - 2) {
+				int j = ints[i];
+				j *= 2;
+				if (j > 9) 
+					j = j % 10 + 1;
+				ints[i] = j;
+			}
+			
+			for (int i = 0; i < ints.length; i++) 
+				sum += ints[i];
+			
+			return sum % 10 == 0;
 		}
-		
-		for (int i = 0; i < ints.length; i++) 
-			sum += ints[i];
-		
-		return sum % 10 == 0;
+		catch (NumberFormatException e) {
+			return false;
+		}
 	}
 
 	public static Boolean isValidCVV(String cvv) {

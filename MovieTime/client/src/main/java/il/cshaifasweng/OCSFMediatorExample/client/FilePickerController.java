@@ -17,7 +17,12 @@ public class FilePickerController {
 
     @FXML
     void openFileBrowser() throws FileNotFoundException {
-    	loadedFile = App.openFilePicker();
+    	try {
+			loadedFile = App.openFilePicker();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	if(loadedFile != null) {
     		binaryFile = new FileInputStream(loadedFile);
     	}

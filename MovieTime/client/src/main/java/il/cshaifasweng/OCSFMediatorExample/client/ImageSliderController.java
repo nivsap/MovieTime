@@ -15,7 +15,7 @@ public class ImageSliderController {
     @FXML
     private ImageView imageSlider;
     
-    public ImageSliderController() {
+    public ImageSliderController() throws Exception{
     	currentlyDisplayed = 1;
     	images = new ArrayList<Image>();
     	images.add(new Image(getClass().getResourceAsStream("images/MoviesPosters/LargeImages/AvengersEndgame.png")));
@@ -34,6 +34,7 @@ public class ImageSliderController {
     }
     
     void rotateImages() {
+    	try {
     	Timeline timeline = new Timeline();
     	KeyFrame key =  new KeyFrame(Duration.seconds(2), event -> {
     		imageSlider.setImage(images.get(currentlyDisplayed));
@@ -44,5 +45,9 @@ public class ImageSliderController {
     	timeline.getKeyFrames().add(key);   
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
+    	} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 }

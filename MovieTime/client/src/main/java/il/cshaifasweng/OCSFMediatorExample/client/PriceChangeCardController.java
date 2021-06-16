@@ -25,7 +25,7 @@ public class PriceChangeCardController {
     private Label newPriceLabel;
     
     @FXML
-    void initialize() {
+    void initialize()throws Exception {
         assert cardBtn != null : "fx:id=\"cardBtn\" was not injected: check your FXML file 'PriceChangeCard.fxml'.";
         assert dateLabel != null : "fx:id=\"dateLabel\" was not injected: check your FXML file 'PriceChangeCard.fxml'.";
         assert oldPriceLabel != null : "fx:id=\"oldPriceLabel\" was not injected: check your FXML file 'PriceChangeCard.fxml'.";

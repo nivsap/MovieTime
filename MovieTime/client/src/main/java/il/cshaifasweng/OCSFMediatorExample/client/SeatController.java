@@ -47,6 +47,7 @@ public class SeatController {
 	}
     @FXML
     void switchColor(ActionEvent event) {
+    	try {
     	if(!tavSagol) {
 	    	if(seat == 1) 
 	    		return;
@@ -61,6 +62,8 @@ public class SeatController {
 	        }
 	        Image image = new Image(getClass().getResourceAsStream("images/" + imageSrc));
 	        seatIcon.setImage(image);
-    	}
+    	}} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
 }

@@ -38,13 +38,13 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage)  {
+    	try {
     	if(!isRegistered) {
 			EventBus.getDefault().register(this);
 			isRegistered = true;
 		}
     	stage = primaryStage;
     	client = AppClient.getClient();
-    	try {
 			client.openConnection();
 	    	// Setting Layout's Content
 	    	pageLayout = new BorderPane();
@@ -83,6 +83,7 @@ public class App extends Application {
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
     public void stop(){
+    	try {
     	if(currentController!= null) {
 	        System.out.println("Stage is closing");
 	        if(currentController.getClass().equals(PaymentPageController.class)) {
@@ -113,10 +114,14 @@ public class App extends Application {
         else {
         	Platform.exit();
             System.exit(0);
-        }
+        }} 
+    	catch (Exception e) {
+			e.printStackTrace();
+		}
     }
     
     public static void logout(Boolean logoutClicked) {
+    	try {
     	if(userName == null || password == null) {
     		Platform.exit();
     		System.exit(0);
@@ -130,12 +135,16 @@ public class App extends Application {
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
 			e.printStackTrace();
+		}} 
+    	catch (Exception e) {
+			e.printStackTrace();
 		}
     }
     
     
     @Subscribe
     void OnMessageEvent(Message msg) {
+    	try {
     	if(msg.getAction().equals("logged out")) {
     		if(App.isLogoutClicked) {
     			userName = null;
@@ -151,7 +160,9 @@ public class App extends Application {
     			Platform.exit();
     			System.exit(0);
     		} 
-    	}
+    	}}catch (Exception e) {
+			e.printStackTrace();
+		}
     }
    //5 
     static Object setContent(String pageName) throws IOException {
@@ -190,7 +201,8 @@ public class App extends Application {
 	    content.getChildren().setAll(controller.getTopBar(),controller.getCardContainer());
     }
     
-    static File openFilePicker() {
+    static File openFilePicker() throws Exception{
+    	
     	FileChooser filePicker = new FileChooser();
     	ExtensionFilter fileExtensions = new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg");
     	filePicker.getExtensionFilters().add(fileExtensions);

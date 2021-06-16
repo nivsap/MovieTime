@@ -95,7 +95,7 @@ public class MovieInfoPageController {
 	@FXML
 	private Button orderTicketBtn;
 
-	void InitPageInfo(Movie movie) {
+	void InitPageInfo(Movie movie) throws Exception{
 		this.movie = movie;
 		purchaseType = PurchaseTypes.TICKET;
 		movieImageSrc.setImage(movie.getImage());
@@ -120,10 +120,13 @@ public class MovieInfoPageController {
 	}
 
 	private void getCinemas(int id) {
+		try {
 		msg.setAction("cinema contained movies");
 		msg.setMovieId(id);
 		sendMsg(msg);
-
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void setPurchaseType(int type) {
@@ -149,7 +152,7 @@ public class MovieInfoPageController {
 	}
 	@Subscribe
 	public void onMessageEvent(Message msg) {
-		System.out.println("got message in movieInfoPageController");
+		try {
 		if (msg.getAction().equals("cinema contained movies done")) {
 			if(isRegistered) {
 				EventBus.getDefault().unregister(this);
@@ -195,7 +198,6 @@ public class MovieInfoPageController {
 				JOptionPane.showMessageDialog(null, "Due to tav sagol restrictions, this screening is currently not available");
 				return;
 			}
-			System.out.println(isTavSagol);
 			for (Screening screening : screenings) {
 				if (screening.getDate().toString().equals(dateCombo.getValue())) {
 					onlyTime = screening.getTime().toString();
@@ -203,11 +205,13 @@ public class MovieInfoPageController {
 				}
 
 			}
+		}} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
 	@FXML
-	private void cinemaChosen() {
+	private void cinemaChosen() throws Exception{
 		if(cinemaCombo.getValue() == null) {
 			return;
 		}
@@ -232,7 +236,7 @@ public class MovieInfoPageController {
 	}
 
 	@FXML
-	void dateChosen() {
+	void dateChosen() throws Exception{
 		if(dateCombo.getValue() == null) {
 			return;
 		}
@@ -256,6 +260,7 @@ public class MovieInfoPageController {
 
 	@FXML
 	void timeChosen() {
+		try {
 		if(timeCombo.getValue() == null) {
 			return;
 		}
@@ -271,7 +276,6 @@ public class MovieInfoPageController {
 			}
 		}
 		if (screeningChosen == null) {
-			System.out.println("Error in movieInfoPage, screeningChosen is null!!");
 		}
 		hall = screeningChosen.getHall();
 		if (isTavSagol) {
@@ -301,6 +305,8 @@ public class MovieInfoPageController {
 			}
 			numberOfSeatsCombo.setVisible(true);
 
+		}} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

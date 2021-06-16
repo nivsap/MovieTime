@@ -74,6 +74,7 @@ public class OrderTicketsPageController {
     	hallMapContainer = new VBox();
     }
     public void setPurchaseInfo(int type, Screening screening, boolean isTavSagol, int numOfSeats, double limit , int taken) {
+    	try {
     	purchaseType = type;
     	screeningChosen = screening;
     	this.isTavSagol = isTavSagol;
@@ -96,11 +97,10 @@ public class OrderTicketsPageController {
     				}
     	    	}
     	    }
-    	}
-    	
-    	
-    	
-    	
+    	}} catch (Exception e) {
+			e.printStackTrace();
+		}
+
     }
     
     public void loadMovieInfo() {
@@ -141,7 +141,6 @@ public class OrderTicketsPageController {
     			Pair<Integer,Integer> pair = new Pair<Integer,Integer>(i,j);
         		if(screeningChosen.getSeats()[i][j] == 2 ) {
         			seatsChosen.add(pair);
-        			System.out.println("seat " + i +" " + j + " was chosen");
         			//screeningChosen.getSeats()[i][j] = 1;
         		}
         	}
@@ -168,7 +167,7 @@ public class OrderTicketsPageController {
     
     
     @Subscribe
-    public void onMessageEvene(Message msg){
+    public void onMessageEvene(Message msg)throws Exception{
 
     	if(msg.getAction().equals("picking seats success")) {
     		if(isRegistered) {

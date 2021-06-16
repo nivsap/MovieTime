@@ -54,7 +54,7 @@ public class PriceChangeApprovalsController {
     }
 
     @FXML
-    void initialize() {
+    void initialize()throws Exception {
     	 assert noRequestsLabel != null : "fx:id=\"noRequestsLabel\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
          assert cardsContainer != null : "fx:id=\"cardsContainer\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
          assert requestHandlingContainer != null : "fx:id=\"requestHandlingContainer\" was not injected: check your FXML file 'PriceChangeApprovals.fxml'.";
@@ -70,18 +70,16 @@ public class PriceChangeApprovalsController {
     }
     
 	void pullRequests() {
-
+try {
 		if(!isRegistered) {
 			EventBus.getDefault().register(this);
 			isRegistered = true;
 		}
 		Message msg= new Message();
 		msg.setAction("get all open price requests");
-		try {
 			AppClient.getClient().sendToServer(msg);
 		} 
 		catch (IOException e) {
-			System.out.println("failed to send msg to server from PriceChangeApprovalsController");
 			e.printStackTrace();
 		}
 	}
@@ -144,6 +142,7 @@ public class PriceChangeApprovalsController {
     }
     
     void sendMessageToServer(Boolean isApproved) {
+    	try {
     	if(!isRegistered) {
         	EventBus.getDefault().register(this);
         	isRegistered = true;
@@ -154,7 +153,6 @@ public class PriceChangeApprovalsController {
     	else
     		msg.setAction("decline price request");
  		msg.setPriceRequest(currentRequest);
- 		try {
  			AppClient.getClient().sendToServer(msg);
 		} 
  		catch (IOException e) {
@@ -164,8 +162,8 @@ public class PriceChangeApprovalsController {
 
     
     @Subscribe
-	public void onMessageEvent(Message msg) throws IOException {
-    	System.out.println("got message in PriceChangeApprovalsController");
+	public void onMessageEvent(Message msg) {
+    	try {
     	if(msg.getAction().equals("got all open price requests") || 
     			msg.getAction().equals("approved price request") || msg.getAction().equals("declined price request")) {
     		if(isRegistered) {
@@ -177,6 +175,8 @@ public class PriceChangeApprovalsController {
 	    		initRequestsContainer();
 	    		clearRequestHandlingContainer();
     		});
-    	}
+    	}} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}		
 }

@@ -49,6 +49,7 @@ public class CardContainerController {
     private Button loadMoreBtn;
 
     public CardContainerController() {
+    	try {
     	isRegistered = false;
     	waitingForMessageCounter = 0;
     	moviesType = "";
@@ -57,9 +58,13 @@ public class CardContainerController {
     	moviesNumber = 0; 
     	type = PurchaseTypes.NOT_AVAILABLE;
     	disableCards = false;
+    	}catch (Exception e) {
+			e.printStackTrace();
+		}
     }
     
     public void setGridContent(String namePage) {
+    	try {
 		String actionType = null;
 		if(!isRegistered) {
 			EventBus.getDefault().register(this);
@@ -98,6 +103,9 @@ public class CardContainerController {
 		Message msg = new Message();
 		msg.setAction(actionType);
 		sendMessageToServer(msg);
+    	}catch (Exception e) {
+			e.printStackTrace();
+		}
     }
     
     public void sendMessageToServer(Message msg) {
@@ -108,17 +116,14 @@ public class CardContainerController {
 			AppClient.getClient().sendToServer(msg);
 			waitingForMessageCounter++;
 		} catch (IOException e) {
-			System.out.println("failed to send msg to server from CardContainerController");
 			waitingForMessageCounter--;
 			e.printStackTrace();
 		}	
     }
     
-    
     @Subscribe
 	public void onMessageEvent(Message msg) {
-    	System.out.println("got msg in CardContainerController");
-		System.out.println(msg.getAction());
+    	try {
     	if(msg.getAction().equals(moviesType)) {
     		if(isRegistered) {
 				EventBus.getDefault().unregister(this);
@@ -130,22 +135,33 @@ public class CardContainerController {
         			recentlyAdded = msg.getMovies();
         			moviesNumber = recentlyAdded.size();
         			currentlyDisplayedFrom = 0;
-        			SetMovies(currentlyDisplayedFrom);
+        			try {
+						SetMovies(currentlyDisplayedFrom);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
         		}
     		});
-    	}
+    	}}catch (Exception e) {
+			e.printStackTrace();
+		}
     }
     
     
     public void setMoviesBySearchBar(ArrayList<Movie> movies) {
+    	try {
     	movieContainer.getChildren().clear();
 		recentlyAdded = movies;
 		moviesNumber = recentlyAdded.size();
 		currentlyDisplayedFrom = 0;
 		SetMovies(currentlyDisplayedFrom);
+    	}catch (Exception e) {
+			e.printStackTrace();
+		}
     }
 
-	public void SetMovies(int displayFrom) {
+	public void SetMovies(int displayFrom) throws Exception {
     	int index;
 		if(moviesNumber < NUM_ROWS * NUM_COLS) 
 			index = 0;
@@ -175,7 +191,7 @@ public class CardContainerController {
 	}
 
     @FXML
-    void loadMoreMovies() {
+    void loadMoreMovies() throws Exception{
     	if(moviesNumber < NUM_ROWS * NUM_COLS)
 			return;
     	

@@ -192,7 +192,10 @@ public class FilingComplaintsPageController  {
     
     void sendMessageToServer(Message msg) {
 		try {
-			EventBus.getDefault().register(this);
+			if(!isRegistered) {
+				EventBus.getDefault().register(this);
+				isRegistered = true;
+			}
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
 			System.out.println("failed to send msg to server from FilingComplaintsPage");
@@ -204,13 +207,18 @@ public class FilingComplaintsPageController  {
 	public void onMessageEvent(Message msg) throws IOException {
     	System.out.println("got msg in FilingComplaintPageController");
        	if(msg.getAction().equals("got purchase by serial")) {
-       		EventBus.getDefault().unregister(this);
-    		Platform.runLater(() -> {
+       		if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			}
+       		Platform.runLater(() -> {
     			Purchase foundPurchase = msg.getPurchase();
         		waitingForMessageCounter--;
             	if(waitingForMessageCounter == 0 && isRegistered) {
-            		EventBus.getDefault().unregister(this);
-            		isRegistered = false;
+            		if(isRegistered) {
+        				EventBus.getDefault().unregister(this);
+        				isRegistered = false;
+        			}            		isRegistered = false;
             	}
     			if(foundPurchase == null) {
     				orderNumberWarningLabel.setText("Order number not found");

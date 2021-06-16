@@ -71,7 +71,10 @@ public class PriceChangeApprovalsController {
     
 	void pullRequests() {
 
-		EventBus.getDefault().register(this);
+		if(!isRegistered) {
+			EventBus.getDefault().register(this);
+			isRegistered = true;
+		}
 		Message msg= new Message();
 		msg.setAction("get all open price requests");
 		try {
@@ -165,7 +168,10 @@ public class PriceChangeApprovalsController {
     	System.out.println("got message in PriceChangeApprovalsController");
     	if(msg.getAction().equals("got all open price requests") || 
     			msg.getAction().equals("approved price request") || msg.getAction().equals("declined price request")) {
-    		EventBus.getDefault().unregister(this);
+    		if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			}
     		Platform.runLater(()-> {
 	    		allRequests = msg.getPriceRequests();
 	    		initRequestsContainer();

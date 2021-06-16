@@ -23,7 +23,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
 public class ViewingPackagesInfoPageController {
-	
+	private boolean isRegistered = false;
+
     private int purchaseType;
     @SuppressWarnings("unused")
 	private Movie currentlyDisplayed;  
@@ -147,7 +148,10 @@ public class ViewingPackagesInfoPageController {
     	dateCombo.getItems().clear();
     	timeCombo.getItems().clear();
 
-    	EventBus.getDefault().register(this);
+    	if(!isRegistered) {
+			EventBus.getDefault().register(this);
+			isRegistered = true;
+		}
     	msg.setAction("get viewing packages by movie");
     	msg.setMovieName(movie.getName());
     	try {
@@ -164,7 +168,10 @@ public class ViewingPackagesInfoPageController {
     public void OnMessageEvent(Message msg) {
     	System.out.println("got msg in ViewingPackgeInfoPageController");
     	if(msg.getAction().equals("got viewing packages by movie")) {
-    		EventBus.getDefault().unregister(this);
+    		if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			}
     		Platform.runLater(()-> {
 	    		viewingPackages = (ArrayList)msg.getViewingPackages();
 				dateCombo.getItems().clear();

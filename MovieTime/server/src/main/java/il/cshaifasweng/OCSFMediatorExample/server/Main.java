@@ -153,7 +153,7 @@ public class Main extends AbstractServer {
 					false, false, null, null);
 			Movie starWars = new Movie("Star Wars", "Action   •   Adventure   •   Fantasy", 
 					"The surviving members of the Resistance face the First Order once again, and the legendary conflict between the Jedi and the Sith reaches its peak, bringing the Skywalker saga to its end.",
-					"J.J. Abrams", "Daisy Ridley, John Boyega, Oscar Isaac", LocalDate.of(2019, 12, 20), 2, 21, 5f,
+					"J.J. Abrams", "Daisy Ridley, John Boyega, Oscar Isaac", LocalDate.of(2021, 6, 27), 2, 21, 5f,
 					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/StarWars.jpg",
 					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/StarWars.png",
 					true, false, null, null);
@@ -548,7 +548,24 @@ public class Main extends AbstractServer {
 
 		if (currentMsg.getAction().equals("update movie time")) {
 
-			System.out.println("about to update movie time");
+			Movie movie = MovieController.getMovieByName(currentMsg.getMovieName());
+		
+			if(currentMsg.getDBAction().equals("addition") && movie.getLaunchDate().isAfter(currentMsg.getScreeningDate().toLocalDate())) {
+				Message serverMsg = new Message();
+				serverMsg.setAction("update movie time error");
+				serverMsg.setError("cant add screening before launch date!");
+				try {
+					client.sendToClient(serverMsg);
+					return;
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
+	
+			
+			
+			
 			Screening newScreening = new Screening(currentMsg.getScreeningDate(), MovieController.getMovieByName(currentMsg.getMovieName()),
 					ScreeningController.getHallById(currentMsg.getHallId()),
 					CinemaController.getCinemaByName(currentMsg.getCinemaName()), null);
@@ -567,8 +584,11 @@ public class Main extends AbstractServer {
 			}
 
 			List<Screening> screenings = getAllOfType(Screening.class);
-
+			int countScreeningsForMovie = 0;
 			for (Screening screening : screenings) {
+				if(screening.getMovie().getName().equals(movie.getName())){
+					countScreeningsForMovie++;
+				}
 				if (screening.getDateAndTime().equals(newScreening.getDateAndTime())
 						&& screening.getCinema().getName().equals(newScreening.getCinema().getName())
 						&& screening.getMovie().getName().equals(newScreening.getMovie().getName())
@@ -592,7 +612,11 @@ public class Main extends AbstractServer {
 				}
 			}
 
-			System.out.println("about to save newScreening in database");
+			System.out.println("count of movie is: " + countScreeningsForMovie);
+			if(countScreeningsForMovie == 0) {
+				movie.setIsComingSoon(false);
+				updateRowDB(movie);
+			}
 			saveRowInDB(newScreening);
 			serverMsg = new Message();
 			currentMsg.setAction("updated movie time");

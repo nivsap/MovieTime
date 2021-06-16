@@ -25,7 +25,7 @@ public class PurpleLimitController {
 		LocalDate dayBefore = LocalDate.of(date.getYear(), date.getMonth(), date.getDayOfMonth()-1);
 		ArrayList<PurpleLimit> purpleLimits = Main.getAllOfType(PurpleLimit.class);
 		for(PurpleLimit p: purpleLimits) {
-			if(date.isAfter(dayBefore) && date.isBefore(p.getToDate()))
+			if(dayBefore.isAfter(p.getFromDate()) && date.isBefore(p.getToDate()))
 				return new Pair<Boolean,Integer>(true, p.getY());
 		}
 		return new Pair<Boolean,Integer>(false, 0);

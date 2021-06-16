@@ -34,9 +34,14 @@ public class App extends Application {
     private static VBox menu;
     @FXML
     private static VBox content;
+	private boolean isRegistered = false;
+
     @Override
     public void start(Stage primaryStage)  {
-    	EventBus.getDefault().register(this);
+    	if(!isRegistered) {
+			EventBus.getDefault().register(this);
+			isRegistered = true;
+		}
     	stage = primaryStage;
     	client = AppClient.getClient();
     	try {
@@ -139,7 +144,10 @@ public class App extends Application {
     		}
     		
     		else {
-    			EventBus.getDefault().unregister(this);
+    			if(isRegistered) {
+    				EventBus.getDefault().unregister(this);
+    				isRegistered = false;
+    			}
     			Platform.exit();
     			System.exit(0);
     		} 

@@ -230,8 +230,11 @@ public class FilingComplaintsPageController  {
     		});
     	} 	
     	if(msg.getAction().equals("added a complaint")) {
-    		EventBus.getDefault().unregister(this);
-        	Platform.runLater(()-> {
+    		if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			}
+    		Platform.runLater(()-> {
     			try {
     				App.setWindowTitle("Thank you");
     				ComplaintAddedPageController controller = (ComplaintAddedPageController) App.setContent("ComplaintAddedPage");

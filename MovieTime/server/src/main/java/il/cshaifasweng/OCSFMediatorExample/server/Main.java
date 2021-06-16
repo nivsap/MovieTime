@@ -153,7 +153,7 @@ public class Main extends AbstractServer {
 					false, false, null, null);
 			Movie starWars = new Movie("Star Wars", "Action   •   Adventure   •   Fantasy", 
 					"The surviving members of the Resistance face the First Order once again, and the legendary conflict between the Jedi and the Sith reaches its peak, bringing the Skywalker saga to its end.",
-					"J.J. Abrams", "Daisy Ridley, John Boyega, Oscar Isaac", LocalDate.of(2019, 12, 20), 2, 21, 5f,
+					"J.J. Abrams", "Daisy Ridley, John Boyega, Oscar Isaac", LocalDate.of(2021, 6, 27), 2, 21, 5f,
 					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/StarWars.jpg",
 					picPath + "client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/images/MoviesPosters/LargeImages/StarWars.png",
 					true, false, null, null);
@@ -367,37 +367,38 @@ public class Main extends AbstractServer {
 		}
 		addDataToDB();
 		Thread timerThread = new Thread(() -> {
-			//synchronized (Purchase.class) {
-			while (true) {
-				if(threadFlag == 0) {
-					//threadFlag = 1;
-					List<Purchase> list = getAllOfType(Purchase.class);
-					for (Purchase i : list) {
-						if (i.isLink() && i.getViewingPackage().getDateTime().getDayOfYear() == LocalDateTime.now().getDayOfYear()
-								&& i.getViewingPackage().getDateTime().getHour() - 1 == LocalDateTime.now().getHour()
-								&& i.getViewingPackage().getDateTime().getMinute() == LocalDateTime.now().getMinute()) {
-							JavaMailUtil.sendMessage(i.getEmail(), "hadye", "hadye");
+			synchronized (Purchase.class) {
+				while (true) {
+					if(threadFlag == 0) {
+						try {
+							List<Purchase> list = getAllOfType(Purchase.class);
+							if(list != null) {
+								for (Purchase i : list) {
+									if (i.isLink() && i.getViewingPackage().getDateTime().getDayOfYear() == LocalDateTime.now().getDayOfYear()
+											&& i.getViewingPackage().getDateTime().getHour() - 1 == LocalDateTime.now().getHour()
+											&& i.getViewingPackage().getDateTime().getMinute() == LocalDateTime.now().getMinute()) {
+										JavaMailUtil.sendMessage(i.getEmail(), "Link is ready", "The link to watch the movie will open in an hour, enjoy very much" +"link : " +i.getViewingPackage().getLink());
+									}
+								}}
+							Thread.sleep(0); 
+						} catch (InterruptedException e) {
+							e.printStackTrace();
 						}
-					}
-					try {
-						Thread.sleep(0); 
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					List<Complaint> listComplaints = getAllOfType(Complaint.class);
-					for (Complaint i : listComplaints) {
-						if(i.isOpen() && i.getComplaintDate().getDayOfYear() - 1 == LocalDate.now().getDayOfYear() && i.getComplaintTime().getHour() == LocalTime.now().getHour() && i.getComplaintTime().getMinute()  == LocalTime.now().getMinute()) {
-							JavaMailUtil.sendMessage(i.getEmail(), "close complain", "close complain");
-							i.setIsOpen(false);
-							updateRowDB(i);
+						try {
+							List<Complaint> listComplaints = getAllOfType(Complaint.class);
+							if(listComplaints != null) {
+								for (Complaint i : listComplaints) {
+									if(i.isOpen() && i.getComplaintDate().getDayOfYear() + 1 == LocalDate.now().getDayOfYear() && i.getComplaintTime().getHour() == LocalTime.now().getHour() && i.getComplaintTime().getMinute()  == LocalTime.now().getMinute()) {
+										JavaMailUtil.sendMessage(i.getEmail(), "Complaint accepted","We are sorry for the inconvenience the complaint you sent was received and the money is returned to you. Thank you very much hope to see you again");
+										i.setIsOpen(false);
+										updateRowDB(i);
+									}
+								}}
+							Thread.sleep(60000); // 55 second
+						} catch (InterruptedException e) {
+							e.printStackTrace();
 						}
-					}
-					try {
-						Thread.sleep(60000); // 55 second
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}//}
+					}}
 			}});
 		timerThread.start();
 	}
@@ -442,7 +443,6 @@ public class Main extends AbstractServer {
 		} finally {
 			// assert session != null;
 			session.close();
-			System.out.println("save screening in database");
 		}
 	}
 
@@ -463,7 +463,6 @@ public class Main extends AbstractServer {
 		} finally {
 			// assert session != null;
 			session.close();
-			System.out.println("deleteRowInDB");
 		}
 	}
 
@@ -549,7 +548,24 @@ public class Main extends AbstractServer {
 
 		if (currentMsg.getAction().equals("update movie time")) {
 
-			System.out.println("about to update movie time");
+			Movie movie = MovieController.getMovieByName(currentMsg.getMovieName());
+		
+			if(currentMsg.getDBAction().equals("addition") && movie.getLaunchDate().isAfter(currentMsg.getScreeningDate().toLocalDate())) {
+				Message serverMsg = new Message();
+				serverMsg.setAction("update movie time error");
+				serverMsg.setError("cant add screening before launch date!");
+				try {
+					client.sendToClient(serverMsg);
+					return;
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
+	
+			
+			
+			
 			Screening newScreening = new Screening(currentMsg.getScreeningDate(), MovieController.getMovieByName(currentMsg.getMovieName()),
 					ScreeningController.getHallById(currentMsg.getHallId()),
 					CinemaController.getCinemaByName(currentMsg.getCinemaName()), null);
@@ -568,8 +584,11 @@ public class Main extends AbstractServer {
 			}
 
 			List<Screening> screenings = getAllOfType(Screening.class);
-
+			int countScreeningsForMovie = 0;
 			for (Screening screening : screenings) {
+				if(screening.getMovie().getName().equals(movie.getName())){
+					countScreeningsForMovie++;
+				}
 				if (screening.getDateAndTime().equals(newScreening.getDateAndTime())
 						&& screening.getCinema().getName().equals(newScreening.getCinema().getName())
 						&& screening.getMovie().getName().equals(newScreening.getMovie().getName())
@@ -593,7 +612,11 @@ public class Main extends AbstractServer {
 				}
 			}
 
-			System.out.println("about to save newScreening in database");
+			System.out.println("count of movie is: " + countScreeningsForMovie);
+			if(countScreeningsForMovie == 0) {
+				movie.setIsComingSoon(false);
+				updateRowDB(movie);
+			}
 			saveRowInDB(newScreening);
 			serverMsg = new Message();
 			currentMsg.setAction("updated movie time");
@@ -966,6 +989,8 @@ public class Main extends AbstractServer {
 			try {
 				serverMsg = currentMsg;
 				serverMsg.setScreenings(getAllOfType(Screening.class));
+				serverMsg.setCinemas((getAllOfType(Cinema.class)));
+				serverMsg.setMovies((getAllOfType(Movie.class)));
 				serverMsg.setAction("got all screenings");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
@@ -1161,8 +1186,13 @@ public class Main extends AbstractServer {
 				Float refund = CustomerController.ReturnOnPurchase(currentMsg.getPurchase(), LocalDateTime.now());
 				currentMsg.getPurchase().setIsCanceled(new Pair<Boolean, Float> (true, refund));
 				updateRowDB(currentMsg.getPurchase());
-				if(p.isTicket())
+				if(p.isTicket()) {
+					for(Pair<Integer, Integer> i : currentMsg.getPurchase().getSeatsList()) {
+						currentMsg.getPurchase().getScreening().getSeats()[i.getKey()][i.getValue()] = 0;
+					}
+					updateRowDB(currentMsg.getPurchase().getScreening());
 					updateRowDB(currentMsg.getPurchase().getScreening().getCinema());
+				}
 				serverMsg.setAction("got purchase cancelation by id");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {

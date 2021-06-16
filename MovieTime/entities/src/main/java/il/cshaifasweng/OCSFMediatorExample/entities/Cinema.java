@@ -26,10 +26,13 @@ public class Cinema implements  Serializable{
 	//private BranchManager manager;
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "cinema")
 	private List<Worker> workers;
-	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "cinema")
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "cinema")
+	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Hall> halls;
 	private int nextHallNumber;
+	
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "cinema" )
+	
 	private List<Screening> screenings;
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "cinema")
 	@Fetch(value = FetchMode.SUBSELECT)

@@ -11,6 +11,8 @@ import javax.swing.JOptionPane;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.Cinema;
+import il.cshaifasweng.OCSFMediatorExample.entities.Hall;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
@@ -28,6 +30,8 @@ public class UpdateMoviesPageController{
 
 	
 	private List<Movie> allMovies;
+	private List<Movie> movies;
+	private List<Cinema> cinemas;
 	private List<Screening> screenings;
 	List<Screening> filteredScreenings;
 	private String[] time;
@@ -72,7 +76,18 @@ public class UpdateMoviesPageController{
 	void onChoiceCB() {
 		screening_time_layout.getChildren().clear();
 		filteredScreenings = new ArrayList<Screening>(screenings);
-		if(cb_cinema.getValue() != null && !cb_cinema.getValue().isBlank()) {
+		if(cb_cinema.getValue() != null && !cb_cinema.getValue().isEmpty()) {
+			
+			for(Cinema cinema : cinemas) {
+				if(cinema.getName().equals(cb_cinema.getValue())){
+					for(Hall hall : cinema.getHalls()) {
+						if(!cb_hall.getItems().contains((Integer.toString(hall.getHallId())))){
+							cb_hall.getItems().add(Integer.toString(hall.getHallId()));
+						}
+					}
+				}
+			}
+			
 			
 			Iterator<Screening> iter = filteredScreenings.iterator();
 			while (iter.hasNext()) {
@@ -82,7 +97,7 @@ public class UpdateMoviesPageController{
 			}
 		}
 		
-		if(cb_hall.getValue() != null && !cb_hall.getValue().isBlank()) {
+		if(cb_hall.getValue() != null && !cb_hall.getValue().isEmpty()) {
 			
 			Iterator<Screening> iter = filteredScreenings.iterator();
 			while (iter.hasNext()) {
@@ -92,7 +107,7 @@ public class UpdateMoviesPageController{
 			}
 		}
 		
-		if(cb_movie.getValue() != null && !cb_movie.getValue().isBlank()) {
+		if(cb_movie.getValue() != null && !cb_movie.getValue().isEmpty()) {
 			Iterator<Screening> iter = filteredScreenings.iterator();
 			while (iter.hasNext()) {
 			  Screening s = iter.next();
@@ -185,20 +200,15 @@ public class UpdateMoviesPageController{
 			
 			
 			String onlyDate;
-			for(Screening screening : screenings) {
-				if(!cb_movie.getItems().contains((screening.getMovie().getName()))){
-					cb_movie.getItems().add(screening.getMovie().getName());
+			for(Cinema cinema : cinemas) {
+				if(!cb_cinema.getItems().contains((cinema.getName()))){
+					cb_cinema.getItems().add(cinema.getName());
 				}
-				if(!cb_cinema.getItems().contains((screening.getCinema().getName()))){
-					cb_cinema.getItems().add(screening.getCinema().getName());
+			}
+			for(Movie movie : movies) {
+				if(!cb_movie.getItems().contains((movie.getName()))){
+					cb_movie.getItems().add(movie.getName());
 				}
-				if(!cb_cinema.getItems().contains((screening.getCinema().getName()))){
-					cb_cinema.getItems().add(screening.getCinema().getName());
-				}
-				if(!cb_hall.getItems().contains((Integer.toString(screening.getHall().getHallId())))){
-					cb_hall.getItems().add((Integer.toString(screening.getHall().getHallId())));
-				}
-				
 			}
 			
 			
@@ -222,6 +232,8 @@ public class UpdateMoviesPageController{
     			EventBus.getDefault().unregister(this);
     			Platform.runLater(()-> {
     				screenings = msg.getScreenings();
+    				movies = msg.getMovies();
+    				cinemas = msg.getCinemas();
     				SetData();
     			});
     		}
@@ -271,6 +283,7 @@ public class UpdateMoviesPageController{
 			
 				if(cb_removal_addition.getValue().equals("addition") && filteredScreenings.size() == 1) {
 					JOptionPane.showMessageDialog(null, "screening already exists!");
+					return;
 				}
 				EventBus.getDefault().register(this);
 				Message msg = new Message();

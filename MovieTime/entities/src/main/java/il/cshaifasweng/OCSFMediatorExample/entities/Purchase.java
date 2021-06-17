@@ -36,7 +36,7 @@ public class Purchase implements  Serializable{
 	private int serialSize =10;
 	// Purchase info
 	private LocalDateTime purchaseTime;
-	private int purchaseType; // 0 - ticket, 1 - link, 2 - card, 3 - unknown
+	private int purchaseType; // 1 - ticket, 2 - link, 3 - card, 4 - unknown
 	private Pair<Boolean, Float> isCanceled;
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "screening_id")

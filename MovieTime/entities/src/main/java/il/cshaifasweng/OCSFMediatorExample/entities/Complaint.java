@@ -15,7 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "Complaints")
 public class Complaint implements  Serializable {

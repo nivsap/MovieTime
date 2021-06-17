@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import javafx.util.Pair;
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "Tickets")
 public class Ticket implements  Serializable{

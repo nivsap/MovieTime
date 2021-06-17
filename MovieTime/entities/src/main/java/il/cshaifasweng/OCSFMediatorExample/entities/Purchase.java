@@ -18,6 +18,7 @@ import javax.persistence.Table;
 
 import javafx.util.Pair;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "Purchases")
 public class Purchase implements  Serializable{

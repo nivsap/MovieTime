@@ -75,10 +75,10 @@ public class OrderTicketsPageController {
     }
     public void setPurchaseInfo(int type, Screening screening, boolean isTavSagol, int numOfSeats, double limit , int taken) {
     	try {
-    	purchaseType = type;
+    	setPurchaseType(type);
     	screeningChosen = screening;
     	this.isTavSagol = isTavSagol;
-    	this.numOfSeats = numOfSeats;
+    	this.setNumOfSeats(numOfSeats);
     	ArrayList<Pair<Integer,Integer>> tavSeats = new ArrayList<Pair<Integer, Integer>>();
     	if(isTavSagol) {
     		if(taken + numOfSeats <= limit) {
@@ -211,5 +211,17 @@ public class OrderTicketsPageController {
 		}
     	
     }
+	public int getPurchaseType() {
+		return purchaseType;
+	}
+	public void setPurchaseType(int purchaseType) {
+		this.purchaseType = purchaseType;
+	}
+	public int getNumOfSeats() {
+		return numOfSeats;
+	}
+	public void setNumOfSeats(int numOfSeats) {
+		this.numOfSeats = numOfSeats;
+	}
 
 }

@@ -7,15 +7,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "BranchManager")
 public class BranchManager extends Worker implements  Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-//	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//	private Cinema cinema;
-	
 	public BranchManager() { 
 		super();
 	}

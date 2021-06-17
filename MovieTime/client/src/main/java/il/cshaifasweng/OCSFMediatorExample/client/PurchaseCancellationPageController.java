@@ -66,7 +66,7 @@ public class PurchaseCancellationPageController {
 	
 	public PurchaseCancellationPageController() {
 		isRegistered = false;
-		waitingForMessageCounter = 0;
+		setWaitingForMessageCounter(0);
 		foundPurchase = new Purchase();
 		orderNumber = "";
 		refundAmount = 0;
@@ -257,4 +257,12 @@ public class PurchaseCancellationPageController {
     		});
     	} 
     }
+
+	public int getWaitingForMessageCounter() {
+		return waitingForMessageCounter;
+	}
+
+	public void setWaitingForMessageCounter(int waitingForMessageCounter) {
+		this.waitingForMessageCounter = waitingForMessageCounter;
+	}
 }

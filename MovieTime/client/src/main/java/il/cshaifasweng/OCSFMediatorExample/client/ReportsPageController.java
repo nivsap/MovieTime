@@ -68,7 +68,8 @@ public class ReportsPageController {
     			this.cinemas = msg.getCinemas();
     			this.complaints = msg.getComplaints();
     			if(!isAdministrator) {
-    				ArrayList<Cinema> temp = new ArrayList();
+    				@SuppressWarnings({ "unchecked", "rawtypes" })
+					ArrayList<Cinema> temp = new ArrayList();
     				temp.add(personalCinema);
         			this.cinemas = temp;
         		}

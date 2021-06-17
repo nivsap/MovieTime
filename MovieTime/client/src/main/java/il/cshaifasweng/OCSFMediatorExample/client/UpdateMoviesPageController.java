@@ -30,11 +30,10 @@ import javafx.scene.layout.VBox;
 public class UpdateMoviesPageController{
 
 	private boolean isRegistered = false;
-
 	private List<Movie> movies;
 	private List<Cinema> cinemas;
 	private List<Screening> screenings;
-	List<Screening> filteredScreenings;
+	private List<Screening> filteredScreenings;
 	
 	@FXML
     private DatePicker dateCard;
@@ -66,75 +65,71 @@ public class UpdateMoviesPageController{
 	
 	@FXML
 	public void initialize() {
-		PullScreenings();
-		
-		
+		PullScreenings();	
 	}
 	
 	@FXML
 	void onChoiceCB() {
 		try {
-		screening_time_layout.getChildren().clear();
-		filteredScreenings = new ArrayList<Screening>(screenings);
-		if(cb_cinema.getValue() != null && !cb_cinema.getValue().isEmpty()) {
-			
-			for(Cinema cinema : cinemas) {
-				if(cinema.getName().equals(cb_cinema.getValue())){
-					for(Hall hall : cinema.getHalls()) {
-						if(!cb_hall.getItems().contains((Integer.toString(hall.getHallId())))){
-							cb_hall.getItems().add(Integer.toString(hall.getHallId()));
+			screening_time_layout.getChildren().clear();
+			filteredScreenings = new ArrayList<Screening>(screenings);
+			if(cb_cinema.getValue() != null && !cb_cinema.getValue().isEmpty()) {
+				
+				for(Cinema cinema : cinemas) {
+					if(cinema.getName().equals(cb_cinema.getValue())){
+						for(Hall hall : cinema.getHalls()) {
+							if(!cb_hall.getItems().contains((Integer.toString(hall.getHallId())))){
+								cb_hall.getItems().add(Integer.toString(hall.getHallId()));
+							}
 						}
 					}
 				}
+				
+				
+				Iterator<Screening> iter = filteredScreenings.iterator();
+				while (iter.hasNext()) {
+				  Screening s = iter.next();
+				  if (!s.getCinema().getName().equals(cb_cinema.getValue()))
+					  iter.remove();
+				}
 			}
 			
+			if(cb_hall.getValue() != null && !cb_hall.getValue().isEmpty()) {
+				
+				Iterator<Screening> iter = filteredScreenings.iterator();
+				while (iter.hasNext()) {
+				  Screening s = iter.next();
+				  if (!(s.getHall().getHallId() == Integer.parseInt(cb_hall.getValue())))
+					  iter.remove();
+				}
+			}
 			
-			Iterator<Screening> iter = filteredScreenings.iterator();
-			while (iter.hasNext()) {
-			  Screening s = iter.next();
-			  if (!s.getCinema().getName().equals(cb_cinema.getValue()))
-				  iter.remove();
+			if(cb_movie.getValue() != null && !cb_movie.getValue().isEmpty()) {
+				Iterator<Screening> iter = filteredScreenings.iterator();
+				while (iter.hasNext()) {
+				  Screening s = iter.next();
+				  if (!s.getMovie().getName().equals(cb_movie.getValue()))
+					  iter.remove();
+				}
 			}
-		}
-		
-		if(cb_hall.getValue() != null && !cb_hall.getValue().isEmpty()) {
 			
-			Iterator<Screening> iter = filteredScreenings.iterator();
-			while (iter.hasNext()) {
-			  Screening s = iter.next();
-			  if (!(s.getHall().getHallId() == Integer.parseInt(cb_hall.getValue())))
-				  iter.remove();
+			if(dateCard.getValue() != null) {
+				Iterator<Screening> iter = filteredScreenings.iterator();
+				while (iter.hasNext()) {
+				  Screening s = iter.next();
+				  if (!s.getDate().toString().equals(dateCard.getValue().toString()))
+					  iter.remove();
+				}
 			}
-		}
-		
-		if(cb_movie.getValue() != null && !cb_movie.getValue().isEmpty()) {
-			Iterator<Screening> iter = filteredScreenings.iterator();
-			while (iter.hasNext()) {
-			  Screening s = iter.next();
-			  if (!s.getMovie().getName().equals(cb_movie.getValue()))
-				  iter.remove();
+				
+			if(cb_time.getValue() != null && !cb_time.getValue().isBlank()) {
+				Iterator<Screening> iter = filteredScreenings.iterator();
+				while (iter.hasNext()) {
+				  Screening s = iter.next();
+				  if (!s.getTime().toString().equals(cb_time.getValue()))
+					  iter.remove();
+				}
 			}
-		}
-		
-		if(dateCard.getValue() != null) {
-			Iterator<Screening> iter = filteredScreenings.iterator();
-			while (iter.hasNext()) {
-			  Screening s = iter.next();
-			  if (!s.getDate().toString().equals(dateCard.getValue().toString()))
-				  iter.remove();
-			}
-		}
-			
-		if(cb_time.getValue() != null && !cb_time.getValue().isBlank()) {
-			Iterator<Screening> iter = filteredScreenings.iterator();
-			while (iter.hasNext()) {
-			  Screening s = iter.next();
-			  if (!s.getTime().toString().equals(cb_time.getValue()))
-				  iter.remove();
-			}
-		}
-			
-		try {
 			for(Screening screening : filteredScreenings) {
 				FXMLLoader fxmlLoader = new FXMLLoader();
 				fxmlLoader.setLocation(getClass().getResource("ScreeningCard.fxml"));
@@ -143,12 +138,8 @@ public class UpdateMoviesPageController{
 				ctrl.SetData(screening.getMovie().getName(), screening.getCinema().getName(), screening.getDate().toString(), screening.getTime().toString(), screening.getHall().getHallId());
 				screening_time_layout.getChildren().add(cardBox);
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 		
@@ -178,14 +169,10 @@ public class UpdateMoviesPageController{
 				ctrl.SetData(screening.getMovie().getName(), screening.getCinema().getName(), screening.getDate().toString(), screening.getTime().toString(), screening.getHall().getHallId());
 				screening_time_layout.getChildren().add(cardBox);
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		//if (needUpdateMovieTime) {
-			
-	//	}
 	}
 	 
 	public void SetData() {
@@ -197,10 +184,6 @@ try {
 			cb_removal_addition.getItems().clear();
 			cb_hall.getItems().clear();
 			
-			
-			
-			
-			String onlyDate;
 			for(Cinema cinema : cinemas) {
 				if(!cb_cinema.getItems().contains((cinema.getName()))){
 					cb_cinema.getItems().add(cinema.getName());
@@ -264,22 +247,20 @@ try {
 	}
 	
 
-	@SuppressWarnings("unlikely-arg-type")
 	@FXML
 	private void UpdateMovieTime(ActionEvent event)
 	{
 		try {
-		boolean timeChanged = false;
-		if(cb_movie.getValue().isEmpty() ||  
-				dateCard.getValue() == null ||
-				cb_time.getValue().isEmpty() ||
-				cb_cinema.getValue().isEmpty() ||
-				cb_removal_addition.getValue().isEmpty()
-				||cb_hall.getValue().isEmpty() ) {
-			
-			JOptionPane.showMessageDialog(null, "You must fill all the fields");
-		}else {
-			
+			if(cb_movie.getValue().isEmpty() ||  
+					dateCard.getValue() == null ||
+					cb_time.getValue().isEmpty() ||
+					cb_cinema.getValue().isEmpty() ||
+					cb_removal_addition.getValue().isEmpty()
+					||cb_hall.getValue().isEmpty() ) {
+				
+				JOptionPane.showMessageDialog(null, "You must fill all the fields");
+			}
+			else {
 				if(cb_removal_addition.getValue().equals("addition") && filteredScreenings.size() == 1) {
 					JOptionPane.showMessageDialog(null, "screening already exists!");
 					return;
@@ -292,50 +273,34 @@ try {
 				if(cb_removal_addition.getValue().equals("removal") && filteredScreenings.size() == 1) {
 					msg.setScreening(filteredScreenings.get(0));
 				}
-				
-				
+
 				msg.setAction("update movie time");
 				msg.setMovieName(cb_movie.getValue());
 				msg.setDBAction(cb_removal_addition.getValue());
 				msg.setCinemaName(cb_cinema.getValue());
 				msg.setHallId(Integer.parseInt(cb_hall.getValue()));
-
-				
 				String onlyDate = dateCard.getValue().toString();
+				if(!InputTests.isValidDate(onlyDate)) {
+					JOptionPane.showMessageDialog(null, "date is invalid!");
+					return;
+				}
 				String onlyTime = cb_time.getValue().toString();
 				int year = Integer.parseInt(onlyDate.substring(0,4));
 				int month = Integer.parseInt(onlyDate.substring(5,7));
 				int day = Integer.parseInt(onlyDate.substring(8,10));
 				int hour = Integer.parseInt(onlyTime.substring(0,2));
 				int minutes = Integer.parseInt(onlyTime.substring(3,5));
-
 				msg.setScreeningDate(LocalDate.of(year,month,day).atTime(hour,minutes));
 				if(msg.getScreeningDate().isBefore(LocalDateTime.now())) {
 					JOptionPane.showMessageDialog(null, "screening is too soon!");
 					return;
 				}
-
-			 
-			try {
 				AppClient.getClient().sendToServer(msg);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
-			
-			
-			
-		}
-		
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
-	
-	
-
-	
 }
 

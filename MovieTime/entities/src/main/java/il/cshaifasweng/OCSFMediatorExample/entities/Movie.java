@@ -21,6 +21,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import javafx.scene.image.Image;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "Movies")
 public class Movie implements  Serializable

@@ -380,8 +380,7 @@ public class Main extends AbstractServer {
 										JavaMailUtil.sendMessage(i.getEmail(), "Link is ready", "The link to watch the movie will open in an hour, enjoy very much" +"link : " +i.getViewingPackage().getLink());
 									}
 								}}
-							Thread.sleep(0); 
-						} catch (InterruptedException e) {
+						}catch(Exception e){
 							e.printStackTrace();
 						}
 						try {
@@ -394,7 +393,7 @@ public class Main extends AbstractServer {
 										updateRowDB(i);
 									}
 								}}
-							Thread.sleep(60000); // 55 second
+							Thread.sleep(55000); // 55 second
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -522,10 +521,11 @@ public class Main extends AbstractServer {
 
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
+		
+		try {
+		
 		System.out.println("message recieved " + ((Message) msg).getAction());
-
 		Message currentMsg = ((Message) msg);
-
 		serverMsg = new Message();
 		if (currentMsg.getAction().equals("pull movies")) {
 			ArrayList<Movie> screeningMoviesArrayList = new ArrayList<>();
@@ -563,14 +563,39 @@ public class Main extends AbstractServer {
 			}
 			
 	
-			
-			
-			
 			Screening newScreening = new Screening(currentMsg.getScreeningDate(), MovieController.getMovieByName(currentMsg.getMovieName()),
 					ScreeningController.getHallById(currentMsg.getHallId()),
 					CinemaController.getCinemaByName(currentMsg.getCinemaName()), null);
 
 			if (currentMsg.getDBAction().equals("removal")) {
+				
+				Screening temp = currentMsg.getScreening();
+				ArrayList<Screening> screenings = getAllOfType(Screening.class);
+				for(Screening screening : screenings) {
+					 if (screening.getDateAndTime().equals(newScreening.getDateAndTime())
+						&& screening.getCinema().getName().equals(newScreening.getCinema().getName())
+						&& screening.getMovie().getName().equals(newScreening.getMovie().getName())
+						&& screening.getHall().getHallId() == (newScreening.getHall().getHallId())){
+							temp = screening;
+							break;
+						}
+				}
+				
+				for (int i = 0; i < temp.getHall().getRows(); i++) {
+					for (int j = 0; j < temp.getHall().getCols(); j++) {
+						if (temp.getSeats()[i][j] == 1) {
+							serverMsg = new Message();
+							serverMsg.setAction("update movie time error");
+							serverMsg.setError("cant delete a screening with sold seats");
+							try {
+								client.sendToClient(serverMsg);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+							return;
+						}
+					}
+				}
 				deleteRowInDB(currentMsg.getScreening());
 				serverMsg = new Message();
 				currentMsg.setAction("updated movie time");
@@ -848,7 +873,7 @@ public class Main extends AbstractServer {
 					saveRowInDB(subscriptionCard);
 					serverMsg.setSubscriptionCard(subscriptionCard);
 				}
-				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Customer Of The Sirtiya, Order Number :" , serverMsg.getEmailMessage());
+				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Customer Of The Sirtiya" , serverMsg.getEmailMessage());
 				serverMsg.setPurchase(purchase);
 				serverMsg.setAction("save customer done");
 				client.sendToClient(serverMsg);
@@ -894,6 +919,11 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		
+		if(currentMsg.getAction().equals("send successful purchase mail")) {
+			JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Customer Of The Sirtiya" , serverMsg.getEmailMessage());
+			
+	}
 
 		if (currentMsg.getAction().equals("get purchases")) {
 			try {
@@ -1181,6 +1211,7 @@ public class Main extends AbstractServer {
 				serverMsg = new Message();
 				System.out.println("1");
 				Purchase p = currentMsg.getPurchase();
+				if(p.isCanceled() == false || p.isCanceled() == null) {
 				if(p.isTicket())
 					currentMsg.getPurchase().getScreening().getCinema().getCanceledPurchases().add(p);
 				Float refund = CustomerController.ReturnOnPurchase(currentMsg.getPurchase(), LocalDateTime.now());
@@ -1189,10 +1220,10 @@ public class Main extends AbstractServer {
 				if(p.isTicket()) {
 					for(Pair<Integer, Integer> i : currentMsg.getPurchase().getSeatsList()) {
 						currentMsg.getPurchase().getScreening().getSeats()[i.getKey()][i.getValue()] = 0;
-					}
+					}//
 					updateRowDB(currentMsg.getPurchase().getScreening());
 					updateRowDB(currentMsg.getPurchase().getScreening().getCinema());
-				}
+				}}
 				serverMsg.setAction("got purchase cancelation by id");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {
@@ -1471,5 +1502,11 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+	}catch(Exception e) {
+		
+		e.printStackTrace();
+		
+	}
+		
 	}
 }

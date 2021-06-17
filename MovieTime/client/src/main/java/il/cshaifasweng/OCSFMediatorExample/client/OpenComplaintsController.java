@@ -32,13 +32,13 @@ public class OpenComplaintsController {
 	}
 
 	private void PullComplaint() {
+		try {
 		if(!isRegistered) {
 			EventBus.getDefault().register(this);
 			isRegistered = true;
 		}
 		Message msg= new Message();
 		msg.setAction("pull current complaint");
-		try {
 			AppClient.getClient().sendToServer(msg);
 		} 
 		catch (IOException e) {
@@ -49,6 +49,7 @@ public class OpenComplaintsController {
 	
 	
 	public void InitPage() {
+		
 		if(allComplaints == null || allComplaints.isEmpty()) {
 			complaints_container.getChildren().clear();
 			complaints_container.getChildren().add(noComplaintsLabel);

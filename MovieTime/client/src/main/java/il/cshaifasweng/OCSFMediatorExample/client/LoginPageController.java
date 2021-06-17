@@ -38,7 +38,7 @@ public class LoginPageController {
     private Label loginFailedLabel;
 
 	@FXML
-	void initialize() {
+	void initialize() throws Exception{
 		System.out.println("initializing LoginPage");
 		
 		assert usernameTextField != null : "fx:id=\"usernameTextField\" was not injected: check your FXML file 'LoginPage.fxml'.";
@@ -59,6 +59,7 @@ public class LoginPageController {
 	
 	@FXML
 	void login(ActionEvent event) {
+		try {
 		hideWarningLabels();
 		
 		String username = usernameTextField.getText();
@@ -74,10 +75,14 @@ public class LoginPageController {
     	}
     	
     	sendMessageToServer(username, password);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void sendMessageToServer(String username, String password) {
-
+		try {
 		if(!isRegistered) {
 			EventBus.getDefault().register(this);
 			isRegistered = true;
@@ -86,17 +91,14 @@ public class LoginPageController {
 		msg.setUsername(username);
 		msg.setPassword(password);
 		msg.setAction("login");
-		try {
-			System.out.println("Trying to send a login msg to server");
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
-			System.out.println("Failed to send a login msg to server");
 			e.printStackTrace();
 		}
 	}
 	
 	@Subscribe
-	public void onMessageEvent(Message msg) {
+	public void onMessageEvent(Message msg) throws Exception{
 		System.out.println("got message in loginPageController");
     	if(msg.getAction().equals("login done")) {
     		if(isRegistered) {
@@ -161,6 +163,7 @@ public class LoginPageController {
     			}
     		});
     	}
+    	
 	}
 
 }

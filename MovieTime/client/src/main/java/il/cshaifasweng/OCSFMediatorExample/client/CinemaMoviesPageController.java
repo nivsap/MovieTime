@@ -50,7 +50,7 @@ public class CinemaMoviesPageController {
     }
 
     @FXML
-    void initialize() {
+    void initialize()  throws Exception{
         assert cardsContainer != null : "fx:id=\"cardsContainer\" was not injected: check your FXML file 'CinemaMoviesPage.fxml'.";
         assert movieContainer != null : "fx:id=\"movieContainer\" was not injected: check your FXML file 'CinemaMoviesPage.fxml'.";
         assert cell1 != null : "fx:id=\"cell1\" was not injected: check your FXML file 'CinemaMoviesPage.fxml'.";
@@ -64,6 +64,7 @@ public class CinemaMoviesPageController {
     }
     
     public void getCinemaMovies(Cinema cinema) {
+    	try {
     	List<Screening> screenings = cinema.getScreenings();
     	for(Screening s: screenings) {
     		Boolean isContained = false;
@@ -77,7 +78,9 @@ public class CinemaMoviesPageController {
     			recentlyAdded.add(s.getMovie());
     	}
     	moviesNumber = recentlyAdded.size();
-    	setMovies(0);
+    	setMovies(0);}catch (Exception e) {
+			e.printStackTrace();
+		}
     }
     
     public void setMovies(int displayFrom) {
@@ -100,7 +103,12 @@ public class CinemaMoviesPageController {
 					fxmlLoader.setLocation(getClass().getResource("card.fxml"));
 					Button cardBox = fxmlLoader.load();
 					CardController cardController = fxmlLoader.getController();
-					cardController.SetData(recentlyAdded.get(index), true, PurchaseTypes.NOT_AVAILABLE);
+					try {
+						cardController.SetData(recentlyAdded.get(index), true, PurchaseTypes.NOT_AVAILABLE);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					movieContainer.add(cardBox, j, i);
 					index++;
                }
@@ -112,7 +120,7 @@ public class CinemaMoviesPageController {
 	}
     
     @FXML
-    void loadMoreMovies() {
+    void loadMoreMovies() throws Exception{
     	if(moviesNumber < NUM_ROWS * NUM_COLS)
 			return;
     	

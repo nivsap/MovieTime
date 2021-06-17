@@ -41,7 +41,7 @@ public class ComingSoonInfoPageController {
     @FXML
     private Label movieLaunchDate;
     
-    void setComingSoonInfo(Movie movie) {
+    void setComingSoonInfo(Movie movie)throws Exception{
     	movieImageSrc.setImage(movie.getImage());
     	movieLargeImageSrc.setImage(movie.getLargeImage());
     	movieName.setText(movie.getName());

@@ -29,15 +29,20 @@ public class DeleteCardController {
 
     @FXML
     void deleteMovie(ActionEvent event) {
+    	try {
     	cardContainer.getChildren().clear();
     	if(controllerType == "DeleteMovie")
     		((DeleteMoviePageController) controller).deleteMovie(movie);
     	if(controllerType == "DeleteViewingPackage")
     		((DeleteViewingPackagePageController) controller).deleteViewingPackage(movie);
+    	} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     @FXML
-    void initialize() {
+    void initialize() throws Exception{
         assert cardContainer != null : "fx:id=\"cardContainer\" was not injected: check your FXML file 'DeleteCard.fxml'.";
         assert movieImage != null : "fx:id=\"movieImage\" was not injected: check your FXML file 'DeleteCard.fxml'.";
         assert deleteBtn != null : "fx:id=\"deleteBtn\" was not injected: check your FXML file 'DeleteCard.fxml'.";
@@ -45,10 +50,15 @@ public class DeleteCardController {
     }
     
 	public void setData(Movie movie, Object controller, String controllerType) {
+		try {
 		movieImage.setImage(movie.getImage());
 		movieNameLabel.setText(movie.getName());
 		this.movie = movie;
 		this.controller = controller;
 		this.controllerType = controllerType;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

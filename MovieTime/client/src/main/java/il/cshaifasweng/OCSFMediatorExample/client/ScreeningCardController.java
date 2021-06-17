@@ -47,6 +47,7 @@ public class ScreeningCardController {
     }
 
     public void SetComplaintData(Complaint complaint) {
+    	try {
 		label_title.setText(complaint.getComplaintTitle());
         if(complaint.getPurchase().isTicket())
         	label_type.setText("Issues with tickets order");
@@ -59,6 +60,9 @@ public class ScreeningCardController {
     	label_date.setText(complaint.getComplaintDate().toString());
     	label_time.setText(complaint.getComplaintTime().toString());
     	this.complaint = complaint;
+    	} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
    
     public void loadComplaintHandling() throws IOException {

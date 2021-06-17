@@ -53,7 +53,7 @@ public class DeleteMoviePageController {
     private Button loadMoreBtn;
 
     @FXML
-    void initialize() {
+    void initialize() throws Exception{
         assert search != null : "fx:id=\"search\" was not injected: check your FXML file 'DeleteMoviePage.fxml'.";
         assert cardsContainer != null : "fx:id=\"cardsContainer\" was not injected: check your FXML file 'DeleteMoviePage.fxml'.";
         assert movieContainer != null : "fx:id=\"movieContainer\" was not injected: check your FXML file 'DeleteMoviePage.fxml'.";
@@ -100,6 +100,7 @@ public class DeleteMoviePageController {
     
     @FXML
     void loadMoreMovies() {
+    	try {
     	if(moviesNumber < NUM_ROWS * NUM_COLS)
 			return;
     	
@@ -110,12 +111,21 @@ public class DeleteMoviePageController {
     		currentlyDisplayedFrom = nextIndex;
     	
     	setMovies(currentlyDisplayedFrom);
+    	} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     public void deleteMovie(Movie movie) {
+    	try {
     	recentlyAdded.remove(movie);
     	--moviesNumber;
     	sendMessageToServer("delete movie", movie);
+    	} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     public void sendMessageToServer(String actionType, Movie movie) {
@@ -130,7 +140,7 @@ public class DeleteMoviePageController {
 			msg.setAction(actionType);
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
-			System.out.println("failed to send msg to server from DeleteMoviePageController");
+
 			if(actionType.equals("delete movie")) {
 				recentlyAdded.add(movie);
 		    	++moviesNumber;
@@ -141,8 +151,7 @@ public class DeleteMoviePageController {
     
     @Subscribe
 	public void onMessageEvent(Message msg) {
-    	System.out.println("got message in DeleteMoviePageController");
-		System.out.println(msg.getAction());
+    	try {
     	if(msg.getAction().equals("got all movies for delete page")) {
     		if(isRegistered) {
 				EventBus.getDefault().unregister(this);
@@ -166,6 +175,9 @@ public class DeleteMoviePageController {
     			currentlyDisplayedFrom = 0;
     			setMovies(currentlyDisplayedFrom);
     		});
-    	}
+    	}} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 }

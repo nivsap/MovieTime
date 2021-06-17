@@ -91,8 +91,15 @@ public class SubscriptionCardInfoPageController {
     	try {
     	hideLabels();
     	String subscriptionCardNumber = subscriptionCardNumberTextField.getText();
+
     	if(subscriptionCardNumber.equals("")) {
-    		subscriptionCardNumberWarningLabel.setText("Subscription card number must be filled");
+    		subscriptionCardNumberWarningLabel.setText("Subscription card serial must be filled");
+    		subscriptionCardNumberWarningLabel.setVisible(true);
+    		return;
+    	}
+    	
+    	if(subscriptionCardNumber.length() != 10) {
+    		subscriptionCardNumberWarningLabel.setText("Subscription card serial is invalid");
     		subscriptionCardNumberWarningLabel.setVisible(true);
     		return;
     	}
@@ -103,7 +110,7 @@ public class SubscriptionCardInfoPageController {
 		}
     	Message msg = new Message();
     	msg.setAction("get subscription card");
-    	msg.setId(Integer.parseInt(subscriptionCardNumber));
+    	msg.setSerial(subscriptionCardNumber);
     		AppClient.getClient().sendToServer(msg);
     	} catch (IOException e) {
     		System.out.println("failed to send msg to server from SubscriptionCardInfoPage");
@@ -113,15 +120,15 @@ public class SubscriptionCardInfoPageController {
     
     void setRemaining(SubscriptionCard subscriptionCard) {
     	try {
-    	hideLabels();
-    	if(subscriptionCard == null) {
-    		subscriptionCardNumberWarningLabel.setText("Subscription card number not found");
-    		subscriptionCardNumberWarningLabel.setVisible(true);
-    		return;
-    	}
-    	remainingTitleLabel.setVisible(true);
-        remainingLabel.setText(Integer.toString(subscriptionCard.getRemaining()));
-        remainingLabel.setVisible(true);
+	    	hideLabels();
+	    	if(subscriptionCard == null) {
+	    		subscriptionCardNumberWarningLabel.setText("Subscription card number not found");
+	    		subscriptionCardNumberWarningLabel.setVisible(true);
+	    		return;
+	    	}
+	    	remainingTitleLabel.setVisible(true);
+	        remainingLabel.setText(Integer.toString(subscriptionCard.getRemaining()));
+	        remainingLabel.setVisible(true);
     	} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -130,16 +137,17 @@ public class SubscriptionCardInfoPageController {
     
     @Subscribe
     public void onMessageEvent(Message msg){
-try {
-    	if(msg.getAction().equals("got subscription card")) {
-    		Platform.runLater(() -> {
-    			if(isRegistered) {
-    				EventBus.getDefault().unregister(this);
-    				isRegistered = false;
-    			}
-    			setRemaining(msg.getSubscriptionCard());
-    		});
-    	} } catch (Exception e) {
+    	try {
+	    	if(msg.getAction().equals("got subscription card")) {
+	    		Platform.runLater(() -> {
+	    			if(isRegistered) {
+	    				EventBus.getDefault().unregister(this);
+	    				isRegistered = false;
+	    			}
+	    			setRemaining(msg.getSubscriptionCard());
+	    		});
+	    	} 
+	    } catch (Exception e) {
 			e.printStackTrace();
 		}	
     }

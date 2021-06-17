@@ -123,8 +123,8 @@ public class LoginPageController {
     				App.setPassword(msg.getPassword());
 	    			try {
 	    				if(workerType.equals("NetworkAdministrator")) {
-	    					App.setWindowTitle(PageTitles.MainPage);
-	    					App.setBarAndGridLayout("NetworkAdministratorMainPage");
+	    					App.setWindowTitle(PageTitles.SirtiyaMoviesPage);
+	    					App.setBarAndGridLayout("NetworkAdministratorMoviesPage");
 	    					
 	    				}
 	    				if(workerType.equals("ContentManager")) {
@@ -134,7 +134,7 @@ public class LoginPageController {
 	    				
 	    				if(workerType.equals("BranchManager"))  {
 	    					App.setWindowTitle(PageTitles.CinemaMoviesPage);
-	    			    	CinemaMoviesPageController controller = (CinemaMoviesPageController) App.setContent("CinemaMoviesPage");;
+	    			    	CinemaMoviesPageController controller = (CinemaMoviesPageController) App.setContent("CinemaMoviesPage");
 	    			    	controller.getCinemaMovies(((BranchManager)(msg.getWorker())).getCinema());
 	    					
 	    				}

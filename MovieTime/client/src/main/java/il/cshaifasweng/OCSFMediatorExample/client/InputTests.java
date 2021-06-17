@@ -5,40 +5,67 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class InputTests {
-	public static Boolean isValidEmail(String email)throws Exception {
-		if(email == null)
+	public static Boolean isValidEmail(String email) {
+		try {
+			if(email == null)
+				return false;
+			String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}";  
+			Pattern pattern = Pattern.compile(regex);  
+			Matcher matcher = pattern.matcher(email);  
+			return matcher.matches();
+		} catch(Exception e) {
 			return false;
-		String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}";  
-		Pattern pattern = Pattern.compile(regex);  
-		Matcher matcher = pattern.matcher(email);  
-		return matcher.matches();
+		}
 	}
 	
-	public static Boolean isValidPhoneNumber(String phoneNumber)throws Exception {
-		if(phoneNumber == null || phoneNumber.length() != 10)
+	public static Boolean isValidPhoneNumber(String phoneNumber) {
+		try {
+			if(phoneNumber == null || phoneNumber.length() != 10)
+				return false;
+			String regex = "[0-9]+";
+			Pattern pattern = Pattern.compile(regex);  
+			Matcher matcher = pattern.matcher(phoneNumber);
+			if(!matcher.matches())
+				return false;
+			if(!(phoneNumber.substring(0, 2).equals("05")))
+				return false;
+			return true;
+		} catch(Exception e) {
 			return false;
-		String regex = "[0-9]+";
-		Pattern pattern = Pattern.compile(regex);  
-		Matcher matcher = pattern.matcher(phoneNumber);
-		if(!matcher.matches())
+		}
+	}
+	
+	public static Boolean isValidLink(String link) {
+		try {
+			String regex = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
+			Pattern pattern = Pattern.compile(regex);  
+			Matcher matcher = pattern.matcher(link);
+			if(!matcher.matches())
+				return false;
+		} catch (Exception e) {
 			return false;
-		if(!(phoneNumber.substring(0, 2).equals("05")))
-			return false;
+		}
 		return true;
 	}
 	
-	public static Boolean isValidId(String id)throws Exception {
-		if(id == null || id.length() != 9)
-			return false;
-		String regex = "[0-9]+";
-		Pattern pattern = Pattern.compile(regex);  
-		Matcher matcher = pattern.matcher(id);
+	public static Boolean isValidId(String id) {
+		try {
+			if(id == null || id.length() != 9)
+				return false;
+			String regex = "[0-9]+";
+			Pattern pattern = Pattern.compile(regex);  
+			Matcher matcher = pattern.matcher(id);
 		return matcher.matches();
+		} catch(Exception e) {
+			return false;
+		}
 	}
 	
-	public static Boolean isValidCreditCard(String creditCard) throws Exception{
+	public static Boolean isValidCreditCard(String creditCard) {
 		try {
 			int[] ints = new int[creditCard.length()];
 			int sum = 0;
@@ -64,7 +91,7 @@ public class InputTests {
 		}
 	}
 
-	public static Boolean isValidCVV(String cvv) throws Exception{
+	public static Boolean isValidCVV(String cvv) {
 		if(cvv == null || cvv.length() != 3)
 			return false;
 		String regex = "[0-9]+";

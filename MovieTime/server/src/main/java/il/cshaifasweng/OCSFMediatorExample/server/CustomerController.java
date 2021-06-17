@@ -63,10 +63,10 @@ public class CustomerController{
 			return (float) purchase.getPayment();
 		}
 		else if(time.getDayOfYear() == purchase.getScreening().getDateAndTime().getDayOfYear()) {
-			if(purchase.getPurchaseTime().getHour()  > time.getHour() + 3) {
-				return (float) (purchase.getPayment()/2);
+			if(purchase.getScreening().getDateAndTime().getHour()  > time.getHour() + 3) {
+				return (float) (purchase.getPayment());
 			}
-			else if(purchase.getPurchaseTime().getHour()  == time.getHour() + 3 && time.getMinute() <= purchase.getPurchaseTime().getMinute()) {
+			else if(purchase.getScreening().getDateAndTime().getHour()  <= time.getHour() + 3 && purchase.getScreening().getDateAndTime().getHour()  >= time.getHour() + 1) {
 				return (float) (purchase.getPayment()/2);
 			}
 			else return 0f;

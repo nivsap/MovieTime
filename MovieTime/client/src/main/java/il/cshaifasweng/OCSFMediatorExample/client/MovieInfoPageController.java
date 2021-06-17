@@ -240,6 +240,8 @@ public class MovieInfoPageController {
 		if(dateCombo.getValue() == null) {
 			return;
 		}
+		numberOfSeatsCombo.getItems().clear();
+		numberOfSeatsCombo.setVisible(false);
 		timeCombo.getItems().clear();
 		msg.setAction("check purple limit");
 		
@@ -301,6 +303,9 @@ public class MovieInfoPageController {
 					}
 				}
 			}
+
+			
+			numberOfSeatsCombo.getItems().clear();
 			System.out.println("seatsLimit: " + seatsLimit);
 			System.out.println("seatsTaken: " + seatsTaken);
 			for (int i = 1; i + seatsTaken <= seatsLimit; i++) {

@@ -2,6 +2,7 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -281,7 +282,6 @@ try {
 			JOptionPane.showMessageDialog(null, "You must fill all the fields");
 		}else {
 			
-			
 				if(cb_removal_addition.getValue().equals("addition") && filteredScreenings.size() == 1) {
 					JOptionPane.showMessageDialog(null, "screening already exists!");
 					return;
@@ -294,6 +294,8 @@ try {
 				if(cb_removal_addition.getValue().equals("removal") && filteredScreenings.size() == 1) {
 					msg.setScreening(filteredScreenings.get(0));
 				}
+				
+				
 				msg.setAction("update movie time");
 				msg.setMovieName(cb_movie.getValue());
 				msg.setDBAction(cb_removal_addition.getValue());
@@ -310,6 +312,10 @@ try {
 				int minutes = Integer.parseInt(onlyTime.substring(3,5));
 
 				msg.setScreeningDate(LocalDate.of(year,month,day).atTime(hour,minutes));
+				if(msg.getScreeningDate().isBefore(LocalDateTime.now())) {
+					JOptionPane.showMessageDialog(null, "screening is too soon!");
+					return;
+				}
 
 			 
 			try {

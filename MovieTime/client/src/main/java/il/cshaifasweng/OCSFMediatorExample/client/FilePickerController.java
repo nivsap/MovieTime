@@ -20,7 +20,6 @@ public class FilePickerController {
     	try {
 			loadedFile = App.openFilePicker();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	if(loadedFile != null) {

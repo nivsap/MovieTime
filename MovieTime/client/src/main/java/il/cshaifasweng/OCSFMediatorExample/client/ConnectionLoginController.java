@@ -7,7 +7,6 @@ import javax.swing.JOptionPane;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 public class ConnectionLoginController {
@@ -31,14 +30,10 @@ public class ConnectionLoginController {
     	else {
     		AppClient.setClientNull();
     		client = AppClient.getClient(tf_host.getText(), Integer.parseInt(tf_port.getText()));
-    		if(client == null) {
-    			System.out.println("client is null");
-    		}
+    		if(client == null) {}
     		else {
 				try {
-					System.out.println(client);
 					client.openConnection();
-					System.out.println("sending set client msg to server");
 					App.setWindowTitle(PageTitles.MainPage);
 					App.setBarAndGridLayout("MainPage");
 					App.setMenu("SystemMenu");

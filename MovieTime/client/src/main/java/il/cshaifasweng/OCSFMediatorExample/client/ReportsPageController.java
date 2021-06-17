@@ -100,7 +100,6 @@ public class ReportsPageController {
 			    		}
 		    		}
 		    	}
-		    	System.out.println(count);
 		    	set1.getData().add(new XYChart.Data(cinema.getName(), count));
 	    	}
 	    	reportChart.getData().add(set1);
@@ -139,7 +138,6 @@ public class ReportsPageController {
 			    		}
 		    		}
 		    	}
-		    	System.out.println(count);
 		    	set1.getData().add(new XYChart.Data(cinema.getName() + " tav sagol refunds", count));
 	    	}
 	    	reportChart.getData().addAll(set1);
@@ -149,8 +147,7 @@ public class ReportsPageController {
     	if(reportNameComboBox.getValue().equals("Complaints by day")){
 	    	XYChart.Series set1 = new XYChart.Series<>();
 	    	YearMonth yearMonthObject = YearMonth.of(2021,Integer.parseInt(monthComboBox.getValue()) );
-	    	int daysInMonth = yearMonthObject.lengthOfMonth(); //28 
-	    	System.out.println(daysInMonth + " days in month");
+	    	int daysInMonth = yearMonthObject.lengthOfMonth();
 	    	ArrayList<Integer> count;
 	    	count = new ArrayList<Integer>();
 	    	

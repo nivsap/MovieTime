@@ -283,8 +283,6 @@ public class MovieInfoPageController {
 		if (isTavSagol) {
 
 			seatsLimit = hall.getRows() * hall.getCols();
-			System.out.println("seatsLimit: " + seatsLimit);
-			System.out.println("tavSagolLimit: " + tavSagolLimit);
 			if ((double) tavSagolLimit * 1.2 < seatsLimit) {
 				seatsLimit = tavSagolLimit;
 			}
@@ -306,8 +304,6 @@ public class MovieInfoPageController {
 
 			
 			numberOfSeatsCombo.getItems().clear();
-			System.out.println("seatsLimit: " + seatsLimit);
-			System.out.println("seatsTaken: " + seatsTaken);
 			for (int i = 1; i + seatsTaken <= seatsLimit; i++) {
 				numberOfSeatsCombo.getItems().add(Integer.toString(i));
 

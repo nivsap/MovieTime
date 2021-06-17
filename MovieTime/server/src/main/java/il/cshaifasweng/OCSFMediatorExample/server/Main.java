@@ -179,6 +179,7 @@ public class Main extends AbstractServer {
 			wonderWoman1984.setViewingPackages(new ArrayList<ViewingPackage>(Arrays.asList(viewingPackage1, viewingPackage2, viewingPackage3)));
 			babyDriver.setViewingPackages(new ArrayList<ViewingPackage>(Arrays.asList(viewingPackage4, viewingPackage5, viewingPackage6)));
 			/* ---------- Setting Screenings For Data Base ---------- */
+
 			Screening screening1 = new Screening(getExactTime(2021, 6, 18, 20, 30), avengersEndgame, hall1, haifaCinema, null);
 			Screening screening2 = new Screening(getExactTime(2021, 6, 19, 20, 30), avengersEndgame, hall1, haifaCinema, null);
 			Screening screening3 = new Screening(getExactTime(2021, 6, 18, 20, 30), avengersEndgame, hall3, telAvivCinema, null);

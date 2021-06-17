@@ -17,7 +17,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import javafx.util.Pair;
-import net.bytebuddy.utility.RandomString;
 
 @Entity
 @Table(name = "Purchases")
@@ -57,8 +56,12 @@ public class Purchase implements  Serializable{
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Complaint complaint;
 	private boolean cancelByPurpleLimit;
+	
 	public Purchase() {
 		super();
+		this.purchaseType = 4;
+		if(serial == null || serial.isBlank())
+			serial = getAlphaNumericString(serialSize);
 	}
 	
 	public Purchase(String firstName, String lastName, String email, String city, String phone,
@@ -88,7 +91,8 @@ public class Purchase implements  Serializable{
 		this.subscriptionCard = null;
 		this.complaint = complaint;	
 		this.cancelByPurpleLimit = cancelByPurpleLimit;
-		serial = getAlphaNumericString(serialSize);
+		if(serial == null || serial.isBlank())
+			serial = getAlphaNumericString(serialSize);
 	}
 	
 	public Purchase(String firstName, String lastName, String email, String city, String phone,
@@ -111,7 +115,8 @@ public class Purchase implements  Serializable{
 		this.viewingPackage = viewingPackage;
 		this.subscriptionCard = null;
 		this.complaint = complaint;	
-		serial = getAlphaNumericString(serialSize);
+		if(serial == null || serial.isBlank())
+			serial = getAlphaNumericString(serialSize);
 	}
 	
 	public Purchase(String firstName, String lastName, String email, String city, String phone,
@@ -134,7 +139,8 @@ public class Purchase implements  Serializable{
 		this.viewingPackage = null;
 		this.subscriptionCard = subscriptionCard;
 		this.complaint = complaint;	
-		serial = getAlphaNumericString(serialSize);
+		if(serial == null || serial.isBlank())
+			serial = getAlphaNumericString(serialSize);
 	}
 	
 	public int getId() {
@@ -338,7 +344,5 @@ public class Purchase implements  Serializable{
 	public String getSerial() {
 		return serial;
 	}
-
-
 }
 

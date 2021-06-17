@@ -2,7 +2,6 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
 import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
-import il.cshaifasweng.OCSFMediatorExample.entities.PurpleLimit;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;

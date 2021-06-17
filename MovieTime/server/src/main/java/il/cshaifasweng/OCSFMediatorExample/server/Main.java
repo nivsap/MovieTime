@@ -231,10 +231,9 @@ public class Main extends AbstractServer {
 			Purchase customer2 = new Purchase("Eitan", "Sharabi", "shiravneri@gmail.com", "street 2, city", "0523456789", 40.0, getTime(2021, 6, 10), screening5, new ArrayList<>(), null,false);
 			Purchase customer3 = new Purchase("Niv", "Sapir", "eitansharabi@gmail.com", "street 3, city", "0523456789", 40.0, getTime(2021, 6, 10), screening3, new ArrayList<>(), null,false);
 			Purchase customer4 = new Purchase("Hadar", "Manor", "shiravneri@gmail.com", "street 4, city", "0523456789", 40.0, getTime(2021, 6, 10), screening20, new ArrayList<>(), null,false);
-
+			customer1.setPurchaseType(1); customer2.setPurchaseType(1); customer3.setPurchaseType(1); customer4.setPurchaseType(1);
 			screening1.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer1))); screening3.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer3))); 
 			screening5.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer2))); screening20.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer4)));
-
 			haifaCinema.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer1, customer2))); 
 			telAvivCinema.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer3, customer4)));
 			// Viewing Package Purchases
@@ -242,16 +241,19 @@ public class Main extends AbstractServer {
 			Purchase customer6 = new Purchase("Liel", "Fridman", "shiravneri@gmail.com", "street 6, city", "0523456789", 30.0,  getTime(2021, 6, 9), null, viewingPackage2, null);
 			Purchase customer7 = new Purchase("Asaf", "Moshe", "shiravneri@gmail.com", "street 7, city", "0523456789", 30.0, getTime(2021, 6, 10), null, viewingPackage3, null);
 			Purchase customer8 = new Purchase("Malki", "Grossman", "shiravneri@gmail.com", "street 8, city", "0523456789", 30.0,  getTime(2021, 6, 10), null, viewingPackage4, null);
+			customer5.setPurchaseType(2); customer6.setPurchaseType(2); customer7.setPurchaseType(2); customer8.setPurchaseType(2);
 			// Subscription Cards Purchases
 			Purchase customer9 = new Purchase("Liel", "Fridman", "shiravneri@gmail.com", "street 9, city", "0523456789", 600.0, getTime(2021, 6, 5), null, card1, null);
 			Purchase customer10 = new Purchase("Malki", "Grossman", "shiravneri@gmail.com", "street 10, city", "0523456789", 600.0, getTime(2021, 6, 5), null, card2, null);
 			Purchase customer11 = new Purchase("Asaf", "Moshe", "shiravneri@gmail.com", "street 11, city", "0523456789", 600.0, getTime(2021, 6, 5), null, card3, null);
 			card1.setPurchase(customer9); card2.setPurchase(customer10); card3.setPurchase(customer11); 
+			customer9.setPurchaseType(3); customer10.setPurchaseType(3); customer11.setPurchaseType(3); 
 			/* ---------- Setting Complaints For Data Base ---------- */
 			Complaint complaint1 = new Complaint("Shir", "Avneri", "eitanSharabi@gmail.com", "0523456789", "I'm very upset", "I want to finish this project", customer1, true);
 			Complaint complaint2 = new Complaint("Niv", "Sapir", "eitanSharabi@gmail.com", "0523456789", "I want to complain", "I am very upset", customer2, true);
 			Complaint complaint3 = new Complaint("Hadar", "Manor", "shiravneri@gmail.com", "0523456789", "Some title", "Some details", customer3, false);
-
+			complaint1.setPurchaseSerial(customer1.getSerial()); complaint2.setPurchaseSerial(customer2.getSerial()); complaint3.setPurchaseSerial(customer3.getSerial());
+			complaint1.setPurchaseType(customer1.getPurchaseType()); complaint2.setPurchaseType(customer2.getPurchaseType()); complaint3.setPurchaseType(customer3.getPurchaseType());
 			haifaCinema.setComplaints(new ArrayList<Complaint>(Arrays.asList(complaint1, complaint2))); 
 			telAvivCinema.setComplaints(new ArrayList<Complaint>(Arrays.asList(complaint3)));
 			/* ---------- Setting Price Request For Data Base ---------- */
@@ -360,7 +362,6 @@ public class Main extends AbstractServer {
 	public static void main(String[] args) throws IOException {
 		Main server = new Main(3000);
 		if (args.length != 1) {
-			System.out.println("Required argument: <port>");
 		} else {
 			server.listen();
 			System.out.println("hello server");
@@ -419,7 +420,6 @@ public class Main extends AbstractServer {
 		} finally {
 			// assert session != null;
 			session.close();
-			System.out.println("save the object type: " + objectType.getClass());
 		}
 	}
 
@@ -499,7 +499,6 @@ public class Main extends AbstractServer {
 			if (session != null) {
 				session.getTransaction().rollback();
 			}
-			System.out.println("catch in getalloftypes");
 		} finally {
 			session.close();
 			threadFlag = 0;
@@ -523,80 +522,121 @@ public class Main extends AbstractServer {
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		
 		try {
-		
-		System.out.println("message recieved " + ((Message) msg).getAction());
-		Message currentMsg = ((Message) msg);
-		serverMsg = new Message();
-		if (currentMsg.getAction().equals("pull movies")) {
-			ArrayList<Movie> screeningMoviesArrayList = new ArrayList<>();
-			ArrayList<Movie> toReturnArrayList = new ArrayList<>();
-			screeningMoviesArrayList = Main.getAllOfType(Movie.class);
-			for (Movie movie : screeningMoviesArrayList) {
-				if (!movie.isDeleted()) {
-					toReturnArrayList.add(movie);
+			//System.out.println("message recieved " + ((Message) msg).getAction());
+			Message currentMsg = ((Message) msg);
+			serverMsg = new Message();
+			if (currentMsg.getAction().equals("pull movies")) {
+				ArrayList<Movie> screeningMoviesArrayList = new ArrayList<>();
+				ArrayList<Movie> toReturnArrayList = new ArrayList<>();
+				screeningMoviesArrayList = Main.getAllOfType(Movie.class);
+				for (Movie movie : screeningMoviesArrayList) {
+					if (!movie.isDeleted()) {
+						toReturnArrayList.add(movie);
+					}
 				}
-			}
-			serverMsg.setMovies(toReturnArrayList);
-			serverMsg.setAction("got movies");
-			try {
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant create list of movies");
-				e.printStackTrace();
-			}
-		}
-
-		if (currentMsg.getAction().equals("update movie time")) {
-
-			Movie movie = MovieController.getMovieByName(currentMsg.getMovieName());
-		
-			if(currentMsg.getDBAction().equals("addition") && movie.getLaunchDate().isAfter(currentMsg.getScreeningDate().toLocalDate())) {
-				Message serverMsg = new Message();
-				serverMsg.setAction("update movie time error");
-				serverMsg.setError("cant add screening before launch date!");
+				serverMsg.setMovies(toReturnArrayList);
+				serverMsg.setAction("got movies");
 				try {
 					client.sendToClient(serverMsg);
-					return;
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
-			
 	
-			Screening newScreening = new Screening(currentMsg.getScreeningDate(), MovieController.getMovieByName(currentMsg.getMovieName()),
-					ScreeningController.getHallById(currentMsg.getHallId()),
-					CinemaController.getCinemaByName(currentMsg.getCinemaName()), null);
-
-			if (currentMsg.getDBAction().equals("removal")) {
-				
-				Screening temp = currentMsg.getScreening();
-				ArrayList<Screening> screenings = getAllOfType(Screening.class);
-				for(Screening screening : screenings) {
-					 if (screening.getDateAndTime().equals(newScreening.getDateAndTime())
-						&& screening.getCinema().getName().equals(newScreening.getCinema().getName())
-						&& screening.getMovie().getName().equals(newScreening.getMovie().getName())
-						&& screening.getHall().getHallId() == (newScreening.getHall().getHallId())){
-							temp = screening;
-							break;
-						}
+			if (currentMsg.getAction().equals("update movie time")) {
+	
+				Movie movie = MovieController.getMovieByName(currentMsg.getMovieName());
+			
+				if(currentMsg.getDBAction().equals("addition") && movie.getLaunchDate().isAfter(currentMsg.getScreeningDate().toLocalDate())) {
+					Message serverMsg = new Message();
+					serverMsg.setAction("update movie time error");
+					serverMsg.setError("cant add screening before launch date!");
+					try {
+						client.sendToClient(serverMsg);
+						return;
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 				
-				for (int i = 0; i < temp.getHall().getRows(); i++) {
-					for (int j = 0; j < temp.getHall().getCols(); j++) {
-						if (temp.getSeats()[i][j] == 1) {
-							serverMsg = new Message();
+		
+				Screening newScreening = new Screening(currentMsg.getScreeningDate(), MovieController.getMovieByName(currentMsg.getMovieName()),
+						ScreeningController.getHallById(currentMsg.getHallId()),
+						CinemaController.getCinemaByName(currentMsg.getCinemaName()), null);
+	
+				if (currentMsg.getDBAction().equals("removal")) {
+					
+					Screening temp = currentMsg.getScreening();
+					ArrayList<Screening> screenings = getAllOfType(Screening.class);
+					for(Screening screening : screenings) {
+						 if (screening.getDateAndTime().equals(newScreening.getDateAndTime())
+							&& screening.getCinema().getName().equals(newScreening.getCinema().getName())
+							&& screening.getMovie().getName().equals(newScreening.getMovie().getName())
+							&& screening.getHall().getHallId() == (newScreening.getHall().getHallId())){
+								temp = screening;
+								break;
+							}
+					}
+					
+					for (int i = 0; i < temp.getHall().getRows(); i++) {
+						for (int j = 0; j < temp.getHall().getCols(); j++) {
+							if (temp.getSeats()[i][j] == 1) {
+								serverMsg = new Message();
+								serverMsg.setAction("update movie time error");
+								serverMsg.setError("cant delete a screening with sold seats");
+								try {
+									client.sendToClient(serverMsg);
+								} catch (IOException e) {
+									e.printStackTrace();
+								}
+								return;
+							}
+						}
+					}
+					deleteRowInDB(currentMsg.getScreening());
+					serverMsg = new Message();
+					currentMsg.setAction("updated movie time");
+					currentMsg.setScreenings(getAllOfType(Screening.class));
+					try {
+						client.sendToClient(currentMsg);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					return;
+				}
+	
+				List<Screening> screenings = getAllOfType(Screening.class);
+				int countScreeningsForMovie = 0;
+				for (Screening screening : screenings) {
+					if(screening.getMovie().getName().equals(movie.getName())){
+						countScreeningsForMovie++;
+					}
+					if (screening.getDateAndTime().equals(newScreening.getDateAndTime())
+							&& screening.getCinema().getName().equals(newScreening.getCinema().getName())
+							&& screening.getHall().getHallId() == (newScreening.getHall().getHallId())) {
+						if (currentMsg.getDBAction().equals("addition")) {
+							Message serverMsg = new Message();
 							serverMsg.setAction("update movie time error");
-							serverMsg.setError("cant delete a screening with sold seats");
+							serverMsg.setError("screening already exists at this time");
 							try {
 								client.sendToClient(serverMsg);
+								return;
 							} catch (IOException e) {
 								e.printStackTrace();
 							}
-							return;
+						}
+						if (currentMsg.getDBAction().equals("removal")) {
+							deleteRowInDB(screening);
+							break;
 						}
 					}
 				}
-				deleteRowInDB(currentMsg.getScreening());
+	
+				if(countScreeningsForMovie == 0) {
+					movie.setIsComingSoon(false);
+					updateRowDB(movie);
+				}
+				saveRowInDB(newScreening);
 				serverMsg = new Message();
 				currentMsg.setAction("updated movie time");
 				currentMsg.setScreenings(getAllOfType(Screening.class));
@@ -605,909 +645,791 @@ public class Main extends AbstractServer {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				return;
 			}
-
-			List<Screening> screenings = getAllOfType(Screening.class);
-			int countScreeningsForMovie = 0;
-			for (Screening screening : screenings) {
-				if(screening.getMovie().getName().equals(movie.getName())){
-					countScreeningsForMovie++;
-				}
-				if (screening.getDateAndTime().equals(newScreening.getDateAndTime())
-						&& screening.getCinema().getName().equals(newScreening.getCinema().getName())
-						&& screening.getHall().getHallId() == (newScreening.getHall().getHallId())) {
-					System.out.println("screening == newScreening");
-					if (currentMsg.getDBAction().equals("addition")) {
-						Message serverMsg = new Message();
-						serverMsg.setAction("update movie time error");
-						serverMsg.setError("screening already exists at this time");
-						try {
-							client.sendToClient(serverMsg);
-							return;
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-					if (currentMsg.getDBAction().equals("removal")) {
-						deleteRowInDB(screening);
-						break;
-					}
-				}
-			}
-
-			System.out.println("count of movie is: " + countScreeningsForMovie);
-			if(countScreeningsForMovie == 0) {
-				movie.setIsComingSoon(false);
-				updateRowDB(movie);
-			}
-			saveRowInDB(newScreening);
-			serverMsg = new Message();
-			currentMsg.setAction("updated movie time");
-			currentMsg.setScreenings(getAllOfType(Screening.class));
-			try {
-				client.sendToClient(currentMsg);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-		if (currentMsg.getAction().equals("login")) {
-			try {
-				if (currentMsg.getUsername().equals(null) || ((Message) msg).getPassword().equals(null)) {
-					System.out.println("user or password is null");
-				} else {
-					UserController.getUser((Message) msg);
-					serverMsg = (Message) msg;
-					//System.out.println("cinema is: " + serverMsg.getWorker().getCinema().getName());
-					serverMsg.setAction("login done");
-
-					client.sendToClient(serverMsg);
-				}
-			} catch (IOException e) {
-				System.out.println("cant login");
-				e.printStackTrace();
-			}
-		}
-
-		if (currentMsg.getAction().equals("add a complaint")) {
-			serverMsg.setAction("added a complaint");
-			System.out.println("about to add a complaint");
-
-			try {
-				if (currentMsg.getComplaint() == null) {
-					System.out.println("complaint is null in add a complaint");
-				} else {
-					System.out.println(((Message) msg).getComplaint().getComplaintTitle());
-					saveRowInDB(((Message) msg).getComplaint());
-					client.sendToClient(serverMsg);
-				}
-			} catch (IOException e) {
-				System.out.println("cant add a complaint");
-				e.printStackTrace();
-			}
-		}
-		if (currentMsg.getAction().equals("cinema contained movies")) {
-			try {
-				serverMsg = currentMsg;
-				System.out.println("about to pull cinemas according to movie id");
-				System.out.println("movie id is: " + currentMsg.getId());
-				serverMsg.setCinemas((ArrayList<Cinema>) ScreeningController.getCinemas(currentMsg.getMovieId()));
-				System.out.println("finished pulling cinemas according to movie id");
-				serverMsg.setAction("cinema contained movies done");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant cinema contained movies");
-				e.printStackTrace();
-
-			}
-		}
-		if (currentMsg.getAction().equals("screening for movie")) {
-			try {
-				serverMsg = currentMsg;
-				serverMsg.setScreenings((ArrayList<Screening>) ScreeningController.getAllDateOfMovie(serverMsg.getMovieId(), serverMsg.getCinemaId()));
-				serverMsg.setAction("screening for movie done");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant screening for movie");
-				e.printStackTrace();
-			}
-		}
-		if (currentMsg.getAction().equals("pull soon movies")) {
-			try {
-				serverMsg = currentMsg;
-				serverMsg.setMovies((ArrayList<Movie>) MovieController.getComingSoonMovies());
-				serverMsg.setAction("got soon movies");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant pull soon movies");
-				e.printStackTrace();
-
-			}
-		}
-		if (currentMsg.getAction().equals("pull screening movies")) {
-			try {
-				serverMsg = currentMsg;
-				System.out.println("in Main pull screeening movies msg");
-
-				serverMsg.setMovies((ArrayList<Movie>) MovieController.getCurrentlyScreeningMovies());
-				serverMsg.setAction("got screening movies");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant pull screening movies");
-				e.printStackTrace();
-			}
-		}
-		if (currentMsg.getAction().equals("pull soon movies genre")) {
-			try {
-				System.out.println("in Main genre pull screeening movies msg");
-				serverMsg = (Message) msg;
-				serverMsg.setMovies((ArrayList<Movie>) MovieController.getGenreTypeMovies(serverMsg.getGenre()));
-				serverMsg.setAction("got screening movies");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant pull screening movies");
-				e.printStackTrace();
-			}
-		}
-
-		if (currentMsg.getAction().equals("sort movies by genre")) { // from here *********
-			try {
-				serverMsg = (Message) msg;
-				serverMsg.setMovies((ArrayList<Movie>) MovieController.MoviesByGener(serverMsg.getGenre()));
-				serverMsg.setAction("sorted movies by genre");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant pull screening movies");
-				e.printStackTrace();
-			}
-		}
-		if (currentMsg.getAction().equals("sort movies by date")) {
-			try {
-				serverMsg = (Message) msg;
-				serverMsg.setMovies((ArrayList<Movie>) MovieController.getMoviesByDate(serverMsg.getScreeningDate()));
-				serverMsg.setAction("done to sort by date");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		if (currentMsg.getAction().equals("sort movies by popular")) {
-			try {
-				serverMsg = (Message) msg;
-				serverMsg.setMovies((ArrayList<Movie>) MovieController.MoviesByPopularty());
-				serverMsg.setAction("done to sort by popular");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant pull screening movies");
-				e.printStackTrace();
-			}
-		}
-		if (currentMsg.getAction().equals("pull movies from home")) {
-			try {
-				ArrayList<Movie> movies = ((ArrayList<Movie>) ViewingPackageController.getViewingPackageMovies());
-				if (currentMsg.getRate() != null) {
-
-					Iterator<Movie> iter = movies.iterator();
-
-					while (iter.hasNext()) {
-						Movie movie = iter.next();
-						if (Double.parseDouble(currentMsg.getRate()) != movie.getRate()) {
-							iter.remove();
-						}
-					}
-				}
-
-				if (currentMsg.getSearch() != null) {
-
-					Iterator<Movie> iter = movies.iterator();
-
-					while (iter.hasNext()) {
-						Movie movie = iter.next();
-						if (!movie.getName().contains(currentMsg.getSearch())) {
-							iter.remove();
-						}
-					}
-				}
-
-				Message serverMsg = new Message();
-				serverMsg.setAction("got movies from home");
-				serverMsg.setMovies(movies);
-				client.sendToClient(serverMsg);
-
-			} catch (IOException e) {
-				System.out.println("cant add movie");
-				e.printStackTrace();
-			}
-		}
-
-		if (currentMsg.getAction().equals("picking chair")) {
-			try {
-				serverMsg = currentMsg;
-				Screening clientScreening = serverMsg.getScreening();
-				Screening serverScreening = ScreeningController.getScreening(clientScreening.getId());
-				if (ScreeningController.pickChair(clientScreening.getSeats(), serverScreening)) {
-					serverMsg.setAction("picking seats success");
-					for (int i = 0; i < clientScreening.getHall().getRows(); i++) {
-						for (int j = 0; j < clientScreening.getHall().getCols(); j++) {
-							if (clientScreening.getSeats()[i][j] == 2) {
-								clientScreening.getSeats()[i][j] = 1;
-							}
-						}
-					}
-					serverMsg.setScreening(clientScreening);
-					updateRowDB(clientScreening);
-				} else {
-					serverMsg.setAction("picking seats error");
-					serverMsg.setError("Seats have already been chosen by another customer, please choose again");
-					serverMsg.setScreening(serverScreening);
-
-				}
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant picking chair");
-				e.printStackTrace();
-			}
-		}
-		if (currentMsg.getAction().equals("pull current complaint")) {
-			try {
-				serverMsg = currentMsg;
-				serverMsg.setComplaints((ArrayList<Complaint>) CustomerController.getAllCurrentComplaints());
-				serverMsg.setAction("got complaints");
-				System.out.println(serverMsg.getComplaints().toString());
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant pull complaints");
-				e.printStackTrace();
-			}
-		}
-
-		if (currentMsg.getAction().equals("save customer")) { // save ticket // save customer
-			try {
-				serverMsg = currentMsg;
-				Purchase purchase = serverMsg.getPurchase();
-				saveRowInDB(purchase);
-				if(purchase.isCard()) {
-					SubscriptionCard subscriptionCard = new SubscriptionCard(purchase);
-					saveRowInDB(subscriptionCard);
-					serverMsg.setSubscriptionCard(subscriptionCard);
-				}
-				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Customer Of The Sirtiya" , serverMsg.getEmailMessage());
-				serverMsg.setPurchase(purchase);
-				serverMsg.setAction("save customer done");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("can't save customer");
-				e.printStackTrace();
-			}
-		}
-
-		if (currentMsg.getAction().equals("get purchase by id")) {
-			try {
-				serverMsg = currentMsg;
-				serverMsg.setPurchase(CustomerController.getID(serverMsg.getId()));
-				if (serverMsg.getPurchase() != null) {
-					serverMsg.setPayment(
-							CustomerController.ReturnOnPurchase(serverMsg.getPurchase(), LocalDateTime.now()));
-				}
-				serverMsg.setAction("got purchase by id");
-				if (serverMsg.getPurchase() != null && serverMsg.getPurchase().isCanceled())
-					serverMsg.setPurchase(null);
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant get purchase by id");
-				e.printStackTrace();
-			}
-		}
-
-		if (currentMsg.getAction().equals("get purchase by serial")) {
-			try {
-				serverMsg = currentMsg;
-				serverMsg.setPurchase(CustomerController.getPurchaseBySerial(currentMsg.getSerial()));
-				if (serverMsg.getPurchase() != null) {
-					serverMsg.setPayment(
-							CustomerController.ReturnOnPurchase(serverMsg.getPurchase(), LocalDateTime.now()));
-				}
-				serverMsg.setAction("got purchase by serial");
-				if (serverMsg.getPurchase() != null && serverMsg.getPurchase().isCanceled()) {
-					serverMsg.setPurchase(null);
-				}
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant get purchase by id");
-				e.printStackTrace();
-			}
-		}
-		
-		if(currentMsg.getAction().equals("send successful purchase mail")) {
-			JavaMailUtil.sendMessage(currentMsg.getCustomerEmail(), "Customer Of The Sirtiya" , currentMsg.getEmailMessage());
-			
-	}
-
-		if (currentMsg.getAction().equals("get purchases")) {
-			try {
-				serverMsg = currentMsg;
-				serverMsg.setPurchases(getAllOfType(Purchase.class));
-				serverMsg.setAction("got purchases");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant get purchase by id");
-				e.printStackTrace();
-			}
-		}
-
-		if (currentMsg.getAction().equals("get cinemas and purchases and complaints")) {
-			try {
-				serverMsg = currentMsg;
-				serverMsg.setPurchases(getAllOfType(Purchase.class));
-				serverMsg.setCinemas(getAllOfType(Cinema.class));
-				serverMsg.setComplaints(getAllOfType(Complaint.class));
-				serverMsg.setAction("got cinemas and purchases and complaints");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant get purchase by id");
-				e.printStackTrace();
-			}
-		}
-
-		if (currentMsg.getAction().equals("get report ticket")) {
-			try {
-				serverMsg = currentMsg;
-				serverMsg.setPurchases(ReportController.getTicketReportMonthly(serverMsg.getCinema()));
-				serverMsg.setAction("got report ticket");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant get report ticket");
-				e.printStackTrace();
-			}
-		}
-
-		if (currentMsg.getAction().equals("get report special ticket")) {
-			try {
-				serverMsg = currentMsg;
-				serverMsg.setPurchases(ReportController.getSpecialTicketReportMonthly(serverMsg.getCinema()));
-				serverMsg.setAction("got report special ticket");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant get report special ticket");
-				e.printStackTrace();
-			}
-		}
-		if (currentMsg.getAction().equals("get status complaints monthly")) {
-			try {
-				serverMsg = currentMsg;
-				serverMsg.setPurchases(ReportController.statusComplaintsMonthly(serverMsg.getCinema()));
-				serverMsg.setAction("got status complaints monthly");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant get status complaints monthly");
-				e.printStackTrace();
-			}
-		}
-		if (((Message) msg).getAction().equals("pull genre screening movies")) {
-			try {
-				System.out.println("in Main pull screeening movies msg");
-				serverMsg = (Message) msg;
-				serverMsg.setGenres((ArrayList<String>) MovieController.getAllGenreScreeningMovies());
-				serverMsg.setAction("got genre screening movies");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant pull screening movies");
-				e.printStackTrace();
-			}
-		}
-
-
-
-		if (currentMsg.getAction().equals("send purchase cancellation mail")) {
-			try {
-				serverMsg = currentMsg;
-
-				JavaMailUtil.sendPurchaseCancellationMessage(serverMsg.getPurchase().getEmail(),
-						serverMsg.getPurchase().getFirstName() + " " + serverMsg.getPurchase().getLastName(),
-						String.valueOf(serverMsg.getPurchase().getId()), serverMsg.getPayment());
-				serverMsg.setAction("sent purchase cancellation mail");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant send purchase cancellation mail");
-				e.printStackTrace();
-			}
-		}
-
-		if (currentMsg.getAction().equals("get all screenings")) {
-			try {
-				serverMsg = currentMsg;
-				serverMsg.setScreenings(getAllOfType(Screening.class));
-				serverMsg.setCinemas((getAllOfType(Cinema.class)));
-				serverMsg.setMovies((getAllOfType(Movie.class)));
-				serverMsg.setAction("got all screenings");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant get status complaints monthly");
-				e.printStackTrace();
-			}
-		}
-		if (currentMsg.getAction().equals("add movie")) {
-			try {
-				serverMsg = currentMsg;
-				saveRowInDB(serverMsg.getMovie());
-				serverMsg.setAction("added movie");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant add movie");
-				e.printStackTrace();
-			}
-		}
-		if (currentMsg.getAction().equals("delete movie")) {
-			try {
-				serverMsg = currentMsg;
-				serverMsg.getMovie().setIsDeleted(true);
-				updateRowDB(serverMsg.getMovie());
-				serverMsg.setAction("deleted movie");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant deleted movie");
-				e.printStackTrace();
-			}
-		}
-		if (currentMsg.getAction().equals("delete a viewing package")) {
-			try {
-				serverMsg = currentMsg;
-				ArrayList<ViewingPackage> toDelete = ViewingPackageController.getViewingPackagesByMovie(serverMsg.getMovie().getName());
-				for(ViewingPackage v: toDelete) {
-					v.setIsDeleted(true);
-					updateRowDB(v);
-				}
-				serverMsg.setAction("deleted a viewing package");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("can't delete a viewing package");
-				e.printStackTrace();
-			}
-		}
-
-		if (currentMsg.getAction().equals("get active purple limits")) {
-			try {
-				serverMsg = currentMsg;
-				serverMsg.setActivePurpleLimits(PurpleLimitController.getActivePurpleLimits());
-				serverMsg.setAction("got active purple limits");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant get active purple limits");
-				e.printStackTrace();
-			}
-		}
-
-		if (currentMsg.getAction().equals("add purple limit")) {
-			try {
-				serverMsg = currentMsg;
-				PurpleLimit newPurpleLimit = serverMsg.getPurpleLimit();
-				saveRowInDB(newPurpleLimit);
-				PurpleLimitController.cancelPurchases(newPurpleLimit.getFromDate(), newPurpleLimit.getToDate());
-				serverMsg.setActivePurpleLimits(PurpleLimitController.getActivePurpleLimits());
-				serverMsg.setAction("added purple limit");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("can't add purple limit");
-				e.printStackTrace();
-			}
-		}
-
-		if (currentMsg.getAction().equals("search bar update")) {
-			try {
-				ArrayList<Movie> movies = new ArrayList<Movie>();
-
-				if (currentMsg.getActionType().equals("pull screening movies")) {
-
-					List<Screening> screenings = getAllOfType(Screening.class);
-
-					if (currentMsg.getTheater() != null) {
-						Iterator<Screening> iters = screenings.iterator();
-						while (iters.hasNext()) {
-							Screening s = iters.next();
-							if (!s.getCinema().getName().equals(currentMsg.getTheater())) {
-								iters.remove();
-							}
-						}
-
-						for (Screening screening : screenings) {
-							if (!movies.contains(screening.getMovie())) {
-								movies.add(screening.getMovie());
-							}
-						}
+	
+			if (currentMsg.getAction().equals("login")) {
+				try {
+					if (currentMsg.getUsername().equals(null) || ((Message) msg).getPassword().equals(null)) {
 					} else {
+						UserController.getUser((Message) msg);
+						serverMsg = (Message) msg;
+						serverMsg.setAction("login done");
+						client.sendToClient(serverMsg);
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	
+			if (currentMsg.getAction().equals("add a complaint")) {
+				serverMsg.setAction("added a complaint");
+				try {
+					if (currentMsg.getComplaint() == null) {} 
+					else {
+						saveRowInDB(((Message) msg).getComplaint());
+						client.sendToClient(serverMsg);
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (currentMsg.getAction().equals("cinema contained movies")) {
+				try {
+					serverMsg = currentMsg;
+					serverMsg.setCinemas((ArrayList<Cinema>) ScreeningController.getCinemas(currentMsg.getMovieId()));
+					serverMsg.setAction("cinema contained movies done");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (currentMsg.getAction().equals("screening for movie")) {
+				try {
+					serverMsg = currentMsg;
+					serverMsg.setScreenings((ArrayList<Screening>) ScreeningController.getAllDateOfMovie(serverMsg.getMovieId(), serverMsg.getCinemaId()));
+					serverMsg.setAction("screening for movie done");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (currentMsg.getAction().equals("pull soon movies")) {
+				try {
+					serverMsg = currentMsg;
+					serverMsg.setMovies((ArrayList<Movie>) MovieController.getComingSoonMovies());
+					serverMsg.setAction("got soon movies");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+	
+				}
+			}
+			if (currentMsg.getAction().equals("pull screening movies")) {
+				try {
+					serverMsg = currentMsg;
+					serverMsg.setMovies((ArrayList<Movie>) MovieController.getCurrentlyScreeningMovies());
+					serverMsg.setAction("got screening movies");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (currentMsg.getAction().equals("pull soon movies genre")) {
+				try {
+					serverMsg = (Message) msg;
+					serverMsg.setMovies((ArrayList<Movie>) MovieController.getGenreTypeMovies(serverMsg.getGenre()));
+					serverMsg.setAction("got screening movies");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	
+			if (currentMsg.getAction().equals("sort movies by genre")) { // from here *********
+				try {
+					serverMsg = (Message) msg;
+					serverMsg.setMovies((ArrayList<Movie>) MovieController.MoviesByGener(serverMsg.getGenre()));
+					serverMsg.setAction("sorted movies by genre");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (currentMsg.getAction().equals("sort movies by date")) {
+				try {
+					serverMsg = (Message) msg;
+					serverMsg.setMovies((ArrayList<Movie>) MovieController.getMoviesByDate(serverMsg.getScreeningDate()));
+					serverMsg.setAction("done to sort by date");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (currentMsg.getAction().equals("sort movies by popular")) {
+				try {
+					serverMsg = (Message) msg;
+					serverMsg.setMovies((ArrayList<Movie>) MovieController.MoviesByPopularty());
+					serverMsg.setAction("done to sort by popular");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (currentMsg.getAction().equals("pull movies from home")) {
+				try {
+					ArrayList<Movie> movies = ((ArrayList<Movie>) ViewingPackageController.getViewingPackageMovies());
+					if (currentMsg.getRate() != null) {
+	
+						Iterator<Movie> iter = movies.iterator();
+	
+						while (iter.hasNext()) {
+							Movie movie = iter.next();
+							if (Double.parseDouble(currentMsg.getRate()) != movie.getRate()) {
+								iter.remove();
+							}
+						}
+					}
+	
+					if (currentMsg.getSearch() != null) {
+	
+						Iterator<Movie> iter = movies.iterator();
+	
+						while (iter.hasNext()) {
+							Movie movie = iter.next();
+							if (!movie.getName().contains(currentMsg.getSearch())) {
+								iter.remove();
+							}
+						}
+					}
+	
+					Message serverMsg = new Message();
+					serverMsg.setAction("got movies from home");
+					serverMsg.setMovies(movies);
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	
+			if (currentMsg.getAction().equals("picking chair")) {
+				try {
+					serverMsg = currentMsg;
+					Screening clientScreening = serverMsg.getScreening();
+					Screening serverScreening = ScreeningController.getScreening(clientScreening.getId());
+					if (ScreeningController.pickChair(clientScreening.getSeats(), serverScreening)) {
+						serverMsg.setAction("picking seats success");
+						for (int i = 0; i < clientScreening.getHall().getRows(); i++) {
+							for (int j = 0; j < clientScreening.getHall().getCols(); j++) {
+								if (clientScreening.getSeats()[i][j] == 2) {
+									clientScreening.getSeats()[i][j] = 1;
+								}
+							}
+						}
+						serverMsg.setScreening(clientScreening);
+						updateRowDB(clientScreening);
+					} else {
+						serverMsg.setAction("picking seats error");
+						serverMsg.setError("Seats have already been chosen by another customer, please choose again");
+						serverMsg.setScreening(serverScreening);
+	
+					}
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (currentMsg.getAction().equals("pull current complaint")) {
+				try {
+					serverMsg = currentMsg;
+					serverMsg.setComplaints((ArrayList<Complaint>) CustomerController.getAllCurrentComplaints());
+					serverMsg.setAction("got complaints");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	
+			if (currentMsg.getAction().equals("save customer")) { 
+				try {
+					serverMsg = currentMsg;
+					Purchase purchase = serverMsg.getPurchase();
+					saveRowInDB(purchase);
+					if(purchase.isCard()) {
+						SubscriptionCard subscriptionCard = new SubscriptionCard(purchase);
+						saveRowInDB(subscriptionCard);
+						serverMsg.setSubscriptionCard(subscriptionCard);
+					}
+					JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Customer Of The Sirtiya" , serverMsg.getEmailMessage());
+					serverMsg.setPurchase(purchase);
+					serverMsg.setAction("save customer done");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	
+			if (currentMsg.getAction().equals("get purchase by id")) {
+				try {
+					serverMsg = currentMsg;
+					serverMsg.setPurchase(CustomerController.getID(serverMsg.getId()));
+					if (serverMsg.getPurchase() != null) {
+						serverMsg.setPayment(
+								CustomerController.ReturnOnPurchase(serverMsg.getPurchase(), LocalDateTime.now()));
+					}
+					serverMsg.setAction("got purchase by id");
+					if (serverMsg.getPurchase() != null && serverMsg.getPurchase().isCanceled())
+						serverMsg.setPurchase(null);
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	
+			if (currentMsg.getAction().equals("get purchase by serial")) {
+				try {
+					serverMsg = currentMsg;
+					serverMsg.setPurchase(CustomerController.getPurchaseBySerial(currentMsg.getSerial()));
+					if (serverMsg.getPurchase() != null) {
+						serverMsg.setPayment(
+								CustomerController.ReturnOnPurchase(serverMsg.getPurchase(), LocalDateTime.now()));
+					}
+					serverMsg.setAction("got purchase by serial");
+					if (serverMsg.getPurchase() != null && serverMsg.getPurchase().isCanceled()) {
+						serverMsg.setPurchase(null);
+					}
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			if(currentMsg.getAction().equals("send successful purchase mail")) {
+				JavaMailUtil.sendMessage(currentMsg.getCustomerEmail(), "Customer Of The Sirtiya" , currentMsg.getEmailMessage());
+				
+		}
+	
+			if (currentMsg.getAction().equals("get purchases")) {
+				try {
+					serverMsg = currentMsg;
+					serverMsg.setPurchases(getAllOfType(Purchase.class));
+					serverMsg.setAction("got purchases");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	
+			if (currentMsg.getAction().equals("get cinemas and purchases and complaints")) {
+				try {
+					serverMsg = currentMsg;
+					serverMsg.setPurchases(getAllOfType(Purchase.class));
+					serverMsg.setCinemas(getAllOfType(Cinema.class));
+					serverMsg.setComplaints(getAllOfType(Complaint.class));
+					serverMsg.setAction("got cinemas and purchases and complaints");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	
+			if (currentMsg.getAction().equals("get report ticket")) {
+				try {
+					serverMsg = currentMsg;
+					serverMsg.setPurchases(ReportController.getTicketReportMonthly(serverMsg.getCinema()));
+					serverMsg.setAction("got report ticket");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	
+			if (currentMsg.getAction().equals("get report special ticket")) {
+				try {
+					serverMsg = currentMsg;
+					serverMsg.setPurchases(ReportController.getSpecialTicketReportMonthly(serverMsg.getCinema()));
+					serverMsg.setAction("got report special ticket");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (currentMsg.getAction().equals("get status complaints monthly")) {
+				try {
+					serverMsg = currentMsg;
+					serverMsg.setPurchases(ReportController.statusComplaintsMonthly(serverMsg.getCinema()));
+					serverMsg.setAction("got status complaints monthly");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (((Message) msg).getAction().equals("pull genre screening movies")) {
+				try {
+					serverMsg = (Message) msg;
+					serverMsg.setGenres((ArrayList<String>) MovieController.getAllGenreScreeningMovies());
+					serverMsg.setAction("got genre screening movies");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	
+	
+	
+			if (currentMsg.getAction().equals("send purchase cancellation mail")) {
+				try {
+					serverMsg = currentMsg;
+	
+					JavaMailUtil.sendPurchaseCancellationMessage(serverMsg.getPurchase().getEmail(),
+							serverMsg.getPurchase().getFirstName() + " " + serverMsg.getPurchase().getLastName(),
+							String.valueOf(serverMsg.getPurchase().getId()), serverMsg.getPayment());
+					serverMsg.setAction("sent purchase cancellation mail");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	
+			if (currentMsg.getAction().equals("get all screenings")) {
+				try {
+					serverMsg = currentMsg;
+					serverMsg.setScreenings(getAllOfType(Screening.class));
+					serverMsg.setCinemas((getAllOfType(Cinema.class)));
+					serverMsg.setMovies((getAllOfType(Movie.class)));
+					serverMsg.setAction("got all screenings");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (currentMsg.getAction().equals("add movie")) {
+				try {
+					serverMsg = currentMsg;
+					saveRowInDB(serverMsg.getMovie());
+					serverMsg.setAction("added movie");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (currentMsg.getAction().equals("delete movie")) {
+				try {
+					serverMsg = currentMsg;
+					serverMsg.getMovie().setIsDeleted(true);
+					updateRowDB(serverMsg.getMovie());
+					serverMsg.setAction("deleted movie");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (currentMsg.getAction().equals("delete a viewing package")) {
+				try {
+					serverMsg = currentMsg;
+					ArrayList<ViewingPackage> toDelete = ViewingPackageController.getViewingPackagesByMovie(serverMsg.getMovie().getName());
+					for(ViewingPackage v: toDelete) {
+						v.setIsDeleted(true);
+						updateRowDB(v);
+					}
+					serverMsg.setAction("deleted a viewing package");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	
+			if (currentMsg.getAction().equals("get active purple limits")) {
+				try {
+					serverMsg = currentMsg;
+					serverMsg.setActivePurpleLimits(PurpleLimitController.getActivePurpleLimits());
+					serverMsg.setAction("got active purple limits");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	
+			if (currentMsg.getAction().equals("add purple limit")) {
+				try {
+					serverMsg = currentMsg;
+					PurpleLimit newPurpleLimit = serverMsg.getPurpleLimit();
+					saveRowInDB(newPurpleLimit);
+					PurpleLimitController.cancelPurchases(newPurpleLimit.getFromDate(), newPurpleLimit.getToDate());
+					serverMsg.setActivePurpleLimits(PurpleLimitController.getActivePurpleLimits());
+					serverMsg.setAction("added purple limit");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	
+			if (currentMsg.getAction().equals("search bar update")) {
+				try {
+					ArrayList<Movie> movies = new ArrayList<Movie>();
+	
+					if (currentMsg.getActionType().equals("pull screening movies")) {
+	
+						List<Screening> screenings = getAllOfType(Screening.class);
+	
+						if (currentMsg.getTheater() != null) {
+							Iterator<Screening> iters = screenings.iterator();
+							while (iters.hasNext()) {
+								Screening s = iters.next();
+								if (!s.getCinema().getName().equals(currentMsg.getTheater())) {
+									iters.remove();
+								}
+							}
+	
+							for (Screening screening : screenings) {
+								if (!movies.contains(screening.getMovie())) {
+									movies.add(screening.getMovie());
+								}
+							}
+						} else {
+							movies = getAllOfType(Movie.class);
+							Iterator<Movie> iter = movies.iterator();
+							while (iter.hasNext()) {
+								Movie movie = iter.next();
+								if (movie.isComingSoon()) {
+									iter.remove();
+								}
+							}
+	
+							iter = movies.iterator();
+							while (iter.hasNext()) {
+								Movie movie = iter.next();
+								if(!movie.isScreening()) {
+									iter.remove();
+								}
+							}
+						}
+	
+					} else if (currentMsg.getActionType().equals("pull soon movies")) {
+	
 						movies = getAllOfType(Movie.class);
 						Iterator<Movie> iter = movies.iterator();
 						while (iter.hasNext()) {
 							Movie movie = iter.next();
-							if (movie.isComingSoon()) {
+	
+							if (!movie.isComingSoon()) {
 								iter.remove();
 							}
 						}
-
-						iter = movies.iterator();
+	
+					} else {
+	
+						movies = getAllOfType(Movie.class);
+						Iterator<Movie> iter = movies.iterator();
 						while (iter.hasNext()) {
 							Movie movie = iter.next();
-							if(!movie.isScreening()) {
+							if (!movie.isViewingPackage()) {
+								iter.remove();
+							}
+						}
+	
+					}
+	
+					if (currentMsg.getRate() != null) {
+	
+						Iterator<Movie> iter = movies.iterator();
+	
+						while (iter.hasNext()) {
+							Movie movie = iter.next();
+							if (Double.parseDouble(currentMsg.getRate()) != movie.getRate()) {
 								iter.remove();
 							}
 						}
 					}
-
-				} else if (currentMsg.getActionType().equals("pull soon movies")) {
-
-					movies = getAllOfType(Movie.class);
-					Iterator<Movie> iter = movies.iterator();
-					while (iter.hasNext()) {
-						Movie movie = iter.next();
-
-						if (!movie.isComingSoon()) {
-							iter.remove();
+	
+					if (currentMsg.getGenre() != null) {
+	
+						Iterator<Movie> iter = movies.iterator();
+	
+						while (iter.hasNext()) {
+							Movie movie = iter.next();
+							if (!movie.getGenre().contains(currentMsg.getGenre())) {
+								iter.remove();
+							}
 						}
 					}
-
-				} else {
-
-					movies = getAllOfType(Movie.class);
-					Iterator<Movie> iter = movies.iterator();
-					while (iter.hasNext()) {
-						Movie movie = iter.next();
-						if (!movie.isViewingPackage()) {
-							iter.remove();
+	
+					if (currentMsg.getSearch() != null) {
+	
+						Iterator<Movie> iter = movies.iterator();
+	
+						while (iter.hasNext()) {
+							Movie movie = iter.next();
+							if (!movie.getName().contains(currentMsg.getSearch())) {
+								iter.remove();
+							}
 						}
 					}
-
+	
+					Message serverMsg = new Message();
+					serverMsg.setAction(currentMsg.getMoviesType());
+					serverMsg.setMovies(movies);
+					client.sendToClient(serverMsg);
+	
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
-
-				if (currentMsg.getRate() != null) {
-
-					Iterator<Movie> iter = movies.iterator();
-
-					while (iter.hasNext()) {
-						Movie movie = iter.next();
-						if (Double.parseDouble(currentMsg.getRate()) != movie.getRate()) {
-							iter.remove();
-						}
+			}
+	
+			if (currentMsg.getAction().equals("cancellation of purchase")) {
+				try {
+					serverMsg = new Message();
+					Purchase p = currentMsg.getPurchase();
+					if(p.isCanceled() == false || p.isCanceled() == null) {
+					if(p.isTicket())
+						currentMsg.getPurchase().getScreening().getCinema().getCanceledPurchases().add(p);
+					Float refund = CustomerController.ReturnOnPurchase(currentMsg.getPurchase(), LocalDateTime.now());
+					currentMsg.getPurchase().setIsCanceled(new Pair<Boolean, Float> (true, refund));
+					updateRowDB(currentMsg.getPurchase());
+					if(p.isTicket()) {
+						for(Pair<Integer, Integer> i : currentMsg.getPurchase().getSeatsList()) {
+							currentMsg.getPurchase().getScreening().getSeats()[i.getKey()][i.getValue()] = 0;
+						}//
+						updateRowDB(currentMsg.getPurchase().getScreening());
+						updateRowDB(currentMsg.getPurchase().getScreening().getCinema());
+					}}
+					serverMsg.setAction("got purchase cancelation by id");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	
+			if (currentMsg.getAction().equals("check purple limit")) {
+				try {
+					serverMsg = currentMsg;
+					Pair<Boolean, Integer> tavSagol = PurpleLimitController.checkPurpleLimit(serverMsg.getScreeningDate().toLocalDate());
+					serverMsg.setStatus(tavSagol.getKey());
+					serverMsg.setTavSagolLimit(tavSagol.getValue());
+					serverMsg.setAction("done check purple limit");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	
+			if (currentMsg.getAction().equals("selection of seats under restrictions")) {
+				try {
+					serverMsg = currentMsg;
+					serverMsg.setSeats(PurpleLimitController.setSeatsPurpleLimit(serverMsg.getScreening(), serverMsg.getNumOfSeats()));
+					serverMsg.setAction("done selection of seats under restrictions");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	
+			}
+			if (currentMsg.getAction().equals("log out")) {
+				try {
+					UserController.logUserOut(currentMsg);
+					serverMsg = new Message();
+					serverMsg.setAction("logged out");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (currentMsg.getAction().equals("add viewing package")) {
+				try {
+					serverMsg = currentMsg;
+					ViewingPackage v = serverMsg.getViewingPackage();
+					if(ViewingPackageController.checkIfViewingPackageExists(v)) {
+						serverMsg.setViewingPackage(null);
 					}
-				}
-
-				if (currentMsg.getGenre() != null) {
-
-					Iterator<Movie> iter = movies.iterator();
-
-					while (iter.hasNext()) {
-						Movie movie = iter.next();
-						if (!movie.getGenre().contains(currentMsg.getGenre())) {
-							iter.remove();
-						}
+					else {	
+						serverMsg.setViewingPackage(v);
+						saveRowInDB(v);
 					}
+					serverMsg.setAction("added viewing package");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
-
-				if (currentMsg.getSearch() != null) {
-
-					Iterator<Movie> iter = movies.iterator();
-
-					while (iter.hasNext()) {
-						Movie movie = iter.next();
-						if (!movie.getName().contains(currentMsg.getSearch())) {
-							iter.remove();
-						}
-					}
+			}
+	
+			if (currentMsg.getAction().equals("cancel current order")) {
+				try {
+					serverMsg = currentMsg;
+					Screening screening = serverMsg.getScreening();
+					updateRowDB(screening);
+					serverMsg.setAction("canceled current order");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
-
-				Message serverMsg = new Message();
-				serverMsg.setAction(currentMsg.getMoviesType());
-				serverMsg.setMovies(movies);
-				client.sendToClient(serverMsg);
-
-			} catch (IOException e) {
-				System.out.println("cant add movie");
 			}
-		}
-
-		if (currentMsg.getAction().equals("cancellation of purchase")) {
-			try {
-				serverMsg = new Message();
-				System.out.println("1");
-				Purchase p = currentMsg.getPurchase();
-				if(p.isCanceled() == false || p.isCanceled() == null) {
-				if(p.isTicket())
-					currentMsg.getPurchase().getScreening().getCinema().getCanceledPurchases().add(p);
-				Float refund = CustomerController.ReturnOnPurchase(currentMsg.getPurchase(), LocalDateTime.now());
-				currentMsg.getPurchase().setIsCanceled(new Pair<Boolean, Float> (true, refund));
-				updateRowDB(currentMsg.getPurchase());
-				if(p.isTicket()) {
-					for(Pair<Integer, Integer> i : currentMsg.getPurchase().getSeatsList()) {
-						currentMsg.getPurchase().getScreening().getSeats()[i.getKey()][i.getValue()] = 0;
-					}//
-					updateRowDB(currentMsg.getPurchase().getScreening());
-					updateRowDB(currentMsg.getPurchase().getScreening().getCinema());
-				}}
-				serverMsg.setAction("got purchase cancelation by id");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant cancellation of purchase");
-				e.printStackTrace();
-			}
-		}
-
-		if (currentMsg.getAction().equals("check purple limit")) {
-			try {
-				serverMsg = currentMsg;
-				Pair<Boolean, Integer> tavSagol = PurpleLimitController.checkPurpleLimit(serverMsg.getScreeningDate().toLocalDate());
-				serverMsg.setStatus(tavSagol.getKey());
-				serverMsg.setTavSagolLimit(tavSagol.getValue());
-				serverMsg.setAction("done check purple limit");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant check purple limit");
-				e.printStackTrace();
-			}
-		}
-
-		if (currentMsg.getAction().equals("selection of seats under restrictions")) {
-			try {
-				serverMsg = currentMsg;
-				serverMsg.setSeats(PurpleLimitController.setSeatsPurpleLimit(serverMsg.getScreening(), serverMsg.getNumOfSeats()));
-				serverMsg.setAction("done selection of seats under restrictions");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant selection of seats under restrictions");
-				e.printStackTrace();
-			}
-
-		}
-		if (currentMsg.getAction().equals("log out")) {
-			try {
-				UserController.logUserOut(currentMsg);
-				serverMsg = new Message();
-				serverMsg.setAction("logged out");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant selection of seats under restrictions");
-				e.printStackTrace();
-			}
-		}
-		if (currentMsg.getAction().equals("add viewing package")) {
-			try {
-				serverMsg = currentMsg;
-				ViewingPackage v = serverMsg.getViewingPackage();
-				if(ViewingPackageController.checkIfViewingPackageExists(v)) {
-					serverMsg.setViewingPackage(null);
+	
+			if (currentMsg.getAction().equals("get all cinemas")) {
+				try {
+					serverMsg = currentMsg;
+					serverMsg.setCinemas(getAllOfType(Cinema.class));
+					serverMsg.setAction("got all cinemas");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
-				else {	
-					serverMsg.setViewingPackage(v);
-					saveRowInDB(v);
+			}
+			if (currentMsg.getAction().equals("get all price request")) {
+				try {
+					serverMsg = currentMsg;
+					serverMsg.setPriceRequests(getAllOfType(PriceRequest.class));
+					serverMsg.setAction("got all price request");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
-				serverMsg.setAction("added viewing package");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("can't add viewing package");
-				e.printStackTrace();
+			}
+			if (currentMsg.getAction().equals("get all open price requests")) {
+				try {
+					serverMsg = currentMsg;
+					serverMsg.setPriceRequests(PriceRequestController.getAllOpenPriceRequests());
+					serverMsg.setAction("got all open price requests");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	
+			if (currentMsg.getAction().equals("approve price request")) {
+				try {
+					serverMsg = currentMsg;
+					PriceRequest request = serverMsg.getPriceRequest();
+					NetworkAdministrator administrator = NetworkAdministratorController.getAdministrator();
+					if(request.isTicket())
+						administrator.setMoviePrice(request.getNewPrice());
+					if(request.isLink())
+						administrator.setViewingPackagePrice(request.getNewPrice());
+					if(request.isCard())
+						administrator.setSubscriptionCardPrice(request.getNewPrice());
+					updateRowDB(administrator);
+					updateRowDB(request);
+					serverMsg.setPriceRequests(PriceRequestController.getAllOpenPriceRequests());
+					serverMsg.setAction("approved price request");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	
+			if (currentMsg.getAction().equals("decline price request")) {
+				try {
+					serverMsg = currentMsg;
+					updateRowDB(serverMsg.getPriceRequest());
+					serverMsg.setPriceRequests(PriceRequestController.getAllOpenPriceRequests());
+					serverMsg.setAction("declined price request");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	
+			if (currentMsg.getAction().equals("save price request")) {
+				try {
+					serverMsg = currentMsg;
+					saveRowInDB(serverMsg.getPriceRequest());
+					serverMsg.setAction("done to save price request");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (currentMsg.getAction().equals("close complaint")) {
+				try {
+					serverMsg = currentMsg;
+					updateRowDB(serverMsg.getComplaint());
+					serverMsg.setAction("done close complaint");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (currentMsg.getAction().equals("get genres")) {
+				try {
+					serverMsg = new Message();
+					serverMsg.setGenres(genres);
+					serverMsg.setAction("got genres");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (currentMsg.getAction().equals("update viewing package")) {
+				try {
+					serverMsg = currentMsg;
+					updateRowDB(serverMsg.getViewingPackage());
+					serverMsg.setAction("added viewing package");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (currentMsg.getAction().equals("get all viewing package")) {
+				try {
+					serverMsg = currentMsg;
+					serverMsg.setMovies(ViewingPackageController.getViewingPackageMovies());
+					serverMsg.setAction("got all viewing package");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (currentMsg.getAction().equals("get all movies from viewing packages")) {
+				try {
+					serverMsg = currentMsg;
+					serverMsg.setMovies(ViewingPackageController.getViewingPackageMovies());
+					serverMsg.setAction("got all movies from viewing packages");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	
+	
+			if (currentMsg.getAction().equals("get viewing packages by movie")) {
+				try {
+					serverMsg = currentMsg;
+					serverMsg.setViewingPackages(ViewingPackageController.getViewingPackagesByMovie(currentMsg.getMovieName()));
+					serverMsg.setAction("got viewing packages by movie");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	
+			if (currentMsg.getAction().equals("get subscription card")) {
+				try {
+					serverMsg = currentMsg;
+					serverMsg.setSubscriptionCard(SubscriptionCardController.getSubscriptionCard(serverMsg.getSerial()));
+					serverMsg.setAction("got subscription card");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	
+			if (currentMsg.getAction().equals("get prices")) {
+				try {
+					NetworkAdministrator n = NetworkAdministratorController.getAdministrator();
+					serverMsg = currentMsg;
+	
+					serverMsg.setMoviePrice(n.getMoviePrice());
+					serverMsg.setViewingPackagePrice(n.getViewingPackagePrice());
+					serverMsg.setSubscriptionCardPrice(n.getSubscriptionCardPrice());
+					serverMsg.setAction("got prices");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	
+			if (currentMsg.getAction().equals("get all valid for viewing package movies")) {
+				try {
+					serverMsg = currentMsg;
+					serverMsg.setMovies(ViewingPackageController.getAllValidMovies());
+					serverMsg.setAction("got all valid for viewing package movies");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	
+			if(currentMsg.getAction().equals("get all movies for delete page")) {
+				try {
+					serverMsg = currentMsg;
+					serverMsg.setMovies(MovieController.getNotDeletedMovies());
+					serverMsg.setAction("got all movies for delete page");
+					client.sendToClient(serverMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
-
-		if (currentMsg.getAction().equals("cancel current order")) {
-			try {
-				serverMsg = currentMsg;
-				Screening screening = serverMsg.getScreening();
-				updateRowDB(screening);
-				serverMsg.setAction("canceled current order");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant selection of seats under restrictions");
-			}
+		catch(Exception e) {
+			e.printStackTrace();
 		}
-
-		if (currentMsg.getAction().equals("get all cinemas")) {
-			try {
-				serverMsg = currentMsg;
-				serverMsg.setCinemas(getAllOfType(Cinema.class));
-				serverMsg.setAction("got all cinemas");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant get all cinemas");
-				e.printStackTrace();
-			}
-		}
-		if (currentMsg.getAction().equals("get all price request")) {
-			try {
-				serverMsg = currentMsg;
-				serverMsg.setPriceRequests(getAllOfType(PriceRequest.class));
-				serverMsg.setAction("got all price request");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant get all price request");
-				e.printStackTrace();
-			}
-		}
-		if (currentMsg.getAction().equals("get all open price requests")) {
-			try {
-				serverMsg = currentMsg;
-				serverMsg.setPriceRequests(PriceRequestController.getAllOpenPriceRequests());
-				serverMsg.setAction("got all open price requests");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant get all open price requests");
-				e.printStackTrace();
-			}
-		}
-
-		if (currentMsg.getAction().equals("approve price request")) {
-			try {
-				serverMsg = currentMsg;
-				PriceRequest request = serverMsg.getPriceRequest();
-				NetworkAdministrator administrator = NetworkAdministratorController.getAdministrator();
-				if(request.isTicket())
-					administrator.setMoviePrice(request.getNewPrice());
-				if(request.isLink())
-					administrator.setViewingPackagePrice(request.getNewPrice());
-				if(request.isCard())
-					administrator.setSubscriptionCardPrice(request.getNewPrice());
-				updateRowDB(administrator);
-				updateRowDB(request);
-				serverMsg.setPriceRequests(PriceRequestController.getAllOpenPriceRequests());
-				serverMsg.setAction("approved price request");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("can't approve price request");
-				e.printStackTrace();
-			}
-		}
-
-		if (currentMsg.getAction().equals("decline price request")) {
-			try {
-				serverMsg = currentMsg;
-				updateRowDB(serverMsg.getPriceRequest());
-				serverMsg.setPriceRequests(PriceRequestController.getAllOpenPriceRequests());
-				serverMsg.setAction("declined price request");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("can't decline price request");
-				e.printStackTrace();
-			}
-		}
-
-		if (currentMsg.getAction().equals("save price request")) {
-			try {
-				serverMsg = currentMsg;
-				saveRowInDB(serverMsg.getPriceRequest());
-				serverMsg.setAction("done to save price request");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant save price request");
-				e.printStackTrace();
-			}
-		}
-		if (currentMsg.getAction().equals("close complaint")) {
-			try {
-				serverMsg = currentMsg;
-				updateRowDB(serverMsg.getComplaint());
-				serverMsg.setAction("done close complaint");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant close complaint");
-				e.printStackTrace();
-			}
-		}
-		if (currentMsg.getAction().equals("get genres")) {
-			try {
-				serverMsg = new Message();
-				serverMsg.setGenres(genres);
-				serverMsg.setAction("got genres");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant close complaint");
-				e.printStackTrace();
-			}
-		}
-		if (currentMsg.getAction().equals("update viewing package")) {
-			try {
-				serverMsg = currentMsg;
-				updateRowDB(serverMsg.getViewingPackage());
-				serverMsg.setAction("added viewing package");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant selection of seats under restrictions");
-				e.printStackTrace();
-			}
-		}
-		if (currentMsg.getAction().equals("get all viewing package")) {
-			try {
-				serverMsg = currentMsg;
-				serverMsg.setMovies(ViewingPackageController.getViewingPackageMovies());
-				serverMsg.setAction("got all viewing package");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("can't get all viewing package");
-				e.printStackTrace();
-			}
-		}
-		if (currentMsg.getAction().equals("get all movies from viewing packages")) {
-			try {
-				serverMsg = currentMsg;
-				System.out.println(LocalDateTime.now());
-				serverMsg.setMovies(ViewingPackageController.getViewingPackageMovies());
-				System.out.println(LocalDateTime.now());
-				serverMsg.setAction("got all movies from viewing packages");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant get all movies from viewing packages");
-				e.printStackTrace();
-			}
-		}
-
-
-		if (currentMsg.getAction().equals("get viewing packages by movie")) {
-			try {
-				serverMsg = currentMsg;
-				serverMsg.setViewingPackages(ViewingPackageController.getViewingPackagesByMovie(currentMsg.getMovieName()));
-				serverMsg.setAction("got viewing packages by movie");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("cant get viewing packages by movie");
-				e.printStackTrace();
-			}
-		}
-
-		if (currentMsg.getAction().equals("get subscription card")) {
-			try {
-				serverMsg = currentMsg;
-				serverMsg.setSubscriptionCard(SubscriptionCardController.getSubscriptionCard(serverMsg.getSerial()));
-				serverMsg.setAction("got subscription card");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("can't get subscription card");
-				e.printStackTrace();
-			}
-		}
-
-		if (currentMsg.getAction().equals("get prices")) {
-			try {
-				System.out.println(LocalDateTime.now());
-				NetworkAdministrator n = NetworkAdministratorController.getAdministrator();
-				System.out.println(LocalDateTime.now());
-				serverMsg = currentMsg;
-
-				serverMsg.setMoviePrice(n.getMoviePrice());
-				serverMsg.setViewingPackagePrice(n.getViewingPackagePrice());
-				serverMsg.setSubscriptionCardPrice(n.getSubscriptionCardPrice());
-				serverMsg.setAction("got prices");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("can't get prices");
-				e.printStackTrace();
-			}
-		}
-
-		if (currentMsg.getAction().equals("get all valid for viewing package movies")) {
-			try {
-				serverMsg = currentMsg;
-				serverMsg.setMovies(ViewingPackageController.getAllValidMovies());
-				serverMsg.setAction("got all valid for viewing package movies");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("can't get all valid for viewing package movies");
-				e.printStackTrace();
-			}
-		}
-
-		if(currentMsg.getAction().equals("get all movies for delete page")) {
-			try {
-				serverMsg = currentMsg;
-				serverMsg.setMovies(MovieController.getNotDeletedMovies());
-				serverMsg.setAction("got all movies for delete page");
-				client.sendToClient(serverMsg);
-			} catch (IOException e) {
-				System.out.println("can't get all movies for delete page");
-				e.printStackTrace();
-			}
-		}
-	}catch(Exception e) {
-		
-		e.printStackTrace();
-		
-	}
-		
 	}
 }

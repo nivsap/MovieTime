@@ -42,7 +42,6 @@ public class OpenComplaintsController {
 			AppClient.getClient().sendToServer(msg);
 		} 
 		catch (IOException e) {
-			System.out.println("failed to send msg to server from OpenComplaintsController");
 			e.printStackTrace();
 		}
 	}
@@ -76,7 +75,6 @@ public class OpenComplaintsController {
 
 	@Subscribe
 	public void onMessageEvent(Message msg) throws IOException {
-		System.out.println("got message in OpenComplaintsController");
     	if(msg.getAction().equals("got complaints")) {
     		if(isRegistered) {
 				EventBus.getDefault().unregister(this);

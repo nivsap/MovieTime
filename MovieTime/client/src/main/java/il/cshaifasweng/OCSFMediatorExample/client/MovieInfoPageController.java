@@ -240,6 +240,8 @@ public class MovieInfoPageController {
 		if(dateCombo.getValue() == null) {
 			return;
 		}
+		numberOfSeatsCombo.getItems().clear();
+		numberOfSeatsCombo.setVisible(false);
 		timeCombo.getItems().clear();
 		msg.setAction("check purple limit");
 		

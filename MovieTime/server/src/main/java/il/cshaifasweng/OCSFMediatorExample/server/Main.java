@@ -616,7 +616,6 @@ public class Main extends AbstractServer {
 				}
 				if (screening.getDateAndTime().equals(newScreening.getDateAndTime())
 						&& screening.getCinema().getName().equals(newScreening.getCinema().getName())
-						&& screening.getMovie().getName().equals(newScreening.getMovie().getName())
 						&& screening.getHall().getHallId() == (newScreening.getHall().getHallId())) {
 					System.out.println("screening == newScreening");
 					if (currentMsg.getDBAction().equals("addition")) {
@@ -1427,7 +1426,9 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("get all movies from viewing packages")) {
 			try {
 				serverMsg = currentMsg;
+				System.out.println(LocalDateTime.now());
 				serverMsg.setMovies(ViewingPackageController.getViewingPackageMovies());
+				System.out.println(LocalDateTime.now());
 				serverMsg.setAction("got all movies from viewing packages");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {

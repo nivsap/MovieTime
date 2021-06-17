@@ -58,43 +58,43 @@ public class SearchBarController {
 
 	public void SetPageType(String namePage) {
 		if(namePage.equals("MainPage")) {
-    		disableCards = false;
+    		setDisableCards(false);
     		actionType = "pull screening movies";
     		moviesType = "got screening movies";
-    		purchaseType = PurchaseTypes.TICKET;
+    		setPurchaseType(PurchaseTypes.TICKET);
 		}
 
 		if(namePage.equals("ViewingPackagesPage")) {
 			theaterComboBox.setVisible(false);
-			disableCards = false;
+			setDisableCards(false);
 			actionType = "pull movies from home";
 			moviesType = "got movies from home";
-			purchaseType = PurchaseTypes.VIEWING_PACKAGE;
+			setPurchaseType(PurchaseTypes.VIEWING_PACKAGE);
 		}
 		if(namePage.equals("NetworkAdministratorMoviesPage")) {
-			disableCards = true;
+			setDisableCards(true);
 			actionType = "pull screening movies";
 			moviesType = "got screening movies";
-			purchaseType = PurchaseTypes.NOT_AVAILABLE;
+			setPurchaseType(PurchaseTypes.NOT_AVAILABLE);
 		}
 		if(namePage.equals("NetworkAdministratorComingSoonPage")) {
-			disableCards = true;
+			setDisableCards(true);
 			actionType = "pull screening movies";
 			moviesType = "got screening movies";
-			purchaseType = PurchaseTypes.NOT_AVAILABLE;
+			setPurchaseType(PurchaseTypes.NOT_AVAILABLE);
 		}
 		if(namePage.equals("NetworkAdministratorViewingPackagesPage")) {
-			disableCards = true;
+			setDisableCards(true);
 			theaterComboBox.setVisible(false);
 			actionType = "pull movies from home";
 			moviesType = "got movies from home";
-			purchaseType = PurchaseTypes.NOT_AVAILABLE;
+			setPurchaseType(PurchaseTypes.NOT_AVAILABLE);
 		}
 		if(namePage.equals("BranchManagerMainPage")) {
-			disableCards = true;
+			setDisableCards(true);
 			actionType = "pull screening movies";
 			moviesType = "got screening movies";
-			purchaseType = PurchaseTypes.NOT_AVAILABLE;
+			setPurchaseType(PurchaseTypes.NOT_AVAILABLE);
 		}
 	}
 	
@@ -150,6 +150,22 @@ public class SearchBarController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public int getPurchaseType() {
+		return purchaseType;
+	}
+
+	public void setPurchaseType(int purchaseType) {
+		this.purchaseType = purchaseType;
+	}
+
+	public Boolean getDisableCards() {
+		return disableCards;
+	}
+
+	public void setDisableCards(Boolean disableCards) {
+		this.disableCards = disableCards;
 	}
 
 

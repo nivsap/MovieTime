@@ -51,7 +51,7 @@ public class CardContainerController {
     public CardContainerController() {
     	try {
     	isRegistered = false;
-    	waitingForMessageCounter = 0;
+    	setWaitingForMessageCounter(0);
     	moviesType = "";
     	recentlyAdded = new ArrayList<Movie>();
     	currentlyDisplayedFrom = 0;
@@ -126,9 +126,9 @@ public class CardContainerController {
 				isRegistered=false ;
 			}
 			AppClient.getClient().sendToServer(msg);
-			waitingForMessageCounter++;
+			setWaitingForMessageCounter(getWaitingForMessageCounter() + 1);
 		} catch (IOException e) {
-			waitingForMessageCounter--;
+			setWaitingForMessageCounter(getWaitingForMessageCounter() - 1);
 			e.printStackTrace();
 		}	
     }
@@ -214,4 +214,12 @@ public class CardContainerController {
     		currentlyDisplayedFrom = nextIndex;
     	SetMovies(currentlyDisplayedFrom);
     }
+
+	public int getWaitingForMessageCounter() {
+		return waitingForMessageCounter;
+	}
+
+	public void setWaitingForMessageCounter(int waitingForMessageCounter) {
+		this.waitingForMessageCounter = waitingForMessageCounter;
+	}
 }

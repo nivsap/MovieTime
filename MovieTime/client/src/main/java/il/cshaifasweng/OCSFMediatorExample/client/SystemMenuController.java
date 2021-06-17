@@ -90,7 +90,8 @@ public class SystemMenuController extends Pane {
     	App.setBarAndGridLayout("ViewingPackagesPage");
     }
     
-    private void cancelOrder() {  
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	private void cancelOrder() {  
     	try {
     	if(App.getCurrentController()!= null) {	 
     		if( App.getCurrentController().getClass().equals(PaymentPageController.class)) {

@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "Cinemas")
 public class Cinema implements  Serializable{
@@ -21,8 +22,6 @@ public class Cinema implements  Serializable{
 	private int id;
 	private String name;
 	private String address;
-	//@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	//private BranchManager manager;
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "cinema")
 	private List<Worker> workers;
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "cinema")

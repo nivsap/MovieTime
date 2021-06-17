@@ -31,12 +31,10 @@ public class UpdateMoviesPageController{
 
 	private boolean isRegistered = false;
 
-	private List<Movie> allMovies;
 	private List<Movie> movies;
 	private List<Cinema> cinemas;
 	private List<Screening> screenings;
 	List<Screening> filteredScreenings;
-	private String[] time;
 	
 	@FXML
     private DatePicker dateCard;

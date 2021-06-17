@@ -18,7 +18,6 @@ public class AppClient extends AbstractClient {
 
 	@Override
 	protected void handleMessageFromServer(Object msg) {
-		System.out.println(((Message) msg).getAction() + " msg recieved in appClient!");
 		Message currentMsg = (Message) msg;
 		EventBus.getDefault().post(currentMsg);
 	}
@@ -39,7 +38,6 @@ public class AppClient extends AbstractClient {
 	}
 
 	public static AppClient getClient(String host, int port) {
-		System.out.println("client is: " + client);
 		if (client == null) {
 			client = new AppClient(host, port);
 		}

@@ -179,29 +179,29 @@ public class OpenPriceChangeRequestsController {
     @Subscribe
 	public void onMessageEvent(Message msg) {
     	try {
-    	System.out.println("got message in OpenPriceChangeRequest");
-    	if (msg.getAction().equals("got prices")) {
-    		if(isRegistered) {
-				EventBus.getDefault().unregister(this);
-				isRegistered = false;
+	    	if (msg.getAction().equals("got prices")) {
+	    		if(isRegistered) {
+					EventBus.getDefault().unregister(this);
+					isRegistered = false;
+				}
+	    		Platform.runLater(() -> {
+					ticketPrice = msg.getMoviePrice();
+					linkPrice = msg.getViewingPackagePrice();
+					cardPrice = msg.getSubscriptionCardPrice();
+					setPrices();
+				});
 			}
-    		Platform.runLater(() -> {
-				ticketPrice = msg.getMoviePrice();
-				linkPrice = msg.getViewingPackagePrice();
-				cardPrice = msg.getSubscriptionCardPrice();
-				setPrices();
-			});
-		}
-		if (msg.getAction().equals("done to save price request")) {
-			if(isRegistered) {
-				EventBus.getDefault().unregister(this);
-				isRegistered = false;
+			if (msg.getAction().equals("done to save price request")) {
+				if(isRegistered) {
+					EventBus.getDefault().unregister(this);
+					isRegistered = false;
+				}
+				Platform.runLater(() -> {
+					successLabel.setVisible(true);
+					clearForm();
+				});
 			}
-			Platform.runLater(() -> {
-				successLabel.setVisible(true);
-				clearForm();
-			});
-		}} catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

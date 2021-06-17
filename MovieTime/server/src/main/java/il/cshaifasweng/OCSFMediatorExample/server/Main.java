@@ -1211,6 +1211,7 @@ public class Main extends AbstractServer {
 				serverMsg = new Message();
 				System.out.println("1");
 				Purchase p = currentMsg.getPurchase();
+				if(p.isCanceled() == false || p.isCanceled() == null) {
 				if(p.isTicket())
 					currentMsg.getPurchase().getScreening().getCinema().getCanceledPurchases().add(p);
 				Float refund = CustomerController.ReturnOnPurchase(currentMsg.getPurchase(), LocalDateTime.now());
@@ -1222,7 +1223,7 @@ public class Main extends AbstractServer {
 					}
 					updateRowDB(currentMsg.getPurchase().getScreening());
 					updateRowDB(currentMsg.getPurchase().getScreening().getCinema());
-				}
+				}}
 				serverMsg.setAction("got purchase cancelation by id");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {

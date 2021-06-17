@@ -125,7 +125,7 @@ public class PaymentPageController {
     	purchaseType = 4;
     	screening = null;
     	seats = null; 
-    	subscriptionCard = null;
+    	subscriptionCard = new SubscriptionCard();
     	viewingPackage = null;
     	purchase = null;
     	ticketPrice = 0f;
@@ -266,11 +266,14 @@ public class PaymentPageController {
     		 * double payment, LocalDateTime purchaseTime, Cinema cinema,
     		 * SubscriptionCard subscriptionCard, Complaint complaint)
     		 */
+    		
     		purchase = new Purchase(firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), cityTextField.getText(), phoneNumberTextField.getText(),
 									price, LocalDateTime.now(), null, subscriptionCard, null);	
     	}
 
     	order += "\nPuchase Id for cancelations: " + purchase.getSerial();
+    	if(purchaseType == PurchaseTypes.SUBSCRIPTION_CARD)
+    		order += "\nSubscription Card Serial for Remaining Check: " + subscriptionCard.getSerial();
     	Message msg = new Message();
     	if(isRegistered) {
 			EventBus.getDefault().unregister(this);
@@ -304,25 +307,25 @@ public class PaymentPageController {
     @Subscribe
     public void OnMessageEvent(Message msg) {
     	try {
-    	if(msg.getAction().equals("got prices")) {
-    		if(isRegistered) {
-				EventBus.getDefault().unregister(this);
-				isRegistered = false;
-			}
-    		Platform.runLater(() -> {
-    		ticketPrice = msg.getMoviePrice();
-    		linkPrice = msg.getViewingPackagePrice();
-    		cardPrice = msg.getSubscriptionCardPrice();
-    		
-    		if(purchaseType == PurchaseTypes.TICKET) {
-    			setInfoTicket(screening, seats);
-    		}
-    		if(purchaseType == PurchaseTypes.SUBSCRIPTION_CARD) {
-    			setInfoSubscription();
-    		}
-    		if(purchaseType == PurchaseTypes.VIEWING_PACKAGE) {
-    			setInfoLink(viewingPackage);
-    		}
+	    	if(msg.getAction().equals("got prices")) {
+	    		if(isRegistered) {
+					EventBus.getDefault().unregister(this);
+					isRegistered = false;
+				}
+	    		Platform.runLater(() -> {
+		    		ticketPrice = msg.getMoviePrice();
+		    		linkPrice = msg.getViewingPackagePrice();
+		    		cardPrice = msg.getSubscriptionCardPrice();
+		    		
+		    		if(purchaseType == PurchaseTypes.TICKET) {
+		    			setInfoTicket(screening, seats);
+		    		}
+		    		if(purchaseType == PurchaseTypes.SUBSCRIPTION_CARD) {
+		    			setInfoSubscription();
+		    		}
+		    		if(purchaseType == PurchaseTypes.VIEWING_PACKAGE) {
+		    			setInfoLink(viewingPackage);
+	    		}
     		});
     		
     	}

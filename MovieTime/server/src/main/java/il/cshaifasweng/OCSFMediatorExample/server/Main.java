@@ -1220,7 +1220,7 @@ public class Main extends AbstractServer {
 				if(p.isTicket()) {
 					for(Pair<Integer, Integer> i : currentMsg.getPurchase().getSeatsList()) {
 						currentMsg.getPurchase().getScreening().getSeats()[i.getKey()][i.getValue()] = 0;
-					}
+					}//
 					updateRowDB(currentMsg.getPurchase().getScreening());
 					updateRowDB(currentMsg.getPurchase().getScreening().getCinema());
 				}}

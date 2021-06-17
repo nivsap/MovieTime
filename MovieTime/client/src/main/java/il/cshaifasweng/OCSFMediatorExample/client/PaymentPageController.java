@@ -229,7 +229,8 @@ public class PaymentPageController {
 
 		paymentLabel.setText(Double.toString(linkPrice));
     	order = "Movie chosen: " + viewingPackage.getMovie().getName() + " on the date of:  " + viewingPackage.getDateTime().toString().substring(0,10) + " at: " + viewingPackage.getDateTime().toString().substring(11,16);
-		order += "\nTotal price: " + linkPrice;
+		order += "\nThe link will be available for 24 hours.";	
+    	order += "\nTotal price: " + linkPrice;
         orderSummeryTextArea.setText(order);	
     }
     

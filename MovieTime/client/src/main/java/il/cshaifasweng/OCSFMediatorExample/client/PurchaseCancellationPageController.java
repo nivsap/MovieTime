@@ -103,7 +103,7 @@ public class PurchaseCancellationPageController {
 			orderNumberWarningLabel.setVisible(true);
 			orderNumberWarningLabel.setText("Order number must be entered");
 			return;
-		}	
+		}
 		
 		Message msg = new Message();
 		msg.setAction("get purchase by serial");

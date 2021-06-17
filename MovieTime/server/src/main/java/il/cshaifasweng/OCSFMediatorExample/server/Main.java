@@ -231,10 +231,9 @@ public class Main extends AbstractServer {
 			Purchase customer2 = new Purchase("Eitan", "Sharabi", "shiravneri@gmail.com", "street 2, city", "0523456789", 40.0, getTime(2021, 6, 10), screening5, new ArrayList<>(), null,false);
 			Purchase customer3 = new Purchase("Niv", "Sapir", "eitansharabi@gmail.com", "street 3, city", "0523456789", 40.0, getTime(2021, 6, 10), screening3, new ArrayList<>(), null,false);
 			Purchase customer4 = new Purchase("Hadar", "Manor", "shiravneri@gmail.com", "street 4, city", "0523456789", 40.0, getTime(2021, 6, 10), screening20, new ArrayList<>(), null,false);
-
+			customer1.setPurchaseType(1); customer2.setPurchaseType(1); customer3.setPurchaseType(1); customer4.setPurchaseType(1);
 			screening1.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer1))); screening3.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer3))); 
 			screening5.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer2))); screening20.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer4)));
-
 			haifaCinema.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer1, customer2))); 
 			telAvivCinema.setPurchases(new ArrayList<Purchase>(Arrays.asList(customer3, customer4)));
 			// Viewing Package Purchases
@@ -242,16 +241,19 @@ public class Main extends AbstractServer {
 			Purchase customer6 = new Purchase("Liel", "Fridman", "shiravneri@gmail.com", "street 6, city", "0523456789", 30.0,  getTime(2021, 6, 9), null, viewingPackage2, null);
 			Purchase customer7 = new Purchase("Asaf", "Moshe", "shiravneri@gmail.com", "street 7, city", "0523456789", 30.0, getTime(2021, 6, 10), null, viewingPackage3, null);
 			Purchase customer8 = new Purchase("Malki", "Grossman", "shiravneri@gmail.com", "street 8, city", "0523456789", 30.0,  getTime(2021, 6, 10), null, viewingPackage4, null);
+			customer5.setPurchaseType(2); customer6.setPurchaseType(2); customer7.setPurchaseType(2); customer8.setPurchaseType(2);
 			// Subscription Cards Purchases
 			Purchase customer9 = new Purchase("Liel", "Fridman", "shiravneri@gmail.com", "street 9, city", "0523456789", 600.0, getTime(2021, 6, 5), null, card1, null);
 			Purchase customer10 = new Purchase("Malki", "Grossman", "shiravneri@gmail.com", "street 10, city", "0523456789", 600.0, getTime(2021, 6, 5), null, card2, null);
 			Purchase customer11 = new Purchase("Asaf", "Moshe", "shiravneri@gmail.com", "street 11, city", "0523456789", 600.0, getTime(2021, 6, 5), null, card3, null);
 			card1.setPurchase(customer9); card2.setPurchase(customer10); card3.setPurchase(customer11); 
+			customer9.setPurchaseType(3); customer10.setPurchaseType(3); customer11.setPurchaseType(3); 
 			/* ---------- Setting Complaints For Data Base ---------- */
 			Complaint complaint1 = new Complaint("Shir", "Avneri", "eitanSharabi@gmail.com", "0523456789", "I'm very upset", "I want to finish this project", customer1, true);
 			Complaint complaint2 = new Complaint("Niv", "Sapir", "eitanSharabi@gmail.com", "0523456789", "I want to complain", "I am very upset", customer2, true);
 			Complaint complaint3 = new Complaint("Hadar", "Manor", "shiravneri@gmail.com", "0523456789", "Some title", "Some details", customer3, false);
-
+			complaint1.setPurchaseSerial(customer1.getSerial()); complaint2.setPurchaseSerial(customer2.getSerial()); complaint3.setPurchaseSerial(customer3.getSerial());
+			complaint1.setPurchaseType(customer1.getPurchaseType()); complaint2.setPurchaseType(customer2.getPurchaseType()); complaint3.setPurchaseType(customer3.getPurchaseType());
 			haifaCinema.setComplaints(new ArrayList<Complaint>(Arrays.asList(complaint1, complaint2))); 
 			telAvivCinema.setComplaints(new ArrayList<Complaint>(Arrays.asList(complaint3)));
 			/* ---------- Setting Price Request For Data Base ---------- */

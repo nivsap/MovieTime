@@ -179,37 +179,38 @@ public class Main extends AbstractServer {
 			wonderWoman1984.setViewingPackages(new ArrayList<ViewingPackage>(Arrays.asList(viewingPackage1, viewingPackage2, viewingPackage3)));
 			babyDriver.setViewingPackages(new ArrayList<ViewingPackage>(Arrays.asList(viewingPackage4, viewingPackage5, viewingPackage6)));
 			/* ---------- Setting Screenings For Data Base ---------- */
-			Screening screening1 = new Screening(getExactTime(2021, 6, 19, 20, 00), avengersEndgame, hall1, haifaCinema, null);
-			Screening screening2 = new Screening(getExactTime(2021, 6, 18, 20, 00), avengersEndgame, hall1, haifaCinema, null);
-			Screening screening3 = new Screening(getExactTime(2021, 6, 19, 20, 00), avengersEndgame, hall3, telAvivCinema, null);
-			Screening screening4 = new Screening(getExactTime(2021, 6, 18, 20, 00), avengersEndgame, hall3, telAvivCinema, null);
-			Screening screening5 = new Screening(getExactTime(2021, 6, 19, 17, 00), sherlockHolmes, hall2, haifaCinema, null);
-			Screening screening6 = new Screening(getExactTime(2021, 6, 18, 17, 00), sherlockHolmes, hall2, haifaCinema, null);
-			Screening screening7 = new Screening(getExactTime(2021, 6, 19, 17, 00), sherlockHolmes, hall4, telAvivCinema, null);
-			Screening screening8 = new Screening(getExactTime(2021, 6, 18, 17, 00), sherlockHolmes, hall4, telAvivCinema, null);
-			Screening screening9 = new Screening(getExactTime(2021, 6, 19, 20, 30), babyDriver, hall2, haifaCinema, null);
-			Screening screening10 = new Screening(getExactTime(2021, 6, 18, 20, 30), babyDriver, hall2, haifaCinema, null);
-			Screening screening11 = new Screening(getExactTime(2021, 6, 19, 20, 30), babyDriver, hall4, telAvivCinema, null);
-			Screening screening12 = new Screening(getExactTime(2021, 6, 18, 20, 30), babyDriver, hall4, telAvivCinema, null);
-			Screening screening13 = new Screening(getExactTime(2021, 6, 19, 17, 30), wonderWoman1984, hall1, haifaCinema, null);
-			Screening screening14 = new Screening(getExactTime(2021, 6, 18, 17, 30), wonderWoman1984, hall1, haifaCinema, null);
-			Screening screening15 = new Screening(getExactTime(2021, 6, 19, 17, 30), wonderWoman1984, hall3, telAvivCinema, null);
-			Screening screening16 = new Screening(getExactTime(2021, 6, 18, 17, 30), wonderWoman1984, hall3, telAvivCinema, null);
-			Screening screening17 = new Screening(getExactTime(2021, 6, 19, 00, 00), it, hall1, haifaCinema, null);
-			Screening screening18 = new Screening(getExactTime(2021, 6, 18, 00, 00), it, hall1, haifaCinema, null);
-			Screening screening19 = new Screening(getExactTime(2021, 6, 19, 00, 00), it, hall3, telAvivCinema, null);
-			Screening screening20 = new Screening(getExactTime(2021, 6, 18, 00, 00), it, hall3, telAvivCinema, null);
-			Screening screening21 = new Screening(getExactTime(2021, 6, 20, 17, 00), toyStory, hall2, haifaCinema, null);
-			Screening screening22 = new Screening(getExactTime(2021, 6, 20, 20, 00), toyStory, hall2, haifaCinema, null);
+
+			Screening screening1 = new Screening(getExactTime(2021, 6, 18, 20, 30), avengersEndgame, hall1, haifaCinema, null);
+			Screening screening2 = new Screening(getExactTime(2021, 6, 19, 20, 30), avengersEndgame, hall1, haifaCinema, null);
+			Screening screening3 = new Screening(getExactTime(2021, 6, 18, 20, 30), avengersEndgame, hall3, telAvivCinema, null);
+			Screening screening4 = new Screening(getExactTime(2021, 6, 19, 20, 30), avengersEndgame, hall3, telAvivCinema, null);
+			Screening screening5 = new Screening(getExactTime(2021, 6, 18, 17, 00), sherlockHolmes, hall2, haifaCinema, null);
+			Screening screening6 = new Screening(getExactTime(2021, 6, 19, 17, 00), sherlockHolmes, hall2, haifaCinema, null);
+			Screening screening7 = new Screening(getExactTime(2021, 6, 18, 17, 00), sherlockHolmes, hall4, telAvivCinema, null);
+			Screening screening8 = new Screening(getExactTime(2021, 6, 19, 17, 00), sherlockHolmes, hall4, telAvivCinema, null);
+			Screening screening9 = new Screening(getExactTime(2021, 6, 18, 20, 30), babyDriver, hall2, haifaCinema, null);
+			Screening screening10 = new Screening(getExactTime(2021, 6, 19, 20, 30), babyDriver, hall2, haifaCinema, null);
+			Screening screening11 = new Screening(getExactTime(2021, 6, 18, 20, 30), babyDriver, hall4, telAvivCinema, null);
+			Screening screening12 = new Screening(getExactTime(2021, 6, 19, 20, 30), babyDriver, hall4, telAvivCinema, null);
+			Screening screening13 = new Screening(getExactTime(2021, 6, 18, 17, 00), toyStory, hall1, haifaCinema, null);
+			Screening screening14 = new Screening(getExactTime(2021, 6, 19, 17, 00), toyStory, hall1, haifaCinema, null);
+			Screening screening15 = new Screening(getExactTime(2021, 6, 18, 17, 00), toyStory, hall3, telAvivCinema, null);
+			Screening screening16 = new Screening(getExactTime(2021, 6, 19, 17, 00), toyStory, hall3, telAvivCinema, null);
+			Screening screening17 = new Screening(getExactTime(2021, 6, 18, 00, 00), it, hall1, haifaCinema, null);
+			Screening screening18 = new Screening(getExactTime(2021, 6, 19, 00, 00), it, hall1, haifaCinema, null);
+			Screening screening19 = new Screening(getExactTime(2021, 6, 18, 00, 00), it, hall3, telAvivCinema, null);
+			Screening screening20 = new Screening(getExactTime(2021, 6, 19, 00, 00), it, hall3, telAvivCinema, null);
+			Screening screening21 = new Screening(getExactTime(2021, 6, 21, 20, 30), wonderWoman1984, hall2, haifaCinema, null);
+			Screening screening22 = new Screening(getExactTime(2021, 6, 20, 20, 30), wonderWoman1984, hall2, haifaCinema, null);
 			Screening screening23 = new Screening(getExactTime(2021, 6, 20, 17, 00), minions, hall4, telAvivCinema, null);
-			Screening screening24 = new Screening(getExactTime(2021, 6, 20, 20, 00), minions, hall4, telAvivCinema, null);
+			Screening screening24 = new Screening(getExactTime(2021, 6, 21, 17, 00), minions, hall4, telAvivCinema, null);
 
 			avengersEndgame.setScreenings(new ArrayList<Screening>(Arrays.asList(screening1, screening2, screening3, screening4)));
 			sherlockHolmes.setScreenings(new ArrayList<Screening>(Arrays.asList(screening5, screening6, screening7, screening8)));
 			babyDriver.setScreenings(new ArrayList<Screening>(Arrays.asList(screening9, screening10, screening11, screening12)));
-			wonderWoman1984.setScreenings(new ArrayList<Screening>(Arrays.asList(screening13, screening14, screening15, screening16)));
+			wonderWoman1984.setScreenings(new ArrayList<Screening>(Arrays.asList(screening20, screening21)));
 			it.setScreenings(new ArrayList<Screening>(Arrays.asList(screening17, screening18, screening19, screening20)));
-			toyStory.setScreenings(new ArrayList<Screening>(Arrays.asList(screening21, screening22)));
+			toyStory.setScreenings(new ArrayList<Screening>(Arrays.asList(screening13, screening14, screening15, screening16)));
 			minions.setScreenings(new ArrayList<Screening>(Arrays.asList(screening23, screening24)));
 			hall1.setScreenings(new ArrayList<Screening>(Arrays.asList(screening1, screening2, screening13, screening14, screening17, screening18)));
 			hall2.setScreenings(new ArrayList<Screening>(Arrays.asList(screening5, screening6, screening9, screening10, screening21, screening22)));
@@ -219,8 +220,7 @@ public class Main extends AbstractServer {
 			haifaCinema.setScreenings(new ArrayList<Screening>(Arrays.asList(screening1, screening2, screening5, screening6, screening9, screening10, screening13, screening14, screening17, screening18, screening21, screening22)));
 			telAvivCinema.setScreenings(new ArrayList<Screening>(Arrays.asList(screening3, screening4, screening7, screening8, screening11, screening12, screening15, screening16, screening19, screening20, screening23, screening24)));
 			/* ---------- Setting Purple Limits For Data Base ---------- */
-			PurpleLimit purpleLimit1 = new PurpleLimit(LocalDate.of(2021, 1, 1), LocalDate.of(2021, 3, 1), 40);
-			PurpleLimit purpleLimit2 = new PurpleLimit(LocalDate.of(2021, 5, 5), LocalDate.of(2021, 6, 17), 40);
+			PurpleLimit purpleLimit1 = new PurpleLimit(LocalDate.of(2021, 5, 5), LocalDate.of(2021, 6, 17), 40);
 			/* ---------- Setting Subscription Cards For Data Base ---------- */
 			SubscriptionCard card1 = new SubscriptionCard(); card1.setRemaining(17);
 			SubscriptionCard card2 = new SubscriptionCard(); card2.setRemaining(19);
@@ -319,7 +319,6 @@ public class Main extends AbstractServer {
 			session.save(screening24);
 			/* ---------- Saving Purple Limits To Data Base ---------- */
 			session.save(purpleLimit1);
-			session.save(purpleLimit2);
 			/* ---------- Saving Subscription Cards To Data Base ---------- */
 			session.save(card1);
 			session.save(card2);

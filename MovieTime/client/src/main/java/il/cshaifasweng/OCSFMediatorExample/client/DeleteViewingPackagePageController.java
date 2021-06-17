@@ -21,10 +21,6 @@ public class DeleteViewingPackagePageController {
 	private List<Movie> recentlyAdded;
 	private boolean isRegistered = false;
 
-
-    @FXML
-    private TextField search;
-
     @FXML
     private VBox cardsContainer;
 
@@ -54,7 +50,6 @@ public class DeleteViewingPackagePageController {
 
     @FXML
     void initialize() throws Exception{
-        assert search != null : "fx:id=\"search\" was not injected: check your FXML file 'DeleteMoviePage.fxml'.";
         assert cardsContainer != null : "fx:id=\"cardsContainer\" was not injected: check your FXML file 'DeleteMoviePage.fxml'.";
         assert movieContainer != null : "fx:id=\"movieContainer\" was not injected: check your FXML file 'DeleteMoviePage.fxml'.";
         assert cell1 != null : "fx:id=\"cell1\" was not injected: check your FXML file 'DeleteMoviePage.fxml'.";

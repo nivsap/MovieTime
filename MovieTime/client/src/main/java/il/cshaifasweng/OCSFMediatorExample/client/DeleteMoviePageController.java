@@ -1,6 +1,7 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.greenrobot.eventbus.EventBus;
@@ -20,10 +21,6 @@ public class DeleteMoviePageController {
 	int NUM_ROWS = 2, NUM_COLS = 3, currentlyDisplayedFrom = 0, moviesNumber = 0;
 	private List<Movie> recentlyAdded;
 	private boolean isRegistered = false;
-
-
-    @FXML
-    private TextField search;
 
     @FXML
     private VBox cardsContainer;
@@ -54,7 +51,6 @@ public class DeleteMoviePageController {
 
     @FXML
     void initialize() throws Exception{
-        assert search != null : "fx:id=\"search\" was not injected: check your FXML file 'DeleteMoviePage.fxml'.";
         assert cardsContainer != null : "fx:id=\"cardsContainer\" was not injected: check your FXML file 'DeleteMoviePage.fxml'.";
         assert movieContainer != null : "fx:id=\"movieContainer\" was not injected: check your FXML file 'DeleteMoviePage.fxml'.";
         assert cell1 != null : "fx:id=\"cell1\" was not injected: check your FXML file 'DeleteMoviePage.fxml'.";
@@ -97,6 +93,18 @@ public class DeleteMoviePageController {
 			e.printStackTrace();
 		}
 	}
+    
+    public void setMoviesBySearchBar(ArrayList<Movie> movies) {
+    	try {
+	    	movieContainer.getChildren().clear();
+			recentlyAdded = movies;
+			moviesNumber = recentlyAdded.size();
+			currentlyDisplayedFrom = 0;
+			setMovies(currentlyDisplayedFrom);
+    	}catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
     
     @FXML
     void loadMoreMovies() {

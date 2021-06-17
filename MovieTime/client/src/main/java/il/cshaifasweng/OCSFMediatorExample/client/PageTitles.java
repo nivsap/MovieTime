@@ -23,4 +23,7 @@ public final class PageTitles {
 	static final String PriceChangePage = "Price Change Approvals";
 	static final String ComplaintHandling = "Complaint Handling";
 	static final String CinemaMoviesPage = "Your Cinema's Movies";
+	static final String SirtiyaMoviesPage = "The Sirtiya's Movies";
+	static final String SirtiyaComingSoonPage = "The Sirtiya's Coming Soon Movies";
+	static final String SirtiyaViewingPackagesPage = "The Sirtiya's Viewing Packages";
 }

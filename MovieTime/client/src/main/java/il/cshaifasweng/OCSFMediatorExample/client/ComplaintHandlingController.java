@@ -20,6 +20,7 @@ public class ComplaintHandlingController {
 	private boolean isRegistered = false;
 
 	private Complaint complaint;
+	private Purchase purchase;
 	
     @FXML
     private Label complaintInfoLabel;
@@ -46,8 +47,77 @@ public class ComplaintHandlingController {
     @FXML
     void initialize() {
     	warningLabel.setVisible(false);
+    	
+    	
     }
     
+    private void setInfo() {
+    	
+    	
+    	try {
+
+        	String complaintInfo = "Customer Name: ";
+        	if(complaint.getFirstName()!=null)
+        		complaintInfo += complaint.getFirstName() + " ";
+        	else
+        		complaintInfo += "Unknown ";
+        	if(complaint.getLastName()!=null)
+        		complaintInfo+=complaint.getLastName();
+        	else
+        		complaintInfo+="Unknown";
+        	
+        	complaintInfo += "\n";
+        	complaintInfo += "Customer Email: ";
+    		if(complaint.getEmail()!=null)
+    			complaintInfo += complaint.getEmail();
+        	else
+        		complaintInfo += "Unknown";
+
+    		complaintInfo += "\n";
+    		complaintInfo += "Customer Phone Number: ";
+        	if(complaint.getPhoneNumber()!=null)
+        		complaintInfo += complaint.getPhoneNumber();
+        	else
+        		complaintInfo += "Unknown";
+        	
+        	
+        	complaintInfo += "\n\n";
+        	complaintInfo += "Complaint Type: ";
+    		if(complaint.getComplaintType() < 4) {
+    			if(purchase.getPurchaseType() == PurchaseTypes.TICKET)
+    				complaintInfo += "Issues with tickets order";
+    	        if(purchase.getPurchaseType() == PurchaseTypes.VIEWING_PACKAGE)
+    	        	complaintInfo += "Issues with viewing packages";
+    	        if(purchase.getPurchaseType() == PurchaseTypes.SUBSCRIPTION_CARD)
+    	        	complaintInfo += "Issues with subscription cards";
+    		}
+        	else
+        		complaintInfo += "Unknown";
+    		
+    		complaintInfo += "\n";
+    		complaintInfo += "Complaint Title: ";
+        	if(complaint.getComplaintTitle()!=null)
+        		complaintInfo += complaint.getComplaintTitle();
+        	else
+        		complaintInfo += "Unknown";
+        	
+        	complaintInfo += "\n";
+        	complaintInfo += "Complaint Details:\n";
+        	if(complaint.getComplaintDetails()!=null)
+        		complaintInfo += complaint.getComplaintDetails();
+        	else
+        		complaintInfo += "Unknown";
+        	
+        	complaintInfoLabel.setText(complaintInfo);
+        	
+        	
+        	setPurchaseInfo();
+        	} catch (Exception e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+    	
+    }
     public void setComplaintInfo(Complaint currentComplaint) {
     	try {
     	complaint = currentComplaint;
@@ -55,61 +125,15 @@ public class ComplaintHandlingController {
     	if(complaint == null)
     		return;
 
-    	String complaintInfo = "Customer Name: ";
-    	if(complaint.getFirstName()!=null)
-    		complaintInfo += complaint.getFirstName() + " ";
-    	else
-    		complaintInfo += "Unknown ";
-    	if(complaint.getLastName()!=null)
-    		complaintInfo+=complaint.getLastName();
-    	else
-    		complaintInfo+="Unknown";
+    	if(!isRegistered) {
+			EventBus.getDefault().register(this);
+			isRegistered = true;
+		}   
+    	Message msg = new Message();
+    	msg.setAction("get purchase by serial");
+    	msg.setSerial(complaint.getPurchaseSerial());
     	
-    	complaintInfo += "\n";
-    	complaintInfo += "Customer Email: ";
-		if(complaint.getEmail()!=null)
-			complaintInfo += complaint.getEmail();
-    	else
-    		complaintInfo += "Unknown";
-
-		complaintInfo += "\n";
-		complaintInfo += "Customer Phone Number: ";
-    	if(complaint.getPhoneNumber()!=null)
-    		complaintInfo += complaint.getPhoneNumber();
-    	else
-    		complaintInfo += "Unknown";
-    	
-    	
-    	complaintInfo += "\n\n";
-    	complaintInfo += "Complaint Type: ";
-		if(complaint.getComplaintType() < 4) {
-			if(complaint.getPurchase().isTicket())
-				complaintInfo += "Issues with tickets order";
-	        if(complaint.getPurchase().isLink())
-	        	complaintInfo += "Issues with viewing packages";
-	        if(complaint.getPurchase().isCard())
-	        	complaintInfo += "Issues with subscription cards";
-		}
-    	else
-    		complaintInfo += "Unknown";
-		
-		complaintInfo += "\n";
-		complaintInfo += "Complaint Title: ";
-    	if(complaint.getComplaintTitle()!=null)
-    		complaintInfo += complaint.getComplaintTitle();
-    	else
-    		complaintInfo += "Unknown";
-    	
-    	complaintInfo += "\n";
-    	complaintInfo += "Complaint Details:\n";
-    	if(complaint.getComplaintDetails()!=null)
-    		complaintInfo += complaint.getComplaintDetails();
-    	else
-    		complaintInfo += "Unknown";
-    	
-    	
-    	complaintInfoLabel.setText(complaintInfo);
-    	setPurchaseInfo();
+    	AppClient.getClient().sendToServer(msg);
     	} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -121,7 +145,7 @@ public class ComplaintHandlingController {
     	if(complaint == null)
     		return;
     	
-    	Purchase complaintPurchase = complaint.getPurchase();
+    	Purchase complaintPurchase = purchase;
     	String purchaseInfo = "";
     	
     	if(complaintPurchase == null) {
@@ -241,10 +265,12 @@ public class ComplaintHandlingController {
     	if(!isRegistered) {
 			EventBus.getDefault().register(this);
 			isRegistered = true;
-		}    	Message msg = new Message();
+		}    
+    	Message msg = new Message();
 		msg.setAction("send successful purchase mail");
  		msg.setCustomerEmail(complaint.getEmail());
  		msg.setEmailMessage(closedComplaintString);
+ 		
  		try {
  			AppClient.getClient().sendToServer(msg);
 		} 
@@ -267,8 +293,7 @@ public class ComplaintHandlingController {
     }
     
     @Subscribe
-    public void OnMessageEvent(Message msg) throws IOException {  	
-    	System.out.println("got msg in ComplaintHandlingController");
+    public void OnMessageEvent(Message msg) throws IOException {  
     	if(msg.getAction().equals("sent successful purchase mail")) {
     		if(isRegistered) {
 				EventBus.getDefault().unregister(this);
@@ -283,6 +308,22 @@ public class ComplaintHandlingController {
 				}
     		});
     	} 
+    	
+    	if(msg.getAction().equals("got purchase by serial")) {
+    		if(isRegistered) {
+				EventBus.getDefault().unregister(this);
+				isRegistered = false;
+			}
+    		Platform.runLater(()-> {
+	        	try {
+	        		purchase = msg.getPurchase();
+					setInfo();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+    		});
+    	} 
+    	
     	if(msg.getAction().equals("done close complaint")) {
     		if(isRegistered) {
 				EventBus.getDefault().unregister(this);

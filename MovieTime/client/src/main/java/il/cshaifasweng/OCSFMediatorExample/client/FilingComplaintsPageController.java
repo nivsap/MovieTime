@@ -20,6 +20,7 @@ public class FilingComplaintsPageController  {
 	private Boolean isRegistered;
 	private int waitingForMessageCounter;
 	private Complaint newComplaint;
+	private Purchase purchase;
 
     @FXML
     private TextField firstNameTextField;
@@ -195,6 +196,8 @@ public class FilingComplaintsPageController  {
     	newComplaint.setComplaintTime();
     	newComplaint.setPurchase(foundPurchase);
     	newComplaint.setIsOpen(true);
+    	newComplaint.setPurchaseSerial(purchase.getSerial());
+    	newComplaint.setPurchaseType(purchase.getPurchaseType());
     	Message msg = new Message();
 		msg.setComplaint(newComplaint);
 		msg.setAction("add a complaint");
@@ -225,14 +228,13 @@ public class FilingComplaintsPageController  {
 				isRegistered = false;
 			}
        		Platform.runLater(() -> {
+       			purchase = msg.getPurchase();
     			Purchase foundPurchase = msg.getPurchase();
         		waitingForMessageCounter--;
-            	if(waitingForMessageCounter == 0 && isRegistered) {
-            		if(isRegistered) {
-        				EventBus.getDefault().unregister(this);
-        				isRegistered = false;
-        			}            		isRegistered = false;
-            	}
+        		if(isRegistered) {
+    				EventBus.getDefault().unregister(this);
+    				isRegistered = false;
+    			}     
     			if(foundPurchase == null) {
     				orderNumberWarningLabel.setText("Order number not found");
     				orderNumberWarningLabel.setVisible(true);

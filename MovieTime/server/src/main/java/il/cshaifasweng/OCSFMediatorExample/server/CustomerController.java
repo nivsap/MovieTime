@@ -66,7 +66,7 @@ public class CustomerController{
 			if(purchase.getScreening().getDateAndTime().getHour()  > time.getHour() + 3) {
 				return (float) (purchase.getPayment());
 			}
-			else if(purchase.getScreening().getDateAndTime().getHour()  <= time.getHour() + 3 && purchase.getScreening().getDateAndTime().getHour()  <= time.getHour() + 1) {
+			else if(purchase.getScreening().getDateAndTime().getHour()  <= time.getHour() + 3 && purchase.getScreening().getDateAndTime().getHour()  >= time.getHour() + 1) {
 				return (float) (purchase.getPayment()/2);
 			}
 			else return 0f;

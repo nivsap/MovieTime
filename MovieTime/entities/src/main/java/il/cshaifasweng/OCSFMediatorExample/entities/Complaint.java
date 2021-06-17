@@ -30,9 +30,11 @@ public class Complaint implements  Serializable {
 	private LocalDate complaintDate;
 	private LocalTime complaintTime;
 	private String complaintTitle;
+	private int purchaseType;
+	private String purchaseSerial;
 	private String complaintDetails;
 	private Boolean isOpen;
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Purchase purchase;
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "cinema_id")
@@ -228,6 +230,22 @@ public class Complaint implements  Serializable {
 		return "Complaint number " + id +": [first name= " + firstName + ", last name = " + lastName + ", email= " + email + ", phone number =" + phoneNumber
 				+ ", complaint type= " + complaintType + ", complaint date =" + complaintDate + ", complaint time =" + complaintTime + ", complaint title=" 
 				+ complaintTitle + ", complaint details=" + complaintDetails + "is open=" + isOpen + "]";
+	}
+
+	public String getPurchaseSerial() {
+		return purchaseSerial;
+	}
+
+	public void setPurchaseSerial(String purchaseSerial) {
+		this.purchaseSerial = purchaseSerial;
+	}
+
+	public int getPurchaseType() {
+		return purchaseType;
+	}
+
+	public void setPurchaseType(int purchaseType) {
+		this.purchaseType = purchaseType;
 	}
 
 }

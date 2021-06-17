@@ -2,10 +2,7 @@ package il.cshaifasweng.OCSFMediatorExample.server;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
-import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.ViewingPackage;
 
 public class ViewingPackageController {

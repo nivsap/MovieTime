@@ -248,8 +248,8 @@ public class Main extends AbstractServer {
 			Purchase customer11 = new Purchase("Asaf", "Moshe", "shiravneri@gmail.com", "street 11, city", "0523456789", 600.0, getTime(2021, 6, 5), null, card3, null);
 			card1.setPurchase(customer9); card2.setPurchase(customer10); card3.setPurchase(customer11); 
 			/* ---------- Setting Complaints For Data Base ---------- */
-			Complaint complaint1 = new Complaint("Shir", "Avneri", "shiravneri@gmail.com", "0523456789", "I'm very upset", "I want to finish this project", customer1, true);
-			Complaint complaint2 = new Complaint("Niv", "Sapir", "shiravneri@gmail.com", "0523456789", "I want to complain", "I am very upset", customer2, true);
+			Complaint complaint1 = new Complaint("Shir", "Avneri", "eitanSharabi@gmail.com", "0523456789", "I'm very upset", "I want to finish this project", customer1, true);
+			Complaint complaint2 = new Complaint("Niv", "Sapir", "eitanSharabi@gmail.com", "0523456789", "I want to complain", "I am very upset", customer2, true);
 			Complaint complaint3 = new Complaint("Hadar", "Manor", "shiravneri@gmail.com", "0523456789", "Some title", "Some details", customer3, false);
 
 			haifaCinema.setComplaints(new ArrayList<Complaint>(Arrays.asList(complaint1, complaint2))); 
@@ -621,7 +621,7 @@ public class Main extends AbstractServer {
 					if (currentMsg.getDBAction().equals("addition")) {
 						Message serverMsg = new Message();
 						serverMsg.setAction("update movie time error");
-						serverMsg.setError("screening already exists");
+						serverMsg.setError("screening already exists at this time");
 						try {
 							client.sendToClient(serverMsg);
 							return;
@@ -920,7 +920,7 @@ public class Main extends AbstractServer {
 		}
 		
 		if(currentMsg.getAction().equals("send successful purchase mail")) {
-			JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Customer Of The Sirtiya" , serverMsg.getEmailMessage());
+			JavaMailUtil.sendMessage(currentMsg.getCustomerEmail(), "Customer Of The Sirtiya" , currentMsg.getEmailMessage());
 			
 	}
 

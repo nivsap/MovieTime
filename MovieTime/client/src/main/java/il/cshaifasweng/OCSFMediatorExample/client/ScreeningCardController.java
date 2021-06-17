@@ -49,11 +49,11 @@ public class ScreeningCardController {
     public void SetComplaintData(Complaint complaint) {
     	try {
 		label_title.setText(complaint.getComplaintTitle());
-        if(complaint.getPurchase().isTicket())
+        if(complaint.getPurchaseType() == PurchaseTypes.TICKET)
         	label_type.setText("Issues with tickets order");
-        if(complaint.getPurchase().isLink())
+        if(complaint.getPurchaseType() == PurchaseTypes.VIEWING_PACKAGE)
         	label_type.setText("Issues with viewing packages");
-        if(complaint.getPurchase().isCard())
+        if(complaint.getPurchaseType() == PurchaseTypes.SUBSCRIPTION_CARD)
         	label_type.setText("Issues with subscription cards");
    
     	label_sender.setText(complaint.getFirstName() + " " + complaint.getLastName());

@@ -43,7 +43,7 @@ public class PurpleLimitController {
 						purchase.setIsCanceled(new Pair<Boolean, Float>(true, (float) purchase.getPayment()));
 						purchase.setCancelByPurpleLimit(true);
 						Main.updateRowDB(purchase);
-						JavaMailUtil.sendMessage(purchase.getEmail(), "Cancellation of purchase at Sirtiya", "Due to a purple restriction, we are noble to cancel the screening and return the money to you. You are welcome to purchase another ticket in the app");
+						JavaMailUtil.sendMessage(purchase.getEmail(), "Cancellation of purchase " +  purchase.getSerial() +" at Sirtiya", "Due to a purple restriction, we are noble to cancel the screening and return the money to you. You are welcome to purchase another ticket in the app");
 						}
 					}
 					Main.updateRowDB(screening);

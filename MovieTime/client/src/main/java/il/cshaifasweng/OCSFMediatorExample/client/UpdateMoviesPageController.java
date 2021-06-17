@@ -280,6 +280,10 @@ try {
 				msg.setCinemaName(cb_cinema.getValue());
 				msg.setHallId(Integer.parseInt(cb_hall.getValue()));
 				String onlyDate = dateCard.getValue().toString();
+				if(!InputTests.isValidDate(onlyDate)) {
+					JOptionPane.showMessageDialog(null, "date is invalid!");
+					return;
+				}
 				String onlyTime = cb_time.getValue().toString();
 				int year = Integer.parseInt(onlyDate.substring(0,4));
 				int month = Integer.parseInt(onlyDate.substring(5,7));

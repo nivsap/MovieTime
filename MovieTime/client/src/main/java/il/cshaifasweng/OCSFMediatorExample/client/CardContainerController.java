@@ -88,10 +88,22 @@ public class CardContainerController {
 			moviesType = "got all movies from viewing packages";
 			type = PurchaseTypes.VIEWING_PACKAGE;
 		}
-		if(namePage.equals("NetworkAdministratorMainPage")) {
+		if(namePage.equals("NetworkAdministratorMoviesPage")) {
 			disableCards = true;
 			actionType = "pull screening movies";
 			moviesType = "got screening movies";
+			type = PurchaseTypes.NOT_AVAILABLE;
+		}
+		if(namePage.equals("NetworkAdministratorComingSoonPage")) {
+			disableCards = true;
+			actionType = "pull soon movies";
+			moviesType = "got soon movies";
+			type = PurchaseTypes.NOT_AVAILABLE;
+		}
+		if(namePage.equals("NetworkAdministratorViewingPackagesPage")) {
+			disableCards = true;
+			actionType = "get all movies from viewing packages";
+			moviesType = "got all movies from viewing packages";
 			type = PurchaseTypes.NOT_AVAILABLE;
 		}
 		if(namePage.equals("BranchManagerMainPage")) {

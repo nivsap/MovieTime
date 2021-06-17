@@ -54,12 +54,8 @@ public class SearchBarController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-
-
 	}
 
-	
 	public void SetPageType(String namePage) {
 		if(namePage.equals("MainPage")) {
     		disableCards = false;
@@ -75,10 +71,23 @@ public class SearchBarController {
 			moviesType = "got movies from home";
 			purchaseType = PurchaseTypes.VIEWING_PACKAGE;
 		}
-		if(namePage.equals("NetworkAdministratorMainPage")) {
+		if(namePage.equals("NetworkAdministratorMoviesPage")) {
 			disableCards = true;
 			actionType = "pull screening movies";
 			moviesType = "got screening movies";
+			purchaseType = PurchaseTypes.NOT_AVAILABLE;
+		}
+		if(namePage.equals("NetworkAdministratorComingSoonPage")) {
+			disableCards = true;
+			actionType = "pull screening movies";
+			moviesType = "got screening movies";
+			purchaseType = PurchaseTypes.NOT_AVAILABLE;
+		}
+		if(namePage.equals("NetworkAdministratorViewingPackagesPage")) {
+			disableCards = true;
+			theaterComboBox.setVisible(false);
+			actionType = "pull movies from home";
+			moviesType = "got movies from home";
 			purchaseType = PurchaseTypes.NOT_AVAILABLE;
 		}
 		if(namePage.equals("BranchManagerMainPage")) {

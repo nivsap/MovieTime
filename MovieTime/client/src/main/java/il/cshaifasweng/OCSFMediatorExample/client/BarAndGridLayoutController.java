@@ -27,15 +27,15 @@ public class BarAndGridLayoutController {
 			barFXMLLoader.setLocation(getClass().getResource("SearchBar.fxml"));
 		}
 		
-		if(namePage.equals("ComingSoonPage")) {
+		if(namePage.equals("ComingSoonPage") || namePage.equals("NetworkAdministratorComingSoonPage")) {
 			barFXMLLoader.setLocation(getClass().getResource("ComingSoonBar.fxml"));
 		}
 		
-		if(namePage.equals("ViewingPackagesPage")) {
+		if(namePage.equals("ViewingPackagesPage") || namePage.equals("NetworkAdministratorViewingPackagesPage")) {
 	    	barFXMLLoader.setLocation(getClass().getResource("SearchBar.fxml"));
 		}
 
-		if(namePage.equals("NetworkAdministratorMainPage")) {
+		if(namePage.equals("NetworkAdministratorMoviesPage")) {
 	    	barFXMLLoader.setLocation(getClass().getResource("SearchBar.fxml"));
 		}
 		
@@ -49,7 +49,7 @@ public class BarAndGridLayoutController {
 		gridController = gridFXMLLoader.getController();
 		gridController.setGridContent(namePage);
 		CardContainerController ctrl = gridController;
-		if(!namePage.equals("ComingSoonPage")) {
+		if(!(namePage.equals("ComingSoonPage") || namePage.equals("NetworkAdministratorComingSoonPage"))) {
 			SearchBarController Sctrl = barFXMLLoader.getController();
 			Sctrl.SetPageType(namePage);
 			Sctrl.setCardController(ctrl);

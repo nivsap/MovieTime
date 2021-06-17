@@ -228,6 +228,7 @@ public class PaymentPageController {
     	this.viewingPackage = viewingPackage;
 
 		paymentLabel.setText(Double.toString(linkPrice));
+
     	order = "Chosen movie: " + viewingPackage.getMovie().getName() + " on the date of:  " + viewingPackage.getDateTime().toString().substring(0,10) + " at: " + viewingPackage.getDateTime().toString().substring(11,16)
     			+ ".\nA link will be sent to your email an hour before and will be available for 24 hours.\n"; 
 		order += "\nTotal price: " + linkPrice;

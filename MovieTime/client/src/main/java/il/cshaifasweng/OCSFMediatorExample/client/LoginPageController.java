@@ -39,8 +39,6 @@ public class LoginPageController {
 
 	@FXML
 	void initialize() throws Exception{
-		System.out.println("initializing LoginPage");
-		
 		assert usernameTextField != null : "fx:id=\"usernameTextField\" was not injected: check your FXML file 'LoginPage.fxml'.";
 	    assert usernameWarningLabel != null : "fx:id=\"usernameWarningLabel\" was not injected: check your FXML file 'LoginPage.fxml'.";
 	    assert passwordTextField != null : "fx:id=\"passwordTextField\" was not injected: check your FXML file 'LoginPage.fxml'.";
@@ -99,7 +97,6 @@ public class LoginPageController {
 	
 	@Subscribe
 	public void onMessageEvent(Message msg) throws Exception{
-		System.out.println("got message in loginPageController");
     	if(msg.getAction().equals("login done")) {
     		if(isRegistered) {
 				EventBus.getDefault().unregister(this);
@@ -147,16 +144,10 @@ public class LoginPageController {
 
 	    				if(workerType.equals("BranchManager")) {
 		    				BranchManagerMenuController controller = (BranchManagerMenuController) App.setMenu(workerType + "Menu");
-		    				System.out.println("setting branch manager");
-		    				System.out.println("with cinema: " + ((BranchManager)(msg.getWorker())).getCinema().getName());
 		    				controller.setManager((BranchManager)(msg.getWorker()));
 	    				}
-	    				else {
+	    				else 
 	    					 App.setMenu(workerType + "Menu");
-	    				}
-	    				
-	    				
-	    				
 					} catch (IOException e) {
 						e.printStackTrace();
 					}

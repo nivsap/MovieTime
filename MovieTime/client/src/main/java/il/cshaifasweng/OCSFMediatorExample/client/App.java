@@ -39,12 +39,12 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage)  {
     	try {
-    	if(!isRegistered) {
-			EventBus.getDefault().register(this);
-			isRegistered = true;
-		}
-    	stage = primaryStage;
-    	client = AppClient.getClient();
+	    	if(!isRegistered) {
+				EventBus.getDefault().register(this);
+				isRegistered = true;
+			}
+	    	stage = primaryStage;
+	    	client = AppClient.getClient();
 			client.openConnection();
 	    	// Setting Layout's Content
 	    	pageLayout = new BorderPane();
@@ -62,10 +62,6 @@ public class App extends Application {
     	catch (IOException e) {
 			e.printStackTrace();
 		}
-        
-        
-	 
-
     }
     
     static void setWindowTitle(String title) {
@@ -76,37 +72,37 @@ public class App extends Application {
 	@Override
     public void stop(){
     	try {
-    	if(currentController!= null) {
-	        System.out.println("Stage is closing");
-	        if(currentController.getClass().equals(PaymentPageController.class)) {
-	        	Message msg = new Message();
-	        	msg.setAction("cancel current order");
-	        	ArrayList<Pair<Integer,Integer>> seats = new ArrayList<Pair<Integer,Integer>>();
-	        	Screening screening = ((PaymentPageController) currentController).getScreening();
-	        	if(screening != null) {
-		        	seats = (ArrayList)((PaymentPageController) currentController).getSeats();
-		
-		        	for(Pair<Integer,Integer> seat : seats) {
-		        		screening.getSeats()[seat.getKey()][seat.getValue()] = 0;
+	    	if(currentController!= null) {
+		        if(currentController.getClass().equals(PaymentPageController.class)) {
+		        	Message msg = new Message();
+		        	msg.setAction("cancel current order");
+		        	ArrayList<Pair<Integer,Integer>> seats = new ArrayList<Pair<Integer,Integer>>();
+		        	Screening screening = ((PaymentPageController) currentController).getScreening();
+		        	if(screening != null) {
+			        	seats = (ArrayList)((PaymentPageController) currentController).getSeats();
+			
+			        	for(Pair<Integer,Integer> seat : seats) {
+			        		screening.getSeats()[seat.getKey()][seat.getValue()] = 0;
+			        	}
+			        	msg.setScreening(screening);
+			        	try {
+							AppClient.getClient().sendToServer(msg);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 		        	}
-		        	msg.setScreening(screening);
-		        	try {
-						AppClient.getClient().sendToServer(msg);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-	        	}
+		        }
+	    	}
+	       	
+	        if(userName != null) {
+	        	App.logout(false);
 	        }
-    	}
-       	
-        if(userName != null) {
-        	App.logout(false);
-        }
-        else {
-        	Platform.exit();
-            System.exit(0);
-        }} 
+	        else {
+	        	Platform.exit();
+	            System.exit(0);
+	        }
+        } 
     	catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -114,20 +110,21 @@ public class App extends Application {
     
     public static void logout(Boolean logoutClicked) {
     	try {
-    	if(userName == null || password == null) {
-    		Platform.exit();
-    		System.exit(0);
-    	}
-    	isLogoutClicked = logoutClicked;
-    	Message msg = new Message();
-        msg.setAction("log out");
-        msg.setUsername(userName);
-        msg.setPassword(password);
-        try {
-			AppClient.getClient().sendToServer(msg);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}} 
+	    	if(userName == null || password == null) {
+	    		Platform.exit();
+	    		System.exit(0);
+	    	}
+	    	isLogoutClicked = logoutClicked;
+	    	Message msg = new Message();
+	        msg.setAction("log out");
+	        msg.setUsername(userName);
+	        msg.setPassword(password);
+	        try {
+				AppClient.getClient().sendToServer(msg);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+        } 
     	catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -137,26 +134,27 @@ public class App extends Application {
     @Subscribe
     void OnMessageEvent(Message msg) {
     	try {
-    	if(msg.getAction().equals("logged out")) {
-    		if(App.isLogoutClicked) {
-    			userName = null;
-    			password = null;
-    			isLogoutClicked = false;
-    		}
-    		
-    		else {
-    			if(isRegistered) {
-    				EventBus.getDefault().unregister(this);
-    				isRegistered = false;
-    			}
-    			Platform.exit();
-    			System.exit(0);
-    		} 
-    	}}catch (Exception e) {
+	    	if(msg.getAction().equals("logged out")) {
+	    		if(App.isLogoutClicked) {
+	    			userName = null;
+	    			password = null;
+	    			isLogoutClicked = false;
+	    		}
+	    		
+	    		else {
+	    			if(isRegistered) {
+	    				EventBus.getDefault().unregister(this);
+	    				isRegistered = false;
+	    			}
+	    			Platform.exit();
+	    			System.exit(0);
+	    		} 
+	    	}
+    	}catch (Exception e) {
 			e.printStackTrace();
 		}
     }
-   //5 
+
     static Object setContent(String pageName) throws IOException {
     	// setContent() loads page/FXML into App's content container and returns page's controller.
     	if(content != null)

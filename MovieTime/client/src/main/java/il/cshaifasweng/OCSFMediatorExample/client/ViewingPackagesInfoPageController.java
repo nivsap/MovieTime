@@ -7,11 +7,8 @@ import javax.swing.JOptionPane;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import il.cshaifasweng.OCSFMediatorExample.entities.Cinema;
-import il.cshaifasweng.OCSFMediatorExample.entities.Hall;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
-import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.ViewingPackage;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -170,24 +167,24 @@ public class ViewingPackagesInfoPageController {
 	@Subscribe
     public void OnMessageEvent(Message msg) {
     	try {
-    	System.out.println("got msg in ViewingPackgeInfoPageController");
-    	if(msg.getAction().equals("got viewing packages by movie")) {
-    		if(isRegistered) {
-				EventBus.getDefault().unregister(this);
-				isRegistered = false;
-			}
-    		Platform.runLater(()-> {
-	    		viewingPackages = (ArrayList)msg.getViewingPackages();
-				dateCombo.getItems().clear();
-	    		for(ViewingPackage view : viewingPackages) {
-	    		     date = view.getDateTime().toString().substring(0,10);
-	    			if(!dateCombo.getItems().contains(date)) {
-	    				dateCombo.getItems().add(date);
-	    			}
-	    		}
-    		});
-    		
-    	}} catch (Exception e) {
+	    	if(msg.getAction().equals("got viewing packages by movie")) {
+	    		if(isRegistered) {
+					EventBus.getDefault().unregister(this);
+					isRegistered = false;
+				}
+	    		Platform.runLater(()-> {
+		    		viewingPackages = (ArrayList)msg.getViewingPackages();
+					dateCombo.getItems().clear();
+		    		for(ViewingPackage view : viewingPackages) {
+		    		     date = view.getDateTime().toString().substring(0,10);
+		    			if(!dateCombo.getItems().contains(date)) {
+		    				dateCombo.getItems().add(date);
+		    			}
+		    		}
+	    		});
+	    		
+	    	}
+    	} catch (Exception e) {
 			e.printStackTrace();
 		}
     }

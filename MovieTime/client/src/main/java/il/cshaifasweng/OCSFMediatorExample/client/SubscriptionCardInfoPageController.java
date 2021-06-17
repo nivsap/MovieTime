@@ -113,7 +113,6 @@ public class SubscriptionCardInfoPageController {
     	msg.setSerial(subscriptionCardNumber);
     		AppClient.getClient().sendToServer(msg);
     	} catch (IOException e) {
-    		System.out.println("failed to send msg to server from SubscriptionCardInfoPage");
     		e.printStackTrace();
     	}
     }

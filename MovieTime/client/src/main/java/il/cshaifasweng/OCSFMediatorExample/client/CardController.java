@@ -36,7 +36,6 @@ public class CardController {
 		
 		App.setWindowTitle(cardMovie.getName());
 		if(cardType == PurchaseTypes.VIEWING_PACKAGE) {
-    		System.out.println("in loadMovieInfoPage");
     		ViewingPackagesInfoPageController controller = (ViewingPackagesInfoPageController) App.setContent("LinkMovieInfoPage");
 	    	controller.InitPageInfo(cardMovie);
     	}

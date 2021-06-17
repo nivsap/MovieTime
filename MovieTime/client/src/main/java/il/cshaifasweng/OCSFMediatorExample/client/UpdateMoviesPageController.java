@@ -67,7 +67,6 @@ public class UpdateMoviesPageController{
 	
 	@FXML
 	public void initialize() {
-		System.out.println("initializing UpdateMoviesPage");
 		PullScreenings();
 		
 		
@@ -75,6 +74,7 @@ public class UpdateMoviesPageController{
 	
 	@FXML
 	void onChoiceCB() {
+		try {
 		screening_time_layout.getChildren().clear();
 		filteredScreenings = new ArrayList<Screening>(screenings);
 		if(cb_cinema.getValue() != null && !cb_cinema.getValue().isEmpty()) {
@@ -118,7 +118,6 @@ public class UpdateMoviesPageController{
 		}
 		
 		if(dateCard.getValue() != null) {
-			System.out.println(dateCard.getValue());
 			Iterator<Screening> iter = filteredScreenings.iterator();
 			while (iter.hasNext()) {
 			  Screening s = iter.next();
@@ -150,28 +149,27 @@ public class UpdateMoviesPageController{
 			e.printStackTrace();
 		}
 		
-		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
 	private void PullScreenings() {
+		try {
 		if(!isRegistered) {
 			EventBus.getDefault().register(this);
 			isRegistered = true;
 		}
 		Message msg= new Message();
 		msg.setAction("get all screenings");
-		try {
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			System.out.println("failed to send msg to server from updateMoviesPage");
 			e.printStackTrace();
 		}
 	}
 	 
 	public void InitPage(){		
-	 System.out.println("in here");
 		try {
 			for(Screening screening : screenings) {
 				FXMLLoader fxmlLoader = new FXMLLoader();
@@ -192,7 +190,7 @@ public class UpdateMoviesPageController{
 	}
 	 
 	public void SetData() {
-
+try {
 			cb_time.getItems().clear();
 			cb_movie.getItems().clear();
 			cb_cinema.getItems().clear();
@@ -226,12 +224,13 @@ public class UpdateMoviesPageController{
 			
 			
 			InitPage();
-		
+} catch (Exception e) {
+	e.printStackTrace();
+}
 	}
 	
 	@Subscribe
 	public void onMessageEvent(Message msg) throws IOException {
-		System.out.println("got msg in UpdateMoviesPageController");
     		if(msg.getAction().equals("got all screenings")) {
     			if(isRegistered) {
     				EventBus.getDefault().unregister(this);
@@ -265,23 +264,12 @@ public class UpdateMoviesPageController{
     		}
 	}
 	
-		
-	
-	
-	/*
-	 * @FXML private void OnComboBoxEvent() { ArratList<Movie> currentMovie =
-	 * allMovies;
-	 * 
-	 * 
-	 * 
-	 * 
-	 * }
-	 */
-	
+
 	@SuppressWarnings("unlikely-arg-type")
 	@FXML
 	private void UpdateMovieTime(ActionEvent event)
 	{
+		try {
 		boolean timeChanged = false;
 		if(cb_movie.getValue().isEmpty() ||  
 				dateCard.getValue() == null ||
@@ -320,12 +308,7 @@ public class UpdateMoviesPageController{
 				int day = Integer.parseInt(onlyDate.substring(8,10));
 				int hour = Integer.parseInt(onlyTime.substring(0,2));
 				int minutes = Integer.parseInt(onlyTime.substring(3,5));
-				
-				System.out.println(year);
-				System.out.println(month);
-				System.out.println(day);
-				System.out.println(hour);
-				System.out.println(minutes);
+
 				msg.setScreeningDate(LocalDate.of(year,month,day).atTime(hour,minutes));
 
 			 
@@ -333,7 +316,6 @@ public class UpdateMoviesPageController{
 				AppClient.getClient().sendToServer(msg);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				System.out.println("failed to send msg to server from UpdateMovieController");
 				e.printStackTrace();
 			}
 			
@@ -341,7 +323,10 @@ public class UpdateMoviesPageController{
 			
 		}
 		
-		
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	

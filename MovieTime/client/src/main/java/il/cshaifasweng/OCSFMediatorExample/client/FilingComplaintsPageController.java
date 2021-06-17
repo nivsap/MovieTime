@@ -73,7 +73,7 @@ public class FilingComplaintsPageController  {
     }
     
     @FXML
-    void initialize() {
+    void initialize()throws Exception {
         assert firstNameTextField != null : "fx:id=\"firstNameTextField\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
         assert firstNameWarningLabel != null : "fx:id=\"firstNameWarningLabel\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
         assert lastNameTextField != null : "fx:id=\"lastNameTextField\" was not injected: check your FXML file 'FilingComplaintsPage.fxml'.";
@@ -105,6 +105,7 @@ public class FilingComplaintsPageController  {
     
     @FXML
     void fileComplaint() {
+    	try {
     	hideWarningLabels();
     	
     	String firstName = firstNameTextField.getText();
@@ -170,16 +171,26 @@ public class FilingComplaintsPageController  {
     		return;
     	}
     	getOrderByID(((orderNumber)));
+    	} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
  
     public void getOrderByID(String orderNumber) {
+    	try {
 		Message msg = new Message();
 		msg.setAction("get purchase by serial");
 		msg.setSerial(orderNumber);
 		sendMessageToServer(msg);
+    	} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     public void fileComplaint(Purchase foundPurchase) {
+    	try {
     	newComplaint.setComplaintDate();
     	newComplaint.setComplaintTime();
     	newComplaint.setPurchase(foundPurchase);
@@ -188,6 +199,10 @@ public class FilingComplaintsPageController  {
 		msg.setComplaint(newComplaint);
 		msg.setAction("add a complaint");
 		sendMessageToServer(msg);
+    	} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     void sendMessageToServer(Message msg) {
@@ -198,14 +213,12 @@ public class FilingComplaintsPageController  {
 			}
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
-			System.out.println("failed to send msg to server from FilingComplaintsPage");
 			e.printStackTrace();
 		}
 	}
 
     @Subscribe
 	public void onMessageEvent(Message msg) throws IOException {
-    	System.out.println("got msg in FilingComplaintPageController");
        	if(msg.getAction().equals("got purchase by serial")) {
        		if(isRegistered) {
 				EventBus.getDefault().unregister(this);

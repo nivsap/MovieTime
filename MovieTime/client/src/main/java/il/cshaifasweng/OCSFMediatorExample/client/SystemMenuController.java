@@ -90,7 +90,8 @@ public class SystemMenuController extends Pane {
     	App.setBarAndGridLayout("ViewingPackagesPage");
     }
     
-    private void cancelOrder() {    
+    private void cancelOrder() {  
+    	try {
     	if(App.getCurrentController()!= null) {	 
     		if( App.getCurrentController().getClass().equals(PaymentPageController.class)) {
 		    	PaymentPageController currentController = (PaymentPageController)App.getCurrentController();
@@ -113,7 +114,9 @@ public class SystemMenuController extends Pane {
 					}
 		    	}
     		}
-    	}
+    	}} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
     
 }

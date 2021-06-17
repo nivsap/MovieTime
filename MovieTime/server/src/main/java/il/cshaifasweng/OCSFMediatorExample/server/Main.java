@@ -380,8 +380,7 @@ public class Main extends AbstractServer {
 										JavaMailUtil.sendMessage(i.getEmail(), "Link is ready", "The link to watch the movie will open in an hour, enjoy very much" +"link : " +i.getViewingPackage().getLink());
 									}
 								}}
-							Thread.sleep(0); 
-						} catch (InterruptedException e) {
+						}catch(Exception e){
 							e.printStackTrace();
 						}
 						try {
@@ -394,7 +393,7 @@ public class Main extends AbstractServer {
 										updateRowDB(i);
 									}
 								}}
-							Thread.sleep(60000); // 55 second
+							Thread.sleep(55000); // 55 second
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -522,10 +521,11 @@ public class Main extends AbstractServer {
 
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
+		
+		try {
+		
 		System.out.println("message recieved " + ((Message) msg).getAction());
-
 		Message currentMsg = ((Message) msg);
-
 		serverMsg = new Message();
 		if (currentMsg.getAction().equals("pull movies")) {
 			ArrayList<Movie> screeningMoviesArrayList = new ArrayList<>();
@@ -563,9 +563,6 @@ public class Main extends AbstractServer {
 			}
 			
 	
-			
-			
-			
 			Screening newScreening = new Screening(currentMsg.getScreeningDate(), MovieController.getMovieByName(currentMsg.getMovieName()),
 					ScreeningController.getHallById(currentMsg.getHallId()),
 					CinemaController.getCinemaByName(currentMsg.getCinemaName()), null);
@@ -876,7 +873,7 @@ public class Main extends AbstractServer {
 					saveRowInDB(subscriptionCard);
 					serverMsg.setSubscriptionCard(subscriptionCard);
 				}
-				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Customer Of The Sirtiya, Order Number :" , serverMsg.getEmailMessage());
+				JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Customer Of The Sirtiya" , serverMsg.getEmailMessage());
 				serverMsg.setPurchase(purchase);
 				serverMsg.setAction("save customer done");
 				client.sendToClient(serverMsg);
@@ -922,6 +919,11 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		
+		if(currentMsg.getAction().equals("send successful purchase mail")) {
+			JavaMailUtil.sendMessage(serverMsg.getCustomerEmail(), "Customer Of The Sirtiya" , serverMsg.getEmailMessage());
+			
+	}
 
 		if (currentMsg.getAction().equals("get purchases")) {
 			try {
@@ -1499,5 +1501,11 @@ public class Main extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+	}catch(Exception e) {
+		
+		e.printStackTrace();
+		
+	}
+		
 	}
 }

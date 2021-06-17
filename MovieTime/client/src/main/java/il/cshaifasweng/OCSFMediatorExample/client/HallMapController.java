@@ -53,6 +53,7 @@ public class HallMapController {
     }
     
     public void getMap(Screening screening) {
+    	try {
     	Hall hall = screening.getHall();
     	for(int i = 0 ; i < hall.getRows() ; i++) {
     		//HBox row = (HBox) hallMapContainer.getChildren().get(i);
@@ -64,7 +65,10 @@ public class HallMapController {
         	}
     		
     	}
-    	
+    	} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     

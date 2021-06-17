@@ -18,7 +18,7 @@ public class ConnectionLoginController {
     private TextField tf_host;
 
     @FXML
-    private PasswordField tf_port;
+    private TextField tf_port;
 
     @FXML
     private Button loginBtn;

@@ -53,7 +53,7 @@ public class DeleteViewingPackagePageController {
     private Button loadMoreBtn;
 
     @FXML
-    void initialize() {
+    void initialize() throws Exception{
         assert search != null : "fx:id=\"search\" was not injected: check your FXML file 'DeleteMoviePage.fxml'.";
         assert cardsContainer != null : "fx:id=\"cardsContainer\" was not injected: check your FXML file 'DeleteMoviePage.fxml'.";
         assert movieContainer != null : "fx:id=\"movieContainer\" was not injected: check your FXML file 'DeleteMoviePage.fxml'.";
@@ -100,6 +100,7 @@ public class DeleteViewingPackagePageController {
     
     @FXML
     void loadMoreMovies() {
+    	try {
     	if(moviesNumber < NUM_ROWS * NUM_COLS)
 			return;
     	
@@ -110,12 +111,21 @@ public class DeleteViewingPackagePageController {
     		currentlyDisplayedFrom = nextIndex;
     	
     	setMovies(currentlyDisplayedFrom);
+    	} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     public void deleteViewingPackage(Movie movie) {
+    	try {
     	recentlyAdded.remove(movie);
     	--moviesNumber;
     	sendMessageToServer("delete a viewing package", movie);
+    	} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     public void sendMessageToServer(String actionType, Movie movie) {
@@ -131,7 +141,7 @@ public class DeleteViewingPackagePageController {
 			msg.setAction(actionType);
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
-			System.out.println("failed to send msg to server from DeleteViewingPackagePageController");
+
 			if(actionType.equals("delete a viewing package")) {
 				recentlyAdded.add(movie);
 		    	++moviesNumber;
@@ -142,8 +152,7 @@ public class DeleteViewingPackagePageController {
 
     @Subscribe
 	public void onMessageEvent(Message msg) {
-    	System.out.println("got msg in DeleteViewingPackagePageController");
-		System.out.println(msg.getAction());
+try {
     	if(msg.getAction().equals("got all movies from viewing packages")) {
     		if(isRegistered) {
 				EventBus.getDefault().unregister(this);
@@ -167,6 +176,9 @@ public class DeleteViewingPackagePageController {
     			currentlyDisplayedFrom = 0;
     			setMovies(currentlyDisplayedFrom);
     		});
-    	}
+    	}} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 }

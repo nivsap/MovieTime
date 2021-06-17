@@ -144,7 +144,7 @@ public class PaymentPageController {
 	}
 	
     @FXML
-    void initialize() {
+    void initialize()throws Exception {
         assert firstNameTextField != null : "fx:id=\"firstNameTextField\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         assert firstNameWarningLabel != null : "fx:id=\"firstNameWarningLabel\" was not injected: check your FXML file 'PaymentPage.fxml'.";
         assert lastNameTextField != null : "fx:id=\"lastNameTextField\" was not injected: check your FXML file 'PaymentPage.fxml'.";
@@ -180,6 +180,7 @@ public class PaymentPageController {
     }
     
     public void getPrices() {
+    	try {
     	if(!isRegistered) {
 			EventBus.getDefault().register(this);
 			isRegistered = true;
@@ -188,7 +189,6 @@ public class PaymentPageController {
     	msg.setAction("get prices");
     	msg.setPurchase(purchase);
     	
-    	try {
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -196,6 +196,7 @@ public class PaymentPageController {
     }
 
     public void setInfoTicket(Screening screening, ArrayList<Pair<Integer, Integer>> seatsChosen) {
+    	try {
     	this.purchaseType = PurchaseTypes.TICKET;
     	this.screening = screening;
     	this.seats = seatsChosen;
@@ -209,6 +210,9 @@ public class PaymentPageController {
 		}
 		order += "Total price: " + price;
         orderSummeryTextArea.setText(order);
+    	} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
     
     public void setInfoSubscription() {
@@ -232,6 +236,7 @@ public class PaymentPageController {
     }
     
     private void createPurchase() {
+    	try {
       	if(purchaseType == PurchaseTypes.TICKET) {
         	/* Ticket Purchase Constructor:
         	 * String firstName, String lastName, String email, String city, String phone,
@@ -275,7 +280,6 @@ public class PaymentPageController {
     	msg.setPurchase(purchase);
     	msg.setCustomerEmail(emailTextField.getText());
     	msg.setEmailMessage(order);
-    	try {
 			AppClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -299,6 +303,7 @@ public class PaymentPageController {
     //in the func handleMessageFromClient
     @Subscribe
     public void OnMessageEvent(Message msg) {
+    	try {
     	if(msg.getAction().equals("got prices")) {
     		if(isRegistered) {
 				EventBus.getDefault().unregister(this);
@@ -327,7 +332,9 @@ public class PaymentPageController {
 				EventBus.getDefault().unregister(this);
 				isRegistered = false;
 			}    		
-    	}
+    	}} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
     
     public Screening getScreening() {
@@ -356,6 +363,7 @@ public class PaymentPageController {
 
     @FXML
     void padNow(ActionEvent event) {
+    	try {
     	hideWarningLabels();
     	
     	String firstName = firstNameTextField.getText();
@@ -479,5 +487,9 @@ public class PaymentPageController {
     	}
     	
     	createPurchase();
+    	} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 }

@@ -19,7 +19,7 @@ public class CardController {
 	@FXML
 	private Button movie_name;
 	    
-	public void SetData(Movie movie, Boolean isDisabled, int cardType) {
+	public void SetData(Movie movie, Boolean isDisabled, int cardType) throws Exception{
 		if(movie != null) {
 			this.cardType = cardType;
 			movie_img.setImage(movie.getImage());
@@ -44,11 +44,21 @@ public class CardController {
 		else {
 			if(cardType == PurchaseTypes.TICKET) {
 	    	MovieInfoPageController controller = (MovieInfoPageController) App.setContent("MovieInfoPage");
-		    controller.InitPageInfo(cardMovie);
+		    try {
+				controller.InitPageInfo(cardMovie);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		    }
 		    else {
+		    	try {
 		    	ComingSoonInfoPageController controller = (ComingSoonInfoPageController) App.setContent("ComingSoonInfoPage");
-			    controller.setComingSoonInfo(cardMovie);
+					controller.setComingSoonInfo(cardMovie);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		    }	
 		}
 	}

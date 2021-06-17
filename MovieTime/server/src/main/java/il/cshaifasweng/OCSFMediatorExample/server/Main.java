@@ -1453,7 +1453,7 @@ public class Main extends AbstractServer {
 		if (currentMsg.getAction().equals("get subscription card")) {
 			try {
 				serverMsg = currentMsg;
-				serverMsg.setSubscriptionCard(SubscriptionCardController.getSubscriptionCard(serverMsg.getId()));
+				serverMsg.setSubscriptionCard(SubscriptionCardController.getSubscriptionCard(serverMsg.getSerial()));
 				serverMsg.setAction("got subscription card");
 				client.sendToClient(serverMsg);
 			} catch (IOException e) {

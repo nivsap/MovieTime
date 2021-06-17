@@ -303,6 +303,9 @@ public class MovieInfoPageController {
 					}
 				}
 			}
+
+			
+			numberOfSeatsCombo.getItems().clear();
 			System.out.println("seatsLimit: " + seatsLimit);
 			System.out.println("seatsTaken: " + seatsTaken);
 			for (int i = 1; i + seatsTaken <= seatsLimit; i++) {

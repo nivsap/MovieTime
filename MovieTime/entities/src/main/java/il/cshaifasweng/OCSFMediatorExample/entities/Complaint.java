@@ -32,7 +32,7 @@ public class Complaint implements  Serializable {
 	private String complaintTitle;
 	private String complaintDetails;
 	private Boolean isOpen;
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Purchase purchase;
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "cinema_id")

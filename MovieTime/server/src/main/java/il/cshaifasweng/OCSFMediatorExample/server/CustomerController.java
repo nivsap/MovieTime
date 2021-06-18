@@ -42,18 +42,18 @@ public class CustomerController{
 	 
 	//This function checks whether the customer deserves a refund and if so, returns the money to him according to the company's terms
 	public static Float ReturnOnPurchase(Purchase purchase , LocalDateTime time) {
-		if(purchase.isCard() == true) {
+		if(purchase.getPurchaseType() == 3) {
 			return 0f;
 		}
-		else if(purchase.isLink()) {
+		else if(purchase.getPurchaseType() == 2) {
 			if(time.getDayOfYear() < purchase.getViewingPackage().getDateTime().getDayOfYear()) {
 				return (float) purchase.getPayment();
 			}
 			else if(time.getDayOfYear() == purchase.getViewingPackage().getDateTime().getDayOfYear()) {
-				if(purchase.getViewingPackage().getDateTime().getHour()  > time.getHour() + 3) {
+				if(purchase.getViewingPackage().getDateTime().getHour()  > time.getHour() + 1) {
 					return (float) (purchase.getPayment()/2);
 				}
-				else if(purchase.getViewingPackage().getDateTime().getHour()  == time.getHour() + 3 && time.getMinute() <= purchase.getViewingPackage().getDateTime().getMinute()) {
+				else if(purchase.getViewingPackage().getDateTime().getHour()  == time.getHour() + 1 && time.getMinute() <= purchase.getViewingPackage().getDateTime().getMinute()) {
 					return (float) (purchase.getPayment()/2);
 				}
 				else return 0f;
@@ -66,10 +66,18 @@ public class CustomerController{
 			if(purchase.getScreening().getDateAndTime().getHour()  > time.getHour() + 3) {
 				return (float) (purchase.getPayment());
 			}
-			else if(purchase.getScreening().getDateAndTime().getHour()  <= time.getHour() + 3 && purchase.getScreening().getDateAndTime().getHour()  >= time.getHour() + 1) {
+			else if(purchase.getScreening().getDateAndTime().getHour()  == time.getHour() + 3 && time.getMinute() <= purchase.getScreening().getDateAndTime().getMinute()) {
+				return (float) (purchase.getPayment());
+			}
+			else if(purchase.getScreening().getDateAndTime().getHour()  <= time.getHour() + 3 && purchase.getScreening().getDateAndTime().getHour()  > time.getHour() + 1){
 				return (float) (purchase.getPayment()/2);
 			}
-			else return 0f;
+			else if(purchase.getScreening().getDateAndTime().getHour()  == time.getHour() + 1 && time.getMinute() <= purchase.getScreening().getDateAndTime().getMinute()) {
+				return (float) (purchase.getPayment()/2);
+			}
+			else {
+				return 0f;
+			}
 		}
 
 		return 0f;

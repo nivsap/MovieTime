@@ -2,7 +2,6 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Cinema;
@@ -65,32 +64,34 @@ public class CinemaMoviesPageController {
     
     public void getCinemaMovies(Cinema cinema) {
     	try {
-    	List<Screening> screenings = cinema.getScreenings();
-    	for(Screening s: screenings) {
-    		Boolean isContained = false;
-    		for(Movie m: recentlyAdded) {
-    			if(s.getMovie().getName().equals(m.getName())) {
-    				isContained = true;
-    				continue;
-    			}
-    		}
-    		if(!isContained)
-    			recentlyAdded.add(s.getMovie());
+	    	List<Screening> screenings = cinema.getScreenings();
+	    	for(Screening s: screenings) {
+	    		Boolean isContained = false;
+	    		for(Movie m: recentlyAdded) {
+	    			if(s.getMovie().getName().equals(m.getName())) {
+	    				isContained = true;
+	    				continue;
+	    			}
+	    		}
+	    		if(!isContained)
+	    			recentlyAdded.add(s.getMovie());
+	    	}
+	    	moviesNumber = recentlyAdded.size();
+	    	setMovies(0);
     	}
-    	moviesNumber = recentlyAdded.size();
-    	setMovies(0);}catch (Exception e) {
+    	catch (Exception e) {
 			e.printStackTrace();
 		}
     }
     
-    public void setMovies(int displayFrom) {
-		movieContainer.getChildren().clear();
-    	int index;
-		if(moviesNumber < NUM_ROWS * NUM_COLS) 
-			index = 0;
-		else
-			index = displayFrom;
-		try {
+    public void setMovies(int displayFrom) throws Exception {
+    	try {
+			movieContainer.getChildren().clear();
+	    	int index;
+			if(moviesNumber < NUM_ROWS * NUM_COLS) 
+				index = 0;
+			else
+				index = displayFrom;
             for (int i = 0; i < NUM_ROWS; i++) {
                 for (int j = 0; j < NUM_COLS; j++) {
 					if(index > moviesNumber - 1) {
@@ -103,12 +104,7 @@ public class CinemaMoviesPageController {
 					fxmlLoader.setLocation(getClass().getResource("card.fxml"));
 					Button cardBox = fxmlLoader.load();
 					CardController cardController = fxmlLoader.getController();
-					try {
-						cardController.SetData(recentlyAdded.get(index), true, PurchaseTypes.NOT_AVAILABLE);
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					cardController.SetData(recentlyAdded.get(index), true, PurchaseTypes.NOT_AVAILABLE);
 					movieContainer.add(cardBox, j, i);
 					index++;
                }

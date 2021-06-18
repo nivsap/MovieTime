@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "SubscriptionCards")
 public class SubscriptionCard implements  Serializable {
@@ -25,22 +26,20 @@ public class SubscriptionCard implements  Serializable {
 	
 	public SubscriptionCard() {
 		super();
-		serial = getAlphaNumericString(serialSize);
-		setInitialRemaining();
+		if(serial == null || serial.isBlank())
+			serial = getAlphaNumericString(serialSize);
+		remaining = 20;
 	}
 	
 	public SubscriptionCard(Purchase purchase) {
-		setInitialRemaining();
-		serial = getAlphaNumericString(serialSize);
+		if(serial == null || serial.isBlank())
+			serial = getAlphaNumericString(serialSize);
+		remaining = 20;
 		this.purchase = purchase;
 	}
 	
 	public int getId() {
 		return id;
-	}
-	
-	public void setInitialRemaining() {
-		remaining = 20;
 	}
 	
 	public int getRemaining() {

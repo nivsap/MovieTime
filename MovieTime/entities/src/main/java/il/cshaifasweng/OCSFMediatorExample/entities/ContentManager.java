@@ -9,6 +9,7 @@ import javax.persistence.Id;
 
 import javax.persistence.Table;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "ContentManager")
 public class ContentManager extends Worker implements  Serializable {

@@ -33,10 +33,10 @@ public class ComingSoonSearchBarController {
 			EventBus.getDefault().register(this);
 			isRegistered = true;
 		}
-		disableCards = false;
+		setDisableCards(false);
 		actionType = "pull soon movies";
 		moviesType = "got soon movies";
-		purchaseType = PurchaseTypes.NOT_AVAILABLE;
+		setPurchaseType(PurchaseTypes.NOT_AVAILABLE);
 		Message msg = new Message();
 		msg.setAction("get genres");
 			AppClient.getClient().sendToServer(msg);
@@ -96,6 +96,18 @@ public class ComingSoonSearchBarController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	public int getPurchaseType() {
+		return purchaseType;
+	}
+	public void setPurchaseType(int purchaseType) {
+		this.purchaseType = purchaseType;
+	}
+	public Boolean getDisableCards() {
+		return disableCards;
+	}
+	public void setDisableCards(Boolean disableCards) {
+		this.disableCards = disableCards;
 	}
 }
 

@@ -5,8 +5,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class InputTests {
 	public static Boolean isValidEmail(String email) {

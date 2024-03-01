@@ -91,6 +91,7 @@ public class BasicHandler {
         System.out.println("Page load time: " + loadTime + " milliseconds");
         TestNGReportListener.test.pass("Page load time: " + loadTime + " milliseconds");
     }
+
     public static void testTimeResponeProductWithGrid() {  // my docker desktops dont work properly on my local pc, so i couldn't Pull Selenium Hub Image into docker
         String gridHubUrl = "http://localhost:4444/wd/hub";
 

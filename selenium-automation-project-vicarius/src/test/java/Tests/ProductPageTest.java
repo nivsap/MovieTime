@@ -28,7 +28,7 @@ public class ProductPageTest extends TestBase {
             WebDriverManager.waitForElement(By.className("btn-close")).click();
             Thread.sleep(1000);
         }catch (Exception e){
-            TestNGReportListener.test.fail("Test failed: " + e);
+            TestNGReportListener.test.fail("Test failed: " + e.getMessage());
         }
     }
 
@@ -39,7 +39,7 @@ public class ProductPageTest extends TestBase {
             driver.manage().window().maximize();
             BasicHandler.verifyIfButtonAndText(By.className("mock-wrapper"));
         }catch (Exception e){
-            TestNGReportListener.test.fail("Test failed: " + e);
+            TestNGReportListener.test.fail("Test failed: " + e.getMessage());
         }
     }
 }

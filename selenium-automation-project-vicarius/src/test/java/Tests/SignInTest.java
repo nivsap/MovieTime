@@ -23,7 +23,7 @@ public class SignInTest extends TestBase {
             Thread.sleep(1000);
             TestNGReportListener.test.pass("step 2 - got error when tried to sign in with non exist user");
         }catch (Exception e){
-            TestNGReportListener.test.fail("Test failed: " + e);
+            TestNGReportListener.test.fail("Test failed: " + e.getMessage());
         }
     }
 
@@ -39,8 +39,8 @@ public class SignInTest extends TestBase {
             Thread.sleep(1000);
             TestNGReportListener.test.pass("step 2 - got error when tried to sign in with empty email address");
         }catch (Exception e){
-            TestNGReportListener.test.fail("Test failed: " + e);
-            Assert.fail("Test failed: " + e);
+            TestNGReportListener.test.fail("Test failed: " + e.getMessage());
+            Assert.fail("Test failed: " + e.getMessage());
         }
     }
 
@@ -55,8 +55,8 @@ public class SignInTest extends TestBase {
             Thread.sleep(1000);
             TestNGReportListener.test.pass("step 2 - got message that the user waits to be approved as expected");
         }catch (Exception e){
-            TestNGReportListener.test.fail("Test failed: " + e);
-            Assert.fail("Test failed: " + e);
+            TestNGReportListener.test.fail("Test failed: " + e.getMessage());
+            Assert.fail("Test failed: " + e.getMessage());
         }
     }
 
@@ -82,8 +82,8 @@ public class SignInTest extends TestBase {
             Thread.sleep(1000);
             TestNGReportListener.test.pass("all elements as excepted");
         }catch (Exception e){
-            TestNGReportListener.test.fail("Test failed: " + e);
-            Assert.fail("Test failed: " + e);
+            TestNGReportListener.test.fail("Test failed: " + e.getMessage());
+            Assert.fail("Test failed: " + e.getMessage());
         }
     }
 

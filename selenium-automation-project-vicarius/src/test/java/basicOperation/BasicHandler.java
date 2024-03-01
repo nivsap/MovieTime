@@ -83,62 +83,47 @@ public class BasicHandler {
 
     }
 
-    public static void testTimeResponeProduct(WebDriver driver1) {
-        // Define the hub URL
+    public static void testTimeResponeProduct(WebDriver driver) {
+        long startTime = System.currentTimeMillis();
+        ((JavascriptExecutor) driver).executeScript(
+                "return (window.performance.timing.loadEventEnd - window.performance.timing.navigationStart);");
+        long loadTime = System.currentTimeMillis() - startTime;
+        System.out.println("Page load time: " + loadTime + " milliseconds");
+        TestNGReportListener.test.pass("Page load time: " + loadTime + " milliseconds");
+    }
+    public static void testTimeResponeProductWithGrid() {  // my docker desktops dont work properly on my local pc, so i couldn't Pull Selenium Hub Image into docker
         String gridHubUrl = "http://localhost:4444/wd/hub";
 
-        // Define desired capabilities for Chrome
         DesiredCapabilities chromeCapabilities = DesiredCapabilities.chrome();
 
         RemoteWebDriver[] drivers = new RemoteWebDriver[10];
-        try {
-            // Initialize RemoteWebDriver instances
+            try {
             for (int i = 0; i < 10; i++) {
                 drivers[i] = new RemoteWebDriver(new URL(gridHubUrl), chromeCapabilities);
             }
-
-            // Loop through each node
             for (int i = 0; i < 10; i++) {
                 RemoteWebDriver driver = drivers[i];
-
-                // Navigate to the page
                 driver.get("https://www.vicarius.io/sign/in");
-
-                // Wait for page load
                 WebDriverWait wait = new WebDriverWait(driver, 30);
                 wait.until(webDriver -> ((JavascriptExecutor) webDriver)
                         .executeScript("return document.readyState").equals("complete"));
-
-                // Measure page load time
                 long startTime = System.currentTimeMillis();
                 long loadTime = (long) ((JavascriptExecutor) driver).executeScript(
                         "return (window.performance.timing.loadEventEnd - window.performance.timing.navigationStart);");
-
-                // Print and report page load time
                 System.out.println("Page load time on Node " + (i + 1) + ": " + loadTime + " milliseconds");
                 TestNGReportListener.test.pass("Page load time on Node " + (i + 1) + ": " + loadTime + " milliseconds");
             }
         } catch (Exception e) {
             TestNGReportListener.test.fail(e);
         } finally {
-            // Close the WebDriver instances
             for (RemoteWebDriver driver : drivers) {
                 if (driver != null) {
                     driver.quit();
                 }
             }
         }
-
-
-
-
-//        long startTime = System.currentTimeMillis();
-//        ((JavascriptExecutor) driver).executeScript(
-//                "return (window.performance.timing.loadEventEnd - window.performance.timing.navigationStart);");
-//        long loadTime = System.currentTimeMillis() - startTime;
-//        System.out.println("Page load time: " + loadTime + " milliseconds");
-//        TestNGReportListener.test.pass("Page load time: " + loadTime + " milliseconds");
     }
+
     public static void checkIfTheVideoIsPlaying(String className,WebDriver driver){
         WebElement videoElement = driver.findElement(By.className(className));
         boolean isVideoPlaying = Boolean.parseBoolean(videoElement.getAttribute("paused"));

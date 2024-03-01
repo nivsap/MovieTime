@@ -30,28 +30,17 @@ public class TestNGReportListener implements ITestListener {
 //optimization : insert the screenshot to the html report page.
     public static void captureScreenshot(WebDriver driver, String filename) {
         if (driver instanceof TakesScreenshot) {
-            // Convert web driver object to TakeScreenshot
             TakesScreenshot screenshotDriver = (TakesScreenshot) driver;
-
-            // Capture the screenshot as a file
             File screenshotFile = screenshotDriver.getScreenshotAs(OutputType.FILE);
-
-            // Generate a timestamp for the screenshot file name
             LocalDateTime now = LocalDateTime.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
             String timestamp = now.format(formatter);
-
-            // Define the screenshot destination path
             String screenshotPath = "test-output/screenshots/" + filename + "_" + timestamp + ".png";
-
-            // Copy the screenshot to the desired location
             try {
                 FileUtils.copyFile(screenshotFile, new File(screenshotPath));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            // Embed the screenshot in the TestNG report
             String screenshotRelativePath = "./screenshots/" + filename + "_" + timestamp + ".png";
             Reporter.log("<br><a href='" + screenshotRelativePath + "'><img src='" + screenshotRelativePath + "' height='200' width='350'/></a><br>");
         }

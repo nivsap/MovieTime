@@ -33,7 +33,7 @@ public class SignUpTest extends TestBase {
             Thread.sleep(1000);
             TestNGReportListener.test.pass("test passed");
         }catch (Exception e){
-            TestNGReportListener.test.fail("Test failed: " + e);
+            TestNGReportListener.test.fail("Test failed: " + e.getMessage());
         }
 
     }
@@ -53,12 +53,12 @@ public class SignUpTest extends TestBase {
             TestNGReportListener.test.pass("step 3 - verify error pop ups after press continue");
             Thread.sleep(1000);
         }catch (Exception e){
-            TestNGReportListener.test.fail("Test failed: " + e);
+            TestNGReportListener.test.fail("Test failed: " + e.getMessage());
         }
     }
 
     @Test
-    public void testSignUpPageVerifyPasswordErrors() {     // verify sing up passwords page
+    public void testSignUpPageVerifyPasswordErrors() {     // test 3 - verify sing up passwords page.
         try {
             driver.get("https://www.vicarius.io/sign/up");
             driver.manage().window().maximize();
@@ -79,7 +79,7 @@ public class SignUpTest extends TestBase {
             TestNGReportListener.test.pass("step 3 - try continue without fit password and got pop up");
             Thread.sleep(1000);
         }catch (Exception e){
-            TestNGReportListener.test.fail("Test failed: " + e);
+            TestNGReportListener.test.fail("Test failed: " + e.getMessage());
         }
 
     }

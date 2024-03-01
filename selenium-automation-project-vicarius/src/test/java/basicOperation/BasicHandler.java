@@ -94,9 +94,7 @@ public class BasicHandler {
 
     public static void testTimeResponeProductWithGrid() {  // my docker desktops dont work properly on my local pc, so i couldn't Pull Selenium Hub Image into docker
         String gridHubUrl = "http://localhost:4444/wd/hub";
-
         DesiredCapabilities chromeCapabilities = DesiredCapabilities.chrome();
-
         RemoteWebDriver[] drivers = new RemoteWebDriver[10];
             try {
             for (int i = 0; i < 10; i++) {
